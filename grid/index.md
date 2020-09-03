@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-28 14:14:02
  * @LastEditors: Lq
- * @LastEditTime: 2020-09-02 11:18:36
+ * @LastEditTime: 2020-09-03 19:12:17
  * @FilePath: /learnningNotes/grid/index.md
 -->
 ## CSS Grid网格布局学习笔记
@@ -145,3 +145,66 @@
             grid-template-columns: 70% 30%;
             }
             ```
+
+        2. 12网格布局
+
+            ```css
+            .container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            }
+            ```
+
+3. `grid-row-gap`：设置行间距
+
+    `grid-column-gap`：设置列间距
+
+    `grid-gap`：行间距和列间距的简写
+
+    ```css
+    .container {
+       grid-gap: 20px 20px; // 如果两个值相同，则可以省略第二个值
+       <!-- 等价于 -->
+       grid-row-gap: 20px;
+       grid-column-gap: 20px;
+    }
+    ```
+
+    `新标准`删除了前缀：`row-gap`/`column-gap`/`gap`
+
+4. `grid-template-areas`：指定区域，一个区域由多个单元格组成
+
+5. `grid-auto-flow`：指定元素排列顺序
+
+    `row`：即先行后列（`默认值`）  
+
+    `columns`：先列后行  
+
+    `row dense`：某些项目指定位置之后，剩下的项目`从行开始`自动摆放  
+
+    `column dense`：某些项目指定位置之后，剩下的项目`从列开始`自动摆放  
+    
+    如图：先摆放好1和2，之后使用row/row dense/column dense的效果  
+
+    <img src="./img/row.png" width="30%">
+    <img src="./img/row-dense.png" width="30%">
+    <img src="./img/column-dense.png" width="30%">
+
+
+6. `justify-items`：设置单元格内容的水平位置
+
+    `align-items`：设置单元格内容的垂直位置
+
+    `place-items`：`align-items`和`justify-items`的简写，如果两个值相同，那么可以省略第二个
+
+    ```css
+    .container {
+        justify-items: start | end | center | stretch;
+        align-items: start | end | center | stretch;
+    }
+    ```
+    `stretch`：拉伸，占满单元格整个宽度
+
+7. `justify-content`：设置整个内容区域在容器中的水平位置
+
+    `align-content`：设置整个内容区域在容器中的垂直位置
