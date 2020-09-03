@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-11 19:58:22
  * @LastEditors: Lq
- * @LastEditTime: 2020-08-19 18:57:03
+ * @LastEditTime: 2020-08-31 15:31:30
  * @FilePath: /learnningNotes/markdown/note.md
 -->
 ### 基本用法
@@ -115,7 +115,28 @@
                 第三行代码
             ```
             
-9. 表格
+    3. 支持高亮的代码块  
+   
+        |关键字（其中之一就行）|语言||关键字|语言|
+        |-|-|-|-|-|
+        |c#,c-sharp,csharp|c#||coldfusion,cf|ColdFusion|
+        |java|Java||delphi,pascal,pas|Delphi|
+        |php|PHP||diff,patch|diff&patch|
+        |js,jscript,javascript|Javascript||erl,erlang|Erlang|
+        |css|CSS||groovy|Groovy|
+        |text,plain|text||jfx,javafx|JavaFX|
+        |sql|SQL||ruby,rails,ror,rb|Ruby|
+        |py,python|Python||scala|Scala|
+        |bash,shell|Shell||vb,vbnet|Visual Basic|
+        |sass,scss|SASS&SCSS||xml,xhtml,xslt,html|XML|
+        |perl,pl,Perl|Perl||objc,obj-c|Objective C|
+        |swift|swift||f#,f-sharp,fsharp|F#|
+        |go,golang|GO||r,s,splus|
+        |cpp,c|C||matlab|matlab|
+        |applescript|AppleScript||actionscript3,as3|ActionScript 3.0|
+
+
+9.  表格
     1. 对齐方式：使用冒号
         ```
         ||A|B|
