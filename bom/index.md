@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 21:34:19
  * @LastEditors: Lq
- * @LastEditTime: 2020-09-04 22:54:44
+ * @LastEditTime: 2020-09-04 23:20:09
  * @FilePath: \learnningNotes\bom\index.md
 -->
 #### 介绍
@@ -94,6 +94,12 @@
 
         **解决方案**：先打开一个空的窗口，然后将地址写入`location.href`属性中
 
+        ```js
+        var tempwindow=window.open('_blank'); // 先打开页面
+        tempwindow.location='http://www.baidu.com'; // 后更改页面地址
+        ```
+
+
         close()：关闭当前的窗口（不是整个浏览器）
 
     3. 定时器
@@ -141,28 +147,64 @@
             intervalDemo(500);
             ```
 
-2. navigator：代表浏览器当前的信息，可以获取用户当前使用的是什么浏览器
+2. navigator：代表浏览器当前的信息
 
-    ```js
-    let agent = navigator.userAgent;
-    if (/chrome/i.test(agent)) {
-        alert("谷歌");
-    } else if (/firefox/i.test(agent)) {
-        alert("火狐");
-    } else if (/opera/i.test(agent)) {
-        alert("欧朋");
-    } else if (/safari/i.test(agent)) {
-        alert("safari");
-    } else if (/msie/i.test(agent)) {
-        alert("低版本ie");
-    } else if ("ActiveXObject" in window) {
-        alert("低级IE浏览器");
-    }
-    ```
+    1. 可以获取用户当前使用的是什么浏览器
+
+        ```js
+        let agent = navigator.userAgent;
+        if (/chrome/i.test(agent)) {
+            alert("谷歌");
+        } else if (/firefox/i.test(agent)) {
+            alert("火狐");
+        } else if (/opera/i.test(agent)) {
+            alert("欧朋");
+        } else if (/safari/i.test(agent)) {
+            alert("safari");
+        } else if (/msie/i.test(agent)) {
+            alert("低版本ie");
+        } else if ("ActiveXObject" in window) {
+            alert("低级IE浏览器");
+        }
+        ```
+
+    2. 获取浏览器装了哪些插件
+
+        ```js
+        for(var i = 0; i < navigator.plugins.length; i++){
+            console.log(navigator.plugins[i].name)
+        }
+        ```
 
 3. location：代表在当前的地址信息，可以获取或者设置当前的地址信息（包含url等，不是实际的物理地址）
 
+    1. 跳转网页
+
+        ```js
+        let url = "https://www.baidu.com";
+        location = url; // 方法一
+        location.href = url; // 方法二
+        location.assign = url; // 方法三
+        window.location = url; // 方法四
+        ```
+
+    2. 页面重载  
+
+        ```js
+        location.reload(); // 重新加载，会从缓存读取资源
+        location.reload(true); // 重新加载，不从缓存中读取资源，直接重新请求服务器的数据
+        ```
+
 4. history：保存`当前窗口`访问过的url，不是当前浏览器访问过的url
+
+    前进和后退不会影响历史记录，只是单纯的指针的移动，
+
+    ```js
+    history.go(-1); // 后退1页
+    history.go(1); // 前进1页
+    history.go(2); // 前进2页
+    history.length; // 历史记录的数量
+    ```
 
 5. screen：代表用户的屏幕信息
 
