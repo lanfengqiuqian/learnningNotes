@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-28 14:14:02
  * @LastEditors: Lq
- * @LastEditTime: 2020-09-03 19:12:17
+ * @LastEditTime: 2020-09-04 15:24:05
  * @FilePath: /learnningNotes/grid/index.md
 -->
 ## CSS Grid网格布局学习笔记
@@ -159,13 +159,13 @@
 
     `grid-column-gap`：设置列间距
 
-    `grid-gap`：行间距和列间距的简写
+    `grid-gap`：`grid-row-gap`和`grid-column-gap`的简写，如果两个值相同，则可以省略第二个值（先水平，后垂直）
 
     ```css
     .container {
-       grid-gap: 20px 20px; // 如果两个值相同，则可以省略第二个值
+       grid-gap: 40px 20px;
        <!-- 等价于 -->
-       grid-row-gap: 20px;
+       grid-row-gap: 40px;
        grid-column-gap: 20px;
     }
     ```
@@ -195,7 +195,7 @@
 
     `align-items`：设置单元格内容的垂直位置
 
-    `place-items`：`align-items`和`justify-items`的简写，如果两个值相同，那么可以省略第二个
+    `place-items`：`align-items`和`justify-items`的简写，如果两个值相同，那么可以省略第二个（先垂直方向，后水平方向）
 
     ```css
     .container {
@@ -208,3 +208,24 @@
 7. `justify-content`：设置整个内容区域在容器中的水平位置
 
     `align-content`：设置整个内容区域在容器中的垂直位置
+
+    ```css
+    .container {
+    justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+    align-content: start | end | center | stretch | space-around | space-between | space-evenly;  
+    }
+    ```
+    `place-content`：`justify-content`和`align-content`的简写形式，如果两个值相同，那么可以省略第二个（先垂直，后水平）
+
+    start：容器起始位置  
+    end：容器结束位置  
+    center：容器内部居中  
+    stretch：项目没有指定大小时，拉伸占据整个网格容器  
+    space-around：每个项目的两侧的间隔相等（项目之间间隔比项目和容器的间隔大一倍）  
+    space-between：项目和项目的间隔相等，容器和项目之间没有间隔  
+    space-evenly：项目和项目的间隔相等，项目和容器之间的间隔也是这个距离  
+
+
+8. `grid-auto-columns`和`grid-auto-rows`
+
+    

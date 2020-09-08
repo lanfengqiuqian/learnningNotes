@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2020-08-19 19:05:30
+ * @LastEditTime: 2020-09-04 16:27:22
  * @FilePath: /learnningNotes/git/index.md
 -->
 1. 查看所有分支
@@ -19,3 +19,8 @@
 7. 配置用户名和邮箱
     `git config --global user.name "John Doe"`
     `git config --global user.email johndoe@example.com`
+8. 查看提交日志
+    `git log`
+9. 回到上一次提交
+    `git reset --hard 上一次提交的hash码`
+
