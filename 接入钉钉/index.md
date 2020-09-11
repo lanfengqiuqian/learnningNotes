@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 11:26:07
  * @LastEditors: Lq
- * @LastEditTime: 2020-09-08 11:55:50
+ * @LastEditTime: 2020-09-08 15:33:44
  * @FilePath: /learnningNotes/接入钉钉/index.md
 -->
 ### 一些小坑
@@ -91,6 +91,8 @@
 
 6. 使用工作通知推送不需要调用前端api发起会话获取一个会话id，但是发送普通消息需要。
 
+7. 支持的`markdown`语法的字符串不支持换行，如果需要换行的话请使用换行符`\n`
+
 #### 服务端API和前端API
 
 1. 服务端API：是一个钉钉的接口，封装之后能够在我们的服务器进行调用（需要配置白名单）
@@ -108,4 +110,7 @@
 
     > npm install dingtalk-jsapi --save
     > import * as dd from 'dingtalk-jsapi'; // 此方式为整体加载，也可按需进行加载
+
+
+
 
