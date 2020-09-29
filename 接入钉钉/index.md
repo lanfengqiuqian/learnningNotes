@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 11:26:07
  * @LastEditors: Lq
- * @LastEditTime: 2020-09-24 21:41:48
+ * @LastEditTime: 2020-09-25 19:50:59
  * @FilePath: /learnningNotes/接入钉钉/index.md
 -->
 ### 一些小坑
@@ -97,20 +97,6 @@
 
     这个错误的意思是不能按引用传递第2个参数，出现这个错误的原因是bind_param()方法里的除表示数据类型的第一个参数外，均需要用变量，而不能用直接量,因为其它参数都是按引用传递的
 
-9. 官方回调demo构造函数错误：
-
-    ```PHP
-    // 修改后的代码
-    function __construct($k){
-    $this->key = base64_decode($k . "=");        //为变量赋值
-    }
-    
-    // 修改前的代码
-    /*  function Prpcrypt($k)
-    {
-        $this->key = base64_decode($k . "=");
-    }*/
-    ```
 
 
 

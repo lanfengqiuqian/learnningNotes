@@ -35,14 +35,14 @@
         > cd mcrypt-2.6.8  
         > LD_LIBRARY_PATH=/usr/local/lib ./configure  // 注意这里和之前不一样
         > make  
-        > make instal  
+        > make install  
 
         说明：由于在配置Mcrypt时，会找不到libmcrypt的链接库，导致无法编译，因为Libmcrypt的链接库在/usr/local/lib文件夹下。因此，在配置mcrypt时要加入LD_LIBRARY_PATH=/usr/local/lib导入链接库
 
 3. 写配置文件
 
     > 这里需要注意你的php版本，如我的是72的，就写72  
-    > echo "extension = mcrpt.so" >> /www/server/php/72/etc/php.ini
+    > echo "extension = mcrypt.so" >> /www/server/php/72/etc/php.ini
 
 4. 重启php
 
