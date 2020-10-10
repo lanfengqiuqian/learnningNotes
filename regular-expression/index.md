@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-07 21:55:29
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-10 15:59:52
+ * @LastEditTime: 2020-10-10 16:36:09
  * @FilePath: /learnningNotes/regular-expression/index.md
 -->
 ### 介绍（Regular Expression）
@@ -9,6 +9,53 @@
 1. 是一种文本模式，包括普通字符和元字符（特殊字符）  
 2. 使用单个字符串来描述，匹配一系列满足某个语法规则的字符串
 3. 将匹配的子串替换或取出符合条件的子串
+
+作用：
+
+1. 文本搜索：从给定的字符串中找出满足条件的子串
+2. 文本替换：将字符串中的某些子串替换为需要的文本
+3. 校验规则：判断给定的自付出是否满足某种规则
+
+
+### 常用方法
+
+#### 字符串方法
+
+1. search()：找出首个满足条件的子串的起始位置
+
+    > let str = "hello world";  
+    > let pattern = /w/g;  
+    > let index = str.search(pattern); // 6
+
+2. replace()：替换满足条件的子串，有`g`替换所有，没有`g`替换第一个
+
+    > let str = "hello world";  
+    > let pattern = /w/g;  
+    > let newStr = str.search(pattern, 'aaa'); // hello aaaworld
+
+3. match()：找出字符串中满足条件的子串，返回一个数组，如果有`g`找出所有，没有`g`找出第一个
+
+    > ("The best things in life are free!").match(/e/g)  
+    > ["e", "e", "e", "e", "e", "e"]
+    >  
+    > ("The best things in life are free!").match(/e/)  
+    > ["e", index: 2, input: "The best things in life are free!", groups: undefined]
+
+#### 正则表达式方法
+
+1. test()：检测一个字符串中是否有子串满足某种规则
+
+    > let str = "hello world";  
+    > let pattern = /w/g;  
+    > let isExist = pattern.test(str); // true
+
+2. exec()：检索首个到的子串（数组），如果没有返回null
+
+    > let str = "hello world";  
+    > let pattern = /l/g;  
+    > let arr = pattern.exec(str); // ["l", index: 2, input: "hello world", groups: undefined]
+
+
 
 
 ### 示例
