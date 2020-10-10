@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-28 14:14:02
  * @LastEditors: Lq
- * @LastEditTime: 2020-09-04 15:24:05
+ * @LastEditTime: 2020-10-10 18:27:47
  * @FilePath: /learnningNotes/grid/index.md
 -->
 ## CSS Grid网格布局学习笔记
@@ -122,10 +122,10 @@
         grid-template-columns: 100px 1fr 100px;
         ```
 
-    6. 网格线的名称
+    6. 网格线的名称（和`grid-column`和`grid-row`结合使用）
 
-        使用`[]`指定每一根网格线的名字，方便以后的引用。
-        `注意`：是代表网格线，所以比元素行列数多1。
+        使用`[]`指定每一根网格线的名字，方便以后的引用。  
+        `注意`：是代表网格线，所以比元素行列数多1。  
         能够允许同一根线有多个名字，比如`[fifth-line row-5]`
         ```css
         .container {
@@ -174,6 +174,19 @@
 
 4. `grid-template-areas`：指定区域，一个区域由多个单元格组成
 
+    指定区域后，能够将项目放到指定的区域中（和项目的`grid-area`结合使用）
+
+    ```css
+    .container {
+        display: grid;
+        grid-template-columns: 100px 100px 100px;
+        grid-template-rows: 100px 100px 100px;
+        grid-template-areas: 'a b c'
+                            'd e f'
+                            'g h i';
+    }
+    ```
+
 5. `grid-auto-flow`：指定元素排列顺序
 
     `row`：即先行后列（`默认值`）  
@@ -211,8 +224,8 @@
 
     ```css
     .container {
-    justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
-    align-content: start | end | center | stretch | space-around | space-between | space-evenly;  
+        justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+        align-content: start | end | center | stretch | space-around | space-between | space-evenly;  
     }
     ```
     `place-content`：`justify-content`和`align-content`的简写形式，如果两个值相同，那么可以省略第二个（先垂直，后水平）
@@ -228,4 +241,119 @@
 
 8. `grid-auto-columns`和`grid-auto-rows`
 
-    
+    有时候，一些项目的指定位置在现有网格的外部。比如网格只有3列，但是一个项目指定在第5行，这个时候，浏览器会自动生成多余的网格，以便放置项目。
+
+    `grid-auto-columns`和`grid-auto-rows`用于设置浏览器自动创建的多余网格的列宽和行高。他们的写法与`grid-template-columns`和`grid-template-rows`完全相同。如果不指定这两个属性，浏览器则会完全根据单元格内容的大小，来决定新增网格的列宽和行高。
+
+    ```css
+    .container {
+        display: grid;
+        grid-template-columns: 100px 100px 100px;
+        grid-template-rows: 100px 100px 100px;
+        grid-auto-rows: 50px; 
+    }
+    ```
+
+9.  `grid-template`和`grid`属性
+
+    `grid-template`是`grid-template-columns`、`grid-template-rows`、`grid-template-areas`这三个属性的合并简写形式
+
+    `grid`是`grid-template-rows`、`grid-template-columns`、`grid-template-areas`、`grid-auto-rows`、`gird-auto-columns`、`grid-auto-flow`这六个属性的合并简写形式。
+
+    从易读易写的角度考虑，不建议使用合并简写属性。、
+
+
+#### 项目属性
+
+1. 指定项目位置，指定项目的四个边框，分别定为在哪根网格线
+
+    1. `grid-column-start`：左边框所在的垂直网格线（左）
+    2. `grid-column-end`：右边框所在的垂直网格线（右）
+    3. `grid-row-start`：上边框所在的水平网格线（上）
+    4. `grid-row-end`：下边框所在的水平网格线（下）  
+
+    示例代码如下：
+
+    ```css
+    // 将第一个项目左边框放到第二根网格线，右边框放到第四根网格线
+    .container div:first-child {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    }
+    ```
+
+    属性值可以是数字，代表第几根网格线，也可以是网格线的名字，代表哪一根网格线，还可以是`span`关键字，代表左右（上下）边框之间跨域了多少个网格。
+
+    ```css
+    grid-column-start: 2;
+    grid-column-start: header-start;
+    // 左边框距离右边框跨越了2个网格
+    grid-column-start: span 2;
+    // 效果同上
+    grid-column-end: span 2;
+    ```
+
+    使用这几个属性之后，如果发生了项目重叠，则使用`z-index`指定项目的重叠顺序
+
+    合并简写属性：注意不要漏了`/`符号
+
+    斜杠后面的可以省略，则默认跨域一个网格
+
+    ```css
+    grid-cloumn: <start-line> / <end-line>;
+    grid-row: <start-line> / <end-line>;
+
+    // demo
+    grid-column: 1 3;
+    grid-row: 1 2;
+
+    // 等价于
+    grid-column-start: 1;
+    grid-column-end: 3; // 等价于 span 2
+    grid-row-start: 1;
+    grid-row-end: 2; // 等价于 span 1
+    ```
+
+2. `grid-area`：指定项目放在哪一个区域（和`grid-template-areas`结合使用）
+
+    ```css
+    .container {
+        display: grid;
+        grid-template-areas: 'a b c'
+                            'd e f'
+                            'g h i';
+    }
+    .item {
+        grid-area: e;
+    }
+    ```
+
+    还能够作用于`grid-row-start`,`grid-row-end`,`grid-column-start`,`grid-column-end`的合并简写形式，直接指定项目的位置。
+
+    ```css
+    item {
+        // 上 左 下 右
+        grid-area: <row-start> / <column-start> / <row-end> / <column-end>;
+    }
+    ```
+
+3. 设置单元格内容的水平和垂直方向位置
+
+    `justify-slef`：水平位置（左中右），和`justify-items`属性用法完全一致，单只作用于单个项目
+
+    `align-self`：垂直位置（上中下），和`align-items`属性用法完全一致，但只作用于单个项目
+
+    ```css
+    .item {
+        // 开始 结束 居中 拉伸（默认占满单元格宽度）
+        justify-self: start | end | center | stretch;
+        align-self: start | end | center | stretch;
+    }
+    ```
+
+    `place-self`：`justify-slef`和`align-self`两个属性的合并简写形式，如果省略第二个值，则认为两个值相等。
+
+    ```css
+    // 垂直方向 水平方向
+    place-self: <align-self> <justify-self>
+    ```
