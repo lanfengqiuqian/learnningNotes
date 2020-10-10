@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-07 21:55:29
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-10 15:26:25
+ * @LastEditTime: 2020-10-10 15:59:52
  * @FilePath: /learnningNotes/regular-expression/index.md
 -->
 ### 介绍（Regular Expression）
@@ -108,6 +108,23 @@
 
 注意：不能将限定符和定位符一起使用
 
+对于`^`和`$`的理解：
+
+> /^hello/g  
+> `hello`, I am zhangsan, nice to meet you! hello, hahaha!  
+> 找到开头中的hello  
+>
+> /ha!$/g  
+> hello, I am zhangsan, nice to meet you! hello, haha`ha!`  
+> 找到结尾处的ha!  
+>  
+> /^hello(.*)ha!/g  
+> `hello, I am zhangsan, nice to meet you! hello, hahaha!`  
+> 找到开头是hello并且结尾是ha!
+
+一般来说，同时使用`^`和`$`的话用于校验整个字符串是否满足某种条件，如果是判断字符串是否包含满足某种条件的子串的话不会使用`^`和`$`
+
+比如说，密码是123，当输入的是1234的时候我们肯定不希望其通过，所以需要使用`^`和`$`，如果不用的话值为true
 
 ### 修饰符（标记）
 
