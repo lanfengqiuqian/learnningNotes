@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-12 19:05:53
+ * @LastEditTime: 2020-10-13 11:07:48
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -58,6 +58,14 @@ WHERE
         ->toArray();
     ```
 
-2. 在某一个字段的基础上进行算术运算
+2. 在某一个字段的基础上进行算术运算，或两个字段进行相加等操作
 
     > update money_user_bank set account_money=account_money-100 where id=1
+
+    > UPDATE zhu_c_salary a, zhu_c_task b SET b.month_limit_money = (a.ensure_money + b.month_limit_money) WHERE a.b_task_cycle_id = 1 AND a.tel = b.tel
+
+3. tp框架中`qeury`和`execute`操作的区别
+
+    query：返回的是结果集，增删改的操作永远返回的是`[]`，所以一般用来执行查询操作
+
+    execute：返回的是影响行数，查询的结果永远返回的是0，所以一般用来执行增删改操作

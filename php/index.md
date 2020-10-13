@@ -177,3 +177,17 @@
     echo  '函数名为：' . __METHOD__ . "<br>";
     echo '命名空间为："', __NAMESPACE__, '"'. "<br>";
     ```
+
+10. 获取服务器ip，域名
+
+    ```php
+    // 服务器IP地址  
+    $_SERVER['SERVER_ADDR']
+
+    // 服务器域名    
+    $_SERVER['SERVER_NAME'] 
+    ```
+
+    更多相关查看[这篇](https://www.cnblogs.com/yangzailu/archive/2019/10/30/11752492.html)文章
+
+    
