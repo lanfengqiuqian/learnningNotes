@@ -65,4 +65,14 @@
     4. 不可控组件的状态无法控制，只能在打印数据的时候从dom节点中获取，二可控组件的数据变化会更新到state，也就是说状态的变换是一直保持同步的。
     5. 可控组件虽然代码量大一些，但是更推荐使用。
 
+2. state的更新`可能`是异步的
 
+    出于性能的考虑，react可能会把多个setState()调用合并成一个调用
+
+    因为`this.props`和`this.state`可能会异步更新，所以不能依赖他们的值来更新下一个状态
+
+    ```js
+    this.setState({
+        counter: this.state.counter + this.porps.increment
+    })
+    ```
