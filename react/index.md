@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-08-31 15:41:34
+ * @LastEditTime: 2020-10-15 17:39:33
  * @FilePath: /learnningNotes/react/index.md
 -->
 #### 一些概念
@@ -75,4 +75,13 @@
     this.setState({
         counter: this.state.counter + this.porps.increment
     })
+    ```
+
+    解决方案：`this.setState()`参数放一个函数，该函数的参数接受一个旧的state和props
+
+    ```js
+    this.setState((state, props) => {
+        counter: state.counter + porps.increment
+    })
+
     ```
