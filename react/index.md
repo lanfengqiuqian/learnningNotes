@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-15 17:39:33
+ * @LastEditTime: 2020-10-16 18:27:57
  * @FilePath: /learnningNotes/react/index.md
 -->
 #### 一些概念
@@ -83,5 +83,51 @@
     this.setState((state, props) => {
         counter: state.counter + porps.increment
     })
+    ```
 
+3. 必须谨慎的对待jsx回调函数中的`this`
+
+    class方法默认不会绑定`this`，如果你忘记了绑定`this.handleClick`并把它传入了onClick，当你调用这个函数的时候`this`的值为`undefined`
+
+    如下面输出的`this`，当你要访问state的时候也会失败
+
+    ```js
+    clickHandler = () => {
+        console.log('this is:', this); // this is undefined
+        cosnole.log(this.state); // TypeError: Cannot read property 'state' of undefined
+    }
+    render() {
+        return (
+            <div>
+                <h2>这是一个类组件</h2>
+                <button onClick={this.clickHandler}>click</button>
+            </div>
+        )
+    }
+    ```
+    解决方案：
+    1. 使用箭头函数
+    2. 手动绑定this  
+   
+
+    ```js
+    clickHandler = () => {
+        console.log('this is:', this);
+        console.log(this.state.name);
+    }
+    clickHandler2() {
+        console.log('this is:', this);
+        console.log(this.state.name);
+    }
+    render() {
+        return (
+            <div>
+                <h2>这是一个类组件</h2>
+                <button onClick={this.clickHandler}>click</button> // 成功
+                <button onClick={() => this.clickHandler2()}>click</button> // 成功
+                <button onClick={this.clickHandler2}>click</button> // 报错
+                <button onClick={this.clickHandler2.bind(this)}>click</button> // 成功
+            </div>
+        )
+    }
     ```

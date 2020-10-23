@@ -191,3 +191,24 @@
     更多相关查看[这篇](https://www.cnblogs.com/yangzailu/archive/2019/10/30/11752492.html)文章
 
     
+11. tp6中调用另外一个文件中的类的方法
+
+    ```php
+    // 创建类实例
+    $phpToExcel = new PhpToExcel($this->app);
+    // 进行实例调用
+    $phpToExcel->demo();
+    ```
+
+12. foreach循环关联数组的数组，为其添加一个键值对
+
+    不能直接给循环出来的关联数组添加键值对，需要从最外层的数组进行访问添加
+
+    ```php
+        foreach($data as $key => $value) {
+            // 正确形式
+            $data[$key]["order_number"] = $key + 1;
+            // 错误形式
+            // $value["order_number"] = $key + 1;
+        }
+    ```

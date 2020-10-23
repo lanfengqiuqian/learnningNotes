@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-13 11:07:48
+ * @LastEditTime: 2020-10-20 18:34:06
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -69,3 +69,24 @@ WHERE
     query：返回的是结果集，增删改的操作永远返回的是`[]`，所以一般用来执行查询操作
 
     execute：返回的是影响行数，查询的结果永远返回的是0，所以一般用来执行增删改操作
+
+4. 关于左连接
+
+    [链接](https://zhuanlan.zhihu.com/p/85856388)
+
+5. 左连接去重
+
+    在查询到a表和b表之后连接c表，但是c表有多条数据
+
+    关键：连接的时候给c表进行去重
+
+    ```sql
+    SELECT a.*,
+        b.`openid`,
+    c.`sign_result` , c.`sign_end_time`
+    FROM `zhu_post_user` a
+    LEFT JOIN zhu_c_user b ON a.tel= b.tel
+    LEFT JOIN (SELECT * FROM `zhu_e_baby_info` GROUP BY tel) c ON (c.`tel` = a.tel AND c.`sign_result` = '完成' )
+    WHERE a.`social_credit_code`= '1111'
+    ORDER BY a.`id` DESC
+    ```

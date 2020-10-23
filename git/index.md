@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2020-09-16 16:01:44
+ * @LastEditTime: 2020-10-23 11:38:22
  * @FilePath: /learnningNotes/git/index.md
 -->
 1. 查看所有分支
@@ -27,5 +27,6 @@
     `git reset --hard HEAD^`
 11. 回到n次之前提交
     `git reset --hard HEAD^n`
-
+12. 撤回`git add`的提交
+    `git reset 文件名`
 
