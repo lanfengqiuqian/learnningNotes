@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-20 18:34:06
+ * @LastEditTime: 2020-10-29 12:13:36
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -89,4 +89,53 @@ WHERE
     LEFT JOIN (SELECT * FROM `zhu_e_baby_info` GROUP BY tel) c ON (c.`tel` = a.tel AND c.`sign_result` = '完成' )
     WHERE a.`social_credit_code`= '1111'
     ORDER BY a.`id` DESC
+    ```
+
+6. IFNULL和ISNULL
+
+    1. 如果a字段不是null，则查询a字段，否则查询b字段
+
+        ```sql
+        SELECT id, tel, ifnull(`content`, `content2` )  FROM  `demo` WHERE id = 832
+        ```
+
+    2. 如果一个字段有值，则不更新，否则更新
+
+        ```sql
+        UPDATE `demo` set `account_id` = ifnull(`account_id`, 999) WHERE id = 833
+        ```
+
+7. 查询字符串长度（检验中文字符）
+
+    1. length()： 单位是字节，utf8编码下,一个汉字三个字节，一个数字或字母一个字节。gbk编码下,一个汉字两个字节，一个数字或字母一个字节。  
+    2. char_length()：单位为字符，不管汉字还是数字或者是字母都算是一个字符。
+
+        ```sql
+        SELECT char_length(`name`) FROM `demo` WHERE char_length(`username`) = 2;
+        ```
+
+    3. length()<>char_length()，可以用来检验是否含有中文字符。utf-8编码中判定某个字段为全英文，length(字段) = char_length(字段)即可。
+
+        ```sql
+        SELECT username FROM demo WHERE char_length(username) != length(username);
+        ```
+
+7. 查询重复字段的记录
+
+    ```sql
+    select *, COUNT(id) AS count from `zhu_license_queue`  group by `name`  having count>1;
+
+
+    SELECT a.`name`,
+        a.tel,
+        a.`create_time`,
+        COUNT(a.id) as count,
+        b.`gongwei`
+    from `zhu_license_queue` a
+    LEFT JOIN zhu_c_user b on a.tel= b.tel
+    WHERE b.`gongwei` IS NOT NULL
+    AND a.`auto_flow_details`= '14、success!'
+    GROUP BY a.`name`
+    HAVING count> 1
+    ORDER BY a.id;
     ```
