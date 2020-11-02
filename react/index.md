@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-30 14:57:19
+ * @LastEditTime: 2020-11-02 10:24:53
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -362,3 +362,57 @@ class Columns extends React.Component {
         return <MyComponents.DatePicker color="blue" />;
     }
     ```
+
+4. props默认值为true
+
+    但是一般建议给值，因为容易和es6对象简写混淆  
+    `{foo}`是`{foo: foo}`的简写，而不是`{foo: true}`
+
+    下面两者等价
+    ```js
+    <MyTextBox autocomplete />
+
+    <MyTextBox autocomplete={true} />
+    ```
+
+5. 属性展开
+
+    1. 如果已经有了props对象，可以使用展开运算符来传递整个props对象
+
+        下面两者等价
+        ```js
+        function App1() {
+            return <Greeting firstName="Ben" lastName="Hector" />;
+        }
+
+        function App2() {
+            const props = {firstName: 'Ben', lastName: 'Hector'};
+            return <Greeting {...props} />;
+        }
+        ```
+
+    2. 或者只保留当前组件需要的props，并使用展开运算符将其他的props传递下去
+
+        ```js
+        const Button = props => {
+            const { kind, ...other } = props;
+            const className = kind === "primary" ? "PrimaryButton" : "SecondaryButton";
+            return <button className={className} {...other} />;
+        };
+
+        const App = () => {
+            return (
+                <div>
+                <Button kind="primary" onClick={() => console.log("clicked!")}>
+                    Hello World!
+                </Button>
+                </div>
+            );
+        };
+        ```
+
+        但是也容易将不必要的props传递给不相关的组件，或者将无效的HTML属性传递给DOM，应该谨慎使用该语法
+
+****************************************************************
+
+### JSX中的子元素
