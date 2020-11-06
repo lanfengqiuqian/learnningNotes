@@ -1,4 +1,10 @@
-#### 修改antd组件样式的几种方式
+<!--
+ * @Date: 2020-08-31 14:47:26
+ * @LastEditors: Lq
+ * @LastEditTime: 2020-11-05 16:42:58
+ * @FilePath: /learnningNotes/antd/index.md
+-->
+### 修改antd组件样式的几种方式
 1. 直接在组件上添加类名，然后在css文件中添加样式；  
   直接在组件上写`style`；  
 `但是很多情况下这种方式并不能生效，就要使用到下面的方式了`
@@ -27,6 +33,35 @@
     }
     ```
 
+********************************
 
-##### 可控组件与不可控组件
-介绍：
+### 重置`DatePicker`组件
+
+关键：给DatePicker设置一个key，在重置时将key置为`new Date()`
+
+```js
+<RangePicker key={dateKey} style={{width: '240px'}} onChange={dateOnChange} />
+
+// 重置方法
+setDateKey(new Date());
+```
+
+******************************
+
+### 重置Select和Input
+
+1. Select
+
+    将`value`置为`undefined`
+
+2. Input
+
+    将`value`置为`''`
+
+********************
+
+### pagination组件指定了showQuickJumper属性但是没有生效
+
+检查一下是不是手动加上了`pageSize`属性
+
+*****************

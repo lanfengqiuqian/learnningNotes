@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-02 10:24:53
+ * @LastEditTime: 2020-11-02 10:49:39
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -416,3 +416,102 @@ class Columns extends React.Component {
 ****************************************************************
 
 ### JSX中的子元素
+
+概念：包含在开始标签和结束标签之间的JSX表达式的内容将作为特定属性`props.children`传递给外层组件，有几种不同的方法来传递子元素
+
+1. 字符串字面量
+
+    ```js
+    <MyComponent>Hello world!</MyComponent>
+    ```
+
+    关于空格和空行  
+    
+    1. jsx会移除行收尾的空格以及空行
+    2. 与标签相邻的空行均会被删除
+    3. 文本字符串之间的新行会被压缩为一个空格
+
+    下面几种写法等价
+    ```js
+    <div>Hello World</div>
+
+    <div> Hello World </div>
+
+    <div>
+    Hello World
+    </div>
+
+    <div>
+    Hello
+    World
+    </div>
+
+    <div>
+
+    Hello World
+    </div>
+    ```
+
+2. 能够混合使用
+
+    1. 将字符串字面量和JSX子元素一起使用
+
+    2. 将存储在数组中的一组元素作为子元素
+
+        ```js
+        return ([
+            // 不要忘记设置 key :)
+            <li key="A">First item</li>,
+            <li key="B">Second item</li>,
+            <li key="C">Third item</li>,
+        ])
+        ```
+
+3. 将js表达式作为子元素
+
+    js表达式可以被包裹在`{}`中组作为子元素
+
+    ```js
+    return (
+        <div>
+            {todos.map((message) => <Item key={message} message={message} />)}
+        </div>
+    )
+    ```
+
+4. 函数作为子元素：确保返回值能够使一个可理解的jsx
+
+    ```js
+    <Repeat numTimes={10}>
+        {(index) => <div key={index}>This is item {index} in the list</div>}
+    </Repeat>
+    ```
+
+5. boolean、null、undefined将会被忽略
+
+    false | true | null | undefined 都是合法的子元素，但是他们不会被渲染
+
+    下面结果相同
+    ```js
+    <div />
+
+    <div></div>
+
+    <div>{false}</div>
+
+    <div>{null}</div>
+
+    <div>{undefined}</div>
+
+    <div>{true}</div>
+    ```
+
+    但是如果是数字`0`则会被渲染，所以需要进行转换
+
+    ```js
+    // 错误写法
+    <div>{arr.length && "hello"}</div>
+
+    // 正确写法
+    <div>{Boolean(arr.length) && "hello"}</div>
+    ```
