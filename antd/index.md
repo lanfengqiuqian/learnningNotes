@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 14:47:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-05 16:42:58
+ * @LastEditTime: 2020-11-09 19:11:20
  * @FilePath: /learnningNotes/antd/index.md
 -->
 ### 修改antd组件样式的几种方式
@@ -62,6 +62,6 @@ setDateKey(new Date());
 
 ### pagination组件指定了showQuickJumper属性但是没有生效
 
-检查一下是不是手动加上了`pageSize`属性
+检查一下是不是手动加上了`pageSize`属性，如果手动加了`pageSize`属性的话，会无法显示快速跳转
 
 *****************
