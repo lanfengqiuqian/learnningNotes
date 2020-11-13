@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-29 12:13:36
+ * @LastEditTime: 2020-11-11 11:05:29
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -138,4 +138,26 @@ WHERE
     GROUP BY a.`name`
     HAVING count> 1
     ORDER BY a.id;
+    ```
+
+8. 条件搜索字符串，但是搜索不到
+
+    如
+
+    > $sql =  "SELECT * FROM a WHERE name = $name";  
+    > 解析出来结果是（没有加上引号，不被当做字符串）  
+    > SELECT * FROM a WHERE name = zhangsan  
+    > 我们想要的效果是  
+    > SELECT * FROM a WHERE name = 'zhangsan'  
+
+    两种解决方式
+
+    ```php
+    // 使用参数
+    $sql =  "SELECT * FROM a WHERE name = ?";
+    $res = Db::query($sql, [$name]);
+
+    // 加上引号（注意外层是双引号，内层是单引号，不能使用反引号代替单引号）
+    $sql =  "SELECT * FROM a WHERE name = '$name'";  
+    $res = Db::query($sql);
     ```

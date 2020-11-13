@@ -212,3 +212,5 @@
             // $value["order_number"] = $key + 1;
         }
     ```
+
+13. 在函数内进行curl调用的话，如果
