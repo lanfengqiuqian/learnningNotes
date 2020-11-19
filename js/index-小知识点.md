@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2020-10-29 16:25:04
+ * @LastEditTime: 2020-11-18 09:58:46
  * @FilePath: /learnningNotes/js/index-小知识点.md
 -->
 1. substr()和substring()
@@ -56,3 +56,6 @@
 
 4. a标签中的download属性需要同源才能够生效
     
+5. 去除前后空格
+
+    > str.trim()

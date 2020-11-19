@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-11 11:05:29
+ * @LastEditTime: 2020-11-19 12:15:15
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -161,3 +161,16 @@ WHERE
     $sql =  "SELECT * FROM a WHERE name = '$name'";  
     $res = Db::query($sql);
     ```
+
+
+9. mysql查询`!= 1`的条件会失败
+
+    > ifnull(字段名),0)<>1  或者 ifnull(字段名),0) !=1
+
+10. 联表查询字段
+
+    ```sql
+    select a.name, b.tel, address from a, b where a.id = b.a_id
+    ```
+
+    如果两张表的字段名不一样的话可以不用加表名，如果字段名一样的话必须加表名进行限定

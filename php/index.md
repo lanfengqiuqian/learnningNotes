@@ -213,4 +213,67 @@
         }
     ```
 
-13. 在函数内进行curl调用的话，如果
+13. 使用curl调用，$_REQUEST接收不到参数
+
+    ```php
+    // 数据
+    $data = [
+        'serialNumber' => $serial_number,
+        'demo' => 'hello',
+    ];
+
+    // 方案1
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_POST, 1);
+    curl_setopt($curl, CURLOPT_URL, "$baseHost/startExamineForInvoice");
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; curlarset=utf-8',
+        'Content-Length: ' . strlen(json_encode($data))
+    ));
+    $html = curl_exec($curl);
+    $res = json_decode($html);
+    curl_close($curl);
+
+    // 方案2
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "$baseHost/startExamineForInvoice");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+    // POST数据
+    curl_setopt($ch, CURLOPT_POST, 1);
+    // 把post的变量加上
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    $output = curl_exec($ch);
+    curl_close($ch);
+
+    // 接收
+    public function startExamineForInvoice($demo = "22") {
+        // 开票流水号
+        $serialNumber = isset($_REQUEST['serialNumber']) ? $_REQUEST['serialNumber'] : '';
+    }
+    ```
+
+    方案1中：能够接收到demo，但是无法接收到serialNumber
+
+    但是方案2中两个都能够接收到
+
+    `猜测`：和`CURLOPT_HTTPHEADER`属性有关
+
+    可以参考这篇[博客](https://blog.csdn.net/youcijibi/article/details/103818812)
+
+14. 比较时间先后
+
+    strtotime()：将时间转换为unix时间戳
+    > strtotime(\$time1) > strtotime(\$time2)
+
+15. php导出表格长数字会使用科学计数法
+
+    写入数据的时候使用`setCellValueExplicit()`而不是`setCellValue()`
+
+    ```php
+    $excel->getActiveSheet()->setCellValue('F' . ($k + 2), $v["bankName"]);
+    $excel->getActiveSheet()->setCellValueExplicit('G' . ($k + 2), $v["bankCNAPS"], \PHPExcel_Cell_DataType::TYPE_STRING);
+    ```
