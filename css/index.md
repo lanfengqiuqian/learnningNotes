@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 23:35:46
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-02 12:02:46
+ * @LastEditTime: 2020-11-20 14:55:03
  * @FilePath: /learnningNotes/css/index.md
 -->
 1. 绘制三角形和梯形
@@ -42,5 +42,23 @@
         overflow: hidden;
         content: "";
         width: 100%;
+    }
+    ```
+
+3. 文本超出换行和不换行（不设置默认是换行的）
+
+    ```css
+    <!-- 超出换行 -->
+    div {
+        word-wrap: break-word;
+        word-break: break-all;
+        overflow: hidden;
+    }
+
+    <!-- 超出不换行 -->
+    div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     ```
