@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-02 10:49:39
+ * @LastEditTime: 2020-11-23 11:37:06
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -515,3 +515,6 @@ class Columns extends React.Component {
     // 正确写法
     <div>{Boolean(arr.length) && "hello"}</div>
     ```
+
+******************************
+

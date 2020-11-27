@@ -277,3 +277,46 @@
     $excel->getActiveSheet()->setCellValue('F' . ($k + 2), $v["bankName"]);
     $excel->getActiveSheet()->setCellValueExplicit('G' . ($k + 2), $v["bankCNAPS"], \PHPExcel_Cell_DataType::TYPE_STRING);
     ```
+
+16. 对于url进行编码和解码
+
+    ```php
+    // 编码
+    urlencode($url);
+    // 解码
+    urldecode($url);
+    ```
+
+17. 对比两个数组的增减
+
+    ```php
+    $a = [1,2,3,4]; // 老的数组
+    $b = [3,4,5,6]; // 新的数组
+    $c = array_diff($a, $b); // 减少的数组
+    $d = array_diff($b, $a); // 增加的数组
+    ```
+
+18. phpExcel设置单元格字体样式
+
+    ```php
+    $excel->getActiveSheet()->setCellValue('L' . ($k + 2), $v["hasUkey"]);
+    $excel->getActiveSheet()->getStyle('L' . ($k + 2))->applyFromArray([
+        'font' => [
+            'color' => [
+                'rgb' => $v["hasUkey"] == 'yes' ? '000000' : 'FF0000'
+            ]
+        ]
+    ]);
+    ```
+
+19. php文本实现模板字符串效果
+
+    使用双引号效果，相当于js中的模板字符串，自带换行效果和识别变量
+
+    ```php
+    // 这种情况下，第一行会空行，如果不想要第一行空行的话，将从引号开始位置开始
+    $text = "
+        hello: $hello
+        name: $name
+    ";
+    ```

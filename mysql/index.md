@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-20 16:18:57
+ * @LastEditTime: 2020-11-24 18:55:45
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -181,3 +181,49 @@ WHERE
     ```
 
     如果两张表的字段名不一样的话可以不用加表名，如果字段名一样的话必须加表名进行限定
+
+12. UPDATE语句不能使用AND连接两个SET
+
+    ```sql
+    // 错误写法
+    UPDATE demo SET `name` = 'zhangsan' AND `age` = 10 WHERE `id` = 1;
+    // 正确写法
+    UPDATE demo SET `name` = 'zhangsan', `age` = 10 WHERE `id` = 1;
+    ```
+
+    错误写法：sql会认为`and`是逻辑与，于是执行就变成了下面这样
+
+    ```sql
+    UPDATE demo SET `name` = ('zhangsan' AND `age` = 10) WHERE `id` = 1;
+    ```
+
+    其中`('zhangsan' AND `age` = 10)`的结果会被作为`name`字段的更新值
+
+13. 替换字段
+
+    ```sql
+    // 将所有姓张的替换成姓李的
+    UPDATE demo SET `name` = REPLACE ( `name`, '张', '李'); 
+    ```
+
+14. 插入数据的时候根据另一张表的数据
+
+    1. 表的结构一样
+
+        ```sql
+        insert into 表1
+            select * from 表2
+        ```
+    2. 表的结构不一样
+
+        ```sql
+        insert into 表1 (列名1,列名2,列名3)
+            select  列1,列2,列3 from 表2
+        ```
+
+    3. 只从另外一张表中取部分字段（最常用）
+
+        ```sql
+        insert into 表1 (列名1,列名2,列名3) 
+            values(列1,列2,(select 列3 from 表2));
+        ```
