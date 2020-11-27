@@ -269,15 +269,6 @@
     strtotime()：将时间转换为unix时间戳
     > strtotime(\$time1) > strtotime(\$time2)
 
-15. php导出表格长数字会使用科学计数法
-
-    写入数据的时候使用`setCellValueExplicit()`而不是`setCellValue()`
-
-    ```php
-    $excel->getActiveSheet()->setCellValue('F' . ($k + 2), $v["bankName"]);
-    $excel->getActiveSheet()->setCellValueExplicit('G' . ($k + 2), $v["bankCNAPS"], \PHPExcel_Cell_DataType::TYPE_STRING);
-    ```
-
 16. 对于url进行编码和解码
 
     ```php
@@ -296,19 +287,6 @@
     $d = array_diff($b, $a); // 增加的数组
     ```
 
-18. phpExcel设置单元格字体样式
-
-    ```php
-    $excel->getActiveSheet()->setCellValue('L' . ($k + 2), $v["hasUkey"]);
-    $excel->getActiveSheet()->getStyle('L' . ($k + 2))->applyFromArray([
-        'font' => [
-            'color' => [
-                'rgb' => $v["hasUkey"] == 'yes' ? '000000' : 'FF0000'
-            ]
-        ]
-    ]);
-    ```
-
 19. php文本实现模板字符串效果
 
     使用双引号效果，相当于js中的模板字符串，自带换行效果和识别变量
@@ -320,3 +298,115 @@
         name: $name
     ";
     ```
+
+20. phpExcel常用属性
+
+    前提：常用的需要实例化的几种实例
+
+    ```php
+    $area = 'A1'; // 需要操作的单元格，也可以是一个范围，如$area = 'A1:L10';
+    
+    $excel = new \PHPExcel();　　//实例化一个PHPExcel变量
+
+    $excel->setActiveSheetIndex(0);　　//设置要操作的Sheet页
+
+    $excelActSheet = $excel->getActiveSheet();　　//获取当前要操作的Sheet页
+
+    $excelStyle = $excelActSheet->getStyle($area);　　//获取要设置单元格的样式
+
+    $excelAlign = $excelStyle->getAlignment();　　//用来设置对齐属性和单元格内文本换行的一个变量
+
+    $excelFont = $excelStyle->getFont();　　//获得字体属性
+    ```
+
+    1. 长数字会使用科学计数法
+
+        写入数据的时候使用`setCellValueExplicit()`而不是`setCellValue()`
+
+        ```php
+        $excel->getActiveSheet()->setCellValue($area, $v["bankName"]);
+        $excel->getActiveSheet()->setCellValueExplicit($area, $v["bankCNAPS"], \PHPExcel_Cell_DataType::TYPE_STRING);
+        ```
+
+
+    2. 设置单元格字体样式
+
+        ```php
+        $excel->getActiveSheet()->setCellValue($area, $v["hasUkey"]);
+        $excel->getActiveSheet()->getStyle($area)->applyFromArray([
+            'font' => [
+                'color' => [
+                    'rgb' => $v["hasUkey"] == 'yes' ? '000000' : 'FF0000'
+                ]
+            ]
+        ]);
+
+        // 设置字体
+        $excelFont->setName('微软雅黑');
+        // 设置字号
+        $excelFont->setSize(11);
+        // 设置加粗
+        $excelBold(false);
+        // 设置颜色
+        $excelFont->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+        ```
+
+        说明
+
+          1.  其颜色组成为：Alpha（透明度）通道+RGB色彩模式  
+          2.  ARGB---Alpha,Red,Green,Blu  
+          3.  一般我自己用的值都是"FF"+RGB的颜色值，如："FFCC15DD"  
+
+    3. 设置行高和自动换行
+
+        ```php
+        // 范围
+        $area = 'A1:L10';
+        // 设置行高（某一行）
+        $excel->getActiveSheet()->getRowDimension(A)->setRowHeight(30); 
+        // 设置自动换行（单元格内换行）
+        $excel->getActiveSheet()->getStyle($area)->getAlignment()->setWrapText(true);
+        ```
+
+    4. 对齐方式
+
+        1. 水平对齐
+
+        ```php
+        //设置单元格内容水平对齐
+        $excelAlign->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        ```
+
+        |值|含义|
+        |-|-|
+        |HORIZONTAL_LEFT|左对齐|
+        |HORIZONTAL_CENTER|居中对齐|
+        |HORIZONTAL_RIGHT|右对齐|
+
+       1. 垂直对齐
+
+        ```php
+        //设置单元格内容水平对齐
+        $excelAlign->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+        ```
+
+        |值|含义|
+        |-|-|
+        |VERTICAL_TOP|顶部对齐|
+        |VERTICAL_CENTER|竖直居中对齐|
+        |VERTICAL_BOTTOM|底部对齐|
+
+    5. 合并单元格
+
+        可以进行行合并，也可以列合并
+
+        ```php
+        $excel->getActiveSheet()->mergeCells('B1:B2');
+        $excel->getActiveSheet()->mergeCells('C1:H1');
+        ```
+
+    `传送门`:
+
+    可以参考这篇[文章](http://www.voidcn.com/article/p-geyhgkkf-bss.html)  
+    也可以参考这篇[文章](https://www.cnblogs.com/lglblogadd/p/7117486.html)
+
