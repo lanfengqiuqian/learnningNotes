@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-23 11:37:06
+ * @LastEditTime: 2020-12-04 10:31:32
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -518,3 +518,74 @@ class Columns extends React.Component {
 
 ******************************
 
+### shoudleComponentUpdate
+
+1. 定义：该方法总是在重新渲染之前出发，默认总是返回true，让React执行更新
+
+
+    ```js
+    shouldComponentUpdate(nextProps, nextState) {
+        return true;
+    }
+    ```
+    有两个参数，第一个是将要更新的`props`，第二个是将要更新的`state`
+
+    如果你知道什么情况下组件不需要更新的时候，可以在shouldComponentUpdate中返回false来跳过整个渲染过程
+
+    在大部分情况下，你可以继承`React.PureComponent`以代替手写`shouldComponentUpdate()`。他用之前的props和state的浅比较腹泻了`shouldComponentUpdate()`的实现
+
+2. 示例
+
+    如果下面组件中只有`props.color`或者`state.count`的值改变时才需要更新，那么可以使用`shouldComponentUpdate`来进行检查
+
+    ```js
+    class CounterButton extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {count: 1};
+        }
+
+        shouldComponentUpdate(nextProps, nextState) {
+            if (this.props.color !== nextProps.color) {
+                return true;
+            }
+            if (this.state.count !== nextState.count) {
+                return true;
+            }
+            return false;
+        }
+
+        render() {
+            return (
+                <button
+                    color={this.props.color}
+                    onClick={() => this.setState(state => ({count: state.count + 1}))}>
+                    Count: {this.state.count}
+                </button>
+            );
+        }
+    }
+    ```
+
+    如果你的组件更复杂一些，可以使用浅比较的模式来检查props和state中的所有字段，来决定组件是否需要更新。使用继承`React.PureComponent`
+
+    上面代码可以改成下面这种简洁的形式
+
+    ```js
+    class CounterButton extends React.PureComponent {
+        constructor(props) {
+            super(props);
+            this.state = {count: 1};
+        }
+
+        render() {
+            return (
+                <button
+                    color={this.props.color}
+                    onClick={() => this.setState(state => ({count: state.count + 1}))}>
+                    Count: {this.state.count}
+                </button>
+            );
+        }
+    }
+    ```

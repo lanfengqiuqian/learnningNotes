@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-24 18:55:45
+ * @LastEditTime: 2020-12-04 16:38:42
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -91,7 +91,7 @@ WHERE
     ORDER BY a.`id` DESC
     ```
 
-6. IFNULL和ISNULL和IF
+6. IFNULL、ISNULL、IF、IF CASE
 
     1. 如果a字段不是null，则查询a字段，否则查询b字段
 
@@ -112,7 +112,53 @@ WHERE
         UPDATE demo SET `name` = IF(`name`, `name`, `tom`) WHERE id = 888;
         ```
 
-7. 查询字符串长度（检验中文字符）
+        说明：  
+        1. 如果 expr1 是TRUE (expr1 <> 0 and expr1 <> NULL and expr1 <> '')，则 IF()的返回值为expr2; 否则返回值则为 expr3。IF()的返回值为数字值或字符串值，具体情况视其所在语境而定。  
+        2. expr1 作为一个整数值进行计算，就是说，假如你正在验证浮点值或字符串值，   那么应该使用比较运算进行检验。
+
+    4. CASE THEN
+
+        1. 简单CASE函数
+
+            格式
+            ```sql
+            case 列名
+            when   条件值1   then  选项1
+            when   条件值2    then  选项2.......
+            else     默认值      end
+            ```
+            示例
+            ```sql
+            select 
+            case 　　job_level
+            when     '1'     then    '1111'
+            when　  '2'     then    '1111'
+            when　  '3'     then    '1111'
+            else       'eee' end
+            from     dbo.employee
+            ```
+        2. CASE搜索函数
+
+            格式
+            ```sql
+            case  
+            when  列名= 条件值1   then  选项1
+            when  列名=条件值2    then  选项2.......
+            else    默认值 end
+            ```
+            示例
+            ```sql
+            update  employee
+            set         e_wage =
+            case
+            when   job_level = '1'    then e_wage*1.97
+            when   job_level = '2'   then e_wage*1.07
+            when   job_level = '3'   then e_wage*1.06
+            else     e_wage*1.05
+            end            
+            ```
+
+1. 查询字符串长度（检验中文字符）
 
     1. length()： 单位是字节，utf8编码下,一个汉字三个字节，一个数字或字母一个字节。gbk编码下,一个汉字两个字节，一个数字或字母一个字节。  
     2. char_length()：单位为字符，不管汉字还是数字或者是字母都算是一个字符。
@@ -127,7 +173,7 @@ WHERE
         SELECT username FROM demo WHERE char_length(username) != length(username);
         ```
 
-8. 查询重复字段的记录
+2. 查询重复字段的记录
 
     ```sql
     select *, COUNT(id) AS count from `zhu_license_queue`  group by `name`  having count>1;
@@ -147,7 +193,7 @@ WHERE
     ORDER BY a.id;
     ```
 
-9. 条件搜索字符串，但是搜索不到
+3. 条件搜索字符串，但是搜索不到
 
     如
 
@@ -170,11 +216,11 @@ WHERE
     ```
 
 
-10. mysql查询`!= 1`的条件会失败
+4.  mysql查询`!= 1`的条件会失败
 
     > ifnull(字段名),0)<>1  或者 ifnull(字段名),0) !=1
 
-11. 联表查询字段
+5.  联表查询字段
 
     ```sql
     select a.name, b.tel, address from a, b where a.id = b.a_id
@@ -182,7 +228,7 @@ WHERE
 
     如果两张表的字段名不一样的话可以不用加表名，如果字段名一样的话必须加表名进行限定
 
-12. UPDATE语句不能使用AND连接两个SET
+6.  UPDATE语句不能使用AND连接两个SET
 
     ```sql
     // 错误写法
@@ -199,14 +245,14 @@ WHERE
 
     其中`('zhangsan' AND `age` = 10)`的结果会被作为`name`字段的更新值
 
-13. 替换字段
+7.  替换字段
 
     ```sql
     // 将所有姓张的替换成姓李的
     UPDATE demo SET `name` = REPLACE ( `name`, '张', '李'); 
     ```
 
-14. 插入数据的时候根据另一张表的数据
+8.  插入数据的时候根据另一张表的数据
 
     1. 表的结构一样
 
@@ -227,3 +273,22 @@ WHERE
         insert into 表1 (列名1,列名2,列名3) 
             values(列1,列2,(select 列3 from 表2));
         ```
+
+9.  `GROUP BY`的使用
+
+    常和聚合函数结合使用
+
+10. 查询在a表不在b表的数据
+
+    ```sql
+    select *
+    from infolist
+    where(
+    select count(id) as num
+    from namelist
+    where infolist.name= namelist.name)= 0;
+    ```
+
+11. 使用Navicat连接阿里云ECS服务器上的Mysql数据库
+
+    [参考博客](https://blog.csdn.net/nw_ningwang/article/details/76218997)
