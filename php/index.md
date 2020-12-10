@@ -410,3 +410,12 @@
     可以参考这篇[文章](http://www.voidcn.com/article/p-geyhgkkf-bss.html)  
     也可以参考这篇[文章](https://www.cnblogs.com/lglblogadd/p/7117486.html)
 
+21. 数组置为空值和去数组空值
+
+    ```php
+    $arr = [1,2,3,4];
+    // 置为空值
+    $arr[0] = null;
+    // 去空值
+    $newArr = array_filter($arr);
+    ```

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2020-12-04 16:38:42
+ * @LastEditTime: 2020-12-07 15:36:55
  * @FilePath: /learnningNotes/mysql/index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -129,13 +129,14 @@ WHERE
             ```
             示例
             ```sql
-            select 
-            case 　　job_level
-            when     '1'     then    '1111'
-            when　  '2'     then    '1111'
-            when　  '3'     then    '1111'
-            else       'eee' end
-            from     dbo.employee
+            SELECT 
+            CASE id
+            when 1 then '111'
+            when 2 then '222'
+            when 3 then '333'
+            else id end
+            as id
+            FROM demo            
             ```
         2. CASE搜索函数
 
@@ -148,14 +149,13 @@ WHERE
             ```
             示例
             ```sql
-            update  employee
-            set         e_wage =
-            case
-            when   job_level = '1'    then e_wage*1.97
-            when   job_level = '2'   then e_wage*1.07
-            when   job_level = '3'   then e_wage*1.06
-            else     e_wage*1.05
-            end            
+            update demo
+            set content =
+            case 
+            when id = 1 then 1
+            when id = 2 then 2
+            when id = 3 then 3
+            else 888 end            
             ```
 
 1. 查询字符串长度（检验中文字符）
@@ -292,3 +292,17 @@ WHERE
 11. 使用Navicat连接阿里云ECS服务器上的Mysql数据库
 
     [参考博客](https://blog.csdn.net/nw_ningwang/article/details/76218997)
+
+12. 将不同表的相同列的数据查询出来
+
+    UNION ALL （会查出重复数据）
+    UNION （会自动将数据进行去重）
+    ```sql
+    SELECT `account` as tel
+    FROM zhu_b_user a
+    UNION ALL 
+    SELECT tel
+    FROM `zhu_b_user_account` b
+    ORDER BY tel
+    LIMIT 0,10
+    ```
