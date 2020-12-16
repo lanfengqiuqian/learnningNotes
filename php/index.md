@@ -419,3 +419,14 @@
     // 去空值
     $newArr = array_filter($arr);
     ```
+
+22. 判断某一个字符是否存在，字符串替换
+
+    ```php
+    // 判断是否存在
+    echo strstr("Hello world!","world");  // 输出 world!
+    // 替换（区分大小写）
+    str_replace('Hel', 'hhh', "hello world");
+    // 替换（不区分大小写）
+    str_ireplace('Hel', 'hhh', "hello world");
+    ```

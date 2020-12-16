@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-13 11:24:31
+ * @LastEditTime: 2020-12-16 14:17:45
  * @FilePath: /learnningNotes/git/index.md
 -->
 1. 查看所有分支
@@ -35,3 +35,12 @@
     `git remote add origin git@github.com:lenve/test.git`
 15. 删除关联的远程仓库，一般情况下是origin，如果不是需要换
     `git remote rm origin`
+16. 查看某个文件或某行代码最近一次改变是谁写的  
+    `git blame file_name`  
+    `git blame -L 58,100 file_name`  # 58~100 行代码  
+    输出格式：  
+    `commit_ID | 代码提交作者 | 提交时间 | 代码位于文件中的行数 | 实际代码 `  
+    例子  
+    `2eb3a3b3 (zhangsan 2020-11-10 14:14:05 +0800 179)   $default_addr = "";`
+17. 根据commitid查看对应的提交记录
+    `git show commit_ID`
