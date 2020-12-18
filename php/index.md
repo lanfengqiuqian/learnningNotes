@@ -430,3 +430,20 @@
     // 替换（不区分大小写）
     str_ireplace('Hel', 'hhh', "hello world");
     ```
+
+23. 判断一个元素是否在一个数组中
+
+    > array_in(1, [1,2,3]);
+
+    这里有一个坑，就是进行数字和字符串比较的时候，会将字符串转化为数字进行比较
+
+    如下
+
+    ```php
+    $arr = [1,2,3,4];
+    $num = '3';
+    $arr1 = ['1','2','3'];
+    $num1 = 3;
+    $is_exist = in_array($num, $arr); // true
+    $is_exist1 = in_array($num1, $arr1); // true
+    ```
