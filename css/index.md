@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 23:35:46
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-20 14:55:03
+ * @LastEditTime: 2021-01-08 18:51:07
  * @FilePath: /learnningNotes/css/index.md
 -->
 1. 绘制三角形和梯形
@@ -61,4 +61,28 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+    ```
+
+4. 字体透明度继承问题
+
+    如果父级元素的透明度使用`opacity`，那么子元素的字体也会继承父元素的透明度，并且由于透明度是相乘的，所以无法使用覆盖的方式调整子元素的透明度
+
+    解决方案：
+
+    1. 父元素使用`rgba`的方式来设置透明度
+    2. 两个元素不使用继承关系，而是使用兄弟关系（不推荐使用）
+
+5. boxshadow
+   
+   demo
+   
+   ```css
+   // x轴偏移量，y轴偏移量，阴影模糊度，阴影扩展半径，阴影颜色，设置为内阴影（如果不写默认为外阴影）
+   box-shadow:1px 2px 3px 4px #ccc inset;
+   ```
+   
+   比较淡雅美观的阴影
+
+    ```css
+    box-shadow: rgba(0,0,0,.2) 0 1px 5px 0px;
     ```

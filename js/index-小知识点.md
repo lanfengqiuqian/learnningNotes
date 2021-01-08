@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2020-12-07 17:48:21
+ * @LastEditTime: 2020-12-31 17:07:20
  * @FilePath: /learnningNotes/js/index-小知识点.md
 -->
 1. substr()和substring()
@@ -121,3 +121,23 @@
         city
     }} = obj;
     ```
+
+9. reduce()
+
+    一般用于数组的求和
+
+    ```js
+    let arr = [1,2,3];
+    let total = arr.reduce((a, b) => a + b); // 6
+    ```
+
+    参数：callback（累加回调）, initialValue
+
+    |参数|子参数|说明|
+    |-|-|-|
+    |callbck||累加回调|
+    ||total|累加初始值|
+    ||currentValue|当前元素|
+    ||currentIndex|当前元素索引|
+    ||arr|数组对象|
+    initialValue||可传递的累加初始值|

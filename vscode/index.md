@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-12-09 15:26:45
+ * @LastEditTime: 2021-01-05 17:17:36
  * @FilePath: /learnningNotes/vscode/index.md
 -->
 ### 空目录折叠问题
@@ -39,3 +39,10 @@ mac：`ctrl` + `g` 注意在这里mac的是ctrl而不是command哦
 3. 展开所有函数
 
     > ctrl + k, ctrl + j
+
+
+### 快速收起资源树
+
+在vscode的左侧资源树的时候，如果不小心展开了node_modules的代码，要手动拉到最上面去收起是很麻烦的
+
+鼠标聚焦到左侧的一个文件，按键盘左方向键的能收起当前目录，右方向键就能展开当前目录

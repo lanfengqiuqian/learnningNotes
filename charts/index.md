@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 11:05:42
  * @LastEditors: Lq
- * @LastEditTime: 2020-12-28 19:48:48
+ * @LastEditTime: 2021-01-06 12:04:27
  * @FilePath: /learnningNotes/charts/index.md
 -->
 #### 传送门
@@ -427,6 +427,8 @@
         |shape|将数据值映射到图形的形状上的方法|string/array|
         |size|配置线的粗细|string/array/number|
         |tooltip|控制当前Geometry几何标记的tooltip开关|boolean|
+        |style|配置几何图形的样式|object/array|
+        |animate|开启或关闭动画|boolean|
 
         shape
         |属性|意义|
@@ -484,3 +486,66 @@
         |dotLine|只有虚线边线的多边形|
         |smoothLine|只有平滑边线的多边形|
         |dotSmoothLine|只有平滑需要边线的多边形|
+
+5. Geom通用图形组件
+
+    1. 介绍：几何标记对象，决定创建图表的类型。
+
+        虽然BizCharts没有特定的图表类型概念，但是人基本支持所有传统图表类型的绘制。
+
+    2. 常用属性
+
+        1. 几何标记类型：type
+        2. 数据映射相关的属性：position、color、shape、size
+        3. 显示辅助信息的属性：style、tooltip
+        4. 额外的控制属性：adjust、select、setSelect、active、hide
+
+
+        type：几何标记类型  
+        adjust：声明几何标记对象的数据调整和方式  
+        position：位置属性的映射，用于确定由数据哪几个字段来确定数据在平面坐标系的位置。通俗的解释，即确定x轴和y轴的数据字段  
+        color：将数据值映射到图形的颜色上的方法  
+        shape：将数值映射到图形的形状上的方法  
+        label：配置折线的标注  
+        size：点图是半径，线图是粗细，柱状图是柱子宽度  
+        style：几何图形的样式  
+        tooltip：将数据映射到提示信息上
+
+
+
+
+### 小技巧
+
+1. 通过回调改变颜色
+
+    ```js
+    // 其中month可以是你的横坐标属性名，也可以是纵坐标属性名
+    color={["month", (month: string) => {
+        if (month === selectedObj.month) {
+            return '#db4c3c';
+        }
+        return '#744DFE';
+    }]}
+    ```
+
+2. 通过回调改变样式
+
+    ```js
+    // 其中month可以是你的横坐标属性名，也可以是纵坐标属性名
+    style={['month',  (month: string) => {
+        if (month === selectedObj.month) {
+            return {
+                lineWidth: 1,
+                strokeOpacity: 1,
+                fillOpacity: 1,
+                opacity: 1,
+            }
+        }
+        return {
+            lineWidth: 1,
+            strokeOpacity: 1,
+            fillOpacity: .5,
+            opacity: .5,
+        }
+    }]}
+    ```

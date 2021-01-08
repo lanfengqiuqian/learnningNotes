@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-12-04 10:31:32
+ * @LastEditTime: 2021-01-07 20:06:43
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -589,3 +589,27 @@ class Columns extends React.Component {
         }
     }
     ```
+
+
+### 图片等静态资源存放位置：public还是assets中
+
+1. assets
+
+    1. 脚本和样式表被缩小并捆绑在一起以避免额外的网络请求。
+    2. 缺少文件会导致编译错误，而不是用户的404错误。
+    3. 结果文件名包含内容哈希，因此您无需担心浏览器缓存旧版本。
+
+2. public
+
+    如果你希望你的文件不被编译，比如jquery.min.js，或者压缩好的js插件等，你就可以把文件放在public文件夹中，这样还可以减少文件构建时间，可以减少构建文件的大小
+   
+   如果在index.html中，你可以像这样去使用它：
+   
+   ```HTML
+   <img src="%PUBLIC_URL%/image/poster.jpeg" alt="">
+   ```
+
+3. 总结
+
+    1. 一般情况下推荐使用assets，这样的话打包可以压缩、减少代码包体积
+    2. 在引用第三方js，npm没有包的情况下、放在public更好（就是项目基本使用cdn，没怎么用node_moudles）

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 14:47:26
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-09 19:11:20
+ * @LastEditTime: 2021-01-07 16:22:06
  * @FilePath: /learnningNotes/antd/index.md
 -->
 ### 修改antd组件样式的几种方式
@@ -44,7 +44,11 @@
 
 // 重置方法
 setDateKey(new Date());
+
 ```
+tips：重置`RangePicker`组件
+
+将value设置为`[null, null]`
 
 ******************************
 
