@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 23:35:46
  * @LastEditors: Lq
- * @LastEditTime: 2021-01-08 18:51:07
+ * @LastEditTime: 2021-01-29 17:14:12
  * @FilePath: /learnningNotes/css/index.md
 -->
 1. 绘制三角形和梯形
@@ -85,4 +85,12 @@
 
     ```css
     box-shadow: rgba(0,0,0,.2) 0 1px 5px 0px;
+    ```
+
+6. 修改input中的placeholder样式（含内容样式）
+
+    ```css
+    input::-webkit-input-placeholder {
+        // 样式代码
+    }
     ```

@@ -447,3 +447,15 @@
     $is_exist = in_array($num, $arr); // true
     $is_exist1 = in_array($num1, $arr1); // true
     ```
+
+24. 数组和字符串转化
+
+    ```php
+    // 数组转字符转
+    $array = array('lastname', 'email', 'phone');
+    $comma_separated = implode(",", $array);
+
+    // 字符串转数组
+    $pizza  = "piece1 piece2 piece3 piece4 piece5 piece6";
+    $pieces = explode(" ", $pizza);
+    ```

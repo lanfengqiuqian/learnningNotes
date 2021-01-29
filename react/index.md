@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-01-07 20:06:43
+ * @LastEditTime: 2021-01-18 16:56:51
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -249,7 +249,7 @@ class Columns extends React.Component {
 
 ### 高阶组件
 
-1. 定义：高阶组件（HOC）是复用组件逻辑的一种高级技巧。本身不是React API的一部分，是基于React的组合特性而形成的设计模式。
+1. 定义：高阶组件（HOC：Higher order components）是复用组件逻辑的一种高级技巧。本身不是React API的一部分，是基于React的组合特性而形成的设计模式。
 
 2. 特点：是一个函数，参数是组件，返回值也是组件
 
@@ -302,6 +302,11 @@ class Columns extends React.Component {
     2. Refs不会被传递
 
         Refs实际上不是prop，就像key一样，如果将ref添加到HOC的返回组件中，则ref引用指向容器组件，而不是被包装的组件。
+
+6. 不足之处
+
+    1. 产生了许多无用的组件，加深了组件层级，性能和调试受影响
+    2. 多个hoc同时其那套，劫持props，命名可能会冲突，且内部无法判断props是来源于哪个hoc
 
 
 ********************************
@@ -613,3 +618,42 @@ class Columns extends React.Component {
 
     1. 一般情况下推荐使用assets，这样的话打包可以压缩、减少代码包体积
     2. 在引用第三方js，npm没有包的情况下、放在public更好（就是项目基本使用cdn，没怎么用node_moudles）
+
+
+### hook
+
+1. 优点
+
+    1. 避免地狱式嵌套，可读性提高
+    2. 函数式组件，比class更容易理解
+    3. UI和逻辑更容易分离
+
+2. 常用hook
+
+    1. useState：让函数组件有状态了
+
+    2. useEffect：让函数组件有生命周期和监听器的效果
+
+    3. useContext：跨组件共享数据
+
+        ```js
+        // context.js 创建context
+        import { createContext } from 'react';
+        export default createContext(null);
+
+        // 父组件 挂载redux
+        import MyContext form '@/context.js';
+
+        <MyContext.provider value={value}>
+            <Child />
+        </MyContext.provider>
+        
+        // 子组件 使用redux
+        import { useContext } from 'react';
+        import MyContext form '@/context.js';
+        const value = useContext(MyContext);
+        ```
+
+        被`MyContext.provider`包裹的组件，只要依赖的value发生变化的时候，都会进行重新渲染，需要进行性能优化
+
+    4. useRef：
