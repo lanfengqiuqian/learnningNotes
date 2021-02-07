@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-03 17:27:53
+ * @LastEditTime: 2021-02-07 10:21:00
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -596,6 +596,49 @@ class Columns extends React.Component {
     ```
 
 
+****************************************************************
+
+### React.memo
+
+1. 版本：在16.6.0
+
+2. 功能：控制何时重新渲染组件，提升性能
+
+    和PureComponent很相似，组件只有在props发生改变的时候进行重新渲染。  
+    通常来说，在组件树React组件中，只要有变化就会走一遍渲染流程，但是通过PureComponent和React.memo()，我们可以仅让某些组件进行渲染。
+
+3. 案例
+
+    ```js
+    import React, {useState, memo} from 'react'
+    export default function Memo() {
+        const [count, setCount] = useState(0);
+        return (
+            <div>
+                <h2>父组件：{count}</h2>
+                <button onClick={() => setCount(count + 1)}>click</button>
+                <Child name="子组件" />
+            </div>
+        )
+    }
+    function Child(props) {
+        console.log('刷新了子组件')
+        return <div>{props.name}</div>
+    }
+    ```
+
+    在这里每次点击对于父组件的count进行改变，对于子组件是没有任何影响的，但是实际上每一次都会刷新子组件。将子组件使用memo包裹之后就能避免刷新子组件。
+
+    ```js
+    const Child = memo(function(props) {
+        console.log('刷新了子组件')
+        return <div>{props.name}</div>
+    })
+    ```
+
+4. 结论：这个是对于React非常有用的新功能，因为我们之前只能使用类组件利用`PureComponent`带来的性能优势，而现在，我们有了`React.memo()`，就可以使用函数组件享受到这个优势了。
+
+
 ### 图片等静态资源存放位置：public还是assets中
 
 1. assets
@@ -894,7 +937,7 @@ class Columns extends React.Component {
 
     6. useMemo和useCallback
 
-        简单demo
+        useMemo简单demo
 
         ```js
         export default function App() {
@@ -933,6 +976,8 @@ class Columns extends React.Component {
             )
         }
         ```
+
+        useCallback简单demo：常用于父组件的函数传递给子组件（由于父组件更新导致函数更新导致子组件产生不必要的更新）
 
         对于useMemo和useCallback使用[总结](https://blog.csdn.net/fedlover/article/details/103347989?spm=1001.2014.3001.5501)：
 

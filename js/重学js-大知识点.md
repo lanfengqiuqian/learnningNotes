@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-26 10:32:28
  * @LastEditors: Lq
- * @LastEditTime: 2021-01-15 16:36:26
+ * @LastEditTime: 2021-02-04 17:23:02
  * @FilePath: /learnningNotes/js/重学js-大知识点.md
 -->
 ### Set和Map
@@ -573,3 +573,58 @@ function fn(n) {
     5. 代码的热升级
 
         函数式编程没有副作用，只要保证接口不变，内部实现和外部无关。所以可以在运行状态下直接升级代码，不需要重启，也不需要停机。
+
+
+### 闭包
+
+1. 定义：本质是一个函数，它能够访问另外一个函数作用于的变量
+
+    最简单创建闭包的方式：将一个函数作为另一个函数的返回值
+
+    ```js
+    function aaa(){
+        var name = "xxx"
+        return function bbb(){
+            alert(name);
+        }
+    }
+    ```
+
+    在这里bbb能够访问aaa中的变量
+
+2. 特性：闭包中的变量不会被垃圾回收机制处理，能够将函数内部的变量一直保存在内存中
+
+3. 使用案例：
+
+    ```js
+    for( var i = 0; i < 5; i++ ) {
+        setTimeout(() => {
+            console.log( i );
+        }, 1000)
+    }
+    ```
+
+    这里的打印结果是5个5，如果想要打印0~4要怎么修改
+
+    关键点：在for循环内创建闭包
+
+    ```js
+    // 匿名自执行函数写法
+    for (var i = 0; i < 5; i++) {
+        ((j) => {
+            setTimeout(function() {
+                console.log(j);
+            },1000)
+        })(i)
+    }
+
+    // 翻译一下
+    for (var i = 0; i < 5; i++) {
+        function demo(j) {
+            setTimeout(function() {
+                console.log(j);
+            },500)
+        }
+        demo(i)
+    }
+    ```

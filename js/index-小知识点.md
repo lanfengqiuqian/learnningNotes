@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2020-12-31 17:07:20
+ * @LastEditTime: 2021-02-07 12:00:42
  * @FilePath: /learnningNotes/js/index-小知识点.md
 -->
 1. substr()和substring()
@@ -141,3 +141,24 @@
     ||currentIndex|当前元素索引|
     ||arr|数组对象|
     initialValue||可传递的累加初始值|
+
+10. 获取含特殊字符的对象属性
+
+    使用转义字符表示
+
+    常见转义字符
+
+    |字符|描述|
+    |-|-|
+    |\’ |单引号|
+    |\"| 双引号|
+    |\& |和号|
+    |\\ |反斜杠|
+    |\n |换行符|
+    |\r |回车符|
+    |\t |制表符|
+    |\b |退格符|
+
+    比如：换行符
+
+    > let val = item['第一行\n第二行'];
