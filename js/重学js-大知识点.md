@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-26 10:32:28
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-04 17:23:02
+ * @LastEditTime: 2021-02-20 18:52:11
  * @FilePath: /learnningNotes/js/重学js-大知识点.md
 -->
 ### Set和Map
@@ -628,3 +628,75 @@ function fn(n) {
         demo(i)
     }
     ```
+
+### 防抖和节流
+
+0. [参考文章](https://segmentfault.com/a/1190000018428170)
+
+1. 使用场景：适用于高频触发的函数或事件，快速连续触发和不可控的高频触发
+
+    如：鼠标移动事件，窗口放大缩小，input输入
+
+    影响：响应跟不上触发，导致页面卡顿、假死现象
+
+2. 防抖：debounce
+
+    1. 介绍：当事件触发时，设定一个周期延迟执行动作，如果期间又被触发，则重新设定周期，直到周期结束，才会执行动作。
+
+    2. 例子：监听页面滚动事件,如果靠近底部则出现回到顶部按钮
+
+        ```js
+        function showTop() {
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            console.log('滚动条位置：', scrollTop);
+        }
+        window.onscroll = showTop;
+        ```
+
+        如果这样写的话执行频率太高，进行防抖处理
+
+        ```js
+        function debounce(fn, delay) {
+            let timer = null;
+            return function() {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(fn, delay);
+            }
+        }
+        window.onscroll = debounce(showTop, 1000);
+        ```
+
+3. 节流：throttle
+
+    1. 介绍：不定周期内，只执行一次动作，如果在周期内有新事件触发，不执行（`这里不会重新设定周期`）。周期结束后，如果又有事件触发，又开始新的周期。
+
+    2. 例子：监听页面滚动事件,如果靠近底部则出现回到顶部按钮
+
+        使用上面的防抖方法的话，会导致，如果页面一直在滚动，那么永远只会执行一次，如果想在这种情况下每隔一段时间再执行的话考虑使用节流。
+
+        ```js
+        function throttle(fn, delay) {
+            let valid = true;
+            return function() {
+                if (!valid) {
+                    return false;
+                }
+                valid = false;
+                setTimeout(() => {
+                    fn();
+                    valid = true;
+                }, delay);
+            }
+        }
+        window.onscroll = throttle(showTop, 1000);
+        ```
+
+4. 区别：是否会重新设定周期（如果很长一段时间都在触发事件的话，防抖只会执行一次，节流可执行多次）
+
+5. 选择策略
+
+    防抖：操作高频触发，但有停顿。窗口拉伸，联想搜索。
+
+    节流：操作高频触发，连续不断。页面滚动，鼠标不断点击。

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-07 12:00:42
+ * @LastEditTime: 2021-02-22 15:24:29
  * @FilePath: /learnningNotes/js/index-小知识点.md
 -->
 1. substr()和substring()
@@ -162,3 +162,151 @@
     比如：换行符
 
     > let val = item['第一行\n第二行'];
+
+11. JSON.stringify和JSON.parse的参数
+
+    1. JSON.stringify
+
+        ```js
+        JSON.stringify(value[, replacer [, space]])
+        ```
+
+        第二个参数replacer，可以是一个数组，也可以是一个回调函数
+
+        1. 当为数组时，只有一个在数组中的属性名才会被序列化到最终的JSON字符串中
+
+        2. 当为回调函数是，每一个属性都会执行该回调函数，需要返回值
+
+        ```js
+        let obj = {
+            name: 'jack',
+            age: 12
+        }
+        JSON.stringify(obj, ['name']); // {"name":"jack"}
+        JSON.stringify(obj, (key, value) => {
+            console.log(key, value); // name jack age 12
+            return value;
+        }); // {"name":"jack","age":12}
+        ```
+
+        第三个参数是控制字符串间距，如果是一个数字，则序列化的时候每一级别回比上一级别多缩进该值的空格（最多10个空格）；如果是一个字符串，则每一级别回比上一级别多缩进该字符串。
+
+        ```js
+        let obj = {
+            name: 'jack',
+            age: 12
+        }
+        JSON.stringify(obj, null, 2);
+        /*
+        "{"name":"jack","age":12}"
+        */
+        JSON.stringify(obj, null, 2);
+        /*
+        "{
+          "name": "jack",
+          "age": 12
+        }"
+        */
+        ```
+
+        注意，如果一个被序列化的对象拥有`toJson`方法，那么该`toJson`方法就会覆盖该对象默认的序列化行为，如`fetch`方法的`reponse`
+
+    2. JSON.parse
+
+        ```js
+        JSON.parse(text[, reviver])
+        ```
+
+        第二个参数reviver是一个回调，每一个属性都会调用此函数
+
+        ```js
+        let str = "{name: "jack", age: 12}";
+        JSON.parse(str, (key ,val) => {
+            console.log(key, val); // name jack age 12
+            return val;
+        });
+        ```
+
+12. 解析get中的参数
+
+    ```js
+    const q = {};
+    location.search.replace(/([^?&=]+)=([^&]+)/g,(_,k,v)=>q[k]=v);
+    console.log(q);
+    ```
+
+13. new操作符过程过做了什么
+
+    > var p = new Person();
+
+    ```js
+    // 创建一个空对象
+    var o = new Object();
+    // 设置原型链，让该对象继承构造函数的原型
+    o.__proto__ = Person.prototype;
+    // 把构造函数的this指向新对象，并执行函数体
+    var result = Person.call(o);
+    // 判断构造函数的返回值类型，如果是值类型则返回该对象，如果是引用类型，就返回这个引用类型的对象
+    if (typeof(result) === 'object') {
+        obj = result;
+    } else {
+        obj = o;
+    }
+    ```
+
+    模拟`new`操作
+
+    ```js
+    function New(obj, ...arg) {
+        // 创建新对象，原型为构造函数的原型
+        // 可以拆分写法，如下
+        // let newObj = {};
+        // newObj.__proto = obj.prototype;
+        let newObj = Object.create(obj.prototype);
+        // 修改this指向为新对象，并执行函数体
+        let result = obj.apply(res, arg);
+        // 如果返回值不是有效对象，则返回新对象
+        return (typeof result === 'object') ? result : res;
+    }
+    ```
+
+    **对于构造函数返回值的解释：**  
+    如果构造函数返回了一个“对象”，那么这个对象会取代整个new出来的结果。如果构造函数没有返回对象，那么new出来的结果为步骤1创建的对象。（一般情况下构造函数不返回任何值，不过用户如果线覆盖这个返回值，可以自己选择一个普通对象来覆盖。当然，返回数组也会覆盖，因为数组也是对象）
+
+14. 构造函数和普通函数的区别
+
+    #### 前言 函数内部有两个不同的内部方法：`【Call】和【construct】`  
+
+    1. 当使用new调用函数是，会执行【coustruct】方法，执行过程就是`new`操作符执行的过程
+    2. 当直接调用函数，会执行【call】方法，直接执行函数体
+
+
+    #### 区别
+
+    1. 形式上看构造函数也是一个普通函数，创建方式和普通函数一样，但是`构造函数习惯上首字母大写`
+    2. 调用方式不一样，作用也不一样（`构造函数用来新建实例对象`）
+       1. 普通函数调用：`person()`
+       2. 构造函数调用：需要使用`new`关键字`new Person()`
+    3. 构造函数的函数名和类名相同：Person()这个构造函数，Person既是函数名，也是对象的类名
+    4. 构造函数内部用`this`来构造属性和方法
+
+        ```js
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+            this.say = function() {
+                console.log('hello');
+            }
+        }
+        ```
+    5. 当函数体为空时，执行结果不一样
+
+        1. 普通函数结果为undefined
+        2. 构造函数结果为一个空对象
+
+    6. 用`instanceof`可以检查一个对象是否是一个类的实例
+
+        > console.log(p instanceof Person); // true  
+        > console.log(p instanceof Car); // false
+        
+        任何对象和Object做instanceof结果都是true
