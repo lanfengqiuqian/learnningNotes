@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-22 15:24:29
+ * @LastEditTime: 2021-02-22 15:43:25
  * @FilePath: /learnningNotes/js/index-小知识点.md
 -->
 1. substr()和substring()
@@ -310,3 +310,41 @@
         > console.log(p instanceof Car); // false
         
         任何对象和Object做instanceof结果都是true
+
+    7. 判断函数被调用的方式
+
+        1. es5中依据`this`是否为构造函数的实例，来判断函数被调用的方式
+
+            ```js
+            function Person() {
+                if (this instanceof Person) {
+                    console.log('作为构造函数调用');
+                } else {
+                    console.log('作为普通函数调用');
+                }
+            }
+            ```
+
+            缺陷：如果使用call或者apply修改函数内的this只想到函数的实例上，就不能够区分是否通过new调用
+
+            ```js
+            let p = new Person();
+            Person.call(p);
+            ```
+
+        2. es6引入了`new.target`这个元属性进行区分。
+
+            > 元属性：是指非对象的属性，可以提供非对象目标的补充信息  
+            > 使用new调用函数时，会执行【construct】方法，new.target是函数本身  
+            > 直接调用函数，会执行【Call】方法，nwe.target为undefined  
+            > new.target在函数体外使用是一个语法错误
+            
+            ```js
+            function Person(){
+                if(new.target === Person){
+                    console.log('构造函数调用');
+                }else{
+                    console.log('普通函数调用');
+                }
+            }
+            ```

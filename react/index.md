@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-07 10:21:00
+ * @LastEditTime: 2021-02-28 15:06:40
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -1006,3 +1006,155 @@ class Columns extends React.Component {
         4. 何时适用
 
             > 当计算过程或者函数体足够复杂时
+
+### React中使用动画
+
+1. 通过css的animation
+
+    js文件
+    ```js
+    import React, { Component, Fragment } from 'react'
+    import styles from './index.css'
+    class Demo extends Component {
+        constructor(props){
+            super(props);
+            this.state = {
+                show : true
+            }
+            this.handleToggole = this.handleToggole.bind(this);
+        }
+        render(){
+            return (
+                <Fragment>
+                    <div className={this.state.show ? styles.show : styles.hide}>hello world</div>
+                    <button onClick={this.handleToggole}>toggle</button>
+                </Fragment>
+                )
+        }
+        handleToggole(){
+            this.setState({
+                show:this.state.show ? false : true
+            })
+        }
+    }
+    export default Demo;
+    ```
+
+    css文件
+    ```css
+    .show {
+        /*opacity: 1;
+        transition: all 0.1s ease-in;*/
+        animation: showItem 1s ease-in forwards;
+    }
+    .hide {
+        /*opacity: 0;
+        transition: all 0.1s ease-in;*/
+        animation: hideItem 1s ease-in forwards;
+    }
+    @keyframes showItem{
+        0% {
+            opacity: 0;
+            color: red;
+        }
+        50% {
+            opacity: 0.5;
+            color: green;
+        }
+        100% {
+            opacity: 1;
+            color: blue;
+        }
+    }
+    @keyframes hideItem{
+        0% {
+            opacity: 1;
+            color: red;
+        }
+        50% {
+            opacity: 0.5;
+            color: green;
+        }
+        100% {
+            opacity: 0;
+            color: blue;
+        }
+    }
+    ```
+
+2. 通过引入react官方动画库`react-transition-group`
+
+    具体用法可参考[这里](https://segmentfault.com/a/1190000015487495)
+
+    js文件
+    ```js
+    import React, { Component, Fragment } from 'react'
+    import { CSSTransition ,TransitionGroup} from 'react-transition-group';
+    import style from './index.css'
+    class Demo extends Component {
+        constructor(props){
+            super(props);
+            this.state = {
+                list : []
+            }
+            this.handleAddItem = this.handleAddItem.bind(this);
+        }
+        render(){
+            return (
+                <Fragment>
+                    <TransitionGroup>
+                        {
+                            this.state.list.map((item,index) =>{
+                                return (
+                                    <CSSTransition
+                                        timeout={1000}
+                                        classNames={style.fade}
+                                        unmountOnExit
+                                        onEntered={(el) => {el.style.color='blue'}}
+                                        appear={true}
+                                        key={index}
+                                        >
+                                            <div>{item}</div>
+                                        </CSSTransition>
+                                )
+                            })
+                        }
+                    </TransitionGroup>
+                    <button onClick={this.handleAddItem}>toggle</button>
+                </Fragment>
+            )
+        }
+        handleAddItem(){
+            this.setState( (prevState) => {
+                return {
+                    list: [...prevState.list,'item']
+                }
+            })
+        }
+    }
+    export default Demo;
+    ```
+
+    css文件
+    ```css
+    .fade-enter, .fade-appear {
+        opacity: 0;
+    }
+    .fade-enter-active, .fade-appear-active {
+        opacity: 1;
+        transition: opacity 1s ease-in;
+    } 
+    .fade-enter-done {
+        opacity: 1;
+    }
+    .fade-exit {
+        opacity: 1;
+    } 
+    .fade-exit-active {
+        opacity: 0;
+        transition: opacity 1s ease-in;
+    } 
+    .fade-exit-done{
+        opacity: 0;	
+    }
+    ```

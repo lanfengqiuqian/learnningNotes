@@ -461,3 +461,45 @@
     $pizza  = "piece1 piece2 piece3 piece4 piece5 piece6";
     $pieces = explode(" ", $pizza);
     ```
+
+25. 函数内部访问外部变量
+
+    1. 外部用`global`关键字定义，内部用`$GLOBALS`数组引用
+
+        ```php
+        global $mytext;
+        $mytext="外部使用global定义";
+        function test(){
+            echo $GLOBALS['mytext']."<br>";
+        }
+        test();
+        ```
+
+    2. 内部用`global`定义，直接访问或者使用`$GLOBALS`数组访问都行
+
+        ```php
+        $mytext="内部使用global定义";
+        function test(){
+            global $mytext;
+            echo $GLOBALS['mytext']."<br>";
+            echo $mytext."<br>";
+        }
+        test();
+        ```
+
+        这种方式我在在线网页运行没问题，但是在接口方法里面失效了
+
+    3. 通过函数传参的方式传递进去
+
+        ```php
+        function test($a) {
+            echo $a;
+            $a ++;
+        }
+        $b = 1;
+        echo $b;
+        test($b);
+        echo $b;
+        ```
+
+        要注意一下就是值传递和引用传递的区别
