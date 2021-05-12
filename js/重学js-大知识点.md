@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-26 10:32:28
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-25 16:50:33
+ * @LastEditTime: 2021-03-04 17:10:54
  * @FilePath: /learnningNotes/js/重学js-大知识点.md
 -->
 ### Set和Map
@@ -702,23 +702,176 @@ function fn(n) {
     节流：操作高频触发，连续不断。页面滚动，鼠标不断点击。
 
 
+### xhr、fetch、jQuery、axios的区别
+
+1. ajax
+
+    1. Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。
+    2. 最早出现的发送后端请求技术，更新部分网页（不重新加载整个页面）。
+    3. 核心是使用`XMLHttpRequest`对象，现代浏览器都支持。
+
+2. xhr
+
+    1. 是`XMLHttpRequeest`对象的实例。
+    2. 配置信息比较混乱复杂。
+    3. 如果请求有先后顺序会出现回调地狱。
+
+3. jQuery
+
+    1. 是对于原生xhr的封装，除此之外添加了jsonp的支持。
+    2. jQuery整个项目比较大，如果单纯的为了ajax引入不合理。
+    3. 配置和调用方式飞创婚礼，对于基于事件的异步模型不友好。
+
+4. fetch
+
+    1. 并不是对于xhr的封装，没有使用XMLHttpRequest对象。
+    2. 是基于promise设计的，代码结构清晰，支持async/await。
+    3. 比较底层的api，意味着配置相对麻烦。
+
+5. axios
+
+    1. 基于Promise。
+    2. 本质上也是对于原生xhr的封装。
+    3. 是一个非常轻量的库。
+
+
+
+
 ### Proxy
 
-1. proxy 请求代理
+1. 介绍
+
+   1. 是一个全局对象，可以直接使用。
+   2. 构造函数`Proxy(target, handler)`
+   
+       1. 返回值是一个代理对象
+       2. target是被代理的对象
+       3. handler是声明了各类代理操作的一个对象
+       4. 外部每次通过代理对象访问target对象的属性时，都会经过过handler对象，这个流程有点像中间件     
+2. Reflect
+
+    1. 是一个内置的对象，提供拦截JavaScript操作的方法，这些方法和proxy的handler的方法相同
+    2. 不是一个函数对象，所以它是不可构造的，不能使用new运算符调用
+    3. 它所有的手续性和方法都是静态的，只能通过该对象调用（像Math）
+
+
+3. 特性
+
+    1. 拦截和监事外部对对象的访问
+    2. 降低函数或者类的复杂度
+    3. 在复杂操作前对操作进行校验或对所需资源进行管理
+
+4. 简单demo
+
+    ```js
+    let test = {
+        name: "小红"
+    };
+    test = new Proxy(test, {
+        get(target, key) {
+        console.log('获取了getter属性');
+            return Reflect.get(target, key);
+        }
+    });
+    console.log(test.name);
+    ```
+
+5. 常用handler
+
+    1. get：读取属性
+    2. set：设置属性
+    3. deleteProperty：删除属性
+    4. has：in操作捕捉器
+    5. apply：函数调用捕捉器
+
+    参数和返回值
+
+    ```js
+    getPrototypeOf? (target: T): object | null;
+    setPrototypeOf? (target: T, v: any): boolean;
+    isExtensible? (target: T): boolean;
+    preventExtensions? (target: T): boolean;
+    getOwnPropertyDescriptor? (target: T, p: PropertyKey): PropertyDescriptor | undefined;
+    has? (target: T, p: PropertyKey): boolean;
+    get? (target: T, p: PropertyKey, receiver: any): any;
+    set? (target: T, p: PropertyKey, value: any, receiver: any): boolean;
+    deleteProperty? (target: T, p: PropertyKey): boolean;
+    defineProperty? (target: T, p: PropertyKey, attributes: PropertyDescriptor): boolean;
+    ownKeys? (target: T): PropertyKey[];
+    apply? (target: T, thisArg: any, argArray?: any): any;
+    construct? (target: T, argArray: any, newTarget?: any): object;
+
+    ```
+
+
+#### 使用场景
+
+1. 请求代理
 
     1. 作用：主要用于解决浏览器跨域问题（同源策略）
     2. 思想
 
         1. 关键点
 
-            1. 先请求一个同源的服务器，在有服务器去请求其他的服务器
+            1. 先请求一个同源的服务器，再由该服务器去请求其他的服务器
             2. 浏览器存在同源策略，但是服务器不存在
 
         2. 实现过程
 
-            0. 本地环境是`http://localhost:3000`
-            1. 本来要请求`https://demo.com`服务器，但是他存在跨域
-            2. 所以 先请求`http://localhost:3000`，它不存在跨域问题，所以受理了请求，并可以获取它返回的数据
-            3. 而有`http://localhost:3000`返回的数据，又是从真实的`http://demo.com`获取来的，因为服务端不是浏览器环境，所以没有浏览器的安全策略问题
-            4. 因为`http://localhost:3000` 这个服务器，只是把请求的参数，转发到真实的服务端，又把真实服务端下发的数据，转发给我们，所以我们称它为代理
+            1. 本地环境是`http://localhost:3000`
+            2. 本来要请求`https://demo.com`服务器，但是他存在跨域
+            3. 所以 先请求`http://localhost:3000`，它不存在跨域问题，所以受理了请求，并可以获取它返回的数据
+            4. 而有`http://localhost:3000`返回的数据，又是从真实的`http://demo.com`获取来的，因为服务端不是浏览器环境，所以没有浏览器的安全策略问题
+            5. 因为`http://localhost:3000` 这个服务器，只是把请求的参数，转发到真实的服务端，又把真实服务端下发的数据，转发给我们，所以我们称它为代理
 
+2. 表单校验
+
+    1. 作用：在对表单的值进行 改动的时候，可以在set里面进行拦截，判断值是否合法
+
+    2. demo
+
+        需求：校验输入的姓名是否合法
+
+        ```js
+        let checkForm = {
+            set(target, key, value, receiver) {
+                if (key === 'age') {
+                    if (value < 0 || !Number.isInteger(value)) {
+                        throw new TypeError('年龄必须是正整数');
+                    }
+                }
+                return Reflect.set(target, key, value, receiver);
+            }
+        }
+        let obj = new Proxy({age: 18}, checkForm);
+        obj.age = '少奶n';
+        ```
+
+3. 增加附加属性
+
+    1. demo
+
+        需求：在用户输入正确的身份证号码之后，将出生年月，籍贯，性别都添加到用户信息中
+
+        ```js
+        const PROVINCE_NUMBER = {
+            44: '广东省',
+            46: '海南省'
+        }
+        const CITY_NUMBER = {
+            4401: '广州市',
+            4601: '海口市'
+        }
+        let ecCardNumber = {
+            set(target, key, value, receiver) {
+                if (key === 'cardNumber') {
+                    Reflect.set(target, 'hometown', PROVINCE_NUMBER[value.substr(0, 2)] + CITY_NUMBER[value.substr(0, 4)], receiver);
+                    Reflect.set(target, 'date', value.substr(6, 8), receiver);
+                    Reflect.set(target, 'gender', value.substr(-2, 1)%2 === 1 ? '男' : '女', receiver);
+                }
+                return Reflect.set(target, key, value, receiver);
+            }
+        }
+        let obj = new Proxy({cardNumber: '4401111111111111'});
+        console.log(obj.)
+        ```

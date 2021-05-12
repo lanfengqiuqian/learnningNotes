@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-13 15:59:51
  * @LastEditors: Lq
- * @LastEditTime: 2020-11-09 18:05:31
+ * @LastEditTime: 2021-05-07 15:46:48
  * @FilePath: /learnningNotes/linux/index.md
 -->
 1. 查看php装了哪些扩展
@@ -18,3 +18,11 @@
     > add_header 'Content-Disposition' 'attachment';
 
     具体说明可以查看这篇[文章](https://www.cnblogs.com/owenzhou/p/5325570.html)
+
+3. 查看内网ip和外网ip
+
+    > 内网ip  
+    > ifconfig  
+    > 外网ip（第一个命令不好用就使用第二个）
+    > curl ifconfig.me  
+    > curl cip.cc

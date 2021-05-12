@@ -9,6 +9,8 @@
         1. 原先是数组的默认转化为数组，原先是对象的默认转化为对象
         2. 第二个参数默认为false，即按照原先的转化，如果第二个参数为true强行转化为数组
 
+    3. thinkphp中的`json()`方法：返回值是一个对象
+
 2. 对于对象和数组的访问
 
     1. 对象：使用`->`进行访问
@@ -271,7 +273,7 @@
     strtotime()：将时间转换为unix时间戳
     > strtotime(\$time1) > strtotime(\$time2)
 
-16. 对于url进行编码和解码
+15. 对于url进行编码和解码
 
     ```php
     // 编码
@@ -280,7 +282,7 @@
     urldecode($url);
     ```
 
-17. 对比两个数组的增减
+16. 对比两个数组的增减
 
     ```php
     $a = [1,2,3,4]; // 老的数组
@@ -289,7 +291,7 @@
     $d = array_diff($b, $a); // 增加的数组
     ```
 
-19. php文本实现模板字符串效果
+17. php文本实现模板字符串效果
 
     使用双引号效果，相当于js中的模板字符串，自带换行效果和识别变量
 
@@ -301,7 +303,7 @@
     ";
     ```
 
-20. phpExcel常用属性
+18. phpExcel常用属性
 
     前提：常用的需要实例化的几种实例
 
@@ -412,7 +414,7 @@
     可以参考这篇[文章](http://www.voidcn.com/article/p-geyhgkkf-bss.html)  
     也可以参考这篇[文章](https://www.cnblogs.com/lglblogadd/p/7117486.html)
 
-21. 数组置为空值和去数组空值
+19. 数组置为空值和去数组空值
 
     ```php
     $arr = [1,2,3,4];
@@ -422,7 +424,7 @@
     $newArr = array_filter($arr);
     ```
 
-22. 判断某一个字符是否存在，字符串替换
+20. 判断某一个字符是否存在，字符串替换
 
     ```php
     // 判断是否存在
@@ -433,7 +435,7 @@
     str_ireplace('Hel', 'hhh', "hello world");
     ```
 
-23. 判断一个元素是否在一个数组中
+21. 判断一个元素是否在一个数组中
 
     > array_in(1, [1,2,3]);
 
@@ -450,7 +452,7 @@
     $is_exist1 = in_array($num1, $arr1); // true
     ```
 
-24. 数组和字符串转化
+22. 数组和字符串转化
 
     ```php
     // 数组转字符转
@@ -462,7 +464,7 @@
     $pieces = explode(" ", $pizza);
     ```
 
-25. 函数内部访问外部变量
+23. 函数内部访问外部变量
 
     1. 外部用`global`关键字定义，内部用`$GLOBALS`数组引用
 
@@ -503,3 +505,79 @@
         ```
 
         要注意一下就是值传递和引用传递的区别
+
+24. 重复调用接口
+
+    ```php
+    public function checkSqlBugDemo() {
+        // 检查是否重复执行
+        $sql = "SELECT id FROM demo WHERE id = 26 AND account_id = 333";
+        $res = Db::query($sql);
+        // 如果重复执行则返回
+        if(empty($res)) {
+            return 'fail';
+        }
+        /**
+         * 中间执行操作
+         */
+        // 将重复执行标志改变用于判断
+        $sql = "UPDATE demo SET account_id = 444 WHERE id = 26";
+        $res = Db::execute($sql);
+        return 'success';
+    }
+    ```
+
+25. 获取时间戳
+
+    ```php
+    // 获取秒级时间戳
+    $time = time();
+    
+    // 获取毫秒时间戳
+    $time = explode ( " ", microtime () );
+    $time = $time[1] . ($time[0] * 1000);
+    $time2 = explode( ".", $time );
+    $time = $time2[0];
+    ```
+
+26. 将网络图片url地址下载到服务器上
+
+    入参：网络图片链接
+    出参：服务器图片链接
+    前提：你需要有权限访问该图片，比如宜搭的图片，是需要用户登录过网页宜搭并有相应权限才能够预览和下载，否则只会是一个空文件
+
+    ```php
+    public function getgPullImage($url = "") {
+        $save_path = "/www/wwwroot/test-invoice.zhushang.net/lqtest/";	# 图片保存的地址 对于自己保存图片的地址
+        $file_name = time().mt_rand(1000,9999).'.png';	# 截取网络图片的名称，用做保存的图片名称 可根据自己需求自己修改
+        # 远程文件处理 
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,5);  # 过期时间
+        //当请求https的数据时，会要求证书，加上下面这两个参数，规避ssl的证书检查
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        $img = curl_exec($ch);
+        curl_close($ch);
+        $size=strlen($img);   # 文件大小
+        # 如果目录不存在，创建要保存的目录
+        if(!file_exists($save_path )){
+            mkdir($save_path ,0777,true);
+        }
+        $fp2 = @fopen($save_path .$file_name ,'a');
+        fwrite($fp2,$img);
+        fclose($fp2);
+        unset($img,$url);
+        return json("test-invoice.zhushang.net/lqtest/".$file_name);
+    }
+    ```
+
+27. 去除反斜杠
+
+    场景：接受的json字符串汇总，使用的反斜杠进行转义，如果直接使用`json_decode()`是不行的，结果还是个`null`，需要先去除反斜杠
+
+    `stripslashes($str)`
+
+
+

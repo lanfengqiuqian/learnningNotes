@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-28 15:06:40
+ * @LastEditTime: 2021-03-02 16:18:05
  * @FilePath: /learnningNotes/react/index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
@@ -979,6 +979,36 @@ class Columns extends React.Component {
 
         useCallback简单demo：常用于父组件的函数传递给子组件（由于父组件更新导致函数更新导致子组件产生不必要的更新）
 
+        ```js
+        export default function Parent() {
+            const [count, setCount] = useState(1);
+            const [val, setVal] = useState('');
+            const callback = useCallback(() => {
+                return count;
+            }, [count]);
+            return <div>
+                <h4>{count}</h4>
+                <Child callback={callback}/>
+                <div>
+                    <button onClick={() => setCount(count + 1)}>+</button>
+                    <input value={val} onChange={event => setVal(event.target.value)}/>
+                </div>
+            </div>;
+        }
+        function Child({ callback }) {
+            const [count, setCount] = useState(() => callback());
+            useEffect(() => {
+                console.log('子组件更新了')
+                setCount(callback());
+            }, [callback]);
+            return <div>
+                {count}
+            </div>
+        }
+        ```
+
+        在callback不适用useCallback包裹的情况下，input的变化也会引起子组件的更新，但是使用了useCallback包裹之后就就能避免这个问题。
+
         对于useMemo和useCallback使用[总结](https://blog.csdn.net/fedlover/article/details/103347989?spm=1001.2014.3001.5501)：
 
         1. 记忆函数
@@ -1006,6 +1036,28 @@ class Columns extends React.Component {
         4. 何时适用
 
             > 当计算过程或者函数体足够复杂时
+
+    7. 自定义hook
+
+        1. 用途：希望在两个组件之间共享逻辑，但是普通函数无法使用hook
+
+        2. 特性：
+
+            1. 本质也是一个函数，必须以`use`开头的小驼峰式命名
+            2. 函数内部可以调用其他hook（这是普通函数做不到的）
+
+        3. 案例：希望所有组件在创建爱你和销毁的时候都进行打印
+
+            ```js
+            export function useLogging(name) {
+                useEffect(() => {
+                    console.log(`${name}组件创建了`);
+                    return () => {
+                        console.log(`${name}组件销毁了`);
+                    }
+                }, [])
+            }
+            ```
 
 ### React中使用动画
 

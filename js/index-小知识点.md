@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2021-02-22 15:43:25
+ * @LastEditTime: 2021-05-12 11:22:27
  * @FilePath: /learnningNotes/js/index-小知识点.md
 -->
 1. substr()和substring()
@@ -348,3 +348,31 @@
                 }
             }
             ```
+
+15. 正则匹配去除括号
+
+    1. 仅去除括号，不去除括号内容
+        ```js
+        // 移除所有小括号
+        str.replace(/\[|]/g,"")
+        ```
+
+    2. 去除括号，以及括号内容
+        ```js
+        // 去除中括号及其内容
+        str.replace(/\[.*\]/g, "");
+        ```
+
+16. 正则匹配密码
+
+    1. 至少8位字母和数字混合：` /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$/`
+
+
+    2. 6位纯数字：`/^\d{6}$/`
+
+17. 创建固定长度为空的数组，并进行填充
+
+    ```js
+    let arr = new Array(5); // [empty, empty, empty, empty, empty]
+    arr.fill("hello"); // ["hello", "hello", "hello", "hello", "hello"]
+    ```
