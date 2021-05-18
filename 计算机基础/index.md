@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-05-10 18:01:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-12 19:04:05
+ * @LastEditTime: 2021-05-13 19:16:04
  * @FilePath: /learnningNotes/计算机基础/index.md
 -->
 #### MIME
@@ -259,3 +259,11 @@
         3. User-Agent
 
             用户使用客户端的一些必要信息，比如操作系统、浏览器版本、浏览器渲染引擎等。
+
+            常用的user-agent参见这篇[博客](https://www.cnblogs.com/zrmw/p/9332801.html)
+
+        4. Transfer-Encoding
+
+            可选值：chunked、identity。  
+            chunked：把传输的数据切割成一系列的块数组传输。  
+            identity：直接传输。  

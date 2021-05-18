@@ -580,4 +580,65 @@
     `stripslashes($str)`
 
 
+28. 使用正则匹配获取字符串
 
+    使用场景：评论中修改打款账号格式为`修改打款账号：（123456789012）`，账号长度固定12位
+
+    ```php
+    $comments = "部长：修改打款账号：（123456789012），请您验收！";
+    if (preg_match('/[修改打款账号：\（]+[\d{12}]+[\）]/', $comments, $commentsAccount)) {
+        $account = preg_match('/\d{12}/', $commentsAccount[0], $accountArr);
+        $account = $accountArr[0];
+    }
+    ```
+
+    这里有一个需要注意的地方：有可能会出现编码错误，具体表现为出现`�`这个符号（php环境会有这个问题，但是js环境就没有这个问题）
+
+    > 输出结果类似下面：
+    > 修改打款账号：（123456789123� 
+
+    我的解决方案：将`/[修改打款账号：\（]+[\d{12}]+[\）]/`换成`/[修改打款账号：\（+[\d{12}]+[\）]/`，去掉了一个中括号，然后成功了。。。具体原因没找出来
+
+
+29. 字符串编码
+
+    ```php
+    // 获取当前字符串编码
+    $encode = mb_detect_encoding($str, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5')); 
+
+    // 将gbk换为utf-8
+    $str_encode = mb_convert_encoding($str, 'UTF-8', 'GBK');
+    ```
+
+    如果一个字符串输出出来是utf-8，但是使用json_encode()报编码错误的话，可以尝试将他转换为其他编码再转换回来
+
+    ```php
+    $newStr = mb_convert_encoding($str, 'GBK', 'UTF-8');
+    $str = mb_convert_encoding($newStr, 'UTF-8', 'GBK');
+    ```
+
+    将数组中的元素进行转码
+
+    ```php
+    //更改编码为utf8
+    protected function array2utf8($array){
+        $array = array_map(function($value){
+            if(is_array($value)){
+                return $this->array2utf8($value);
+            }else{
+                return mb_convert_encoding($value, "UTF-8", "GB2312");
+            }
+        }, $array);
+        return $array;
+    }  
+    ```
+
+    解决数据库中查询出来的字段报编码问题：`Malformed UTF-8 characters, possibly incorrectly encoded`
+
+    有可能是数据库中部分字段编码有问题
+
+    ```php
+    // 先将数据库数据转成GBK，再转成UTF-8
+    $friend['name']=iconv("utf-8","gbk//IGNORE",$friend['name']);
+    $friend['name'] = mb_convert_encoding($friend['name'],'UTF-8','GBK');
+    ```
