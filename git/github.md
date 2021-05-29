@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-09 10:28:50
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-10 17:56:35
+ * @LastEditTime: 2021-05-25 15:18:39
  * @FilePath: /learnningNotes/git/github.md
 -->
 #### 解决加载页面是样式文件加载过慢
@@ -28,3 +28,6 @@ Git-ce：是社区版，gitlab-ee是企业版，收费的。
 适用场景
 
 主要使用Github和Gitee，其中Github在国外，访问比较慢，Gitee在国内，访问比较快。
+
+
+#### 版本回退git reset和git revert

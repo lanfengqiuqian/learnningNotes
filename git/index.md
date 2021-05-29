@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2021-03-01 15:05:46
+ * @LastEditTime: 2021-05-19 17:19:30
  * @FilePath: /learnningNotes/git/index.md
 -->
 1. 查看所有分支  
@@ -57,3 +57,5 @@
 22. 查看当前项目配置文件  
     `git config -e`  
     `vi ./.git/config`
+23. 查看没有`add`的文件，已经`add`的和`commit`的不会记录在这
+    `git diff`
