@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-10-13 15:59:51
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-07 15:46:48
- * @FilePath: /learnningNotes/linux/index.md
+ * @LastEditTime: 2021-07-08 20:27:14
+ * @FilePath: \learnningNotes\linux\index.md
 -->
 1. 查看php装了哪些扩展
 
@@ -26,3 +26,21 @@
     > 外网ip（第一个命令不好用就使用第二个）
     > curl ifconfig.me  
     > curl cip.cc
+
+4. 查看服务器磁盘使用情况
+
+    ```shell
+    // 查看服务器磁盘使用情况
+    df -h
+
+    // 查看当前目录各个子目录和文件所占大小
+    du -sh *
+
+    // 其他命令
+    df -hl 查看磁盘剩余空间
+    df -h 查看每个根路径的分区大小
+    du -sh [目录名] 返回该目录的大小
+    du -sm [文件夹] 返回该文件夹总M数
+    ```
+
+    一般来说是各种日志文件占用的内存非常大：比如mysql的日志、tp6框架的日志、各种缓存文件等

@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-27 10:54:11
- * @FilePath: /learnningNotes/mysql/index.md
+ * @LastEditTime: 2021-06-23 15:17:56
+ * @FilePath: \learnningNotes\mysql\index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
 主表决定了数据条数，辅表决定了拼接的内容是null还是有数据。
@@ -15,6 +15,9 @@ SET
   "字段名" = REPLACE("字段名", '原内容', '要替换的内容') 
 WHERE 
   "字段名" LIKE CONCAT('%', '原内容', '%')
+
+// 示例
+UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category_json`, '[[{', '[{'), `invoice_category_json` = REPLACE (`invoice_category_json`  , '}]]', '}]')  WHERE `invoice_category_json` NOT LIKE '[{%'
 ```
 
 
@@ -323,3 +326,38 @@ WHERE
     GROUP BY tel
     HAVING COUNT(tel)> 1)
     ```
+
+14. 按照字段的重复数进行排序
+
+    ```sql
+    select source_job_number,count(id) as count from v1_user WHERE source_id=3 group by source_job_number ORDER BY count DESC;
+    ```
+
+15. 每条数据应该都有创建时间和修改时间（自动生成）
+
+    ```sql
+    create_date datetime DEFAULT CURRENT_TIMESTAMP COMMENT ‘创建时间’,
+    update_date datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT ‘修改时间’,
+    ```
+16. 去除重复的记录
+
+    ```sql
+    DELETE demo
+    FROM demo,
+        (
+    SELECT min(id) id, user_id, monetary, consume_time
+    FROM demo
+    GROUP BY user_id, monetary, consume_time
+    HAVING count(*)> 1) t2
+    WHERE demo.user_id= t2.user_id
+    and demo.monetary= t2.monetary
+    and demo.consume_time= t2.consume_time
+    AND demo.id> t2.id;
+    ```
+
+17. 一个字段like另外一个字段
+
+    ```sql
+    c.`settle_order_list` LIKE concat('%', b.`settle_order`, '%')
+    ```
+

@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-01-05 17:17:36
- * @FilePath: /learnningNotes/vscode/index.md
+ * @LastEditTime: 2021-06-09 20:45:02
+ * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
 
@@ -46,3 +46,15 @@ mac：`ctrl` + `g` 注意在这里mac的是ctrl而不是command哦
 在vscode的左侧资源树的时候，如果不小心展开了node_modules的代码，要手动拉到最上面去收起是很麻烦的
 
 鼠标聚焦到左侧的一个文件，按键盘左方向键的能收起当前目录，右方向键就能展开当前目录
+
+### 上传文件提示 sftp upload no such file
+```js
+Editing the file:
+~/.vscode/extensions/liximomo.sftp-1.12.9/node_modules/ssh2-streams/lib/sftp.js
+change the line 388:
+if (code === STATUS_CODE.OK) {
+to:
+if (code === STATUS_CODE.OK || code === STATUS_CODE.NO_SUCH_FILE) {
+Reload vscode
+It is not the most correct option but it works.
+```

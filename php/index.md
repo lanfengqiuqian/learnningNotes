@@ -642,3 +642,55 @@
     $friend['name']=iconv("utf-8","gbk//IGNORE",$friend['name']);
     $friend['name'] = mb_convert_encoding($friend['name'],'UTF-8','GBK');
     ```
+
+30. 格式化时间
+
+```php
+/**
+ * 计算近一周或近一个月的开始时间戳和结束时间戳
+ * @param $type 1表示今天，2表示近一周，3表示近一个月
+ * @return array
+ */
+function nearFormatTime($type){
+  $start_time = strtotime(date('Y-m-d 00:00:00'));//今天0点的时间戳
+  $end_time = $start_time + 86399;//今天23:59的时间戳
+  $res = array('start_time'=>0,'end_time'=>$end_time);
+  if($type == 1){
+    //今天
+    $res['start_time'] = $start_time;
+  }else if($type == 2){
+    //近一周
+    $res['start_time'] = $start_time - 86400*6;//包括今天,共七天
+  }else if($type == 3){
+    //近一个月
+    $res['start_time'] = $start_time - 86400*30;//包括今天,共31天
+  }
+  return $res;
+}
+
+/**
+ * 将中文的日期格式化为正常的日期
+ * @param $date
+ * @return mixed
+ */
+function formatCnDateToDate($date){
+  //把年月替换为-，日替换为空
+  $date = str_replace('年','-',$date);
+  $date = str_replace('月','-',$date);
+  $date = str_replace('日','',$date);
+  //避免提交的格式不统一，例如2018-3-2等，标准化
+  return date('Y-m-d',strtotime($date));
+}
+```
+
+31. 运行composer出现`do not run Composer as root/super user!`
+
+    说明：不能使用`root`用户运行`composer`命令，重新创建一个用户就行
+    > useradd test  
+    > passwd test
+    国内镜像http://packagist.phpcomposer.com不能进行访问，国外镜像访问速度也很慢
+
+    使用 Composer 镜像加速（选择一个就行）
+    
+    > composer config -g repo.packagist composer https://packagist.laravel-china.org  
+    > composer config -g repo.packagist composer https://packagist.phpcomposer.com
