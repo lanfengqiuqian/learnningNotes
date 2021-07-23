@@ -694,3 +694,16 @@ function formatCnDateToDate($date){
     
     > composer config -g repo.packagist composer https://packagist.laravel-china.org  
     > composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
+32. 生成固定长度的随机数
+
+    ```php
+    function generate_code($length = 4) {
+        return rand(pow(10,($length-1)), pow(10,$length)-1);
+    }
+    ```
+
+33. 跳出和终止循环
+
+    > 跳出本次循环：continue  
+    > 终止循环：break

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2021-07-08 14:16:00
+ * @LastEditTime: 2021-07-21 18:23:21
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -39,3 +39,15 @@
     > npm install -g rimraf    
     > cd xxx[include node_modules folder]  
     > rimraf node_modules  
+
+#### 查看本机的内网和外网ip
+
+1. 内网ip
+
+    > win+R：cmd，然后输入ipconfig  
+    > 其中ipv4的那个就是内网ip了
+
+2. 外网ip
+
+    > 百度输入：ip查询，就能够有了  
+    > 或者直接打开地址栏：www.ip138.com

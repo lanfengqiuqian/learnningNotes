@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2021-06-23 15:17:56
+ * @LastEditTime: 2021-07-15 19:43:06
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -361,3 +361,14 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
     c.`settle_order_list` LIKE concat('%', b.`settle_order`, '%')
     ```
 
+18. 字符串类型的数字比较大小
+
+    ```sql
+    // 使用`cast`方法，转为浮点型，`deciaml(10, 2)`，代表整数位加小数位10位，精度位2位小数（四舍五入）
+    CAST(a.`task_commission` as DECIMAL )  < CAST(b.`quarterly_limit_money` as DECIMAL)
+
+    // 加0，自动转为小数
+    select (money + 0) as money from demo
+    ```
+
+    注意：不能直接比较，因为会造成逐级比较，如9大于100
