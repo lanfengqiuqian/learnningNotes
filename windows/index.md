@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2021-07-21 18:23:21
+ * @LastEditTime: 2021-07-31 16:53:17
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -51,3 +51,8 @@
 
     > 百度输入：ip查询，就能够有了  
     > 或者直接打开地址栏：www.ip138.com
+
+
+#### win10使用恶意软件删除工具
+
+> https://jingyan.baidu.com/article/4ae03de351484e7efe9e6b2f.html
