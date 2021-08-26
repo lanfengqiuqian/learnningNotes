@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-09-09 10:28:50
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-25 15:18:39
- * @FilePath: /learnningNotes/git/github.md
+ * @LastEditTime: 2021-08-05 10:28:41
+ * @FilePath: \learnningNotes\git\github.md
 -->
 #### 解决加载页面是样式文件加载过慢
 
@@ -31,3 +31,18 @@ Git-ce：是社区版，gitlab-ee是企业版，收费的。
 
 
 #### 版本回退git reset和git revert
+
+
+#### 常见提交代码的两种问题
+
+1. `OpenSSL SSL_read: Connection was reset, errno 10054`
+
+    原因：首先，造成这个错误很有可能是网络不稳定，连接超时导致的，如果再次尝试后依然报错，可以执行下面的命令。就是SSL证书的问题, 可以忽略证书继续重新执行。
+
+    解决方案：`git config --global http.sslVerify false`
+
+2. `Failed to connect to github.com port 443: Timed out`
+
+    原因：有可能是网络不稳定的原因，也有可能是代理的问题
+
+    解决方案：关闭代理重新尝试
