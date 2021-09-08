@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-19 17:19:30
- * @FilePath: /learnningNotes/git/index.md
+ * @LastEditTime: 2021-09-06 12:18:21
+ * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
     仅本地分支： `git branch`  
@@ -59,3 +59,5 @@
     `vi ./.git/config`
 23. 查看没有`add`的文件，已经`add`的和`commit`的不会记录在这
     `git diff`
+24. 强制提交到远程仓库(非特殊情况不使用，会将远程仓库的修改记录覆盖为你本地的)
+    `git push -u origin master -f`

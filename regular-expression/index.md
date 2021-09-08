@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-09-07 21:55:29
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-12 16:52:13
- * @FilePath: /learnningNotes/regular-expression/index.md
+ * @LastEditTime: 2021-09-08 10:59:36
+ * @FilePath: \learnningNotes\regular-expression\index.md
 -->
 ### 介绍（Regular Expression）
 
@@ -270,3 +270,7 @@
 
     但是这里进钱的符号没有匹配上需要手动加上去
     > /[\p{P}]|[$]|[￥]/u
+
+3. 匹配姓名（包含少数民族）
+
+    > /(^[\u4e00-\u9fa5]{1}[\u4e00-\u9fa5\.·。]{0,18}[\u4e00-\u9fa5]{1}$)|(^[a-zA-Z]{1}[a-zA-Z\s]{0,18}[a-zA-Z]{1}$)/
