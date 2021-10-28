@@ -707,3 +707,9 @@ function formatCnDateToDate($date){
 
     > 跳出本次循环：continue  
     > 终止循环：break
+
+34. 报错：`iconv(): Detected an illegal character in input string`
+
+    见：[csdn](https://blog.csdn.net/snow_love_xia/article/details/80001878)
+
+    将`iconv('UTF-8', 'gb2312', $name);`改为`mb_convert_encoding($name, 'gb2312', 'UTF-8');`

@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2021-05-12 11:22:27
- * @FilePath: /learnningNotes/js/index-小知识点.md
+ * @LastEditTime: 2021-10-21 19:57:53
+ * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
 
@@ -375,4 +375,20 @@
     ```js
     let arr = new Array(5); // [empty, empty, empty, empty, empty]
     arr.fill("hello"); // ["hello", "hello", "hello", "hello", "hello"]
+    ```
+
+18. 获取FormData的内容
+
+    ```js
+    let formData = new FormData();
+    formData('name', 'name');
+    formData('age', 12);
+    //第一种
+    for (var value of formData.values()) {
+        console.log(value);
+    }
+    //第二种
+    for (var [a, b] of formData.entries()) {
+        console.log(a, b);
+    }    
     ```

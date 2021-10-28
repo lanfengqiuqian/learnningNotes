@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2021-09-06 12:18:21
+ * @LastEditTime: 2021-09-16 16:23:24
  * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
@@ -61,3 +61,5 @@
     `git diff`
 24. 强制提交到远程仓库(非特殊情况不使用，会将远程仓库的修改记录覆盖为你本地的)
     `git push -u origin master -f`
+25. 初始化子模块仓库
+    `git submodule update --init --recursive`
