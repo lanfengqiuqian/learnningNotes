@@ -713,3 +713,90 @@ function formatCnDateToDate($date){
     见：[csdn](https://blog.csdn.net/snow_love_xia/article/details/80001878)
 
     将`iconv('UTF-8', 'gb2312', $name);`改为`mb_convert_encoding($name, 'gb2312', 'UTF-8');`
+
+35. 寻找项目中的yaconf配置文件在哪
+
+    1. 寻找php配置文件的路径
+
+        > php --ini
+
+    2. 在php配置文件中找到yaconf的配置文件路径
+
+        ```shell
+        比如我的在1962行
+        extension="yaconf.so"
+        yaconf.directory="/home/ini"
+        yaconf.check_delay=60  
+        ```
+
+36. thinkphp6使用json()转的数据转换为数组
+
+    ```php
+    json_decode($json_list->getContent(), true)
+    ```
+
+37. 发送get/post/put请求
+
+    ```php
+    // post请求
+    function curl_post($url, $header, $content)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($content));
+        $response = curl_exec($ch);
+        if ($error = curl_error($ch)) {
+            die($error);
+        }
+        curl_close($ch);
+        return $response;
+    }
+
+    //get请求
+    public static function curl_get($url, $header)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //参数为1表示传输数据，为0表示直接输出显示。  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //参数为0表示不带头文件，为1表示带头文件  
+        // curl_setopt($ch, CURLOPT_HEADER,0);  
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
+    // put请求
+    public static function curl_put($data)
+    {
+        $AppId = '21081121580006C4';
+        $AppSecret = '81d1eccc9498f17386ea5724a9d7935fa7d436b8';
+        $AppTimestamp = time();
+        $url = 'http://xxx.cn/api/supplier/order/v2/order';
+        $api = '/api/supplier/order/v2/order';
+        $AppToken = sha1($AppId . $AppSecret . $api . $AppTimestamp);
+        //头部
+        $header = array('AppId:' . $AppId, 'AppToken:' . $AppToken, 'AppTimestamp:' . $AppTimestamp);
+        // $data = [
+        //     'orderSN' => '21081409560004A4',
+        //     'state' => 2,
+        //     'remarks' => ''
+        // ];
+        $data = json_encode($data);
+        $ch = curl_init();
+        // $header[] = "Content-type:image/jpeg"; //定义header，可以加多个
+        curl_setopt($ch, CURLOPT_URL, $url); //定义请求地址
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT"); //定义请求类型，当然那个提交类型那一句就不需要了
+        curl_setopt($ch, CURLOPT_HEADER, 0); //定义是否显示状态头 1：显示 ； 0：不显示 
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header); //定义header
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //定义是否直接输出返回流 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data); //定义提交的数据
+        $res = curl_exec($ch);
+        curl_close($ch); //关闭
+        return $res;
+    }
+    ```

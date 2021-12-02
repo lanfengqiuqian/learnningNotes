@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2021-07-15 19:43:06
+ * @LastEditTime: 2021-11-24 17:00:00
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -372,3 +372,9 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
     ```
 
     注意：不能直接比较，因为会造成逐级比较，如9大于100
+
+19. 类型转换
+
+    使用`CON`
+
+    ```

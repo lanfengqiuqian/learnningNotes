@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2021-07-31 16:53:17
+ * @LastEditTime: 2021-12-02 10:19:46
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -56,3 +56,7 @@
 #### win10使用恶意软件删除工具
 
 > https://jingyan.baidu.com/article/4ae03de351484e7efe9e6b2f.html
+
+### win10开始菜单栏位置
+
+> C:\Users\aiyong\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
