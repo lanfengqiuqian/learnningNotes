@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 20:27:01
  * @LastEditors: Lq
- * @LastEditTime: 2021-12-02 20:09:00
+ * @LastEditTime: 2021-12-07 20:36:22
  * @FilePath: \learnningNotes\bash\index.md
 -->
 ## 简介
@@ -427,3 +427,132 @@
         ls;
         fo*;
         ```
+
+14. 量词语法
+
+    量词语法用来控制模式匹配的次数。它只有在Bash的`extglob`参数打开的情况下才能使用，不过一般是默认打开的。
+
+    ```shell
+    <!-- 查看extglob是否打开 -->
+    shopt extglob;
+    extglob         off
+
+    <!-- 打开extglob -->
+    shopt -s extglob;
+    ```
+
+    量词语法一共有5个
+
+    1. `?(pattern-list)`：匹配零个或一个模式
+    2. `*(pattern-list)`：匹配零个或多个模式
+    3. `+(pattern-list)`：匹配一个或多个模式
+    4. `@(pattern-list)`：匹配一个模式
+    5. `!(pattern-list)`：匹配给定模式以外的任何内容
+
+    ```shell
+    <!-- 匹配0个或1个 -->
+    ls abc?(.)txt;
+    abctxt abc.txt
+
+    <!-- 匹配一个或多个.txt或者.php后缀名 -->
+    ls abc+(.txt|.php);
+    abc.txt abc.txt.txt abc.php
+    ```
+
+    量词语法也属于文件名扩展，如果不存在可匹配的文件，就会原样输出。
+
+
+15. shopt命令
+
+    `shopt`命令可以调整Bash的行为。他有好几个参数跟通配符扩展有关
+
+    ```shell
+    <!-- 打开某个参数 -->
+    shopt -s [optionname];
+
+    <!-- 关闭某个参数 -->
+    shopt -u [optionname];
+
+    <!-- 查询某个参数是关闭还是打开 -->
+    shopt [optionname]
+    ```
+
+    1. dotglob参数
+
+        可以让扩展结果包括隐藏文件，即`.`开头的文件
+
+    2. nullglob参数
+
+        可以让通配符不匹配任何文件名时返回空字符串
+
+    3. failglob参数
+
+        可以让通配符不匹配任何文件名时，Bash会直接报错，而不是让各个命令去处理
+
+    4. extglob参数
+
+        是Bash支持ksh的一些扩展语法，默认是打开的
+
+    5. nocaseglob参数
+
+        可以让通配符扩展不区分大小写
+
+    6. globstar
+
+        可以使得`**`匹配零个或多个子目录，该参数默认是关闭的
+
+        ```shell
+        <!-- 假设有如下文件结构，要如何使用通配符才能将他们全部显示出来 -->
+        a.txt
+        sub1/b.txt
+        sub1/sub2/c.txt
+
+        <!-- 标准解法 -->
+        ls *.txt */*.txt */*/*.txt
+
+        <!-- 使用globstar解法 -->
+        shopt -s globstar
+        ls **/*.txt
+        ```
+
+## 引号和转移
+
+Bash只有一种数据类型，就是字符串。不管用户输入什么数据，Bash都视为字符串。因此，字符串相关的引号和转义，对Bash来说就非常重要。
+
+1. 转义
+
+    某些字符在Bash里面有特殊含义，比如`$`、`&`、`*`
+
+    如果想要原样输出这些特殊字符，就必须在前面加上反斜杠，使其变成普通字符。这样就叫做“转义”。
+
+    ```shell
+    <!-- 无结果 -->
+    echo $date;
+
+    <!-- 输出$date -->
+    echo \$date;
+    ```
+
+    反斜杠本身也是特殊字符，如果想要原样输出，就需要对他进行自身转义
+
+    ```shell
+    echo \\;
+    ```
+
+    反斜杠除了用于转义，还可用与表示一些不可打印字符
+
+    1. `\a`：响铃
+    2. `\b`：退格
+    3. `\n`：换行
+    4. `\r`：回车
+    5. `\t`：制表符
+
+    如果想在命令行使用这些不可打印的字符，可以把他们放在引号里面，然后使用`echo`命令的`-e`参数
+
+    ```shell
+    echo a\tb;
+    atb
+    
+    echo -e "a\tb";
+    a   b
+    ```

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-11-25 16:38:35
+ * @LastEditTime: 2021-12-08 16:20:30
  * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
@@ -124,3 +124,7 @@ It is not the most correct option but it works.
 14. Tabnine
 
     功能：代码智能提示（很强大）
+
+### 删除一行快捷键
+
+> ctrl + shift + k;

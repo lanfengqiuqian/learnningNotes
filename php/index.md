@@ -800,3 +800,100 @@ function formatCnDateToDate($date){
         return $res;
     }
     ```
+
+38. nginx配置文件
+
+    ```shell
+    server
+    {
+        
+        # 声明一个控制变量，做到类似else效果
+        set $switchVarible 0;
+    
+        if ($http_origin ~* "^https://www.aliwork.com$") {
+            set $cors_origin $http_origin;
+            set $switchVarible 1;
+        }
+        if ($http_origin ~* "^https://company.zhushang.net$") {
+            set $cors_origin $http_origin;
+            set $switchVarible 1;
+        }
+        if ($switchVarible != 1) {
+            set $cors_origin '*';
+        }
+        listen 80;
+        listen 443 ssl http2;
+        server_name get.zhushang.net;
+        index index.php index.html index.htm default.php default.htm default.html;
+        root /www/wwwroot/get.zhushang.net;
+        
+        #SSL-START SSL相关配置，请勿删除或修改下一行带注释的404规则
+        #error_page 404/404.html;
+        limit_conn perserver 300;
+        limit_conn perip 25;
+        limit_rate 1024k;
+        ssl_certificate    /www/server/panel/vhost/cert/get.zhushang.net/fullchain.pem;
+        ssl_certificate_key    /www/server/panel/vhost/cert/get.zhushang.net/privkey.pem;
+        ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+        ssl_prefer_server_ciphers on;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+        error_page 497  https://$host$request_uri;
+
+        #SSL-END
+        
+        #ERROR-PAGE-START  错误页配置，可以注释、删除或修改
+        #error_page 404 /404.html;
+        #error_page 502 /502.html;
+        #ERROR-PAGE-END
+        
+        #PHP-INFO-START  PHP引用配置，可以注释或修改
+        include enable-php-71.conf;
+        #PHP-INFO-END
+        
+        #REWRITE-START URL重写规则引用,修改后将导致面板设置的伪静态规则失效
+        include /www/server/panel/vhost/rewrite/get.zhushang.net.conf;
+        #REWRITE-END
+        
+        #禁止访问的文件或目录
+        location ~ ^/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md)
+        {
+            return 404;
+        }
+        
+        #一键申请SSL证书验证目录相关设置
+        location ~ \.well-known{
+            allow all;
+        }
+        
+        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+        {
+            expires      30d;
+            error_log off;
+            access_log /dev/null;
+        }
+        
+        location ~ .*\.(js|css)?$
+        {
+            expires      12h;
+            error_log off;
+            access_log /dev/null; 
+        }
+        
+        # 当时前端请求头设置错误导致预检请求失败导致跨域，现在放行所有预检请求
+        if ($request_method = 'OPTIONS') {        
+        return 200;
+        }
+        
+    
+        #允许所有访问
+        # add_header Access-Control-Allow-Origin "*";
+        add_header Access-Control-Allow-Origin $cors_origin;
+        add_header Access-Control-Allow-Headers X-Requested-With; 
+        add_header Access-Control-Allow-Headers content-type; 
+        add_header "Access-Control-Allow-Credentials" "true";
+        access_log  /www/wwwlogs/get.zhushang.net.log main;
+        error_log  /www/wwwlogs/get.zhushang.net.error.log;
+    }
+    ```
