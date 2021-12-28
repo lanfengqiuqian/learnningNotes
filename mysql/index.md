@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2021-11-24 17:00:00
+ * @LastEditTime: 2021-12-28 16:36:25
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
@@ -375,6 +375,87 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
 
 19. 类型转换
 
-    使用`CON`
+    1. 使用`CAST(value as type)`
 
+    2. 使用`CONVERT(value, type)`
+
+    但是类型是有限制的，只能是下面几种类型
+
+    1. 二进制，同binary前缀的效果：BINARY
+    2. 字符型，可带参数：CHAR()
+    3. 日期：DATE
+    4. 时间：TIME
+    5. 日期时间型：DATETIME
+    6. 浮点数：DECIMAL
+    7. 整数：SIGNED
+    8. 无符号整数：UNSIGNED
+
+20. 写注释的格式
+
+    ```sql
+    #DELETE FROM SeatInformation  
+    /*DELETE FROM SeatInformation */
+    -- DELETE FROM SeatInformation
+    ```
+
+21. 获取表的字段类型
+
+    ```sql
+    SELECT * FROM `information_schema`.columns WHERE TABLE_NAME = 'zhu_c_user';
+    ```
+
+22. 查询最近6个月的月份
+
+    ```sql
+    SELECT
+        date_format( @cdate := DATE_ADD( @cdate, INTERVAL - 1 MONTH ), '%Y-%m' ) AS days 
+    FROM
+        ( SELECT @cdate := DATE_ADD( NOW(), INTERVAL + 1 MONTH ) FROM `sys_user` ) t0 
+        LIMIT 6;
+    ```
+
+    解释：从一张临时表中查询出6条数据，然后将当前的月份存入一个会话变量中，然后查询的时候进行月份递减
+
+    注意：需要确保你要查询的临时表`sys_user`有6条以上的数据
+
+    示例：查询近6个月的收入和支出，如果没有为NULL（如果需要是0的话自行修改）
+
+    ```sql
+    SELECT
+        total_income,
+        total_out,
+        days AS MONTH 
+    FROM
+        (
+        SELECT
+            date_format( @cdate := DATE_ADD( @cdate, INTERVAL - 1 MONTH ), '%Y-%m' ) AS days 
+        FROM
+            ( SELECT @cdate := DATE_ADD( NOW(), INTERVAL + 1 MONTH ) FROM `sys_user` ) t0 
+            LIMIT 6 
+        ) a
+        LEFT JOIN (
+        SELECT
+            SUM( total_income ) AS total_income,
+            SUM( total_out ) AS total_out,
+            bill_date 
+        FROM
+            gm_bill_month 
+        WHERE
+            bill_date BETWEEN DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 5 MONTH ), '%Y-%m' ) 
+            AND DATE_FORMAT( NOW(), '%Y-%m' ) 
+        GROUP BY
+            bill_date 
+        ) b ON a.days = b.bill_date;
+    ```
+
+23. 查询条件有则查询，没有则查询全部
+
+    ```sql
+    SELECT food_name FROM food_traceability WHERE if (true, food_name = '土豆丝', id is not null);
+    ```
+
+24. 查询列表的时候同时查询出total
+
+    ```sql
+    SELECT username, total FROM sys_user a LEFT JOIN (SELECT count(id) as total FROM sys_user) b on 1 = 1
     ```

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2021-12-02 10:19:46
+ * @LastEditTime: 2021-12-20 15:58:57
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -60,3 +60,9 @@
 ### win10开始菜单栏位置
 
 > C:\Users\aiyong\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
+
+### CHERRY键盘win键被锁住了
+
+使用`Fn+F9`组合键
+
+其他键盘使用`Fn+F12`组合键

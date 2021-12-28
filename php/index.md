@@ -897,3 +897,131 @@ function formatCnDateToDate($date){
         error_log  /www/wwwlogs/get.zhushang.net.error.log;
     }
     ```
+
+39. 前端项目站点修改nginx配置支持history路由
+
+    ```
+    location / {
+      # 用于配合 browserHistory使用
+      try_files $uri $uri/ /index.html;
+
+      # 如果有资源，建议使用 https + http2，配合按需加载可以获得更好的体验
+      # rewrite ^/(.*)$ https://preview.pro.ant.design/$1 permanent;
+
+    }
+    ```
+
+40. 下载网络资源到服务器上并压缩生成下载链接
+
+    ```php
+    public function downloadAllHistoryInvoice() {
+        $page_size = isset($_REQUEST['pageSize']) ? $_REQUEST['pageSize'] : 1000;
+        $page_number = isset($_REQUEST['pageNumber']) ? $_REQUEST['pageNumber'] : 1;
+        $pageStart = ((int)($page_number) - 1) * $page_size;
+        
+        set_time_limit(9999);
+        $collectionFolder =  '/www/wwwroot/invoice.zhushang.net/';
+        
+        // 获取发票数据
+        $sql = "SELECT `open_business` , `invoice_no`, `invoice_type` , url FROM `zhu_c_invoice` WHERE `url` IS NOT NULL AND `url` != '' LIMIT $pageStart, $page_size";
+        $res = Db::query($sql);
+
+        $folderName = "downloadIdcardPicture$page_number";
+        
+        // 创建一个临时目录
+        $currentIdcardFloder = $collectionFolder.'/temp/' .$folderName;
+        $sh_path = 'temp_zip.sh';
+        // 如果有这个目录则进行删除
+        if (is_dir($currentIdcardFloder)) {
+            // 删除文件夹
+            $utilLib = new UtilLib();
+            $utilLib->deleteFolder($currentIdcardFloder);
+        }
+        // 新建目录存放身份证
+        mkdir($currentIdcardFloder);
+        
+        // 遍历
+        foreach($res as $v) {
+            $open_business = $v['open_business'];
+            $invoice_no = $v['invoice_no'];
+            $invoice_type = $v['invoice_type'];
+            $url = self::OSS_PATH.$v['url'];
+            if ($invoice_type === 'uk') {
+                $fileName = "$open_business-$invoice_no.ofd";
+            } else {
+                $fileName = "$open_business-$invoice_no.pdf";
+            }
+            // 下载
+            $this->getFile($url, $currentIdcardFloder, $fileName, 1);
+        }
+
+        // 将文件夹打包为zip
+        $res = shell_exec('/www/wwwroot/invoice.zhushang.net/'.$sh_path.' '.$folderName.' '.$folderName);
+
+        // 下载地址
+        $str = "https://invoice.zhushang.net/zip/".$folderName.".zip";
+
+        return  setResponse(config('status.success'), '压缩成功,可以下载', $str);
+    }
+
+    function getFile($url, $save_dir = '', $file_name = '', $type = 0)
+    {
+        if (trim($url) == '') {
+            return false;
+        }
+        if (trim($save_dir) == '') {
+            $save_dir = './';
+        }
+        if (0 !== strrpos($save_dir, '/')) {
+            $save_dir .= '/';
+        }
+        //创建保存目录
+        if (!file_exists($save_dir) && !mkdir($save_dir, 0777, true)) {
+            return false;
+        }
+        //获取远程文件所采用的方法
+        if ($type) {
+            $ch = curl_init();
+            $timeout = 5;
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            $content = curl_exec($ch);
+            curl_close($ch);
+        } else {
+            ob_start();
+            readfile($url);
+            $content = ob_get_contents();
+            ob_end_clean();
+        }
+        $size = strlen($content);
+        //文件大小
+        $fp2 = @fopen($save_dir . $file_name, 'a');
+        fwrite($fp2, $content);
+        fclose($fp2);
+        unset($content, $url);
+    }
+
+    public function deleteFolder($dir)
+    {
+        //先删除目录下的文件：
+        $dh = opendir($dir);
+        while ($file = readdir($dh)) {
+            if ($file != "." && $file != "..") {
+                $fullpath = $dir . "/" . $file;
+                if (!is_dir($fullpath)) {
+                    unlink($fullpath);
+                } else {
+                    $this->deleteFolder($fullpath);
+                }
+            }
+        }
+        closedir($dh);
+        //删除当前文件夹：
+        if (rmdir($dir)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    ```
