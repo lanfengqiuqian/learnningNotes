@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2021-09-16 16:23:24
+ * @LastEditTime: 2022-01-08 15:30:49
  * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
@@ -63,3 +63,5 @@
     `git push -u origin master -f`
 25. 初始化子模块仓库
     `git submodule update --init --recursive`
+26. 浅拉取最后一次提交记录，用户clone项目体积很大的代码
+    `git clone -b 分支名 --depth=1 仓库路径`

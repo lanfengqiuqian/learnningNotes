@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2021-12-20 15:58:57
+ * @LastEditTime: 2022-01-12 18:35:04
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -66,3 +66,36 @@
 使用`Fn+F9`组合键
 
 其他键盘使用`Fn+F12`组合键
+
+### 开始菜单栏程序快捷方式存放位置
+
+> C:\ProgramData\Microsoft\Windows\Start Menu\Programs
+
+### 搭建了vpn之后，cmd使用代理命令
+
+1. windows
+
+    需要修改的只是vpn对应的端口号即可
+
+    1. 临时修改
+
+        ```shell
+        set http_proxy=socks5://127.0.0.1:10808
+        set https_proxy=socks5://127.0.0.1:10808
+        ```
+
+    2. 永久修改，见[博客](https://www.jianshu.com/p/1c37903dd09d)
+
+
+2. linux
+
+    ```shell
+    export ALL_PROXY=socks5://127.0.0.1:1086
+    ```
+
+3. 检测方法
+
+    终端输入如下命令，如果有结果返回的话，说明成功了
+    ```shell
+    curl www.google.com
+    ```

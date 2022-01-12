@@ -1,9 +1,15 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2021-12-28 16:36:25
+ * @LastEditTime: 2022-01-04 17:05:00
  * @FilePath: \learnningNotes\mysql\index.md
 -->
+
+## Navicat破解教程：https://www.cnblogs.com/kkdaj/p/14987106.html
+
+注意：会顺便下载一些垃圾软件
+
+
 进行左连接时，就有涉及到主表、辅表，这时主表条件写在WHERE之后，辅表条件写在ON后面！！！
 主表决定了数据条数，辅表决定了拼接的内容是null还是有数据。
 
@@ -404,7 +410,7 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
     SELECT * FROM `information_schema`.columns WHERE TABLE_NAME = 'zhu_c_user';
     ```
 
-22. 查询最近6个月的月份
+22. 查询最近6个月的月份，本月天数，本月所有天数
 
     ```sql
     SELECT
@@ -448,6 +454,11 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
         ) b ON a.days = b.bill_date;
     ```
 
+    ```sql
+    -- 获取本月天数
+    select DATEDIFF(date_add(curdate()-day(curdate())+1,interval 1 month ),DATE_ADD(curdate(),interval -day(curdate())+1 day))
+    ```
+
 23. 查询条件有则查询，没有则查询全部
 
     ```sql
@@ -458,4 +469,21 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
 
     ```sql
     SELECT username, total FROM sys_user a LEFT JOIN (SELECT count(id) as total FROM sys_user) b on 1 = 1
+    ```
+
+25. mysql limit 动态赋值问题
+
+    ```sql
+    SELECT 字段1,字段2 FROM 表1 ORDER BY 字段1 DESC LIMIT (1 - 1) * 1, 1 #错误
+    SELECT 字段1,字段2 FROM 表1 ORDER BY 字段1 DESC LIMIT 0, 1 #正常
+    ```
+
+    格式：`limit 常量,常量`
+    现在没办法动态的
+
+26. 列表查询结果添加序号
+
+    ```sql
+    SELECT a.id, (@i := @i + 1) as no FROM sys_user a, (SELECT @i := 0) t ORDER BY id DESC LIMIT 0, 10;
+    SELECT a.id, (@i := @i + 1) as no FROM sys_user a, (SELECT @i := 10) t ORDER BY id DESC LIMIT 10, 10;
     ```
