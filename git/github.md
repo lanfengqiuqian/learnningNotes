@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-09 10:28:50
  * @LastEditors: Lq
- * @LastEditTime: 2021-08-05 10:28:41
+ * @LastEditTime: 2022-01-13 12:24:41
  * @FilePath: \learnningNotes\git\github.md
 -->
 #### 解决加载页面是样式文件加载过慢
@@ -46,3 +46,23 @@ Git-ce：是社区版，gitlab-ee是企业版，收费的。
     原因：有可能是网络不稳定的原因，也有可能是代理的问题
 
     解决方案：关闭代理重新尝试
+
+#### git clone的时候遭遇fatal: early EOF fatal: index-pack failed解决办法
+
+原因：一般这种情况都是因为项目分支过多，导致你要下载的东西太多，从而引起这个问题
+
+方案： 引起这个问题的根源是文件过多，所以我们可以分批次下载文件，先下载一部分，再下载剩下的
+
+```shell
+# 首先关闭 core.compression
+git config --global core.compression 0
+
+# 然后使用depth这个指令来下载最近一次提交
+git clone --depth 1 url
+
+# 然后获取完整库
+git fetch --unshallow 
+
+# 最后pull一下查看状态，问题解决
+git pull --all
+```
