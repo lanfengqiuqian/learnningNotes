@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-01-12 18:35:04
+ * @LastEditTime: 2022-02-09 10:45:13
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -84,6 +84,17 @@
         set https_proxy=socks5://127.0.0.1:10808
         ```
 
+    2. 或者尝试这种
+
+        ```
+        git config --global https.proxy http://127.0.0.1:7890
+        git config --global https.proxy https://127.0.0.1:7890
+        git config --global http.proxy 'socks5://127.0.0.1:7891'
+        git config --global https.proxy 'socks5://127.0.0.1:7891'
+        ```
+
+        参见[文章]](https://gist.github.com/why168/9b30f542ff6008d1f66297474a2844de)
+
     2. 永久修改，见[博客](https://www.jianshu.com/p/1c37903dd09d)
 
 
@@ -99,3 +110,19 @@
     ```shell
     curl www.google.com
     ```
+
+4. FastStone Capture 注册码 序列号
+
+    ```
+　　name/用户名：TEAM JiOO
+　　key/注册码：CPCWXRVCZW30HMKE8KQQUXW
+　　USER NAME:TEAM_BRAiGHTLiNG_2007
+　　CODE:XPNMF-ISDYF-LCSED-BPATU
+　　RPTME-IMDHD-MIEPX-VLXAW
+　　企业版序列号：
+　　name：bluman
+　　serial/序列号/注册码：VPISCJULXUFGDDXYAUYF
+
+    ```
+
+5. idea激活教程：https://www.jianshu.com/p/b74eb79c5c01

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2022-01-08 15:30:49
+ * @LastEditTime: 2022-01-19 11:59:35
  * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
@@ -65,3 +65,6 @@
     `git submodule update --init --recursive`
 26. 浅拉取最后一次提交记录，用户clone项目体积很大的代码
     `git clone -b 分支名 --depth=1 仓库路径`
+27. GIT_TRACE_PACKET=1、GIT_TRACE=1、GIT_CURL_VERBOSE=1等参数设置可以打印调试信息
+28. 生成ssh的公钥和私钥
+    `ssh-keygen -t rsa -C your@example.com -b 4096`

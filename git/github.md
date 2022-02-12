@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-09 10:28:50
  * @LastEditors: Lq
- * @LastEditTime: 2022-01-13 12:24:41
+ * @LastEditTime: 2022-01-24 18:05:26
  * @FilePath: \learnningNotes\git\github.md
 -->
 #### 解决加载页面是样式文件加载过慢
@@ -66,3 +66,15 @@ git fetch --unshallow
 # 最后pull一下查看状态，问题解决
 git pull --all
 ```
+
+### 控制台打开代理
+
+注意：其中`7890`和`7891`为你自己的vpn的http和socket的端口号
+```
+git config --global https.proxy http://127.0.0.1:7890
+git config --global https.proxy https://127.0.0.1:7890
+git config --global http.proxy 'socks5://127.0.0.1:7891'
+git config --global https.proxy 'socks5://127.0.0.1:7891'
+```
+
+参见[文章]](https://gist.github.com/why168/9b30f542ff6008d1f66297474a2844de)
