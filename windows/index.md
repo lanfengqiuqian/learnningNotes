@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-02-09 10:45:13
+ * @LastEditTime: 2022-02-18 16:05:49
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -126,3 +126,72 @@
     ```
 
 5. idea激活教程：https://www.jianshu.com/p/b74eb79c5c01
+
+6. win10查看端口情况
+
+    1. 查看所有端口使用情况
+
+        > netstat -aon
+
+    2. 查看某一个端口的使用情况
+
+        > netstat -aon|findstr "8080"
+
+        ```
+        TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       35360
+        TCP    192.168.2.125:57753    14.215.158.119:8080    TIME_WAIT       0    
+        TCP    [::]:8080              [::]:0                 LISTENING       35360
+        ```
+
+        上面顺序依次是：【协议】、【本地地址】、【外部地址】、【状态】、【PID】
+
+    3. 查看这个pid对应的应用程序
+
+        > tasklist|findstr "35360"
+
+        ```
+        java.exe                     35360 Console                    1    716,960 K
+        ```
+
+        这里也可以使用【任务管理器】进行查看：在【任务管理器】-> 【详细信息】 -> 根据PID进行排序找到对应的pid，如果详细信息中没有的话，也可能在【服务】中找一下
+
+    4. 然后，可以用taskkill语句结束进程，这里大概需要管理员权限才能正常的结束语句；
+
+        > taskkill /f /t /im java.exe
+
+        这个时候再看就没有该端口占用了
+
+        > netstat -aon|findstr "8080"
+
+7. 百度搜索高级技巧
+
+    1. filetype-专业文档搜索
+
+        > 软件开发 filetype:pdf
+
+    2. 精确匹配：双引号和书名号
+
+        > "蓝枫秋千"
+
+    3. intitle-搜索范围限定在网页标题
+
+        > csdn博客 intitle:蓝枫秋千
+
+    4. site-搜索范围限定在特定站点中
+
+        > 微信公众号开发 site:www.csdn.net
+
+    5. inurl-搜索范围限定在url链接中
+
+        > inurl:www.csdn.net
+
+    6. +包含特定查询词、-不包含特定查询词
+
+        > 软件开发+Java  
+        > 手机 -iphone
+
+    7. 『』查找论坛模块
+
+8. 没有广告的百度搜索链接
+
+    > https://www.baidu.com/?pu=sz%401321_480&wpo=btmfast
