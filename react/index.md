@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-08-31 15:08:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-03-02 16:18:05
- * @FilePath: /learnningNotes/react/index.md
+ * @LastEditTime: 2022-02-21 18:09:14
+ * @FilePath: \learnningNotes\react\index.md
 -->
 ### 可控组件和不可控组件：可以通过对于控制state来控制这个组件。
 
@@ -1209,4 +1209,32 @@ class Columns extends React.Component {
     .fade-exit-done{
         opacity: 0;	
     }
+    ```
+
+### 想要渲染大于号或者是小于号
+
+原因：因为html中这两个符号会被认为是标签的开始和结束符号，如下，会报错
+
+```html
+<div>1<2<3<div>
+```
+
+方案：
+
+1. 使用转义字符：`&lt;`/`&gt;`
+
+    ```html
+    <div>1&lt;2&lt;3<div>
+    ```
+
+    但是亲测，在html和react中可以，在vue中不行，需要使用下面这种
+
+2. 作为变量去解析
+
+    ```html
+    <!-- react -->
+    <div>1{"<"}2{"<"}3<div>
+
+    <!-- vue -->
+    <div>1{{"<"}}2{{"<"}}3</div>
     ```

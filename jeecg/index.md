@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-02-18 16:44:32
  * @LastEditors: Lq
- * @LastEditTime: 2022-02-18 17:41:14
+ * @LastEditTime: 2022-02-25 16:47:56
  * @FilePath: \learnningNotes\jeecg\index.md
 -->
 ### 起步资料
@@ -128,15 +128,179 @@ PPT链接：
 
 1. 常用的流程变量
 
-|参数 |	参数key | 
-| -|-|
-|BPM 流程对应的表单KEY |	BPM_FORM_KEY |
-|业务数据对应ID |	BPM_DATA_ID | 
-|自定义表单数据ID |	BPM_DES_DATA_ID | 
-|自定义表单编码 |	BPM_DES_FORM_CODE | 
-|BPM 节点对应的表单URL |(全局)	BPM_FORM_CONTENT_URL |
-|BPM 节点对应的表单URL |(全局) - 移动端	BPM_FORM_CONTENT_URL_MOBILE |
-|BPM 业务标题表达式 |(全局)	bpm_biz_title |
-|BPM 节点对应的表单URL |(全局) - 移动端	BPM_FORM_CONTENT_URL_MOBILE |
-|BPM 流转状态 |	bpm_status |
-|BPM 业务表单类型 表单类型：1:Online表单,2:自定义表单,3:自定义开发 |BPM_FORM_TYPE|
+| 参数                                                              | 参数key                                     |
+| ----------------------------------------------------------------- | ------------------------------------------- |
+| BPM 流程对应的表单KEY                                             | BPM_FORM_KEY                                |
+| 业务数据对应ID                                                    | BPM_DATA_ID                                 |
+| 自定义表单数据ID                                                  | BPM_DES_DATA_ID                             |
+| 自定义表单编码                                                    | BPM_DES_FORM_CODE                           |
+| BPM 节点对应的表单URL                                             | (全局)	BPM_FORM_CONTENT_URL                 |
+| BPM 节点对应的表单URL                                             | (全局) - 移动端	BPM_FORM_CONTENT_URL_MOBILE |
+| BPM 业务标题表达式                                                | (全局)	bpm_biz_title                        |
+| BPM 节点对应的表单URL                                             | (全局) - 移动端	BPM_FORM_CONTENT_URL_MOBILE |
+| BPM 流转状态                                                      | bpm_status                                  |
+| BPM 业务表单类型 表单类型：1:Online表单,2:自定义表单,3:自定义开发 | BPM_FORM_TYPE                               |
+
+
+## 手撸表单设计器自定义组件
+
+### 定位代码
+
+#### 方案
+
+1. 找官方[文档](https://www.bookstack.cn/read/jeecg-boot-2.0/1a21fd12b73aad87.md)
+
+    但是没有对应的配置文件路径，自己重新建也不生效
+
+2. 根据页面找源码
+
+    1. 表单设计器详情页面：`src\views\modules\online\desform\modules\DesignFormModal.vue`
+
+    2. 具体内容是一个iframe页面，从后端请求的一个document，路径是`http://localhost:8080//desform/index/1495588639701442561?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDU0MzM3ODUsInVzZXJuYW1lIjoiYWl5b25nIn0.vLS86CgRhSJo_RNe6_upJMoGz4ZNFxdJVy1GZAohGNo&messageId=yq9m7lb9i5pui187&isTemplet=false`
+
+    3. 对应的在maven仓库：`C:/Users/aiyong/.m2/repository/org/apache/commons/commons-jexfm/1.8.45/commons-jexfm-1.8.45.jar!/templates/desform/designForm.ftl`
+
+    4. 这个html文件加载的组件库在：`C:/Users/aiyong/.m2/repository/org/apache/commons/commons-jexfm/1.8.45/commons-jexfm-1.8.45.jar!/static/desform/lib/jm-form/JmForm.umd.js`
+
+3. 其他方案
+
+    尝试过：官方博客、官方论坛、github提issue、qq交流群提问、百度、google都失败了
+
+    后来了解到，商业版的只能通过售后技术支持一对一提问才行，不能在别的公共渠道获取支持
+
+### 开始操作
+
+1. 尝试直接在js文件中修改文案，测试是否真的是这个文件
+
+2. 尝试修改一个【单行文本组件】，测试是否生效
+
+3. 尝试自己写一个最简单的【hello】组件
+
+
+### 配置项
+
+1. 增加组件的地方
+
+    【1349】函数：
+
+        1. 【i】基础组件
+        
+        2. 【a】高级组件
+
+        3. 【o】布局组件
+
+        4. 【l】jeecg组件
+
+2. 字段属性配置项
+
+    【71d5】函数：搜索这一段代码，`b = Object(v.a)(g, function()`，注意需要压缩空格
+
+
+### 期间遇到的难点
+
+1. 如何修改jar包中的文件
+
+    1. 使用winrar打开jar包（注意是打开，不是解压）
+
+    2. 关闭idea
+
+    3. 找到对应的文件，然后在其他编辑器中修改
+
+    4. 切回winrar，会提示你确定修改吗，然后确定
+
+    5. 重新打开idea，运行项目
+
+2. 这个js文件是经过压缩之后的，可读性很差
+
+    使用在线美化js代码工具：`https://beautifier.io/`
+
+    注意：代码比较多，会比较卡顿
+
+3. 完全找不到一些关键方法的定义
+
+    比如一段代码，有一个关键函数`i`，在源码中找不到定义
+
+    ```javascript
+    // 变量定义部分
+    var r = this,
+    e = r.$createElement,
+    i = r._self._c || e;
+
+    // 使用部分
+    [i("el-input", {
+        model: {
+            value: r.data.name,
+            callback: function (e) {
+                r.$set(r.data, "name", e)
+            },
+            expression: "data.name"
+        }
+    }), i("div", {
+        staticStyle: {
+            "text-align": "right"
+        }
+    }, [i("el-checkbox", {
+        model: {
+            value: r.data.hideTitle,
+            callback: function (e) {
+                r.$set(r.data, "hideTitle", e)
+            },
+            expression: "data.hideTitle"
+        }
+    }, [r._v("隐藏标题")])], 1)]
+    ```
+
+    还能一直套娃。。。
+
+
+### 结果
+
+由于考虑到扩展性未知，大概率不行，放弃了这个方向
+
+
+### 直接更换一套新的ui库（form-create_designier)
+
+笔记见`../form-create-designer/index.md`
+
+### 表单设计器库对比：jeecg和form-making
+
+#### 默认组件方面（只需要考虑jeecg增加的）
+
+1. 级联选择器改为了省市级联动
+2. 多了markdown组件
+3. 多了分隔符组件
+4. 多了卡片组件
+5. 自定义组件：子表、用户组件、部门组件、表字典组件
+
+#### 组件属性方面
+
+1. 基本上来说，并没有为单个组件额外增加过配置
+   1. 下拉框增加了字典取值
+
+
+2. 所有组件统一增加了几个配置
+    1. JS增强
+    2. 绑定key
+    3. 远程取值
+    4. 权限控制
+
+#### 表单属性方面
+
+1. 和online表单绑定
+2. 启用外部链接
+3. 启用打印
+4. 自定义接收url
+5. 启用事务
+6. js增强、外部js增强
+7. css增强、外部css增强
+
+#### 实现步骤
+
+1. 获取到搭建的表单的json和option数据
+
+2. 弄一个页面，将拿到数据渲染成页面
+
+3. 跟后端联调（）
+
+4. 实现自定义组件
+
