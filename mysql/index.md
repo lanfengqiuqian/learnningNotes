@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2022-01-04 17:05:00
+ * @LastEditTime: 2022-04-28 11:08:37
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 
@@ -420,6 +420,11 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
         LIMIT 6;
     ```
 
+    ```sql
+    <!-- 查询两个时间段之内的连续时间，这里需要手动算出想差天数，然后用开始时间累加 -->
+    SELECT a.id, (@i := DATE_ADD(@i,INTERVAL + 1 day)) as no FROM sys_user a, (SELECT @i := DATE_SUB('2022-04-08',INTERVAL 1 day)) t ORDER BY id DESC LIMIT 30
+    ```
+
     解释：从一张临时表中查询出6条数据，然后将当前的月份存入一个会话变量中，然后查询的时候进行月份递减
 
     注意：需要确保你要查询的临时表`sys_user`有6条以上的数据
@@ -486,4 +491,10 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
     ```sql
     SELECT a.id, (@i := @i + 1) as no FROM sys_user a, (SELECT @i := 0) t ORDER BY id DESC LIMIT 0, 10;
     SELECT a.id, (@i := @i + 1) as no FROM sys_user a, (SELECT @i := 10) t ORDER BY id DESC LIMIT 10, 10;
+    ```
+
+27. 保留小数点后两位
+
+    ```sql
+    select format(money, 2) as money from demo
     ```

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-02-21 14:47:49
+ * @LastEditTime: 2022-05-31 17:47:50
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -410,3 +410,153 @@
     return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
     }
     ```
+
+    js获取时间戳
+
+    ```js
+    let time1 = Date.parse(new Date()); //1603009257000,精确到秒
+    let time2 = new Date().getTime(); //1603009495724,精确到毫秒
+    let time3 = new Date().valueOf(); //1603009495724.精确到毫秒
+    let time4 = Date.now(); //1603009495724,精确到毫秒，实际上是new Date().getTime()
+    ```
+
+20. 生成随机数字或者字符串
+
+    ```js
+    /**
+     * 随机生成数字
+     *
+     * 示例：生成长度为 12 的随机数：randomNumber(12)
+     * 示例：生成 3~23 之间的随机数：randomNumber(3, 23)
+     *
+     * @param1 最小值 | 长度
+     * @param2 最大值
+     * @return int 生成后的数字
+     */
+    export function randomNumber() {
+        // 生成 最小值 到 最大值 区间的随机数
+        const random = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+        if (arguments.length === 1) {
+            let [length] = arguments
+            // 生成指定长度的随机数字，首位一定不是 0
+            let nums = [...Array(length).keys()].map((i) => (i > 0 ? random(0, 9) : random(1, 9)))
+            return parseInt(nums.join(''))
+        } else if (arguments.length >= 2) {
+            let [min, max] = arguments
+            return random(min, max)
+        } else {
+            return Number.NaN
+        }
+    }
+
+    /**
+    * 随机生成字符串
+    * @param length 字符串的长度
+    * @param chats 可选字符串区间（只会生成传入的字符串中的字符）
+    * @return string 生成的字符串
+    */
+    export function randomString(length, chats) {
+        if (!length) length = 1
+        if (!chats) chats = '0123456789qwertyuioplkjhgfdsazxcvbnm'
+        let str = ''
+        for (let i = 0; i < length; i++) {
+            let num = randomNumber(0, chats.length - 1)
+            str += chats[num]
+        }
+        return str
+    }
+    ```
+
+21. 获取最近或者未来多少天的时间
+
+    ```js
+    //获取时间
+    function getDay(day) { //这里的day是时间（列如：7，-7）
+        let today = new Date();
+        let targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+        today.setTime(targetday_milliseconds); //注意，这行是关键代码，到这时间已经转行为毫秒
+        return this.format(today)
+    }
+    //格式化日期
+    function format(date) {
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        if (month >= 1 && month <= 9) { month = `0${month}` }
+        if (day >= 1 && day <= 9) { day = `0${day}` }
+        return `${year}-${month}-${day}`
+    }
+    ```
+
+22. 解决内存溢出的问题
+
+    1. 使用插件的方式
+
+        1. 安装插件：`npm install -g increase-memory-limit cross-env`
+
+        2. 在`package.json`中增加下面的脚本
+
+            > "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
+
+        3. 执行脚本
+
+            > npm run fix-memory-limit
+
+        4. 找到node_modules/@vue/cli-service/bin/vue-cli-service.js文件，把最后的限制删掉
+
+            > const requiredVersion = require('../package.json').engines.node --max-old-space-size=4096   
+            改为
+            > const requiredVersion = require('../package.json').engines.node   
+
+    2. 在`package.json`文件的打包脚本的地方增加命令
+
+        如我的
+
+        > "build": "node --max_old_space_size=4096 node_modules/.bin/vue-cli-service build",
+
+        这里的关键点就是找到对应的打包命令的文件在哪里
+
+23. 计算两个日期相差天数
+
+    > const day = (Date.parse(startDay) - Date.parse(endDay)) / (24 * 60 * 60 * 1000)
+
+
+24. 禁止页面缩放
+    ```js
+    // 禁止通过	ctrl + +/- 和 	ctrl + 滚轮 对页面进行缩放
+    disableBrowserZoom = () => {
+    document.addEventListener('keydown', function (event) {
+        if ((event.ctrlKey === true || event.metaKey === true) &&
+        (event.which === 61 || event.which === 107 ||
+            event.which === 173 || event.which === 109 ||
+            event.which === 187 || event.which === 189)) {
+        event.preventDefault()
+        }
+    }, false)
+    // Chrome IE 360
+    window.addEventListener('mousewheel', function (event) {
+        if (event.ctrlKey === true || event.metaKey) {
+        event.preventDefault()
+        }
+    }, {
+        passive: false
+    })
+
+    // firefox
+    window.addEventListener('DOMMouseScroll', function (event) {
+        if (event.ctrlKey === true || event.metaKey) {
+        event.preventDefault()
+        }
+    }, {
+        passive: false
+    })
+    }
+    ```
+
+25. 打印catch里面的error
+
+    在某种情况下，不能够直接输出catch里面的error的时候
+
+    > console.log("error", String(error))

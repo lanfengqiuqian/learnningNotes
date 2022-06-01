@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-07 21:55:29
  * @LastEditors: Lq
- * @LastEditTime: 2021-09-08 10:59:36
+ * @LastEditTime: 2022-05-30 14:32:17
  * @FilePath: \learnningNotes\regular-expression\index.md
 -->
 ### 介绍（Regular Expression）
@@ -274,3 +274,11 @@
 3. 匹配姓名（包含少数民族）
 
     > /(^[\u4e00-\u9fa5]{1}[\u4e00-\u9fa5\.·。]{0,18}[\u4e00-\u9fa5]{1}$)|(^[a-zA-Z]{1}[a-zA-Z\s]{0,18}[a-zA-Z]{1}$)/
+
+4. 匹配括号
+
+    > encode.match(/\([^\)]+\)/g)
+
+5. 匹配邮箱
+
+    > /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/

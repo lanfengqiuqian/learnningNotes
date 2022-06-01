@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-02-18 16:05:49
+ * @LastEditTime: 2022-05-27 17:14:13
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -111,7 +111,7 @@
     curl www.google.com
     ```
 
-4. FastStone Capture 注册码 序列号
+### FastStone Capture 注册码 序列号
 
     ```
 　　name/用户名：TEAM JiOO
@@ -125,9 +125,9 @@
 
     ```
 
-5. idea激活教程：https://www.jianshu.com/p/b74eb79c5c01
+### idea激活教程：https://www.jianshu.com/p/b74eb79c5c01
 
-6. win10查看端口情况
+### win10查看端口情况
 
     1. 查看所有端口使用情况
 
@@ -163,7 +163,7 @@
 
         > netstat -aon|findstr "8080"
 
-7. 百度搜索高级技巧
+### 百度搜索高级技巧
 
     1. filetype-专业文档搜索
 
@@ -192,6 +192,19 @@
 
     7. 『』查找论坛模块
 
-8. 没有广告的百度搜索链接
+    8. 没有广告的百度搜索链接
 
     > https://www.baidu.com/?pu=sz%401321_480&wpo=btmfast
+
+### windows配置wsl2
+
+    > https://zhuanlan.zhihu.com/p/438255467
+
+
+### windows商店打不开
+
+是否挂了vpn，如果挂载了的话退出再试试
+
+### 将7z配置到命令行可以使用
+
+> https://www.likecs.com/show-829595.html

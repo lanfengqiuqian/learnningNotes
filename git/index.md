@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2022-01-19 11:59:35
+ * @LastEditTime: 2022-05-12 11:02:16
  * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
@@ -68,3 +68,41 @@
 27. GIT_TRACE_PACKET=1、GIT_TRACE=1、GIT_CURL_VERBOSE=1等参数设置可以打印调试信息
 28. 生成ssh的公钥和私钥
     `ssh-keygen -t rsa -C your@example.com -b 4096`
+29. The following untracked working tree files would be overwritten by merge
+
+    解决`以下未跟踪的工作树文件将被合并覆盖`
+
+    原因：本地有(gitignore)忽略的文件和分支上也有这个忽略文件 要拉取下来的，起了冲突
+
+    解决办法：清除本地文件，然后拉取分支上的
+
+    ```bash
+    git clean -n
+    // 是一次 clean 的演习, 告诉你哪些文件会被删除，不会真的删除
+    
+    git clean -f
+    // 删除当前目录下所有没有 track 过的文件
+    // 不会删除 .gitignore 文件里面指定的文件夹和文件, 不管这些文件有没有被 track 过
+    
+    git clean -f <path>
+    // 删除指定路径下的没有被 track 过的文件
+    
+    git clean -df
+    
+    // 删除当前目录下没有被 track 过的文件和文件夹
+    
+    git clean -xf
+    
+    // 删除当前目录下所有没有 track 过的文件.
+    // 不管是否是 .gitignore 文件里面指定的文件夹和文件
+    
+    git clean 
+    // 对于刚编译过的项目也非常有用
+    // 如, 他能轻易删除掉编译后生成的 .o 和 .exe 等文件`在这里插入代码片`. 这个在打包要发布一个 release 的时候非常有用
+    
+    git reset --hard
+    git clean -df
+    git status
+    // 运行后, 工作目录和缓存区回到最近一次 commit 时候一摸一样的状态。
+    // 此时建议运行 git status，会告诉你这是一个干净的工作目录, 又是一个新的开始了！
+    ```

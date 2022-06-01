@@ -1,8 +1,8 @@
 <!--
  * @Date: 2022-02-18 16:44:32
  * @LastEditors: Lq
- * @LastEditTime: 2022-02-25 16:47:56
- * @FilePath: \learnningNotes\jeecg\index.md
+ * @LastEditTime: 2022-03-24 15:43:44
+ * @FilePath: \learnningNotes\低代码\jeecg\index.md
 -->
 ### 起步资料
 
@@ -304,3 +304,6 @@ PPT链接：
 
 4. 实现自定义组件
 
+### 备忘录
+
+1. online表单的功能测试页面：`src\views\modules\online\cgform\auto\OnlCgformAutoList.vue`

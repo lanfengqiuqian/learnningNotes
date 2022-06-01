@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2021-12-08 16:20:30
+ * @LastEditTime: 2022-05-13 15:53:43
  * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
@@ -39,6 +39,13 @@ mac：`ctrl` + `g` 注意在这里mac的是ctrl而不是command哦
 3. 展开所有函数
 
     > ctrl + k, ctrl + j
+
+4. 折叠和展开当前模块
+
+    > 折叠  
+    > ctrl + k, ctrl + [  
+    > 展开  
+    > ctrl + k, ctrl + ]
 
 
 ### 快速收起资源树
@@ -128,3 +135,31 @@ It is not the most correct option but it works.
 ### 删除一行快捷键
 
 > ctrl + shift + k;
+
+### Tab键忽然失效
+
+在其他的软件中tab都能正常使用，但是vscode中失效了
+
+原因：使用了`ctrl + M`切换了`Tab`按键行为（缩进或者移动焦点）
+
+解决：再使用`ctrl + M`切换回去就好了
+
+### 扩大（缩小）选择
+
+> shift + alt + →  
+> shift + alt + ←
+
+### 批量选择当前所有匹配文本
+
+> ctrl + f2  
+> ctrl + shift + L
+
+### 选择同一列的多行文本
+
+> alt + shift + 鼠标左键
+
+### 打开的空的新标签页面选择编程语言
+
+> ctrl + k  
+> 然后松开ctrl 
+> 然后再按m
