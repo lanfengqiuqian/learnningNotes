@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2022-04-28 11:08:37
+ * @LastEditTime: 2022-06-20 11:42:10
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 
@@ -497,4 +497,10 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
 
     ```sql
     select format(money, 2) as money from demo
+    ```
+
+28. 判断一个字段为空字符串或者null
+
+    ```sql
+    if(commission_money is null or commission_money = '', '-', commission_money) as '佣金'
     ```

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-17 20:45:23
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-30 16:04:57
+ * @LastEditTime: 2022-06-09 12:08:04
  * @FilePath: \learnningNotes\js\nodejs.md
 -->
 #### 递归创建文件夹，并将网络图片地址下载到本地创建的文件夹中
@@ -142,3 +142,22 @@ await downloadFileToDir(url, `/Users/aiyong/Downloads/invoice/${openInvoiceName}
 
 用户目录下的`node_modules`
 > C:\Users\aiyong\node_modules
+
+### nodejs中js文件变量的引用
+
+因为不能使用import和export，只能使用基础的require进行导入
+
+```js
+// 被引用文件 info.js
+exports.info = {
+    name: 'lan',
+    age: 12
+}
+```
+
+```js
+// 引用文件
+const { info: { name, age }} = require('./info.js');
+console.log('name', name);
+console.log('age', age);
+```

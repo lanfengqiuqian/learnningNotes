@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-26 15:04:31
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-01 10:32:56
+ * @LastEditTime: 2022-06-16 10:24:50
  * @FilePath: \learnningNotes\puppeteer\index.md
 -->
 ### window安装fun并部署项目到阿里云上
@@ -306,6 +306,68 @@ api文档地址：[http://www.puppeteerjs.com/#?product=Puppeteer&version=v14.1.
 
     如需其他语言参考：[https://baike.baidu.com/item/iso%20639/10750664?fr=aladdin](https://baike.baidu.com/item/iso%20639/10750664?fr=aladdin)
 
+5. 将鼠标移动到某一个元素上
+
+    使用场景：某一个dom节点只有hover的状态下才会显示
+
+    ```js
+    // 将鼠标移动到元素上
+    let pathInfo = await page.evaluate(() => {
+        let pathInfo = document.querySelector('div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div._a3gq > section > main > div > div._aa-i > article > div:nth-child(1) > div > div > div > a').getBoundingClientRect();
+        // 注意这里面的打印在puppeteer的浏览器的控制台打印的，而不是你的终端
+        console.log(pathInfo, '-----------')
+        console.log('window.scrollX', window.scrollX);
+        console.log('window.scrollY', window.scrollY);
+        let left = pathInfo.left + window.scrollX;
+        let top = pathInfo.top + window.scrollY;
+        return {left, top}
+    })
+    await page.mouse.move(pathInfo.left, pathInfo.top);
+    ```
+
+6. 滚动页面
+
+    ```js
+    /* 页面滚动方法 */
+    // 一次滚动100像素10次为一个循环，i控制滚动多少个循环
+    async function scrollPage(i, page) {
+        /*执行js代码（滚动页面）*/
+        await page.evaluate((i) => {
+            /* 这里做的是渐进滚动，如果一次性滚动则不会触发获取新数据的监听 */
+            for (let y = 0; y <= 1000 * i; y += 100) {
+                window.scrollTo(0, y)
+            }
+        }, i)
+        return Promise.resolve();
+    }
+    ```
+
+7. 循环遍历获取元素内容，直到符合某一个条件
+
+    ```js
+    async function getArticleIndex() {
+        const arr = await page.$$eval(`#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-14lw9ot.r-jxzhtn.r-1ljd8xs.r-13l2t4g.r-1phboty.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(2) > div > div > section > div > div > div > div > div > div > article > div > div > div > div.css-1dbjc4n.r-18u37iz > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-kzbkwu > div:nth-child(2) > div:nth-child(1) > div > span`, (el) => {
+            let arr = [];
+            for (let i = 0; i < el.length; i++) {
+                arr.push(el[i].innerText);
+            }
+            return arr;
+        });
+        allArr = [...new Set([...allArr, ...arr])];
+        console.log('allArr', allArr);
+        // 判断遍历出来的标题是否有帖子的标题
+        if (arr.includes(currentTitle)) {
+            needIndx = arr.indexOf(currentTitle);
+            return Promise.resolve(arr.indexOf(currentTitle));
+        } else {
+            await scrollPage((runIndx + 1) * 5, page);
+            runIndx++;
+            await getArticleIndex();
+        }
+    }
+    await getArticleIndex();
+    ```
+
 ### 无法登录google账号
 
 现象：点击登录之后页面显示如下
@@ -331,3 +393,15 @@ api文档地址：[http://www.puppeteerjs.com/#?product=Puppeteer&version=v14.1.
 ### node版本
 
 安装puppeteer模块需要node版本在14以上才行
+
+### 函数计算调用传递参数
+
+函数计算有两种调用方式
+
+1. 设置触发器，https触发器、定时触发器（这种方式我使用GET传参接收不到，还没尝试其他方式）
+
+    > https://getlikecomments-redman-kyweiqwmhs.us-west-1.fcapp.run
+
+2. 通过函数计算的 API Endpoint 进行访问
+
+    <img src="./image/触发器.png" />

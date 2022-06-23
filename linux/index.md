@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-13 15:59:51
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-09 11:03:02
+ * @LastEditTime: 2022-06-21 21:26:37
  * @FilePath: \learnningNotes\linux\index.md
 -->
 1. 查看php装了哪些扩展
@@ -26,6 +26,15 @@
     > 外网ip（第一个命令不好用就使用第二个）
     > curl ifconfig.me  
     > curl cip.cc
+
+    ```shell
+    命令行查询(详细):
+    UNIX/Linux:#curl cip.cc
+    Windows:>telnet cip.cc
+    >ftp cip.cc
+    命令行查询(纯ip):
+    UNIX/Linux:#curl ip.cip.cc
+    ```
 
 4. 查看服务器磁盘使用情况
 
@@ -113,3 +122,21 @@
     > zip 文件名.zip 文件夹名称或文件名称   
     > // 查看文件内容而不解压缩   
     > unzip -l zipped_file.zip
+
+11. 等同于--follow=descriptor，根据文件描述符进行追踪，当文件改名或被删除，追踪停止 
+
+    > tail -f 文件名
+
+12. 模糊查询某一个文件位置
+
+    > find / -name redis-server
+
+13. 重启nginx
+
+    > systemctl start nginx
+
+14. 重启redis
+
+    1. 找到`redis-server`位置：`find / -name redis-server`
+
+    2. 执行命令`./redis-serve`

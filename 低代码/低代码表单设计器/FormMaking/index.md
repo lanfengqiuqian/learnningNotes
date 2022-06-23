@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-02-28 10:54:12
  * @LastEditors: Lq
- * @LastEditTime: 2022-04-27 11:50:39
+ * @LastEditTime: 2022-06-21 10:46:13
  * @FilePath: \learnningNotes\低代码\低代码表单设计器\FormMaking\index.md
 -->
 ### 资料
@@ -438,3 +438,36 @@
     ```
 
 3. 更改了`componentsConfig`这个文件的配置的话，最好重启一下项目，有时候不生效
+
+
+4. 获取动作面板中事件的默认参数
+
+    > https://www.yuque.com/form-making/es9x0r/ni8vfm#Gq34s
+
+    如
+
+    ```js
+    const { field, value } = arguments[0];
+    ```
+
+5. 在js动作面板中判断是编辑还是查看
+
+    > this._props.edit
+
+6. 在js动作面板中判断是新增还是编辑
+
+    > this._props.value.id
+
+7. 点击取消想要重置回修改前的数据
+
+    使用refresh方法，如果有异步问题，则放到`setTimeout`
+
+    > this.$refs.desformView.refresh();
+
+8. 编辑和显示状态进行切换的时候，不同的状态显示的组件不同
+
+    1. 定义一个方法
+    2. 不同的状态显示不同的组件
+    3. 然后使用`this._props.edit`判断
+    4. 进行组件的显示和隐藏
+    5. 每次切换状态的时候来调用这个方法

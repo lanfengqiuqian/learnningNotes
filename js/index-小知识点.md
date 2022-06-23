@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-31 17:47:50
+ * @LastEditTime: 2022-06-20 17:12:17
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -560,3 +560,144 @@
     在某种情况下，不能够直接输出catch里面的error的时候
 
     > console.log("error", String(error))
+
+26. js转化非正常格式的json
+
+1. 普通的对象
+
+    ```js
+    let obj1 = {
+        name: 'lan',
+        age: 12
+    }
+    let str1 = JSON.stringify(obj1); // '{"name":"lan","age":12}'
+    ```
+
+2. 如果对象的属性是非字符串
+
+    ```js
+    let obj2 = {
+        name: 'lan',
+        100: 200
+    }
+    // 注意这里经过序列化之后数字属性也加上了引号，所以是可以正常转化回来的
+    let str2 = JSON.stringify(obj2); // '{"100":200,"name":"lan"}'
+
+    let _obj2 = JSON.parse(str2); // {100: 200, name: 'lan'}
+    ```
+
+3. 如果给到你的字符串属性没有被引号包裹，是转化不了的，会报错
+
+    ```js
+    let str3 = '{100:200,"name":"lan"}';
+
+    let obj3 = JSON.parse(str3); // 报错
+    ```
+
+27. 判断数组是否有重复元素（非引用类型）
+
+    > new Set(arr).size != arr.length
+
+28. 英文数字单位转化
+
+```js
+// 将数字转化为英文单位，如1000为1K，10000000位10M
+// 保留两位小数，如果数值不合法返回false
+function translateNumToEn(num) {
+    if (typeof num !== 'number') {
+        return false;
+    }
+    // 判断正负数
+    let sign = num > 0 ? '' : '-';
+
+    // 取绝对值
+    num = Math.abs(num);
+
+    let str = "";
+    if (num === 0) {
+        str = "0";
+    } else if (num < 1e3) {
+        str = Math.round(num * 1e2) / 1e2 + "";
+    } else if (num < 1e6 && num >= 1e3) {
+        str = Math.round(num / 1e3 * 1e2) / 1e2 + "K";
+    } else if (num < 1e9 && num >= 1e3) {
+        str = Math.round(num / 1e6 * 1e2) / 1e2 + "M";
+    } else if (num >= 1e9) {
+        str = Math.round(num / 1e9 * 1e2) / 1e2 + "B";
+    } else {
+        return false;
+    }
+    return sign + str;
+}
+
+// 将英文单位数字转化为纯数字
+function translateEnToNum(str) {
+    if (typeof str !== "string") {
+        return false;
+    }
+
+    // 考虑有些英文是用千分位逗号分隔的
+    str = str.replaceAll(',', '');
+
+    // 判断正负数
+    let sign = str.includes('-') ? '-' : '';
+    str = str.replaceAll('-', '');
+
+    if (str.includes('k') || str.includes('K')) {
+        str = str.replaceAll('k', '');
+        str = str.replaceAll('K', '');
+        str = Number(str) * 1e3;
+    } else if (str.includes('m') || str.includes('M')) {
+        str = str.replaceAll('m', '');
+        str = str.replaceAll('M', '');
+        str = Number(str) * 1e6;
+    } else if (str.includes('b') || str.includes('B')) {
+        str = str.replaceAll('b', '');
+        str = str.replaceAll('B', '');
+        str = Number(str) * 1e9;
+    } else {
+    }
+
+    return Number(sign + str);
+}
+```
+
+29. 将英文日期转化为标准日期
+
+```js
+// 转化英文的日期为标准日期
+// 英文：月 日 年 如：Jun 12 2022 单日的话是"Jun 8 2022"
+// 标准：年-月-日 如：2022-06-12
+function translateEnDateToNorm(str) {
+    let monObj = {
+        "Jan": "01",
+        "Feb": "02",
+        "Mar": "03",
+        "Apr": "04",
+        "May": "05",
+        "Jun": "06",
+        "Jul": "07",
+        "Aug": "08",
+        "Spt": "9",
+        "Oct": "10",
+        "Nov": "11",
+        "Dec": "12"
+    };
+    let arr = str.split(' ');
+    let year = arr[2];
+    let month = monObj[arr[0]];
+    let day = arr[1];
+    day = day.length === 1 ? '0' + day : day;
+    return `${year}-${month}-${day}`;
+}
+```
+
+30. replaceAll这个方法有些浏览器不支持
+
+    `replaceAll`这个方法chrome和node是正常能够使用的，但是现在已知钉钉浏览器和puppeteer无头浏览器都不支持这个方法
+
+    会报错：`str.replaceAll is not a function`
+
+    如果要达到效果的话，建议使用`replace`加上正则来做
+
+    > str.replace(/,/g, '');

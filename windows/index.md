@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-27 17:14:13
+ * @LastEditTime: 2022-06-14 14:57:22
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -51,6 +51,17 @@
 
     > 百度输入：ip查询，就能够有了  
     > 或者直接打开地址栏：www.ip138.com
+
+3. 命令行查询外网ip
+
+    ```shell
+    命令行查询(详细):
+    UNIX/Linux:#curl cip.cc
+    Windows:>telnet cip.cc
+    >ftp cip.cc
+    命令行查询(纯ip):
+    UNIX/Linux:#curl ip.cip.cc
+    ```
 
 
 #### win10使用恶意软件删除工具
@@ -208,3 +219,11 @@
 ### 将7z配置到命令行可以使用
 
 > https://www.likecs.com/show-829595.html
+
+### 运行的软件忽然不显示窗口了
+
+描述：一个软件是在运行的，但是点击任务栏图标或者`alt + tab`选中它都出不来
+
+解决方案：是用上面描述中的方法，让这个软件处于选中的状态，然后使用`alt + 空格`，然后会弹出一个`窗口设置选项`，选择最大化，就能够出来了
+
+原因：一般是因为笔记本外接了显示器导致的，如果上述办法无法解决，可以尝试先拔掉外接的显示器，解决之后再使用

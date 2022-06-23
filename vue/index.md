@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-29 15:13:07
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-23 11:02:09
+ * @LastEditTime: 2022-06-15 11:16:39
  * @FilePath: \learnningNotes\vue\index.md
 -->
 
@@ -100,3 +100,38 @@ info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this comm
 > 地址会变为：localhost:3000/www.baidu.com  
 
 解决：需要在地址前面拼接上`http`或者`https`
+
+### vue动态修改路由参数
+
+```js
+import merge from 'webpack-merge'；
+ 
+// 修改原有参数        
+this.$router.push({
+    query:merge(this.$route.query,{'id':'1'})
+})
+ 
+// 新增参数：
+this.$router.push({
+    query:merge(this.$route.query,{'name':'张三'})
+})
+ 
+// 替换所有参数：
+ this.$router.push({
+    query:merge({},{'test':123})
+})
+```
+
+### 项目运行起来了之后页面上报错
+
+```
+vue Cannot GET /
+```
+
+将`vue\config\index.js`中的`assetsPublicPath`还原
+
+```js
+assetsPublicPath: './',
+// 改为
+assetsPublicPath: '/',
+```

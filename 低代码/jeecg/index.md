@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-02-18 16:44:32
  * @LastEditors: Lq
- * @LastEditTime: 2022-03-24 15:43:44
+ * @LastEditTime: 2022-06-20 15:15:12
  * @FilePath: \learnningNotes\低代码\jeecg\index.md
 -->
 ### 起步资料
@@ -300,10 +300,40 @@ PPT链接：
 
 2. 弄一个页面，将拿到数据渲染成页面
 
-3. 跟后端联调（）
+3. 跟后端联调()
 
 4. 实现自定义组件
 
 ### 备忘录
 
 1. online表单的功能测试页面：`src\views\modules\online\cgform\auto\OnlCgformAutoList.vue`
+
+2. 字典标签使用数据库的数据作为下拉选项
+
+    > <j-dict-select-tag class="modalOperational" v-model="modalInfo.content" placeholder="请选择运营人员" dictCode="sys_user,realname,realname,"/>
+
+3. online报表解析问题
+
+    1. sql解析里面末尾不能加`;`，因为在功能测试里面的时候会自动拼接其他语句，会报错
+
+        虽然当时在编辑页面是可以正常解析的
+
+    2. where条件里面的变量不要使用，先用写死的，然后解析完成了再加上去
+
+    3. 使用会话变量会报错
+
+        解决方案：同理，先去掉，然后sql解析，然后加上去
+
+        如果需要出现在查询的字段中，那么需要在下面的字段列表中【动态报表配置明细】中增加这个字段即可，比如【序号】一般使用会话变量加上去的
+
+4. 控制在jeecg的模态框里面的下拉选项的层级过低，导致隐藏在下面
+
+    ```css
+    .el-select-dropdown {
+        z-index: 1000 !important;
+    }
+
+    .el-picker-panel.el-date-picker.el-popper {
+        z-index: 1000 !important;
+    }
+    ```
