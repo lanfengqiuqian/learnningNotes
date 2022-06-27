@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-04-19 17:18:27
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-03 17:24:43
+ * @LastEditTime: 2022-06-23 18:41:16
  * @FilePath: \learnningNotes\wyn\index.md
 -->
 ## 文档
@@ -106,3 +106,56 @@
     1. 页面销毁的时候
 
     2. 每次都需要重新创建一个新的wyn组件，但是之前的不需要使用的情况下
+
+13. 一个页面使用多个wyn组件（我的是vue项目）
+
+    1. 一个文件中直接嵌入2个wyn组件，需要注意`div`的`id`不要重复
+
+        ```html
+        <div id="wyn-root"></div>
+        <h2>++++++++++++++++++++++++++++++++++++++++++++</h2>
+        <div id="wyn-root-pro"></div>
+
+        WynIntegration.createReportViewer(
+            {
+            baseUrl: "xxx",
+            reportId: "xxx",
+            token: "xxx",
+            reportParameters: reportParameters,
+            disableFocusTimer: true,
+            hideSearch: true,
+            hideToolbar: true,
+            },
+            "#wyn-root"
+        ).then((ins) => {
+            this.reportViewer = ins;
+            // 这里设置1.5s后模拟的loading消失
+        });
+        WynIntegration.createReportViewer(
+            {
+            baseUrl: "xxx",
+            reportId: "xxx",
+            token: "xxx",
+            reportParameters: reportParameters,
+            disableFocusTimer: true,
+            hideSearch: true,
+            hideToolbar: true,
+            },
+            "#wyn-root-pro"
+        ).then((ins) => {
+            this.reportViewer = ins;
+            // 这里设置1.5s后模拟的loading消失
+        });
+        ```
+
+        1. 不行，只会生效一个
+
+        2. 换成多个文件各使用一个然后引用到同一个文件中也是不行的
+
+14. 富文本组件上传图片失败
+
+    原因：因为富文本组件存储的是图片的base64，字段长度设置的是`text`长度不够
+
+    解决：修改为`mediumtext`即可
+
+    隐患：由于使用的是`jeecg`框架，这样直接在数据库修改表结构，这个字段结构那边不支持，就无法去手动同步表结构了，如果要修改的话可能就需要手动先改回来，然后再去修改，再改回去

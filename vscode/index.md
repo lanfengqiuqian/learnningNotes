@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-13 15:53:43
+ * @LastEditTime: 2022-06-27 20:00:39
  * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
@@ -68,67 +68,77 @@ It is not the most correct option but it works.
 
 ### 好用的vscode插件整理
 
-1. Bracket Pair Colorizer
+1. Auto Close Tag
+   
+   功能：自动闭合标签
+
+2. Bracket Pair Colorizer
 
     功能：代码括号匹配高亮，彩虹颜色匹配
 
-2. Beautify
+    缺点：代码多了容易导致很卡（后来我卸载了。。。）
+
+3. Beautify
 
     功能：代码格式化插件，只对于JS、JSON、CSS、Sass、HTML生效
 
     使用：参见[这里](https://blog.csdn.net/zwli96/article/details/86543130)
 
-3. Chinese
+4. Chinese
 
     功能：编辑器汉化
 
-4. ES7 React/Redux/GraphQL/React-Native snippets
+5. ES7 React/Redux/GraphQL/React-Native snippets
 
     功能：代码快速提示，生成代码块
 
     使用：参见[这里](https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets)
 
-5. Git Blame
+6. Git Blame
 
     功能：能够查看某一行代码的git提交记录
 
-6. Highlight Matching Tag
+7. Highlight Matching Tag
 
     功能：高亮匹配标签
 
-7. Highlight Matching Tag
+8. indent-rainbow
 
     功能：代码缩进高亮彩虹色
 
-8. koroFileHeader
+9.  koroFileHeader
 
     功能：自动生成文件注释和方法注释
 
     使用：参见[这里](https://marketplace.visualstudio.com/items?itemName=OBKoro1.korofileheader)
 
-9. Material Icon Theme
+10. Material Icon Theme
 
     功能：左侧文件图标主题配置
 
-10. One Dark Pro
+11. One Dark Pro
 
     功能：代码主题风格
 
-11. open in browser
+12. open in browser
 
     功能：html文件在浏览器打开
 
-12. Project Manager
+13. Path Intellisense
+
+    功能：路径自动感知
+
+14. Project Manager
 
     功能：将多个项目进行集中到左侧的菜单栏，方便打开
 
-13. SFTP
+15. SFTP
 
     功能：将文件上传到服务器
 
     使用：参见[这里](https://blog.csdn.net/qq_43382853/article/details/104791852)
 
-14. Tabnine
+16. Tabnine
 
     功能：代码智能提示（很强大）
 

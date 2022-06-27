@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-02-18 16:44:32
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-20 15:15:12
+ * @LastEditTime: 2022-06-24 12:11:34
  * @FilePath: \learnningNotes\低代码\jeecg\index.md
 -->
 ### 起步资料
@@ -337,3 +337,7 @@ PPT链接：
         z-index: 1000 !important;
     }
     ```
+
+5. 全局样式文件位置
+
+    > src\styles\index.scss
