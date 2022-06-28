@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-02-28 10:54:12
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-21 10:46:13
+ * @LastEditTime: 2022-06-28 15:57:17
  * @FilePath: \learnningNotes\低代码\低代码表单设计器\FormMaking\index.md
 -->
 ### 资料
@@ -471,3 +471,11 @@
     3. 然后使用`this._props.edit`判断
     4. 进行组件的显示和隐藏
     5. 每次切换状态的时候来调用这个方法
+
+9. 使用`getComponent`方法快速获取组件进行调用
+
+    主要应用场景：调用一些子表单的方法
+
+    关键：需要在组件标志符前面加`fm-`（这种方式适用于1.4.0的版本之前）
+    
+    如组件叫做`username`，调用方式`this.getComponent(['fm-username'])`
