@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-26 10:32:28
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-30 12:24:06
+ * @LastEditTime: 2022-07-04 18:28:18
  * @FilePath: \learnningNotes\js\重学js-大知识点.md
 -->
 ### Set和Map
@@ -901,6 +901,89 @@ function fn(n) {
    1. 从pending变为fulfilled
    2. 从pending变为rejected。
 
+    只要这两种情况发生，状态就凝固了，不会再变了
+
+3. 基本用法
+
+    ```js
+    const promise = new Promise(function(resolve, reject) {
+        // code
+
+        if (/*异步操作成功*/) {
+            resolve(value);
+        } else {
+            reject(error);
+        }
+    })
+
+    promise.then(function(value) {
+        console.log('执行成功', value);
+    })
+    ```
+
+    简单的例子
+
+    ```js
+    function timeout(ms) {
+        return new Promise((resolve, reject) => {
+            console.log('start');
+            // setTimeout(resolve, ms, 'done')
+            setTimeout((data) => {
+                resolve(data);
+            }, ms, 'done');
+        })
+    }
+
+    timeout(500)
+    .then(value => {
+        console.log('value', value);
+    })
+    ```
+
+    图片异步加载的例子
+
+    ```js
+    function loadImageAsync(url) {
+    return new Promise(function(resolve, reject) {
+        const image = new Image();
+
+        image.onload = function() {
+        resolve(image);
+        };
+
+        image.onerror = function() {
+        reject(new Error('Could not load image at ' + url));
+        };
+
+        image.src = url;
+    });
+    }
+    ```
+
+    ajax的例子
+
+    ```
+
+    ```
+
+
+### Image对象
+
+简单案例
+
+```html
+<button id="btn">点击</button>
+<script type="text/javascript">
+    var btn = document.querySelector('#btn')
+    btn.addEventListener('click',function(){
+        var new_img = new Image(300,300)/*宽高300*/
+        new_img.src = `https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/qrcode/zbios-09b6296ee6.png`
+        document.body.appendChild(new_img)
+    },false)
+</script>
+```
+
+1. 描述
 
 
 ### 时间日期相关
