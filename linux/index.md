@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-13 15:59:51
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-21 21:26:37
+ * @LastEditTime: 2022-07-04 14:27:39
  * @FilePath: \learnningNotes\linux\index.md
 -->
 1. 查看php装了哪些扩展
@@ -140,3 +140,120 @@
     1. 找到`redis-server`位置：`find / -name redis-server`
 
     2. 执行命令`./redis-serve`
+
+15. 查看服务器系统状况，类似window的资源管理器
+
+    > top
+
+    ```bash
+    top - 12:20:20 up 2 days, 18:04,  1 user,  load average: 0.02, 0.04, 0.05
+    Tasks: 100 total,   1 running,  99 sleeping,   0 stopped,   0 zombie
+    %Cpu(s):  0.2 us,  0.3 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+    KiB Mem :  7732980 total,  4762000 free,  1306760 used,  1664220 buff/cache
+    KiB Swap:        0 total,        0 free,        0 used.  6162896 avail Mem
+    ```
+
+    说明
+
+    1. 前五行是系统整体的信息
+
+        1. 第一行是任务队列信息，同`uptime`命令的执行结果
+
+            > 12:20:20 up 2 days, 18:04,  1 user,  load average: 0.02, 0.04, 0.05
+
+            |内容|含义|
+            |-|-|
+            |12:20:20|当前时间|
+            |up 2 days, 18:04,|系统运行时间|
+            |1 user|当前登录用户数|
+            |load average: 0.02, 0.04, 0.05|系统负载，即任务队列的平均长度，3个数值分别是1分钟、5分钟、15分钟到现在的平均值|
+
+        2. 第二、三行为进程和CPU的信息，当有多个CPU时，这些内容可能会超过两行
+
+            > Tasks: 100 total,   1 running,  99 sleeping,   0 stopped,   0 zombie
+
+            |内容|含义|
+            |-|-|
+            |total|进程总数|
+            |running|正在运行的进程数|
+            |sleeping|睡眠的进程数|
+            |stopped|停止的进程数|
+            |zombie|僵尸进程数|
+
+            > %Cpu(s):  0.2 us,  0.3 sy,  0.0 ni, 99.5 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+
+            |内容|含义|
+            |-|-|
+            |us|用户空间占用CPU百分比|
+            |sy|内核空间占用CPU百分比|
+            |ni|用户进程空间内改变过优先级的进程占用CPU百分比|
+            |id|空闲CPU百分比|
+            |wa|等待输入输出的CPU时间百分比|
+            |hi|硬中断占用CPU的百分比|
+            |si|软中断占用CPU百分比|
+            |st|当hypervisor服务另一个虚拟处理器的时候，虚拟CPU等待实际CPU的时间百分比|
+
+        3. 最后两行为内存信息
+
+            > KiB Mem :  7732980 total,  4762000 free,  1306760 used,  1664220 buff/cache
+
+            |内容|含义|
+            |-|-|
+            |total|总容量|
+            |free|空闲的内存总量|
+            |used|使用的物理内存容量|
+            |buff/cache|用作内核缓存的内存量|
+
+            > KiB Swap:        0 total,        0 free,        0 used.  6162896 avail Mem
+
+            |内容|含义|
+            |-|-|
+            |total|总容量|
+            |free|空闲的内存总量|
+            |used|使用的物理内存容量|
+            
+
+    2. 进程信息区
+
+        ```
+        PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+        1912 root      20   0 6008360   1.1g  15380 S   1.7 14.3  71:16.53 java
+        1108 root      10 -10  140020  17772  11600 S   1.3  0.2  62:54.03 AliYunDun
+        565 root      20   0   17852   1836   1388 S   0.3  0.0   0:40.39 assist_daemon
+        ```
+
+        |内容|含义|
+        |-|-|
+        |PID|进程ID|
+        |PPID|父进程id|
+        |USER|进程所有者的用户名|
+        |RUSER|real user name|
+        |UID|进程所有者的用户id|
+        |GROUP|进程所有者的组名|
+        |TTY|启动进程的终端名|
+        |PR|优先级|
+        |NI|nice值，负值表示高优先级，正值表示低优先级|
+        |P|最后使用的CPU|仅在多CPU环境下有意义|
+        |%CPU|上次更新到现在的CPU时间占用百分比|
+        |I TIME|进程使用CPU时间总计，单位秒|
+        |TIME +|进程时间的CPU时间总计，单位1/100秒|
+        |%MEM|进程使用的物理内存百分比|
+        |VIRT|进程使用的虚拟内存总量，单位kb，VIRT=SWAP+RES|
+        |SWAP|进程使用的虚拟内存中，被换出的大小，单位kb|
+        |RES|进程使用的、未被换出的物理内存带下，单位kb。RES=CODE+DATA|
+        |CODE|可执行代码以外的部分（数据段+栈）占用的物理内存大小，单位kb|
+        |SHR|共享的内存大小，单位kb|
+        |nFLT|页面错误页数|
+        |nDRT|最后一次写入到现在，被修改过的页面数|
+        |S|进程状态|
+        |D=|不可中断的睡眠状态|
+        |R=|运行|
+        |S=|睡眠|
+        |T=|跟踪/停止|
+        |Z=|僵尸进程|
+        |COMMAND|命令名/命令行|
+        |WCHAN|若该进程在睡眠，则显示睡眠中的系统函数名|
+        |Flags|任务标志，参考sched h|
+
+
+    更详细的说明见[https://blog.csdn.net/Luckiers/article/details/123909819](https://blog.csdn.net/Luckiers/article/details/123909819)

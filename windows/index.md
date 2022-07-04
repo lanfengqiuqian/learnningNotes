@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-23 15:55:35
+ * @LastEditTime: 2022-07-04 11:36:43
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -122,21 +122,6 @@
     curl www.google.com
     ```
 
-### FastStone Capture 注册码 序列号
-
-    ```
-　　name/用户名：TEAM JiOO
-　　key/注册码：CPCWXRVCZW30HMKE8KQQUXW
-　　USER NAME:TEAM_BRAiGHTLiNG_2007
-　　CODE:XPNMF-ISDYF-LCSED-BPATU
-　　RPTME-IMDHD-MIEPX-VLXAW
-　　企业版序列号：
-　　name：bluman
-　　serial/序列号/注册码：VPISCJULXUFGDDXYAUYF
-
-    ```
-
-### idea激活教程：https://www.jianshu.com/p/b74eb79c5c01
 
 ### win10查看端口情况
 

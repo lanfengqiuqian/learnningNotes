@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-20 17:12:17
+ * @LastEditTime: 2022-06-30 12:21:29
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -661,6 +661,8 @@ function translateEnToNum(str) {
     return Number(sign + str);
 }
 ```
+
+注意：这里如果`replaceAll`不支持的话，使用`str.replace(/,/g, '');`来达到效果
 
 29. 将英文日期转化为标准日期
 
