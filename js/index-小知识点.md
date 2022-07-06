@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-30 12:21:29
+ * @LastEditTime: 2022-07-06 10:22:19
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -703,3 +703,11 @@ function translateEnDateToNorm(str) {
     如果要达到效果的话，建议使用`replace`加上正则来做
 
     > str.replace(/,/g, '');
+
+31. 调用接口获取ip
+
+    ```js
+    fetch('https://api.ipify.org/?format=json')
+    .then(res => res.json())
+    .then(res => console.log(res))
+    ```

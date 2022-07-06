@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-13 15:59:51
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-04 14:27:39
+ * @LastEditTime: 2022-07-06 10:37:49
  * @FilePath: \learnningNotes\linux\index.md
 -->
 1. 查看php装了哪些扩展
@@ -257,3 +257,25 @@
 
 
     更详细的说明见[https://blog.csdn.net/Luckiers/article/details/123909819](https://blog.csdn.net/Luckiers/article/details/123909819)
+
+16. ipconfig和ifconfig的区别
+
+    1. ipconfig
+
+        用于windows系统，显示当前`TCP/IP`配置的设置值。这些信息一般用来检验人工配置的`TCP/IP`设置是否正确
+
+        ```
+        ipconfig 显示信息
+        ipconfig /all 显示详细信息
+        ipconfig /renew 更新所有适配器
+        ```
+
+    2. ifconfig
+
+        linux中对应的程序是ifconfig，它用于查看、配置、启用或禁用位于内核中的网络接口，在系统引导时它被用来设置必要的网络接口参数。可以用这个工具来临时配置网卡的ip地址、掩码、广播地址、网关等。
+
+        ```
+        ifconfig 查看网络接口状态（当前激活的网络接口情况）
+        ifconfig -a 查看主机所有网络接口情况
+        ifconfig eth0 查看某个（eth0）端口状态
+        ```
