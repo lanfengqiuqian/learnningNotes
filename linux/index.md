@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-10-13 15:59:51
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-06 10:37:49
+ * @LastEditTime: 2022-07-06 13:21:06
  * @FilePath: \learnningNotes\linux\index.md
 -->
 1. 查看php装了哪些扩展
@@ -279,3 +279,54 @@
         ifconfig -a 查看主机所有网络接口情况
         ifconfig eth0 查看某个（eth0）端口状态
         ```
+
+17. curl
+
+    参见[https://www.ruanyifeng.com/blog/2019/09/curl-reference.html](https://www.ruanyifeng.com/blog/2019/09/curl-reference.html)
+
+    1. 介绍
+
+        是常用的命令行工具，用来请求Web服务器，它的名字就是客户端（client）的URL工具的意思
+
+    2. 使用
+
+        1. 不带参数的时候，发出的就是GET请求
+
+            > curl https://www.baidu.com
+
+        2. 带参数
+
+            列举常用的参数
+
+            1. -d
+
+                > curl -d'login=emma＆password=123'-X POST https://google.com/login   
+                > curl -d 'login=emma' -d 'password=123' -X POST  https://google.com/login
+
+                1. 用于发送POST请求的数据体
+                2. 使用-d参数之后，HTTP请求会自动加上标头`Content-Type : application/x-www-form-urlencoded`，并且会自动将请求转为POST方法，因此可以省略`-X POST`
+                3. -d参数还可以读取本地文本文件的数据，向服务器发送
+                    > curl -d '@data.txt' https://google.com/login
+
+            2. -F
+
+                > curl -F 'file=@photo.png' https://google.com/profile
+
+                1. 用来向服务器上传二进制文件
+                2. 会给HTTP请求加上标头`Content-Type: multipart/form-data`，然后将文件`photo.png`作为`file`字段上传
+                3. -F参数还可以指定MIME类型
+                    > curl -F 'file=@photo.png;type=image/png' https://google.com/profile
+
+            3. -G
+
+                > curl -G -d 'q=kitties' -d 'count=20' https://google.com/search
+
+                1. 用来构造URL的查询字符串
+                2. 上面的命令会发出一个GET请求，实际请求的URL为`https://google.com/search?q=kitties&count=20`，如果省略-G会发出一个POST请求
+                3. 如果需要URL编码，可以结合`--data--urlencode`
+                   > curl -G --data-urlencode 'comment=hello world' https://www.example.com
+                4. -X
+
+                    > curl -X POST https://www.example.com
+                
+                   1. 指定HTTP请求的方法

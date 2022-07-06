@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-06 10:22:19
+ * @LastEditTime: 2022-07-06 11:51:15
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -710,4 +710,39 @@ function translateEnDateToNorm(str) {
     fetch('https://api.ipify.org/?format=json')
     .then(res => res.json())
     .then(res => console.log(res))
+    ```
+
+32. 将任意文件转换为base64
+
+    ```html
+    <!doctype html>
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="description" content="在线Base64生成转换小工具，可以实现任意文件转Base64 Data-URI编码，文件往页面中一拖即可。" />
+    <meta name="keywords" content="base64, FileReader, readAsDataURL, 文件" />
+    <meta name="author" content="谢勇彬，XYB" />
+    <title>任意文件转base64-直接拖进来</title>
+    <style>
+        body { word-break: break-all; margin: 0 1em; min-height: 100vh; font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace; overflow: hidden;}
+        .empty::before{position: absolute; font-size: 50px; content: '任意文件\A拖到这里'; white-space: pre; left: 50%; top: 50%; transform: translate(-50%,-50%); color: gray;}
+    </style>
+    </head>
+    <body class="empty">
+    <script>
+        window.addEventListener("dragenter", function(event) { event.preventDefault(); }, false);
+        window.addEventListener("dragover", function(event) { event.preventDefault(); }, false);
+        window.addEventListener("drop", function(event) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.body.insertAdjacentHTML("afterBegin", '<p>' + e.target.result + '</p>');
+                document.body.classList.remove('empty');
+            };
+            reader.readAsDataURL(event.dataTransfer.files[0]);
+            event.preventDefault();
+        }, false);
+    </script>
+    
+    </body>
+    </html>
     ```

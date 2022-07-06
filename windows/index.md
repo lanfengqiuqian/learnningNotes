@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-05 14:09:20
+ * @LastEditTime: 2022-07-06 10:40:51
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -60,7 +60,7 @@
     Windows:>telnet cip.cc
     >ftp cip.cc
     命令行查询(纯ip):
-    UNIX/Linux:#curl ip.cip.cc
+    UNIX/Linux/Windows:#curl ip.cip.cc
     ```
 
 
