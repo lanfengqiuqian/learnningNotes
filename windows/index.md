@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-04 11:36:43
+ * @LastEditTime: 2022-07-05 14:09:20
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -244,3 +244,9 @@
     1. netstat -aon|findstr "8080" 查找暂用端口的进程ID
     
     2. taskkill /pid 21248 杀掉进程ID, 不行就加-f
+
+### 进入休眠模式快捷键Win
+
+win + x 进入快捷方式菜单列表 => u > x
+
+说明：win + l是锁定计算机，但是不会进入休眠模式

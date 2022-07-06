@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-29 15:13:07
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-15 11:16:39
+ * @LastEditTime: 2022-07-05 19:54:03
  * @FilePath: \learnningNotes\vue\index.md
 -->
 
@@ -135,3 +135,96 @@ assetsPublicPath: './',
 // 改为
 assetsPublicPath: '/',
 ```
+
+### Vue的scoped
+
+1. 什么是`scoped`
+
+    在vue文件的style标签上，有一个特殊的属性`scoped`。
+
+    当一个style标签有这个属性的时候，它的css样式就只能作用于当前的组件，也就是说，这个样式只能够适用于当前组件元素。
+
+    通过该属性，可以使得组件之间的样式不会互相污染
+
+    如果一个项目中的所有style标签全部加上了scoped，相当于实现了样式的模块化
+
+2. scoped的实现原理
+
+    scoped的属性效果主要通过`PostCSS`转译实现
+
+    转译前的代码
+
+    ```html
+    <style scoped>
+    .example {
+        color: red;
+    }
+    </style>
+
+    <template>
+        <div class="example">hi</div>
+    </template>
+    ```
+
+    转译后的代码
+
+    ```html
+    <style>
+    .example[data-v-5558831a] {
+        color: red;
+    }
+    </style>
+
+    <template>
+        <div class="example" data-v-5558831a>hi</div>
+    </template>
+    ```
+
+    PostCSS：给一个组件中的所有dom添加了一个独一无二的动态属性，然后给CSS的选择器额外添加一个对应的属性选择器来选择该组建中dom，这种做饭使得样式只作用于含有该属性的dom--组件内部dom。
+
+3. 样式穿透的使用场景
+
+    表面上看起来，每一个组件都有自己独有的样式，不会影响其他的组件，但是如果引用了第三方的组件库，还需要修改的话，就需要使用到样式穿透了
+
+4. scoped穿透使用方式
+
+   1. style为css时，使用`>>>`
+
+   ```html
+   <style lang="css">
+       .a >>> .b{
+       
+       }
+   </style>
+   ```
+
+   2. style为`预处理器`（less/saas/scss）时，使用`/deep/`和`::v-deep`
+
+   ```html
+   <style lang="scss">
+       /deep/ .active{
+
+       }
+       ::v-deep .active{
+           
+       }
+   </style>
+   ```
+
+5. 另外一种方式
+
+    在除了含有`scoped`属性的style标签之外，再定义一个不含有`scoped`属性的style标签
+
+    ```html
+    <style>
+    /* global styles */
+    </style>
+
+    <style scoped>
+    /* local styles */
+    </style>
+    ```
+
+### this.$set()
+
+### this.$nextTick()

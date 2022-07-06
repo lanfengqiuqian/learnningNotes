@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-06-27 15:05:14
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-27 18:34:51
+ * @LastEditTime: 2022-07-05 11:43:07
  * @FilePath: \learnningNotes\接入邮箱\java接入收发邮件\index.md
 -->
 ## 参考文章
@@ -63,3 +63,14 @@
     props.setProperty("mail.smtp.socketFactory.auth", "true");
     props.setProperty("mail.smtp.socketFactory.port", smtpPort);
     ```
+
+6. 记录一下，我在使用google邮箱向163邮箱发送邮件的时候有延迟
+
+    第一次延迟大概5分钟，第二次延迟大概4分钟
+
+    表现如下
+
+        1. 接口调用成功，这里设置的是立刻发送
+        2. 在手机和网页版邮箱刷新都没有新邮件
+        3. 过了几分钟，能收到新邮件通知了
+        4. 并且收件箱上面显示的发件时间是几分钟之前
