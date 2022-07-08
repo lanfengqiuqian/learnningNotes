@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-06 11:51:15
+ * @LastEditTime: 2022-07-08 13:21:25
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -746,3 +746,49 @@ function translateEnDateToNorm(str) {
     </body>
     </html>
     ```
+
+33. 前端实现访问一个图片url直接下载该图片
+
+```js
+function downloadIamge(imgsrc, name){
+ 
+  let image = new Image();
+ 
+  // 解决跨域 Canvas 污染问题
+  image.setAttribute("crossOrigin", "anonymous");
+ 
+  image.onload = function() {
+ 
+    let canvas = document.createElement("canvas");
+ 
+    canvas.width = image.width;
+ 
+    canvas.height = image.height;
+ 
+    let context = canvas.getContext("2d");
+ 
+    context.drawImage(image, 0, 0, image.width, image.height);
+ 
+    let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
+ 
+    let a = document.createElement("a"); // 生成一个a元素
+ 
+    let event = new MouseEvent("click"); // 创建一个单击事件
+ 
+    a.download = name || "photo"; // 设置图片名称
+ 
+    a.href = url; // 将生成的URL设置为a.href属性
+ 
+    a.dispatchEvent(event); // 触发a的单击事件
+ 
+  }
+ 
+  image.src = imgsrc;
+}
+
+downloadIamge('http://172.168.10.21:3006/test/image/download','ppcm')
+```
+
+在oss上传的时候如果制定了`Content-Type`是`image/jpeg`，则产生的外链在浏览器上直接显示。
+
+如果设置的`Content-Type`是`application/octet-steam`或者`multipart/form-data`，则外链是直接下载的

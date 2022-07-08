@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-20 11:42:10
+ * @LastEditTime: 2022-07-07 11:28:07
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 
@@ -504,3 +504,25 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
     ```sql
     if(commission_money is null or commission_money = '', '-', commission_money) as '佣金'
     ```
+
+29. 设置数据库支持存储表情、其他字体等字符
+
+    默认的字符集`utf8`是不支持这些字符的，进行更新和插入的时候会报错
+
+    比如：`hitomi👀`、`𝗛𝗲𝗹𝗹𝗼 𝗛𝗼𝘂𝘀𝗲`这些
+
+    原因：UTF-8编码有可能是两个、三个、四个字节。Emoji表情或者某些特殊字符是4个字节，而Mysql的utf8编码最多3个字节，所以数据插不进去。
+
+    解决方案：
+
+        1. 将数据库字符集设置为`utf8mb4`
+
+            > alter database `xxxxx` character set utf8mb4;
+
+        2. 将对应的表字符集设置为`utf8mb4`
+
+        3. 将对应的字段字符集设置为`utf8mb4`
+
+        4. 如果还没有生效的话，尝试重启一下数据库
+
+    附：我这边其实只改了数据库和字段，并且没有重启就生效了

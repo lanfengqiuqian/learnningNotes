@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-06 10:40:51
+ * @LastEditTime: 2022-07-08 16:35:13
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -250,3 +250,5 @@
 win + x 进入快捷方式菜单列表 => u > x
 
 说明：win + l是锁定计算机，但是不会进入休眠模式
+
+### Memory Compression内存压缩占用内存多

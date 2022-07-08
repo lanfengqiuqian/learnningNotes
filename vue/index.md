@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-29 15:13:07
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-05 19:54:03
+ * @LastEditTime: 2022-07-08 14:35:34
  * @FilePath: \learnningNotes\vue\index.md
 -->
 
@@ -228,3 +228,81 @@ assetsPublicPath: '/',
 ### this.$set()
 
 ### this.$nextTick()
+
+
+### 解决uniapp的showToast字数超过7个的显示问题
+
+1. 描述：使用 uni-app 开发小程序，不管是使用微信小程序的 `wx.showToast()` API 或 uni-app的 `uni.showToast()` API 显示消息提示框，显示图标 title 文本最多显示 7 个汉字长度，在不显示图标的情况下，大于两行不显示。
+
+2. 解决方案
+
+    1. 如果要显示超过两行的文本，使用 `uview-ui` 框架的 `Toast` 消息提示组件，这个组件表现形式类似 uni 的 uni.showToast API ,但是也有不同。
+
+        ```html
+        <template>
+            <view>
+                <u-toast ref="uToast" />
+            </view>
+        </template>
+        <script>
+            export default {
+                onReady() {
+                    this.$refs.uToast.show({
+                        title: '通过ref调用"<toast/>"组件内部的show方法时，还可以传递其他参数, show方法是通过ref调用的， 注意：所有有关ref的调用，都不能在页面的onLoad生命周期调用，因为此时组件尚未创建完毕，会报错，应该在onReady生命周期调用。',
+                        duration: 6000
+                    })
+                },
+                methods: {
+                    showToast() {
+                        
+                    }
+                }
+            }
+        </script>
+        ```
+
+    2. 也可以使用`showModal`来代替
+
+
+### 引入一个依赖后，编译报错`"export 'createVNode' (imported as '_createVNode') was not found in 'vue'`
+
+描述：这个是`vue`版本的问题，安装的这个依赖支持的是`vue3`的语法，但是你用的是`vue2`的
+
+解决：更换版本，找到对应的版本支持`vue2`的
+
+比如，我这边引入的是`@ant-design/icons-vue`，报错如下
+
+```
+ warning  in ./node_modules/@ant-design/icons-vue/es/components/Icon.js
+
+"export 'createVNode' (imported as '_createVNode') was not found in 'vue'
+
+ warning  in ./node_modules/@ant-design/icons-vue/es/utils.js
+
+"export 'h' was not found in 'vue'
+
+ warning  in ./node_modules/@ant-design/icons-vue/es/utils.js
+
+"export 'nextTick' was not found in 'vue'
+```
+
+是因为我找的`antvue`的图标默认是`vue3`的了，应该用`vue2`的，不需要安装依赖，而是使用`a-icon`的方式
+
+```vue
+<template>
+  <div class="icons-list">
+    <a-icon type="home" />
+    <a-icon type="setting" theme="filled" />
+    <a-icon type="smile" theme="outlined" />
+    <a-icon type="sync" spin />
+    <a-icon type="smile" :rotate="180" />
+    <a-icon type="loading" />
+  </div>
+</template>
+<style scoped>
+.icons-list >>> .anticon {
+  margin-right: 6px;
+  font-size: 24px;
+}
+</style>
+```
