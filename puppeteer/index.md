@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-26 15:04:31
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-16 10:24:50
+ * @LastEditTime: 2022-07-11 14:36:27
  * @FilePath: \learnningNotes\puppeteer\index.md
 -->
 ### window安装fun并部署项目到阿里云上
@@ -405,3 +405,21 @@ api文档地址：[http://www.puppeteerjs.com/#?product=Puppeteer&version=v14.1.
 2. 通过函数计算的 API Endpoint 进行访问
 
     <img src="./image/触发器.png" />
+
+
+### 用手机模式打开浏览器
+
+关键代码
+
+注释的代码已经过期了，不适用现在的版本
+
+```js
+// 引入手机设备ua设置
+// const devices = require('puppeteer/DeviceDescriptors');
+const puppeteer = require('puppeteer');
+
+const page = await browser.newPage();
+await page.emulate(puppeteer.devices['iPhone X']);
+// await page.emulate(devices['iPhone X']);
+await page.goto('https://www.baidu.com');
+```

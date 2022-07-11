@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-08 13:21:25
+ * @LastEditTime: 2022-07-11 16:19:18
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -792,3 +792,42 @@ downloadIamge('http://172.168.10.21:3006/test/image/download','ppcm')
 在oss上传的时候如果制定了`Content-Type`是`image/jpeg`，则产生的外链在浏览器上直接显示。
 
 如果设置的`Content-Type`是`application/octet-steam`或者`multipart/form-data`，则外链是直接下载的
+
+
+34. 截取两个字符串之间的字符串
+
+核心：使用`match`方法
+
+```js
+let str = 'hskdfhska;jl234iyiofsdhaklfnaskn,xcnvm,zxn891237499safhas,n';
+let s = str.match(/ha(\S*)n,/)[1];
+// 'klfnask'
+```
+
+35. 刷新网页页面
+
+    1. `history.go(0)`，除非有在服务端解释才能生成的页面代码，否则直接读取缓存中的数据
+
+        不刷新
+
+    2. `location.reload()`，重新连接服务器以读得新的页面
+
+        刷新
+
+    3. `location=location`，执行后仍支持前进后退
+        
+
+    4. `location.assign(location)`：相当于一个链接跳转到指定url
+
+        可以后退
+
+    5. `document.execCommand('Refresh')`
+
+    6. `window.navigate(location)`
+
+    7. `location.replace(location)`
+
+        执行后没有前进后退
+
+    8. `document.URL = location.href`
+

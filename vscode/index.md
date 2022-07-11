@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-27 20:00:39
+ * @LastEditTime: 2022-07-11 14:30:16
  * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
@@ -173,3 +173,15 @@ It is not the most correct option but it works.
 > ctrl + k  
 > 然后松开ctrl 
 > 然后再按m
+
+### 切换极小地图的可见性
+
+1. `ctrl + shift + p`打开命令面板
+
+2. 搜索`minimap`
+
+3. 回车确认切换
+
+### 两个控制台切换
+
+在打开控制台的情况下，`ctrl + PageUp/PageDown`
