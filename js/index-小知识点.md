@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-11 16:19:18
+ * @LastEditTime: 2022-07-14 17:57:35
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -608,7 +608,7 @@ function translateNumToEn(num) {
         return false;
     }
     // 判断正负数
-    let sign = num > 0 ? '' : '-';
+    let sign = num >= 0 ? '' : '-';
 
     // 取绝对值
     num = Math.abs(num);

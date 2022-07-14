@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-17 20:45:23
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-09 12:08:04
+ * @LastEditTime: 2022-07-14 16:45:34
  * @FilePath: \learnningNotes\js\nodejs.md
 -->
 #### 递归创建文件夹，并将网络图片地址下载到本地创建的文件夹中
@@ -161,3 +161,7 @@ const { info: { name, age }} = require('./info.js');
 console.log('name', name);
 console.log('age', age);
 ```
+
+### nodejs流程的当前工作目录
+
+> process.cwd()

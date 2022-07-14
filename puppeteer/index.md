@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-26 15:04:31
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-11 14:36:27
+ * @LastEditTime: 2022-07-14 14:22:27
  * @FilePath: \learnningNotes\puppeteer\index.md
 -->
 ### window安装fun并部署项目到阿里云上
@@ -423,3 +423,9 @@ await page.emulate(puppeteer.devices['iPhone X']);
 // await page.emulate(devices['iPhone X']);
 await page.goto('https://www.baidu.com');
 ```
+
+### 截图api
+
+> await page.screenshot({path: new Date().getTime() + '.png'});
+
+完整参数参见[http://www.puppeteerjs.com/#?product=Puppeteer&version=v15.3.2&show=api-pagescreenshotoptions](http://www.puppeteerjs.com/#?product=Puppeteer&version=v15.3.2&show=api-pagescreenshotoptions)
