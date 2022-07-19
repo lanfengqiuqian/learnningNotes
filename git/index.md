@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2022-05-12 11:02:16
+ * @LastEditTime: 2022-07-14 19:27:46
  * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
@@ -105,4 +105,41 @@
     git status
     // 运行后, 工作目录和缓存区回到最近一次 commit 时候一摸一样的状态。
     // 此时建议运行 git status，会告诉你这是一个干净的工作目录, 又是一个新的开始了！
+    ```
+
+30. 连接git仓库失败
+
+    > fatal: unable to access 'https://github.com/xxxx/xxx.git/': Failed to connect to 127.0.0.1 port 7891: Connection refused
+
+    原因是git代理失效了，将代理取消即可
+
+    ```shell
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
+    ```
+
+31. git限制上传大文件（超过25MB）
+
+    > https://www.jianshu.com/p/1071b11a94b4
+
+    1. 仓库`branch`旁边有一个`tag`，点进去
+    2. 创建一个`releases`
+    3. 然后再上传文件的窗口添加文件即可
+    4. 最后点击发布
+    5. 之后就能在`releases`的界面看到你的文件了
+
+32. 开启和取消git代理
+
+    开启代理：这里的`7890`是代理`http`的端口号
+
+    ```shell
+    git config --global http.proxy http://127.0.0.1:7890
+    git config --global https.proxy http://127.0.0.1:7890
+    ```
+
+    取消代理
+
+    ```shell
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
     ```

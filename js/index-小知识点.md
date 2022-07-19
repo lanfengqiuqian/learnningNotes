@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-14 17:57:35
+ * @LastEditTime: 2022-07-19 15:51:41
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -830,4 +830,26 @@ let s = str.match(/ha(\S*)n,/)[1];
         执行后没有前进后退
 
     8. `document.URL = location.href`
+
+37. 常用的Match对象的方法
+
+    1. Math.abs() : 返回一个数的绝对值
+
+    2. Math.ceil() : 向上取整
+
+    3. Math.floor() : 向下取整
+
+    4. Math.round() : 四舍五入
+
+    5. Math.trunc() : 返回整数部分
+
+    5. Math.min() : 返回一组数据最小值
+
+        > Math.min(1,2,3,4,5); // 1
+
+        如果没有参数，返回`Infinity`
+
+        如果有一个参数不能转为数值，则结果为`NaN`
+
+    6. Match.max() : 返回一组数据最大值
 

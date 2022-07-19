@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-11 14:30:16
+ * @LastEditTime: 2022-07-19 13:04:59
  * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
@@ -185,3 +185,15 @@ It is not the most correct option but it works.
 ### 两个控制台切换
 
 在打开控制台的情况下，`ctrl + PageUp/PageDown`
+
+### 打开快捷键预览和设置
+
+> ctrl + k, ctrl + s
+
+### ctrl + shift +enter无效
+
+原因：快捷键冲突，如我的和`Markdown Preview Enhanced`扩展的冲突了
+
+检查：`ctrl + k, ctrl + s`打开快捷键预览和设置
+
+如果需要的话改建，如果不需要删除绑定即可

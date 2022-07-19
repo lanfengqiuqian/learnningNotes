@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-26 15:04:31
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-14 14:22:27
+ * @LastEditTime: 2022-07-19 11:17:08
  * @FilePath: \learnningNotes\puppeteer\index.md
 -->
 ### window安装fun并部署项目到阿里云上
@@ -429,3 +429,80 @@ await page.goto('https://www.baidu.com');
 > await page.screenshot({path: new Date().getTime() + '.png'});
 
 完整参数参见[http://www.puppeteerjs.com/#?product=Puppeteer&version=v15.3.2&show=api-pagescreenshotoptions](http://www.puppeteerjs.com/#?product=Puppeteer&version=v15.3.2&show=api-pagescreenshotoptions)
+
+
+### 调整视口区域大小
+
+解决问题：默认的视口是`800*600`，在某些页面会呈现小屏幕样式，导致一些节点的呈现样式不对或者根本不显示
+
+说明：这个在`无头模式`下也是适用的哦
+
+方案
+
+1. 手动设置大小
+
+    ```js
+    const browser = await puppeteer.launch({
+        "headless": false,
+        defaultViewport: {
+            width: 1600,
+            height: 800
+        },
+    });
+    ```
+
+    补充说明：如果是`starter-kit`项目的话，配置设置在`/src/starter-kit/local.js`文件中
+
+2. 浏览器满屏（实际没有改变视口大小，只是浏览器满屏）
+
+    ```js
+    const browser = await puppeteer.launch({
+        headless: false,
+        defaultViewport: null,
+        args: ['--start-fullscreen'] 
+    });
+    ```
+
+3. 视口区域占满浏览器
+
+    ```js
+    const browser = await puppeteer.launch({
+        headless: false,
+        defaultViewport: null,
+        args: ['--start-maximized'] 
+    });
+    ```
+
+4. 在创建了`page`实例之后
+
+    ```js
+    await page.setViewport({
+        width: 1600,
+        height: 800
+    })
+    ```
+
+
+### 关于本地调试可以，但是部署到阿里云上面不行可能的情况
+
+1. 系统版本问题
+
+    你本地是windows版本的chrome，但是阿里云上面是linux的版本，导致节点可能不大一样
+
+    验证方式：最好能够有mac电脑跑一下试试看
+
+2. 屏幕大小问题
+
+    本地的时候首先一般关闭无头模式，屏幕也会设置的比较大，所以一般不会注意到这个问题
+
+    部署到阿里云上面的时候，一般默认是`800*600`的屏幕，在有些情况会被识别为小屏幕设备
+
+    解决：见上一点
+
+3. puppeteer版本问题
+
+    不同的版本对于一些api的支持程度可能不一样
+
+    检查方式，看一下阿里云上面和本地的`package.json`的版本
+
+    然后看看能否知道哪个api出了问题，如果不知道就最好同步为本地的版本
