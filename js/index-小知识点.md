@@ -1,15 +1,15 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-19 15:51:41
+ * @LastEditTime: 2022-07-21 19:32:38
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
 
-    ||substr|substring|
-    |-|-|-|
-    |功能|截取一定长度字符串|截取一定长度字符串|
-    |参数|(start, length)|(start, end)左闭右开|
+    |      | substr             | substring            |
+    | ---- | ------------------ | -------------------- |
+    | 功能 | 截取一定长度字符串 | 截取一定长度字符串   |
+    | 参数 | (start, length)    | (start, end)左闭右开 |
     如果`start`或`end`为`NaN`或负数，那么将会被替换为0
 
 2. 大括号必须跟在前一个语句的同一行
@@ -133,14 +133,14 @@
 
     参数：callback（累加回调）, initialValue
 
-    |参数|子参数|说明|
-    |-|-|-|
-    |callbck||累加回调|
-    ||total|累加初始值|
-    ||currentValue|当前元素|
-    ||currentIndex|当前元素索引|
-    ||arr|数组对象|
-    initialValue||可传递的累加初始值|
+    | 参数         | 子参数       | 说明               |
+    | ------------ | ------------ | ------------------ |
+    | callbck      |              | 累加回调           |
+    |              | total        | 累加初始值         |
+    |              | currentValue | 当前元素           |
+    |              | currentIndex | 当前元素索引       |
+    |              | arr          | 数组对象           |
+    | initialValue |              | 可传递的累加初始值 |
 
 10. 获取含特殊字符的对象属性
 
@@ -148,16 +148,16 @@
 
     常见转义字符
 
-    |字符|描述|
-    |-|-|
-    |\’ |单引号|
-    |\"| 双引号|
-    |\& |和号|
-    |\\ |反斜杠|
-    |\n |换行符|
-    |\r |回车符|
-    |\t |制表符|
-    |\b |退格符|
+    | 字符 | 描述   |
+    | ---- | ------ |
+    | \’   | 单引号 |
+    | \"   | 双引号 |
+    | \&   | 和号   |
+    | \\   | 反斜杠 |
+    | \n   | 换行符 |
+    | \r   | 回车符 |
+    | \t   | 制表符 |
+    | \b   | 退格符 |
 
     比如：换行符
 
@@ -853,3 +853,92 @@ let s = str.match(/ha(\S*)n,/)[1];
 
     6. Match.max() : 返回一组数据最大值
 
+
+38. 获取浏览器地址栏中的参数
+
+    ```js
+    getQueryVariable(variable) {
+        // 从?开始获取后面的所有数据
+        var query = decodeURIComponent(window.location.search).substring(1);
+        // 从字符串&开始分隔成数组split
+        var vars = query.split('&');
+        // 遍历该数组
+        for (var i = 0; i < vars.length; i++) {
+            // 从等号部分分割成字符
+            var pair = vars[i].split('=');
+            // 如果第一个元素等于 传进来的参的话 就输出第二个元素
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return false;
+    }
+    ```
+
+39. JSON.parse(JSON.stringify(obj))实现深拷贝的弊端
+
+1. 深拷贝和浅拷贝
+
+    深拷贝：只是将数据中所有的数据饮用下来，依旧指向同一个存放地址，拷贝之后的数据修改之后，也会影响到元数据中的对象数据。如`Object.assign()`/`...扩展运算符`
+
+    浅拷贝：将数据中所有的数据拷贝下来，对拷贝之后的数据进行修改不会影响到原数据
+
+2. JSON.parse(JSON.stringify(obj))深拷贝的弊端
+
+    | 对象            | 序列化结果 |
+    | --------------- | ---------- |
+    | 时间对象        | 字符串     |
+    | RegExp、Error   | 空对象     |
+    | 函数、undefined | 丢失       |
+    | NaN、Infinity   | null       |
+    
+    只能序列化对象的可枚举的自有属性，如果obj中的对象是由构造函数生成的，则会丢失对象的`constructor`
+
+    如果对象中存在循环引用的情况也无法正确实现深拷贝
+
+    ```js
+    function Person (name) {
+        this.name = 20
+    }
+
+    const p = new Person('p')
+
+    let a = {
+        data0: '1',
+        date1: [new Date('2020-03-01'), new Date('2020-03-05')],
+        data2: new RegExp('\\w+'),
+        data3: new Error('1'),
+        data4: undefined,
+        data5: function () {
+            console.log(1)
+        },
+        data6: NaN,
+        data7: p
+    }
+
+    let b = JSON.parse(JSON.stringify(a))
+    ```
+
+3. 递归实现深拷贝
+
+    ```js
+    function deepClone(obj) {
+        // 如果不是对象，则直接返回
+        if (typeof obj !== 'object') {
+            return obj;
+        }
+        // 判断是数组还是对象，如果是数据，对于数组进行拷贝，如果是对象对于对象进行拷贝
+        let objClone = Array.isArray(obj) ? [] : {};
+        // 进行深拷贝不能为空
+        if (obj && typeof obj === "object") {
+            for(key in obj) {
+                if (obj[key] && typeof obj[key] === "object") {
+                    objClone[key] = deepClone(obj[key]);
+                } else {
+                    objClone[key] = obj[key];
+                }
+            }
+        }
+        return objClone;
+    }    
+    ```

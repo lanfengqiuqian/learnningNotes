@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-29 15:13:07
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-08 14:35:34
+ * @LastEditTime: 2022-07-21 15:54:52
  * @FilePath: \learnningNotes\vue\index.md
 -->
 
@@ -306,3 +306,5 @@ assetsPublicPath: '/',
 }
 </style>
 ```
+
+### Vue.ls的使用
