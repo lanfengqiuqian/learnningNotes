@@ -1,8 +1,8 @@
 <!--
  * @Date: 2020-10-26 10:32:28
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-04 18:28:18
- * @FilePath: \learnningNotes\js\重学js-大知识点.md
+ * @LastEditTime: 2022-07-26 11:02:02
+ * @FilePath: \learnningNotes\js\js-大知识点.md
 -->
 ### Set和Map
 
@@ -1023,3 +1023,8 @@ new Date('2020-11-26');
 // window和安卓支持，ios和mac支持
 new Date('2020/11/26');
 ```
+
+
+
+
+

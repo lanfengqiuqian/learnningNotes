@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-21 19:32:38
+ * @LastEditTime: 2022-07-26 11:53:45
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -397,17 +397,16 @@
 
     ```js
     function add0(m){return m<10?'0'+m:m }
-    function format(shijianchuo)
-    {
-    //shijianchuo是整数，否则要parseInt转换
-    var time = new Date(shijianchuo);
-    var y = time.getFullYear();
-    var m = time.getMonth()+1;
-    var d = time.getDate();
-    var h = time.getHours();
-    var mm = time.getMinutes();
-    var s = time.getSeconds();
-    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+    function format(shijianchuo) {
+        //shijianchuo是整数，否则要parseInt转换
+        var time = new Date(shijianchuo);
+        var y = time.getFullYear();
+        var m = time.getMonth()+1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+        return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
     }
     ```
 
@@ -563,7 +562,7 @@
 
 26. js转化非正常格式的json
 
-1. 普通的对象
+27. 普通的对象
 
     ```js
     let obj1 = {
@@ -573,7 +572,7 @@
     let str1 = JSON.stringify(obj1); // '{"name":"lan","age":12}'
     ```
 
-2. 如果对象的属性是非字符串
+28. 如果对象的属性是非字符串
 
     ```js
     let obj2 = {
@@ -586,7 +585,7 @@
     let _obj2 = JSON.parse(str2); // {100: 200, name: 'lan'}
     ```
 
-3. 如果给到你的字符串属性没有被引号包裹，是转化不了的，会报错
+29. 如果给到你的字符串属性没有被引号包裹，是转化不了的，会报错
 
     ```js
     let str3 = '{100:200,"name":"lan"}';
@@ -594,11 +593,11 @@
     let obj3 = JSON.parse(str3); // 报错
     ```
 
-27. 判断数组是否有重复元素（非引用类型）
+30. 判断数组是否有重复元素（非引用类型）
 
     > new Set(arr).size != arr.length
 
-28. 英文数字单位转化
+31. 英文数字单位转化
 
 ```js
 // 将数字转化为英文单位，如1000为1K，10000000位10M
@@ -941,4 +940,62 @@ let s = str.match(/ha(\S*)n,/)[1];
         }
         return objClone;
     }    
+    ```
+
+40. call、apply与bind 用法和区别
+
+相同点：都用于改变`this`指向的绑定
+
+不同点：
+
+1. call、apply会`立即执行函数`。`call`传递参数调用形参是以散列的形式（`fn.call(obj,1,2,3)`），而`apply`的形参是一个数组。在传参的情况下，`call`的性能要高于`apply`，因为`apply`在执行的时候还要多一步解析数组
+
+2. `bind`在改变`this`之后返回的是一个全新的绑定函数，即返回一个新的函数，不会立即执行函数。并且之后的`this`指向无法再通过call、apply、bind改变。
+
+实现
+
+1. call
+
+    ```js
+    let obj = {
+        name: "lan"
+    }
+    function fn() {
+        console.log('...arguments', ...arguments);
+        console.log('this.name', this.name);
+    }
+    fn.call(obj, 1, 2, 3);
+    ```
+
+2. apply
+
+    ```js
+    let obj = {
+        name: "lan"
+    }
+    function fn() {
+        console.log('...arguments', ...arguments);
+        console.log('this.name', this.name);
+    }
+    fn.apply(obj, [1, 2, 3]);
+    ```
+
+3. bind
+
+    ```js
+    let bindObj = {
+        name: 'bind-name'
+    }
+    let applyObj = {
+        name: 'apply-name'
+    }
+    function fn() {
+        console.log('...arguments', ...arguments);
+        console.log('this.name', this.name);
+    }
+    let bfn = fn.bind(bindObj, [1, 2, 3]);
+    bfn();
+
+    // 这里重新绑定不会改变this指向
+    bfn.apply(applyObj);
     ```
