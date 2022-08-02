@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-19 13:04:59
+ * @LastEditTime: 2022-07-29 11:08:13
  * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
@@ -110,7 +110,7 @@ It is not the most correct option but it works.
 
     功能：自动生成文件注释和方法注释
 
-    使用：参见[这里](https://marketplace.visualstudio.com/items?itemName=OBKoro1.korofileheader)
+    使用：参见[这里](https://github.com/OBKoro1/koro1FileHeader/wiki/%E5%AE%89%E8%A3%85%E5%92%8C%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B)
 
 10. Material Icon Theme
 

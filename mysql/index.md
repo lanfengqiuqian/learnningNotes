@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-07 11:28:07
+ * @LastEditTime: 2022-08-02 11:23:36
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 
@@ -526,3 +526,17 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
         4. 如果还没有生效的话，尝试重启一下数据库
 
     附：我这边其实只改了数据库和字段，并且没有重启就生效了
+
+30. Mybatis.xml文件中大于、小于、等于
+
+    这个文件中使用`>=`/`<=`这些符号会报错，需要进行替换
+
+    | 原符号 | 替换符号 |
+    | ------ | -------- |
+    | <      | &lt;     |
+    | <=     | &lt;=    |
+    | >      | &gt;     |
+    | >=     | &gt;=    |
+    | &      | &amp;    |
+    | '      | &apos;   |
+    | "      | &quot;   |

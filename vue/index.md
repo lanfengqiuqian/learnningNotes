@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-03-29 15:13:07
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-21 15:54:52
+ * @LastEditTime: 2022-08-01 20:26:50
  * @FilePath: \learnningNotes\vue\index.md
 -->
 
@@ -225,9 +225,127 @@ assetsPublicPath: '/',
     </style>
     ```
 
-### this.$set()
+### this.$set() 和 vue.set()
+
+1. 应用场景
+
+    在给对象进行赋值的时候，发现数据并不会自动更新到视图上去
+
+    vue文档说明：如果在实例创建之后添加新的属性到实例上，他不会触发视图更新
+
+    ```js
+    data() {
+        return {
+            obj: {
+                name: 'lan',
+                age: 12
+            }
+        }
+    }
+    mounted() {
+        this.obj.sex = 'man';
+    }
+    ```
+
+2. 原因分析
+
+    受到`es5`的限制，`vue.js`不能检测到对象属性的添加或删除，即`vue`不能做到脏数据检查。
+
+    因为`vue.js`会在初始化实例的时候，将属性转为`getter`和`setter`，所以属性必须在`data`对象上才能让`vue.js`转化他，才能让他是响应的
+
+    正确写法：`this.$set(this.data, 'key', value)`;
+
+    ```js
+    mounted() {
+        this.$set(this.obj, 'sex', 'man');
+    }
+    ```
+
+    注意：`vue`不允许动态添加根级响应式属性
+
+    ```js
+    const app = new Vue({
+        data: {
+            a: 1
+        }
+    }).$mount('#app1')
+    Vue.set(app.data, 'b', 2);
+    ```
+
+    这种情况下控制台会报错：`Uncaught TypeError: Cannot convert undefined or null to object`
+
+    只可以使用`Vue.set(object, propertyName, value)`方法向嵌套对象添加响应式属性
+
+    ```js
+    var vm = new Vue({
+        el: '#test',
+        data: {
+            info: {
+                name: 'lan'
+            }
+        }
+    });
+    Vue.set(vm.info, 'sex', 'man');
+    ```
+
+3. `Vue.set()`和`this.$set()`实现原理
+
+    ```js
+    // Vue.set()的源码
+    import { set } from '../observer/index'
+    // somecode
+    Vue.set = set;
+    ```
+
+    ```js
+    // this.$set()的源码
+    import { set } from '../observer/index';
+    // some code
+    Vue.prototype.$set = set
+    ```
+
+    分析：这两个api的实现原理基本一样，都是使用的相同地方的`set()`方法，区别就是`Vue.set()`是将set绑定在`Vue`构造函数上，`this.$set()`将`set`绑定在`Vue`原型上
+
+    使用区别：`this.$set`只能设置实例创建后存在的数据（数据已经在data中），而`Vue.set()`可以给实例创建之后添加的新的属性（data中不存在的）
 
 ### this.$nextTick()
+
+1. 作用
+
+    将回调延迟到下次dom更新循环之后执行，在在修改数据之后立即使用它，然后等待dom更新
+
+2. 应用场景
+
+    1. 需要使用元素选择器来获取元素进行操作
+    2. 或者是使用`$refs`来获取元素进行操作
+
+3. 示例
+
+    ```js
+    data() {
+        return {
+            content: '初始值'
+        }
+    }
+    testClick() {
+        this.content = '改变了的值'
+        // 这时候直接打印的话，由于dom元素还没更新
+        // 因此打印出来的还是未改变之前的值
+        console.log(this.$refs.tar.innerText) // 初始值
+    }
+    ```
+
+    使用`this.$nextTick()`
+
+    ```js
+    testClick() {
+        this.content = '改变了的值'
+        this.$nextTick(() => {
+            // dom元素更新后执行，因此这里能正确打印更改之后的值
+            console.log(this.$refs.tar.innerText) // 改变了的值
+        })
+    }
+    ```
 
 
 ### 解决uniapp的showToast字数超过7个的显示问题
@@ -308,3 +426,43 @@ assetsPublicPath: '/',
 ```
 
 ### Vue.ls的使用
+
+
+
+### vue依赖包分析插件
+
+1. `yarn add webpack-bundle-analyzer`
+
+2. `vue.config.js`文件中配置
+
+    ```js
+    module.exports = {    
+        chainWebpack: config => {
+            config
+            .plugin('webpack-bundle-analyzer')
+            .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+        },
+    }
+    ```
+
+3. `yarn serve`跑起来就能看到了
+
+
+### Computed property "XXX" was assigned to but it has no setter
+
+原因：`v-model`是双向绑定，但是在`computed`只通过`get`获取参数值，没有`set`改变参数值
+
+解决方案：在`computed`中添加`get`和`set`
+
+```js
+collapseMenu: {
+    get() {
+        return this.$store.state.tab.drawer
+    },
+    set(v) {
+        this.$store.state.tab.drawer = v
+    }
+}
+```
+
+另一个方案：不要使用`v-model`双向绑定，而是直接使用`value`赋值

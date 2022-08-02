@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-14 19:27:46
+ * @LastEditTime: 2022-07-29 10:35:22
  * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
@@ -143,3 +143,13 @@
     git config --global --unset http.proxy
     git config --global --unset https.proxy
     ```
+
+33. 文件被忽略，但是不在gitignore中
+
+vscode中表现：文件名是灰色的（git没有发现他改变）
+
+git中表现：`git add .`没有任何内容，`git status`也没有改变
+
+解决方案：使用`-f`参数手动添加被`ignored`忽略的文件
+
+    > git add xxx -f
