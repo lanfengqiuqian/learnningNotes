@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-11-03 14:22:26
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-29 11:08:13
+ * @LastEditTime: 2022-08-03 17:29:17
  * @FilePath: \learnningNotes\vscode\index.md
 -->
 ### 空目录折叠问题
@@ -197,3 +197,10 @@ It is not the most correct option but it works.
 检查：`ctrl + k, ctrl + s`打开快捷键预览和设置
 
 如果需要的话改建，如果不需要删除绑定即可
+
+### 去除空行
+
+1. ctrl + h打开替换
+2. 输入`^\s*(?=\r?$)\n`
+3. 然后点击右边的`.*`符号（使用正则匹配）
+4. 然后点击`全部替换`

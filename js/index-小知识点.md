@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-26 11:53:45
+ * @LastEditTime: 2022-08-03 20:23:58
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -999,3 +999,28 @@ let s = str.match(/ha(\S*)n,/)[1];
     // 这里重新绑定不会改变this指向
     bfn.apply(applyObj);
     ```
+
+41. 将当前时间/指定时间转换为时间戳（毫秒）
+
+```js
+// 方式一
+Date.now(); // 1606381881650(打印时的时间戳)
+// 方式二
+new Date() - 0; // 1606381881650
+new Date('2022-03-05')-0; // 1646438400000
+// 方式三
++new Date(); // 1646572862004
++new Date('2022-03-05'); // 1646438400000
+// 方式四
+new Date().valueOf() // 1606381881650
+new Date('2022-03-05').valueOf() // 1646438400000
+// 方式五
+new Date() * 1 // 1606381881650
+new Date('2022-03-05') * 1 // 1646438400000
+// 方式六
+Number(new Date()) // 1646574434807
+Number(new Date('2022-03-05')) // 1646438400000
+// 方式七
+new Date().getTime() // 1606381881650
+new Date('2022-03-05').getTime()// 1646438400000
+```
