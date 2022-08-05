@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-07-28 17:16:29
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-01 17:25:30
+ * @LastEditTime: 2022-08-05 16:32:04
  * @FilePath: \learnningNotes\charts\echarts.md
 -->
 ### 文档
@@ -264,4 +264,16 @@
             this.chart = echarts.init(document.getElementById(this.name));
         }
     }
+    ```
+
+5. 关于echarts数据变化残留数据问题
+
+    利用echarts加载图表的时候，当你切换图表的查询条件的时候，会发现有上次数据残留，所以这时候需要`elear`一下图表，再重新加载就好了
+
+    ```js
+    this.chart = echarts.init(document.getElementById(this.name));
+    this.chart.resize();
+    // 关键代码是这个
+    this.chart.clear();
+    this.chart.setOption(options);
     ```
