@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:05:10
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-29 10:35:22
+ * @LastEditTime: 2022-08-08 18:04:43
  * @FilePath: \learnningNotes\git\index.md
 -->
 1. 查看所有分支  
@@ -153,3 +153,7 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
 解决方案：使用`-f`参数手动添加被`ignored`忽略的文件
 
     > git add xxx -f
+
+34. 常见的git工作流
+
+    > https://www.jianshu.com/p/7eba1f0b5b42

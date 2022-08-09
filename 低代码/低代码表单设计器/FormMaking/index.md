@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-02-28 10:54:12
  * @LastEditors: Lq
- * @LastEditTime: 2022-06-28 15:57:17
+ * @LastEditTime: 2022-08-08 15:11:03
  * @FilePath: \learnningNotes\低代码\低代码表单设计器\FormMaking\index.md
 -->
 ### 资料
@@ -479,3 +479,42 @@
     关键：需要在组件标志符前面加`fm-`（这种方式适用于1.4.0的版本之前）
     
     如组件叫做`username`，调用方式`this.getComponent(['fm-username'])`
+
+    ```js
+    // 隐藏子表单（table_one）中的组件文本组件（username）
+    this.getComponent(['table_one']).hide(['username']);
+    // 如果是1.4.0之前的版本
+    this.getComponent(['fm-table_one']).hide(['username']);
+    ```
+
+10. 子表单的事件中会增加额外的几个参数
+
+    ```js
+    const {
+        table, // 子表单字段标识
+        subform, // 子表单+ 字段标识
+        rowIndex // 事件在子表单中的索引
+    } = arguments[0];
+    ```
+
+11. 间接修改子表单的值的方法
+
+    ```js
+    // 获取要修改的行
+    const {rowIndex} = arguments[0];
+    // 获取到子表单的内容
+    const tableData = this.getValue('preferred_platform_json');
+    // 一些操作代码
+    tableData[rowIndex] = {
+        ...tableData[rowIndex],
+        preferred_platform: "",
+        red_people_account: "",
+        nickname: "",
+        amount_of_number: "",
+        imgupload_y3s6o1ok: [],
+    }
+    // 设置数据，来达到修改的效果
+    this.setData({
+        preferred_platform_json: JSON.parse(JSON.stringify(tableData)),
+    })
+    ```
