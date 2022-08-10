@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-08-10 12:25:49
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-10 18:00:09
+ * @LastEditTime: 2022-08-10 19:00:06
  * @FilePath: \learnningNotes\chorme\extensions\js\content.js
  */
 //content.js   manifest匹配地址的页面在刷新时会直接执行这里的代码
@@ -21,6 +21,11 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
         case 'removeAD':
             //隐藏含有ad的元素，来达到去广告的效果
             $(".ad").hide();
+            break;
+        case 'checkCsdnUserNick':
+            if(LocalDB.step==2){
+                $("body").append('<h1>'+LocalDB.cookie+'</h1>');
+            }
             break;
         default:
             break;

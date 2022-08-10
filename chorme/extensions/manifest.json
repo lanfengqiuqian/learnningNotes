@@ -19,7 +19,7 @@
 	"permissions":["storage", "cookies"],
 	"content_scripts":[{
 		"js":["js/jquery.js","js/content.js"],
-		"matches":["*://localhost/*", "*://*.blog.csdn.net/*"],
+		"matches":["*://localhost/*", "*://www.csdn.net/*"],
 		"run_at":"document_end"
 	}]
 }

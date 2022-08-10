@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-08-10 12:01:11
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-10 18:25:39
+ * @LastEditTime: 2022-08-10 18:59:53
  * @FilePath: \learnningNotes\chorme\extensions\background.js
  */
 //background.js
@@ -59,7 +59,8 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                         });
                         break;
                         
-                    case 'checkCsdnBT':
+                    case 'checkCsdnUserNick':
+                        console.log('LocalDB', LocalDB)
                         //popup设置数据的时候有个step属性,在多步操作的时候就开始发挥作用了
                         if(LocalDB.step==0){
                             LocalDB.step = 1;//将step设置成1
@@ -72,9 +73,10 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                             });
                         }else if(LocalDB.step==1){//因为csdn的地址我们也匹配了所以content在跳转到csdn之后会还是会回来，不同的是step已经是1了
                             chrome.cookies.get({//获取cookie
-                                'url': "https://www.csdn.net/",
-                                'name': 'BT'
+                                'url': "https://www.csdn.net",
+                                'name': 'UserNick'
                             }, function(cookie) {
+                                console.log('cookie', cookie);
                                 console.log(cookie.value);//获取到的值
                                 LocalDB.cookie=cookie.value;//把获取到的值放到本地数据的cookie属性里
                                 LocalDB.step = 2;//将step设置成2
@@ -82,7 +84,7 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                                     LocalDB: LocalDB//保存到本地数据
                                 },function() {
                                     chrome.tabs.update(null, {//将前台页面跳转到设置的url
-                                        url: 'http://localhost/test/index.html'
+                                        url: 'http://localhost:8081/'
                                     });
                                 });
                             });
