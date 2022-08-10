@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-11 19:58:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-14 11:55:31
+ * @LastEditTime: 2022-08-09 20:15:54
  * @FilePath: \learnningNotes\markdown\note.md
 -->
 ### 基本用法
@@ -174,3 +174,9 @@
     - [x] 第2件事
     - [ ] 第3件事
     - [x] 第4件事
+
+12. 文件头部生成目录
+
+    在文件头部输入`[toc]`即可
+
+    前提是你的内容中用了`标题`标记

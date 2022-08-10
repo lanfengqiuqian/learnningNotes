@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-03 20:23:58
+ * @LastEditTime: 2022-08-09 20:16:22
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()

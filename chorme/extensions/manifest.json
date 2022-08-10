@@ -1,0 +1,25 @@
+{
+    "manifest_version":3,
+	"name":"这是插件名称",
+	"version":"0.0.1",
+	"description":"这是插件描述",
+    "action":{
+		"default_title":"这是鼠标移上去时提示文字",
+        "default_popup":"html/popup.html"
+	},
+	"icons":{
+		"16":"img/logo.png",
+		"32":"img/logo.png",
+		"48":"img/logo.png",
+		"128":"img/logo.png"
+	},
+	"background":{
+		"service_worker":"background.js"
+	},
+	"permissions":["storage", "cookies"],
+	"content_scripts":[{
+		"js":["js/jquery.js","js/content.js"],
+		"matches":["*://localhost/*", "*://*.blog.csdn.net/*"],
+		"run_at":"document_end"
+	}]
+}
