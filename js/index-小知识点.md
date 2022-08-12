@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-09 20:16:22
+ * @LastEditTime: 2022-08-12 15:01:39
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -1023,4 +1023,65 @@ Number(new Date('2022-03-05')) // 1646438400000
 // 方式七
 new Date().getTime() // 1606381881650
 new Date('2022-03-05').getTime()// 1646438400000
+```
+
+42. 页面加载完成
+
+纯js方法
+
+```js
+
+// (1)、页面所有内容加载完成执行
+window.onload = function(){
+    
+}
+ 
+// (2)、页面加载完毕
+document.onreadystatechange = function(){
+    if(doucument.readyState == 'complete'){
+        // 页面加载完毕
+    }
+}
+```
+
+jquery方法
+
+注：
+（1）jquery方法兼容性好，并且实在dom资源加载完毕的情况下执行，（不包括图片视频资源）
+（2）第1种是第2种的简写方式。两个是document加载完成后就执行方法
+（3）window.onload = function(){};都是等到整个window加载完成执行方法体。是使用dom对象
+（4）执行顺序
+    1.）第1种和第2种无论放在哪里都是最先执行，window.onload = function(){};在其之后执行，“在标签上静态绑定onload事件，<body onload="aaa()">等待body加载完成，就会执行aaa()方法/函数”最后执行
+
+```js
+$(function(){
+
+})
+
+$(document).ready(function(){
+    // document 不写默认document
+})
+```
+
+需要补充的是，如果页面元素是根据接口动态渲染的话，接口数据是异步的，可能有些节点获取不到
+
+
+43. js获取浏览器语言
+
+```js
+function getCurrentPageLanguage() {
+    var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();
+    if (JsSrc.indexOf('zh') >= 0) {
+        // 假如浏览器语言是中文
+        return 'zh';
+    }
+    else if (JsSrc.indexOf('en') >= 0) {
+        // 假如浏览器语言是英文
+        return 'en';
+    }
+    else {
+        // 假如浏览器语言是其它语言
+        return 'other';
+    }
+}
 ```
