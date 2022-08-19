@@ -1,7 +1,7 @@
 <!--
  * @Date: 2022-07-28 17:16:29
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-05 16:32:04
+ * @LastEditTime: 2022-08-16 14:28:15
  * @FilePath: \learnningNotes\charts\echarts.md
 -->
 ### 文档
@@ -182,6 +182,140 @@
     // 正确做法
     data: ['-', 22, '-', 23, 19]
     ```
+
+6. 漏斗图实现多个，且每个数据维度一个颜色
+
+    1. 效果
+
+        产品想要效果
+        <img src="img/多个漏斗图想要效果.png" />
+
+        echarts默认效果
+        <img src="img/多个漏斗图默认效果.png" />
+
+        说明一下主要差距：
+
+         1. 数据维度有两个：每一个漏斗代表一个等级，每一种颜色代表一个类型
+         2. 每一个图例和类型相对应，而不是和漏斗图也就是等级相对应
+         3. 需要每个漏斗图都有标题
+
+    2. 代码实现
+
+        注意：datasource中的对象数组一定要有`name`和`value`属性，因为后面的图例否则实现不了，再加一个`type`属性来代表`等级`
+
+            ```js
+            // 数据格式
+            const dataset = [{"source":[{"name":"联系红人数","value":2,"type":"低"},{"name":"红人发布数","value":1,"type":"低"}]},{"source":[{"name":"联系红人数","value":1,"type":"小白"}]},{"source":[{"name":"联系红人数","value":4,"type":"无等级"},{"name":"寄送产品数","value":1,"type":"无等级"},{"name":"红人发布数","value":4,"type":"无等级"}]},{"source":[{"name":"联系红人数","value":13,"type":"素人"},{"name":"红人回复数","value":2,"type":"素人"},{"name":"寄送产品数","value":1,"type":"素人"},{"name":"红人发布数","value":11,"type":"素人"}]},{"source":[{"name":"联系红人数","value":10,"type":"达人"},{"name":"红人回复数","value":2,"type":"达人"},{"name":"红人发布数","value":8,"type":"达人"}]}]
+
+            // 配置颜色映射关系，这种是默认的，但是也要写，否则维度不同
+            const statusMapColor = {
+                '联系红人数': '#5470c6',
+                '红人回复数': '#91cc75',
+                '寄送产品数': '#fac858',
+                '红人发布数': '#ee6666'
+            }
+            
+            const option = {
+                title: this.dataset.length === 1 ? [{
+                text: this.dataset[0].source[0].type
+                }] : this.dataset.map((item, index) => ({
+                text: item.source[0]['type'],
+                left: `${5 + index * (0.7 / this.dataset.length * 100)}%`
+                })),
+
+                tooltip: {
+                    trigger: 'item',
+                    // 手动修改tooltip提示
+                    formatter: (data) => {
+                        return data.value['type'] ? `${data.value['type']} <br>${data.value['name']} : ${data.value['value']}` : `${data.value['name']} : ${data.value['value']}`;
+                    }
+                },
+                // 设置图例渲染
+                legend: {
+                    orient: 'vertical',
+                    left: '70%',
+                    bottom: '10%',
+                    data: Object.keys(statusMapColor).map(key => ({
+                            name: key,
+                            itemStyle: {
+                            color: statusMapColor[key]
+                        }
+                    }))
+                },
+                // 设置数据映射
+                dataset: dataset,
+                // 设置系列，这里由于等级数量多少是不确定的（也就是漏斗图数量不确定），需要计算宽度和偏移
+                series: this.dataset.length === 1 ? [{
+                    name: 'Funnel',
+                    type: 'funnel',
+                    left: '10%',
+                    width: '40%',
+                    minSize: '0%',
+                    maxSize: '100%',
+                    sort: 'descending',
+                    gap: 2,
+                    label: {
+                        show: true,
+                        position: 'inside'
+                    },
+                    labelLine: {
+                        length: 10,
+                        lineStyle: {
+                        width: 1,
+                        type: 'solid'
+                        }
+                    },
+                    itemStyle: {
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        label: {
+                        fontSize: 20
+                        }
+                    }
+                    }] : this.dataset.map((item, index) => {
+                    return ({
+                        name: item.source[0]['type'],
+                        type: 'funnel',
+                        left: `${5 + index * (0.7 / this.dataset.length * 100)}%`,
+                        width: `${0.7 / this.dataset.length * 100}%`,
+                        minSize: '0%',
+                        maxSize: '100%',
+                        sort: 'descending',
+                        gap: 2,
+                        datasetIndex: index,
+                        label: {
+                        show: true,
+                        position: 'inside',
+                        color: '#fff'
+                        },
+                        labelLine: {
+                        length: 10,
+                            lineStyle: {
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                        itemStyle: {
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            color: (data) => {
+                                return statusMapColor[data.data['name']];
+                            }
+                        },
+                        emphasis: {
+                            label: {
+                                fontSize: 20
+                            }
+                        }
+                    })
+                })
+            }
+            ```
+    3. 效果如下，功能基本满足了，接下来就是调整样式了
+
+        <img src="img/多个漏斗图大概效果.png" />
 
 ### 常见问题
 

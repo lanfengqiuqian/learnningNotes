@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-08-19 19:08:33
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-12 20:22:55
+ * @LastEditTime: 2022-08-17 18:18:35
  * @FilePath: \learnningNotes\mysql\index.md
 -->
 
@@ -540,3 +540,17 @@ UPDATE `zhu_c_invoice` SET `invoice_category_json` =  REPLACE (`invoice_category
     | &      | &amp;    |
     | '      | &apos;   |
     | "      | &quot;   |
+
+31. distinct关键字
+
+    根据一列的某一个字段判断，返回唯一不同的值
+
+    ```sql
+    select distinct name from user
+    ```
+
+    如：返回同一天录入的不同的班级
+
+    ```sql
+    select create_time, distinct class from student group by date_format( create_time, '%Y-%m-%d' )
+    ```
