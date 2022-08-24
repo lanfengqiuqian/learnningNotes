@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-06-12 18:31:22
  * @LastEditors: Lq
- * @LastEditTime: 2022-07-08 16:35:13
+ * @LastEditTime: 2022-08-22 16:12:03
  * @FilePath: \learnningNotes\windows\index.md
 -->
 #### windows安装puppeteer
@@ -77,6 +77,8 @@
 使用`Fn+F9`组合键
 
 其他键盘使用`Fn+F12`组合键
+
+达尔优A87：`Fn + win`组合键
 
 ### 开始菜单栏程序快捷方式存放位置
 

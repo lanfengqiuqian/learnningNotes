@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-09-02 10:46:40
  * @LastEditors: Lq
- * @LastEditTime: 2022-08-12 15:01:39
+ * @LastEditTime: 2022-08-24 14:39:28
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
 1. substr()和substring()
@@ -1085,3 +1085,12 @@ function getCurrentPageLanguage() {
     }
 }
 ```
+
+44. 判断页面网速
+
+    ```js
+    navigator.connection.downlink; // 无限制为10
+    navigator.connection.downlink; // 高速3G为1.5
+    navigator.connection.downlink; // 低速3G为0.4
+    navigator.connection.downlink; // 离线状态为0
+    ```
