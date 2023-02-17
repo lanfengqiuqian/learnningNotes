@@ -966,6 +966,27 @@ function fn(n) {
 
     ```
 
+#### allSettled()与all()的区别
+
+allSettled()与all()的有什么区别呢？
+
+1. 返回的数据不太一样，all()返回一个直接包裹resolve内容的数组，则allSettled()返回一个包裹着对象的数组。
+    ```js
+    // all返回 ["p1", "p2"]
+    // allSettled返回 
+    // [
+    //     {
+    //         "status": "fulfilled",
+    //         "value": "p1"
+    //     },
+    //     {
+    //         "status": "fulfilled",
+    //         "value": "p2"
+    //     }
+    // ]
+    ```
+2. 如果是all()的话，如果有一个Promise对象报错了，则all()无法执行，会报错你的错误，无法获得其他成功的数据。则allSettled()方法是不管有没有报错，把所有的Promise实例的数据都返回回来，放入到一个对象中。如果是resolve的数据则status值为fulfilled,相反则为rejected。
+
 
 ### Image对象
 
@@ -1023,3 +1044,502 @@ function fn(n) {
  8.  依次循环
 
 
+### es6module和commonjs
+
+[https://es6.ruanyifeng.com/#docs/module](https://es6.ruanyifeng.com/#docs/module)
+
+1. 基本使用
+
+    1. commonjs
+
+        ```js
+        // a.js
+        module.exports.obj = {
+            name: 'lan',
+            age: 12
+        }
+        // 或者（这里可以没有变量名）,层级比上面少一层
+        module.exports = {}
+        // 或者
+        exports.obj = {};
+
+        // b.js
+        const obj = require('a.js');
+        console.log(obj);
+        ```
+
+    2. es6module
+
+        ```js
+        // a.js
+        export const obj = {
+            name: 'lan',
+            age: 12
+        }
+        // 或者
+        export default obj;
+
+        // b.js
+        import { obj } from "b";
+        console.log(obj);
+        ```
+
+2. 区别
+
+    1. nodejs默认是支持commonjs语法的，如果直接使用es6module会报错
+
+    2. 想要使用es6module的语法（import、export）
+        
+        方法一
+
+        文件后缀改为`xxx.mjs`
+
+        方法二
+
+        1. 新建`package.json`文件
+        2. 修改`type`为`module`
+
+            ```json
+            {
+                "type": "module"
+            }
+            ```
+
+            注意：这种情况再使用commonjs语法会报错
+
+            1. 将json改为`type: commonjs`
+            2. 文件后缀使用`xxx.cjs`
+
+
+### AST
+
+详细解释，并手写一个eslint插件实现：[https://blog.csdn.net/KlausLily/article/details/124486883](https://blog.csdn.net/KlausLily/article/details/124486883)
+
+#### 概念
+
+就是一种树形结构，并且是某种代码的一种抽象表示
+
+1. 在计算机科学中，抽象语法树是源代码语法结构的一种抽象表示
+2. 它以树状的形式表现出编程语言的语法结构
+3. 树上的每个节点都表示源代码中的一种结构
+4. 之所以说是抽象的，是因为这里的语法并不会表示出真实语法中出现的每个细节
+
+可视化网站：[https://astexplorer.net/](https://astexplorer.net/)
+
+#### 示例
+
+```js
+console.log('1')
+```
+
+被解析为
+
+```js
+{
+  "type": "Program",
+  "start": 0, // 起始位置
+  "end": 16, // 结束位置，字符长度
+  "body": [
+    {
+      "type": "ExpressionStatement", // 表达式语句
+      "start": 0,
+      "end": 16,
+      "expression": {
+        "type": "CallExpression", // 函数方法调用式
+        "start": 0,
+        "end": 16,
+        "callee": {
+          "type": "MemberExpression", // 成员表达式 console.log
+          "start": 0,
+          "end": 11,
+          "object": {
+            "type": "Identifier", // 标识符，可以是表达式或者结构模式
+            "start": 0,
+            "end": 7,
+            "name": "console"
+          },
+          "property": {
+            "type": "Identifier", 
+            "start": 8,
+            "end": 11,
+            "name": "log"
+          },
+          "computed": false, // 成员表达式的计算结果，如果为 true 则是 console[log], false 则为 console.log
+          "optional": false
+        },
+        "arguments": [ // 参数
+          {
+            "type": "Literal", // 文字标记，可以是表达式
+            "start": 12,
+            "end": 15,
+            "value": "1",
+            "raw": "'1'"
+          }
+        ],
+        "optional": false
+      }
+    }
+  ],
+  "sourceType": "module"
+}
+```
+
+### Tree Shaking 摇树优化
+
+1. 什么是Tree Shaking
+
+    1. 在前端性能优化中，es6推出了tree shaking机制
+    2. 在我们项目中引入其他模块的时候，会自动将没有用到的代码，或者永远不会执行的代码去掉
+    3. 在`Uglify`（代码压缩）阶段查处，不会打包到bundle中
+
+2. 哪些情况可以用Tree Shaking呢
+
+    1. 只支持ESM的引入方式，不支持CommonJS的引入方式
+    2. 引入模块时应该避免全局引入，局部引入才可以触发Tree Shaking机制
+
+        ```js
+        // Import everything (not tree-shaking)
+        import lodash from 'lodash';
+
+        // Import named export (can be tree-shaking)
+        import { debounce } from 'lodash';
+
+        // Import the item directly (can be tree-shaking)
+        import debounce from 'lodash/lib/debounce';
+
+        ```
+
+3. 对于全局CSS的影响
+
+    对于那些直接引入到js的文件，例如全局的css，他们并不会被转换成一个css模块
+
+        ```js
+        import './index.css'
+        ```
+
+    这样的代码，在打包后，打开页面，就会发现样式没有应用上，原因在于：将`sideEffects`设置为`false`后，所有的文件都会被tree shaking，通过import这样的形式引入的css就会被当作无用的代码处理掉
+
+    需要在loader的规则配置中，添加`sideEffects: true`，告诉webpack这些文件不要treeshaking
+
+
+### scope hoisting
+
+1. 什么是Scope Hoisting
+
+    默认情况下，经过webpack打包后的模块资源会被组织成一个个函数形式，如
+
+    ```js
+    // common.js
+    export default "common";
+
+    // index.js
+    import common from './common';
+    console.log(common);
+    ```
+
+    上述代码最终会被打包形成如下的产物
+
+    ```js
+    "./src/common.js":
+    ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+        const __WEBPACK_DEFAULT_EXPORT__ = ("common");
+        __webpack_require__.d(__webpack_exports__, {
+        /* harmony export */
+        "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+        /* harmony export */
+        });
+    }),
+    "./src/index.js":
+    ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+        var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__( /*! ./common */ "./src/common.js");
+        console.log(_common__WEBPACK_IMPORTED_MODULE_0__)
+    })
+    ```
+
+    这样的结构存在两个影响运行性能的问题
+
+    1. 重复的函数模版代码会增加产物体积，消耗更多网络流量
+    2. 函数的出入栈需要创建、销毁作用域空间，影响运行性能
+
+    针对这些问题，自webpack3开始引入scope hoisting功能，本质上就是将符合条件的多个模块合并到同一个函数空间内，减少函数声明的模块代码和运行时频繁的出入栈操作，从而打包出【体积更小】、【运行性能更好】的包
+
+    上述示例经过scope hoisting优化后，生成代码
+
+    ```js
+    ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+        ;// CONCATENATED MODULE: ./src/common.js
+        /* harmony default export */ const common = ("common");
+        
+        ;// CONCATENATED MODULE: ./src/index.js
+        console.log(common);
+    })
+    ```
+
+2. 开启scope hoisting
+
+    webpack提供了三种方法开启scope hoisting功能的方法
+
+    1. 开启`Production`模式
+    2. 使用`optimization.concatenateModules`配置项
+    3. 直接使用`ModuleConcatenationPlugin`
+
+    ```js
+    const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
+
+    module.exports = {
+        // 方法1： 将 `mode` 设置为 production，即可开启
+        mode: "production",
+        // 方法2： 将 `optimization.concatenateModules` 设置为 true
+        // 注意，这里需要将usedExports和providedExports同时设置为true
+        optimization: {
+            concatenateModules: true,
+            usedExports: true,
+            providedExports: true,
+        },
+        // 方法3： 直接使用 `ModuleConcatenationPlugin` 插件
+        plugins: [new ModuleConcatenationPlugin()]
+    };
+    ```
+    
+
+3. 模块合并规则
+
+    开启scope hoisting后，webpack会尽可能将多个模块合并到同一个函数作用域下，但合并功能一方面依赖于ESM的静态分析能力，一方面需要确保合并操作不会造成代码冗余。因此，开发者需要注意scope hoisting会在下列几种场景中失效
+
+    1. 非ESM模块
+
+        对于AMD、CMD一类的模块，由于模块导入导出内容的动态性，webpack无法确保模块合并后不会对原有的代码语义产生副作用，导致scope hoisting失效
+
+        ```js
+        // common.js
+        module.exports = 'common';
+
+        // index.js
+        import common from './common';
+        ```
+
+        由于`common.js`使用commonjs导入模块内容，scope hoisting失效，两个模块无法合并
+
+        这种问题在导入NPM包尤其常见，由于大部分框架都会自行打包后再上传到NPM，并且默认导出的是兼容性更好的commonjs模块方案，因而无法使用scope hoisting功能
+
+        解决方案：通过`mainFileds`属性尝试引入框架的ESM版本
+
+        ```js
+        module.exports = {
+            resolve: {
+                // 优先使用 jsnext:main 中指向的 ES6 模块化语法的文件
+                mainFields: ['jsnext:main', 'browser', 'main']
+            },
+        };
+        ```
+
+    2. 模块被多个Chunk引用
+
+        如果一个模块被多个Chunk（项目打包过程中生成的js文件）同时引用，为避免重复打包，scope hoisting也会失效
+
+        ```js
+        // common.js
+        export default "common"
+
+        // async.js
+        import common from './common';
+
+        // index.js 
+        import common from './common';
+        import("./async");
+        ```
+
+        最终打包结果
+
+        ```js
+        "./src/common.js":
+        (() => {
+            var __WEBPACK_DEFAULT_EXPORT__ = ("common");
+        }),
+        "./src/index.js":
+        (() => {
+            var _common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__( /*! ./common */ "./src/common.js");
+            __webpack_require__.e( /*! import() */ "src_async_js").then(__webpack_require__.bind(__webpack_require__, /*! ./async */ "./src/async.js"));
+        }),  
+        ```
+
+
+### get和post请求头content-type
+
+#### get
+
+get不存在请求实体部分。所以请求头不需要设置`Content-Type`字段，设置了也无效
+
+非`ASCII`码会自动进行编码转换，编码方式无法认为干涉，导致了不同的浏览器会有不同的编码方式
+
+#### post
+
+1. application/x-www-form-urlencoded
+
+    参数使用`key&value`拼接在地址栏中，实现方案两种
+
+    1. 使用qs库
+
+        ```js
+        qs可以将json序列化如下：
+        let a = {
+        name:'june',
+        age:26  
+        }
+        qs.stringify(a)  //"name=june&age=26" qs可以将josn对象转换成形如key&value
+        
+        如何使用：
+        import qs from 'qs'
+        let data = {code: 'fds', headImgUrl: '99', innerDemoVos: [{code: '篮球', name: 'xx'}, {code: '台球', name: '小芳'}]}
+        let params = qs.stringify(data, {arrayFormat: 'indices', allowDots: true})
+        
+        // post的content-type的格式需要设置成application/x-www-form-urlencoded，data就是post请求体。
+        let data = {code: 'fds', headImgUrl: '99', innerDemoVos: [{code: '篮球', name: 'xx'}, {code: '台球', name: '小芳'}]};
+        // 将json对象转换成form表单的key&value的形式，包括复杂的数组对象，注意{arrayFormat: 'indices', allowDots: true}参数，一定要写，这个关系到数组对象转换成的格式后台是否可以解析，如果不写那么数组对象就是innerDemo[0].[code]: 篮球，这样后台是无法解析，只有innerDemo[0].code: 篮球的格式才可以解析，
+        console.info(qs.stringify(data, {arrayFormat: 'indices', allowDots: true}));
+        ```
+
+    2. 自定义工具方法
+
+        ```js
+        //utils->utils.js
+        export function objserialize (obj) {
+        let str = ''
+        for (var key in obj) {
+            str += key + '=' + obj[key] + '&'
+        }
+        return str.slice(0, -1)
+        }
+        
+        //在组件中引入
+        import {objTostring} from "@/utils/utils"
+        let data = {
+                name: 'xiaoming',
+                age: 18,
+                }
+        let params = objTostring(data) //name='xiaoming'&age=18
+        ```
+
+2. application/json
+
+    这种编码格式现在比较流行推荐使用，前端传参不用做数据格式转换，直接传给后端json就行
+
+        ```js
+        let params = {
+            name : 'xiaohong',
+            age: 18,
+            sex: '女',
+            goods: {
+                a: 1,
+                b:2
+            }
+        }
+        axios({
+            url:'/.....',
+            method:"post",
+            data: params,
+        })
+        ```
+
+3. multipart/form-data
+
+    这也是常见的post请求方式，一般用来上传文件图片等
+
+    ```js
+    //在vue的js中
+    data(){
+        return{
+            params:{
+                file:"",//上传文件
+            }
+        }
+    }
+    methods:{
+        update(){
+        let fd = this.transformData(this.params)
+        let api = '/api/updateFile'
+        this.axios.post(api,fd,{
+            headers:{
+                "content-type":"multipart/form-data"
+            }
+            }）.then(res=>{
+                console.log(res)
+            })
+        },
+        // 转化为formdata格式
+        transformData(obj){  
+            let fd = new FormData()
+            Object.keys(obj).forEach(key=>{
+                fd.append(key,obj[key])
+            })
+            return fd
+        }
+    }
+    ```
+
+4. text/xml
+
+    他是一种使用http作为传输协议，xml作为编码方式的远程调用规范
+
+    ```html
+    POST http://www.example.com HTTP/1.1 
+    Content-Type: text/xml 
+    
+    <!--?xml version="1.0"?--> 
+    <methodcall> 
+        <methodname>examples.getStateName</methodname> 
+        <params> 
+            <param> 
+                <value><i4>41</i4></value> 
+            
+        </params> 
+    </methodcall> 
+    ```
+
+#### post需要同时传递query和body参数
+
+前提：content-type需要设置为`application/json;`
+
+1. 使用fetch或者原生xhr实现方式
+
+    关键点：手动把query参数拼接到url中
+
+    ```js
+    /* 登陆请求 */
+    export function login(data) {
+        return request({
+            url: '/api/user/login?username=abc&password=123',
+            method: 'post',
+            data	// data就是body参数
+        })
+    }
+    ```
+
+2. 使用axios
+
+    ```js
+    export async function addRoom(query, data){
+        return await axios({
+            url:'/.....',
+            method:"post",
+            params: query,
+            paramsSerializer: function (query) {
+                return Qs.stringify(query, { arrayFormat: 'repeat' })
+            },
+            data: data,
+        })
+    }
+
+    // request拦截器
+    service.interceptors.request.use(
+        config => {
+            ....
+            config.headers["content-type"] = "application/json;";
+            return config;
+        },
+        error => {
+            // Do something with request error
+            Promise.reject(error);
+        }
+    );
+    ```

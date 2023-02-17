@@ -78,3 +78,40 @@ git config --global https.proxy 'socks5://127.0.0.1:7891'
 ```
 
 参见[文章]](https://gist.github.com/why168/9b30f542ff6008d1f66297474a2844de)
+
+
+### github高级搜索
+
+1. 过滤stars
+
+    > 关键字 stars:>1000  
+    > 关键字 stars:>1000..2000  
+    
+2. 过滤语言
+
+    > 关键字 luanguage:编程语言  
+    > 关键字 luanguage:python
+
+3. 过滤更新时间
+
+    > 关键字 pushed:>xxxx-xx-xx  
+    > 关键字 pushed:>2019-10-01
+
+4. 过滤仓库名中包含关键字
+
+    > in:name 关键字  
+
+5. 过滤描述中包含关键字
+
+    > in:description 关键字
+
+6. 过滤readme中包含关键字
+
+    > in:readme 关键字
+
+7. 过滤仓库大小在某个范围内的项目
+
+    > size:>5000 关键字  
+    > size:5000..6000 关键字  
+
+    这里的单位是kb，500代表5M

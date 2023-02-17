@@ -254,3 +254,9 @@ win + x 进入快捷方式菜单列表 => u > x
 说明：win + l是锁定计算机，但是不会进入休眠模式
 
 ### Memory Compression内存压缩占用内存多
+
+
+### 修改hosts文件之后如何生效
+
+> ipconfig/displaydns // 查看dns  
+> ipconfig/flushdns // 刷新dns  

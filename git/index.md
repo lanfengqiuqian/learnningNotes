@@ -6,6 +6,7 @@
 -->
 1. 查看所有分支  
     仅本地分支： `git branch`  
+    仅远程分支： `git branch -r`  
     本地及远程分支：`git branch -a` （其中远程分支会使用红色标记）
 2. 新建一个分支  
     `git branch 分支名称`
@@ -30,7 +31,13 @@
 11. 查看提交日志（获取hash码）  
     `git log`
 12. 回到之前某一次提交  
-    `git reset --hard 上一次提交的hash码`
+    `git reset --hard 上一次提交的hash码`  
+    ```
+    // git reset 参数
+    --mixed 默认，重置暂存区的文件（和上一次保持一致），工作区内容保持不变
+    --sort 用于回退到某个版本
+    --hard 撤销工作区所有未提交的修改内容，将暂存区和工作区都都回退到某个版本，并删除之前的所有信息提交（这是很危险的参数，会把回退点之前的信息都删除）
+    ```
 13. 回到上一次提交  
     `git reset --hard HEAD^`
 14. 回到n次之前提交  
@@ -60,7 +67,8 @@
 23. 查看没有`add`的文件，已经`add`的和`commit`的不会记录在这
     `git diff`
 24. 强制提交到远程仓库(非特殊情况不使用，会将远程仓库的修改记录覆盖为你本地的)
-    `git push -u origin master -f`
+    `git push -u origin master -f`  
+    `git push -f origin master`
 25. 初始化子模块仓库
     `git submodule update --init --recursive`
 26. 浅拉取最后一次提交记录，用户clone项目体积很大的代码
@@ -157,3 +165,224 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
 34. 常见的git工作流
 
     > https://www.jianshu.com/p/7eba1f0b5b42
+
+35. git bash箭头无效
+
+    1. 使用数字进行选择
+    2. 使用其他终端
+
+36. git rm -r --cached .把暂存区全清了之后挽救
+
+    `git reset HEAD `保存工作区修改，并回到上一次提交状态
+
+37. 忽略文件
+
+    `gitignore`：整个仓库的文件忽略，对于本地远程都生效
+    
+    `.git/info/exclude`：只对于本地的仓库代码生效
+
+    注意：这两种方式都只适用于新创建的文件，如果文件已经被纳入了版本管理中，那么修改是无效的
+
+38. git提交规范（前缀）
+
+    ```
+    feat: 新功能（feature）
+    fix: 修补bug
+    docs: 文档（documentation）
+    style: 格式（不影响代码运行的变动）
+    refactor: 重构（即不是新增功能，也不是修改bug的代码变动）
+    chore: 构建过程或辅助工具的变动
+    revert: 撤销，版本回退
+    perf: 性能优化
+    test：测试
+    improvement: 改进
+    build: 打包
+    ci: 持续集成
+    ```
+
+39. 分支名规范和对应的环境
+
+    分支名
+
+    1. sprint分支：当开发产品新功能或者试验新功能时，从master创建一个新的sprint分支
+    2. develop分支：汇总开发这完成的工作成果
+    3. hotfix分支：当master分支产品出现需要立即修复的bug时，从master创建一个新的hostfix分支，修复完成合并到master，然后删除hotfix分支
+    4. feature分支：开发公用方法、组件等模块
+    5. master分支：存储功能已开发完成的工作分支
+
+    环境
+
+    1. dev：开发调试使用，本地开发完成部署的环境
+    2. test：开发自测完成，提交给测试部署的测试环境
+    3. stg：预生产环境，导入生产环境数据进行产品和业务的验收测试
+    4. uat：用户验收测试环境
+    5. pre：灰度测试环境，生产数据，影响的是生产环境，不过范围比较小
+    6. prod：线上真实环境
+
+40. release和tag的区别
+
+    1. tag：是git的功能，用于给一次commit进行标识，以识别特定的版本，一般用于给版本标识
+    2. release：是github、码云等代码托管平台的功能，可以在tag的基础上添加编译好的二进制文件，如.deb、.ext等，方便用户下载，也方便以后查找特定版本的程序
+
+41. local和remote分支名不同，如何push
+
+    问题：当不同的时候报如下错误
+
+    > src refspec 分支名 does not match any
+
+    原因：默认情况下，需要local和remote分支名相同才能push
+
+    解决方案：
+
+    1. 本地新建一个新的分支，和远程分支名相同，然后push
+
+    2. 强制指定分支名
+
+        > git push -u origin local_branch_name:romote_branch_name
+
+    3. 修改默认配置文件
+
+        详见[https://segmentfault.com/a/1190000002783245](https://segmentfault.com/a/1190000002783245)
+
+42. 远程新建了分支，本地看不到
+
+    拉取分支，远程被删除的分支不会同步删除本地origin的分支
+    1. git fetch
+
+        如果只想更新指定分支`git fetch origin xxx`
+
+    必须带有–prune，否则跟git fetch等价。除了会拉取新分支，还会删除掉别人远程删除的分支
+    2. git remote update origin --prune
+
+43.  Pulling without specifying how to reconcile divergent branches is discouraged. You can squelch this message by running one of the following commands sometime before your next pull
+
+    ```shell
+    hint: Pulling without specifying how to reconcile divergent branches is
+    hint: discouraged. You can squelch this message by running one of the following
+    hint: commands sometime before your next pull:
+    hint: 
+    hint:   git config pull.rebase false  # merge (the default strategy)
+    hint:   git config pull.rebase true   # rebase
+    hint:   git config pull.ff only       # fast-forward only
+    hint: 
+    hint: You can replace "git config" with "git config --global" to set a default
+    hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+    hint: or --ff-only on the command line to override the configured default per
+    hint: invocation.
+    ```
+
+    ```
+    大致意思是 不建议在没有为偏离分支指定合并策略时执行pull操作。
+    您可以在执行下一次pull操作之前执行下面一条命令来抑制本消息：
+    git config pull.rebase false # 合并（缺省策略）
+    git config pull.rebase true # 变基
+    git config pull.ff only # 仅快进
+    ```
+
+    解决方案：
+    
+    1. 先使用`git config pull.rebase false`，然后重新进行拉取  
+    2. 如果不生效，再使用`git config pull.rebase true`然后重新进行拉取
+
+
+44. git stash
+
+    1. 介绍：将当前的工作状态保存到git栈，在需要的时候再恢复。
+
+    2. 使用场景：当在一个分支的开发工作未完成，却又要切换到另外一个分支进行开发的时候，可以先将自己写好的代码，储存到`git`栈，进行另外一个分支的代码开发。这时候`git stash`命令就派上用场了！
+
+    3. 常用命令
+
+        1. git stash：保存当前工作区和暂存区的状态，将当前的修改保存到git栈，等以后需要的时候再恢复
+
+        2. git stash save '注释'：存储时增加注释，便于查找
+
+        3. git stash pop：将最新的一个记录拿出来，并且会将最新保存的内容删除
+
+        4. git stash list：查看stash的所有内容
+
+        5. git stash apply stash@{$num}：将内容恢复到当前分支下，不会删除栈中保存的记录
+
+        6. git stash show：查看堆栈中最新保存的stash和当前目录的差异，显示做了哪些改动
+
+45. git报错：'origin' does not appear to be a git repository
+
+    原因：是由于git找不到远端的仓库地址了，在git文件夹下，config文件里配置上即可
+
+    ```bash
+    // 查看配置
+    vi .git/config
+
+    // 输出如下，分为3个部分
+    [core]
+        repositoryformatversion = 0
+        filemode = false
+        bare = false
+        logallrefupdates = true
+        symlinks = false
+        ignorecase = true
+
+    [remote "origin"]
+        url = xxx(你的远端仓库地址)
+        fetch = +refs/heads/*:refs/remotes/origin/*
+    [branch "master"]
+        remote = origin
+        merge = refs/heads/master
+
+    // 如果缺少了哪一部分的话直接手填也行，除了url都是固定的
+    ```
+
+46. 删除项目git配置
+
+    > rm -r .git
+
+47. git初始化警告
+
+    ```bash
+    $ git init
+    warning: templates not found in /home/ja/share/git-core/templates
+    hint: Using 'master' as the name for the initial branch. This default branch name
+    hint: is subject to change. To configure the initial branch name to use in all
+    hint: of your new repositories, which will suppress this warning, call:
+    hint:
+    hint:   git config --global init.defaultBranch <name>
+    hint:
+    hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+    hint: 'development'. The just-created branch can be renamed via this command:
+    hint:
+    hint:   git branch -m <name>
+    Initialized empty Git repository in /tmp/new/.git/
+    ```
+
+    解决方案：
+
+    ```bash
+    git config --global init.defaultBranch master
+    ```
+
+48. 强制拉取远程分支代码
+
+    > git reset --hard origin/master
+
+49. 创建一个无commit分支并推送到远程
+
+    ```bash
+    // 切换到新的分支
+    // 说明：git checkout --orphan 的核心用途是 以类似git init的状态创建新的非父分支，也就是创建一个无提交记录的分支。
+    git checkout --orphan latest_branch
+
+    // 缓存所有文件
+    git add -A
+
+    // 提交跟踪过的文件
+    git commit -am "commit message"
+
+    // 删除master分支
+    git branch -D master
+
+    // 重命名当前分支为master
+    git branch -m master
+
+    // 提交到远程master分支
+    git push -f origin master
+    ```

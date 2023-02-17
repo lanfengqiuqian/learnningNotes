@@ -330,3 +330,76 @@
                     > curl -X POST https://www.example.com
                 
                    1. 指定HTTP请求的方法
+
+
+18. 生成目录树
+
+```bash
+.
+├── README.md
+├── auto-imports.d.ts
+├── commitlint.config.js
+├── components.d.ts
+├── index.html
+├── node_modules
+│   ├── @ampproject
+├── package-lock.json
+├── package.json
+├── public
+│   └── favicon.ico
+├── src
+│   ├── App.vue
+│   ├── api
+│   ├── assets
+│   ├── auto-imports.d.ts
+│   ├── components
+│   ├── components.d.ts
+│   ├── constant
+│   ├── env.d.ts
+│   ├── hooks
+│   ├── locale
+│   ├── main.ts
+│   ├── router
+│   ├── store
+│   ├── styles
+│   ├── utils
+│   └── views
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── yarn.lock
+
+389 directories, 17 files
+```
+
+    1. tree命令 安装
+
+        ```bash
+        # mac
+        brew install tree
+
+        # linux
+        yum install tree
+        ```
+
+    2. 常用命令
+
+        ```bash
+        # 将层级输出为一个文件
+        tree --gitignore -d > directories.txt
+
+        # 指定遍历层级
+        tree -L 2
+
+        # 然后我们看下当前目录下的 README.md 文件
+        tree -L 2 >README.md
+
+        # 只显示文件夹
+        tree -d
+
+        # 显示项目的层级，n表示层级数，如：显示项目3层目录 tree -L 3
+        tree -L n
+
+        # 用于过滤不想想是的文件或者文件夹
+        tree -I node_modules
+        ```

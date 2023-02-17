@@ -59,3 +59,51 @@
         2. 拷贝：拷贝的对象可以多个同批执行
         3. 替身：可以多个同批执行
 
+11. 在访达中显示隐藏的文件和目录
+
+    ```shell
+    // 显示被隐藏的
+    defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder
+
+    // 重新隐藏
+    defaults write com.apple.finder AppleShowAllFiles -boolean false ; killall Finder
+    ```
+
+    更老的系统参见[https://www.jianshu.com/p/21347867cc35](https://www.jianshu.com/p/21347867cc35)
+
+12. 剪切文件
+
+    > command + c , command + option + v
+
+13. mac 中.bash_profile 和 .zshrc 区别
+
+    1. .bash_profile 和 .zshrc 均在～目录下
+
+    2. .bash_profile，source ~/.bash_profile，只在当前窗口生效
+
+    3. .zshrc ，source ~/.zshrc，永久生效；计算机每次启动自动执行source ~/.zshrc
+
+    4. 一般会在~/.zshrc中添加source ~/.bash_profile，以确保.bash_profile中的修改永久生效。
+
+14. 设置zsh终端不区分大小写路径提示
+
+    背景：默认情况下，zsh终端大小写不敏感，如`cd desktop`也能到桌面，但是按`tab`没有路径提示和补全
+
+    解决：修改`~/.zshrc`文件，如果没有则创建
+
+        ```shell
+        autoload -Uz compinit && compinit
+        zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
+        ```
+
+        如果没有生效则`source .zshrc`
+
+15. 双开应用
+
+    > sudo /Applications/Lark.app/Contents/MacOS/Feishu
+
+16. 触摸板四指操作忽然失灵了
+
+    背景：息屏之后再打开，触摸板四指操作失灵，并且键盘`control + 上/下`也失灵了
+
+    方案：打开活动监视器，找到【程序坞】，把它停止，就可以了（他会自动重启）

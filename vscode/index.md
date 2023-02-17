@@ -142,6 +142,24 @@ It is not the most correct option but it works.
 
     功能：代码智能提示（很强大）
 
+17. Vue VSCode Snippets
+
+    功能：vue代码块插件
+
+    使用：[常用快捷键及其配置](https://blog.csdn.net/qq_41107231/article/details/117195087)，或者[官网](https://github.com/sdras/vue-vscode-snippets)
+
+18. eslint
+
+    功能：检测代码格式
+
+    使用：[保存自动格式化代码](https://blog.csdn.net/lovefengruoqing/article/details/89478355)
+
+19. Prettier - Code formatter
+
+    功能：格式化代码
+
+    注意：插件市场有2个，选择那个大的，下载量多的
+
 ### 删除一行快捷键
 
 > ctrl + shift + k;

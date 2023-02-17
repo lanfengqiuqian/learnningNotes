@@ -549,3 +549,76 @@ collapseMenu: {
         1. 命名冲突
         2. 滥用的话后期很难维护
         3. 不好追溯源，排查问题稍显麻烦
+
+### TypeError: this.$confirm is not a function
+
+```js
+logout() {
+    this.$confirm(`确定进行-[退出]-操作?`, "提示 :", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+    }).then(() => {
+    });
+}
+```
+原因：使用了消息提示框，没有引入MessageBox（有时候还有可能是this作用域的问题）
+
+解决：在`main.js`中导入element-ui中的messagebox
+
+```js
+import {MessageBox} from 'element-ui'
+
+Vue.prototype.$confirm=MessageBox.confirm;
+```
+
+### element ui ——did you register the component correctly报错
+
+背景：使用element-ui的组件，但是告诉我没有注册
+
+原因：组件是element UI 比较新的版本出的组件，element UI 版本过低
+
+
+### 报错 Syntax Error: SassError: expected selector. ╷ 21 │ /deep/ .el-input__inner { 解决
+
+解决方案：全局搜索把`/deep/` 改成 `::v-deep`
+
+```css
+/deep/ .el-input__inner {
+    border-radius: 0;
+    border: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: none !important;
+    border-bottom: 1px solid #d9d9d9;
+    vertical-align: middle;
+}
+ 
+修改为：
+::v-deep .el-input__inner {
+    border-radius: 0;
+    border: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: none !important;
+    border-bottom: 1px solid #d9d9d9;
+    vertical-align: middle;
+}
+```
+
+### elementui 弹窗遮罩问题；Message层级问题（被遮罩、弹窗遮住，设置层级；弹窗内容被遮罩遮挡）
+
+1. $Message： 提示信息被弹窗（遮罩）遮住。只是层级样式不够
+
+    解决：使用`customClass`来设置`z-index`
+
+2. 弹窗、抽屉： 内容被遮罩遮挡、层级不起效果、需要点击一次遮罩才进行呈现
+
+    解决：通过设置对应属性modal-append-to-body值为false进行改变
+
+
+### keepalive组件
+
+[https://www.cnblogs.com/JianXin1994/p/16196622.html](https://www.cnblogs.com/JianXin1994/p/16196622.html)
+
+但是发现meta没有生效，待测试

@@ -1094,3 +1094,321 @@ function getCurrentPageLanguage() {
     navigator.connection.downlink; // 低速3G为0.4
     navigator.connection.downlink; // 离线状态为0
     ```
+
+45. 变量名下划线开头
+
+    1. 系统内置的变量或函数，方便和用户不重名
+    2. 私有变量
+
+46. Symbol
+
+    1. 定义
+
+        1. 是独一无二的值
+        2. 是基本数据类型，不是引用类型
+
+    2. 基本用法
+
+        ```js
+        // 参数name没有任何意义，只适用于标识
+        const name = Symbol('name');
+        ```
+
+    3. 使用Symbol作为对象属性名
+
+        注意：需要使用`[]`进行包裹，不可以使用`obj.xxx`来访问
+
+        ```js
+        //后面的括号可以给symbol做上标记便于识别
+        let name=Symbol('name');
+        let say=Symbol('say');
+        let obj= {
+            //如果想 使用变量作为对象属性的名称，必须加上中括号，.运算符后面跟着的都是字符串
+            [name]: 'lnj',
+            [say]: function () {
+                console.log('say')
+            }
+        }
+        obj.name='it666';
+        obj[Symbol('name')]='it666'
+        console.log(obj)
+        ```
+
+    4. 转换和运算
+
+        只能转换为字符串和布尔值（恒为`true`）
+
+        不能做任何运算，会报错，如`(Symbol()) + 1`
+
+    5. 遍历
+
+        普通的遍历对象无法访问到symbol的属性，需要使用`Object.getOwnPropertySymbols()`或者`Reflect.ownKeys()`
+
+        ```js
+        let _password = Symbol('password')
+        const obj = {
+            name: '小明',
+            gender: 'male',
+            [_password]: '11038'
+        }
+        for (let item in obj) {
+            console.log(item);
+        }
+        console.log(Object.keys(obj));
+        console.log(Object.values(obj));
+        console.log(Object.getOwnPropertyNames(obj));
+        console.log(Object.getOwnPropertySymbols(obj)); // [Symbol(password)]
+        console.log(Reflect.ownKeys(obj)); // ['name', 'gender', Symbol(password)]
+        // 输出11038，所以还是可以直接访问到symbol类型的属性，所以symbol并不能真正实现私有变量的设定，所以一般只用于定义一些非私有的、但又希望只用于内部的方法
+        console.log(obj[_password]);
+        ```
+
+    6. Symbol自带的方法
+
+        1. Symbol.for
+
+            1. 因为Symbol的值都是独一无二的，但是我们希望可以重新使用同一个Symbol值
+            2. 接受一个字符串作为参数，然后搜索有没有以该参数作为名称的“Symbol值，如果有，就返回这个Symbol值，否则就新建一个以该字符串为名称的Symbol值，并将其注册到全局
+            
+            ```js
+            const s1 = Symbol.for('foo');
+            const s2 = Symbol.for('foo');
+            console.log(s1 === s2); // true
+            ```
+
+        2. Symbol.keyFor
+
+            由于`Symbol()`写法没有登记机制，每次调用都会返回一个不同的值
+
+            `Symbol.keyFor()`返回一个一个已登机的Symbol类型值的key
+
+            ```js
+            const s1 = Symbol.for('foo');
+            Symbol.keyFor(s1); // foo
+            const s2 = Symbol('foo');
+            Symbol.keyFor(s2); // undefined
+            ```
+
+    7. 应用场景
+
+        1. 企业开发中如果需要对一些第三方的插件、框架进行自定义的时候，可能会因为添加了同名的属性或者方法，将框架中原有的属性或者方法覆盖掉，这时候可以使用Symbol作为属性或者方法的名称
+
+        2. 消除魔术字符串
+
+            魔术字符串：在代码中多次出现、与代码形成强耦合的某一个具体的`字符串或者数值`
+
+        3. 为对象定义一些非私有的，但是又只希望内部可以访问的成员
+
+
+47. history和hash路由
+
+    1. hash模式
+
+        1. 介绍：hash就是url尾巴后的`#`号以及后面的字符，由于hash值的变化不会导致浏览器向服务器发送请求，而且hash改变会触发`hashchange`事件，hashChange事件中获取当前hash值，并根据hash值来修改页面内容，则达到了前端路由的目的。在html5之前，都是使用hash来做前端路由的。
+
+        2. 核心：可以在window对象上监听`onhashchange`事件
+
+        3. 使用
+
+            ```js
+            window.onhashchange = function(event) {
+                console.log(event.oldURL, event.newURL);
+                document.body.style.color = location.hash.slice(1);
+            }
+            ```
+
+    2. history模式
+
+        1. 介绍：已经有了hash模式了，为什么还要搞一个history呢？
+
+            1. `#`hash本身是用来做页面定位的，如果用来做路由的话，原来的锚点的功能就不能用了。
+            2. hash穿参是基于url的，如果要传递复杂的数据，会有体积的限制，而history不仅可以在url里放参数，还可以将数据存放在一个特定的对象中
+
+        2. history的api
+
+            ```js
+            window.history.pushState(state, title, url) 
+            // state：需要保存的数据，这个数据在触发popstate事件时，可以在event.state里获取
+            // title：标题，基本没用，一般传 null
+            // url：设定新的历史记录的 url。新的 url 与当前 url 的 origin 必须是一樣的，否则会抛出错误。
+            // url可以是绝对路径，也可以是相对路径。
+            // 如 当前url是 https://www.baidu.com/a/,执行history.pushState(null, null, './qq/')，
+            // 则变成 https://www.baidu.com/a/qq/，
+            // 执行history.pushState(null, null, '/qq/')，则变成 https://www.baidu.com/qq/
+            window.history.replaceState(state, title, url)
+            // 与 pushState 基本相同，但她是修改当前历史记录，而 pushState 是创建新的历史记录
+            window.addEventListener("popstate", function() {
+            // 监听浏览器前进后退事件，pushState 与 replaceState 方法不会触发  
+                console.log(event.state)            
+            });
+            history.state;//是一个属性，可以得到当前页的state信息。
+            // 通过window.history对象来控制页面历史记录跳转
+            window.history.back() // 后退
+            window.history.forward() // 前进
+            window.history.go(1) // 前进一步，-2为后退两步，window.history.lengthk可以查看当前历史堆栈中页面的数量
+            ```
+
+        3. 区别
+
+            ```
+            1. hash模式较丑，history模式较优雅;
+            2. pushState设置的新URL可以是与当前URL同源的任意URL；而hash只可修改#后面的部分，故只可设置与当前同文档的URL;
+            3. pushState设置的新URL可以与当前URL一模一样，这样也会把记录添加到栈中；而hash设置的新值必须与原来不一样才会触发记录添加到栈中;
+            4. pushState通过stateObject可以添加任意类型的数据到记录中；而hash只可添加短字符串;
+            5. pushState可额外设置title属性供后续使用;
+            6. hash兼容IE8以上，history兼容IE10以上;
+            7. history模式需要后端配合将所有访问都指向index.html，否则用户刷新页面，会导致404错误。
+            ```
+
+48. base64编码和解码
+
+```js
+//下面是64个基本的编码
+const base64EncodeChars =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const base64DecodeChars = [
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+  61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+  14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26,
+  27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+  46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1,
+];
+//编码的方法
+function base64encode(str) {
+  let out, i;
+  let c1, c2, c3;
+  const len = str.length;
+  i = 0;
+  out = "";
+  while (i < len) {
+    c1 = str.charCodeAt(i++) & 0xff;
+    if (i == len) {
+      out += base64EncodeChars.charAt(c1 >> 2);
+      out += base64EncodeChars.charAt((c1 & 0x3) << 4);
+      out += "==";
+      break;
+    }
+    c2 = str.charCodeAt(i++);
+    if (i == len) {
+      out += base64EncodeChars.charAt(c1 >> 2);
+      out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
+      out += base64EncodeChars.charAt((c2 & 0xf) << 2);
+      out += "=";
+      break;
+    }
+    c3 = str.charCodeAt(i++);
+    out += base64EncodeChars.charAt(c1 >> 2);
+    out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
+    out += base64EncodeChars.charAt(((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6));
+    out += base64EncodeChars.charAt(c3 & 0x3f);
+  }
+  return out;
+}
+//解码的方法
+function base64decode(str) {
+  let c1, c2, c3, c4;
+  let i, out;
+  const len = str.length;
+  i = 0;
+  out = "";
+  while (i < len) {
+    do {
+      c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
+    } while (i < len && c1 == -1);
+    if (c1 == -1) break;
+
+    do {
+      c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
+    } while (i < len && c2 == -1);
+    if (c2 == -1) break;
+    out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
+
+    do {
+      c3 = str.charCodeAt(i++) & 0xff;
+      if (c3 == 61) return out;
+      c3 = base64DecodeChars[c3];
+    } while (i < len && c3 == -1);
+    if (c3 == -1) break;
+    out += String.fromCharCode(((c2 & 0xf) << 4) | ((c3 & 0x3c) >> 2));
+
+    do {
+      c4 = str.charCodeAt(i++) & 0xff;
+      if (c4 == 61) return out;
+      c4 = base64DecodeChars[c4];
+    } while (i < len && c4 == -1);
+    if (c4 == -1) break;
+    out += String.fromCharCode(((c3 & 0x03) << 6) | c4);
+  }
+  return out;
+}
+function utf16to8(str) {
+  let out, i, c;
+  out = "";
+  const len = str.length;
+  for (i = 0; i < len; i++) {
+    c = str.charCodeAt(i);
+    if (c >= 0x0001 && c <= 0x007f) {
+      out += str.charAt(i);
+    } else if (c > 0x07ff) {
+      out += String.fromCharCode(0xe0 | ((c >> 12) & 0x0f));
+      out += String.fromCharCode(0x80 | ((c >> 6) & 0x3f));
+      out += String.fromCharCode(0x80 | ((c >> 0) & 0x3f));
+    } else {
+      out += String.fromCharCode(0xc0 | ((c >> 6) & 0x1f));
+      out += String.fromCharCode(0x80 | ((c >> 0) & 0x3f));
+    }
+  }
+  return out;
+}
+function utf8to16(str) {
+  let out, i, c;
+  let char2, char3;
+  out = "";
+  const len = str.length;
+  i = 0;
+  while (i < len) {
+    c = str.charCodeAt(i++);
+    switch (c >> 4) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+        // 0xxxxxxx
+        out += str.charAt(i - 1);
+        break;
+      case 12:
+      case 13:
+        // 110x xxxx   10xx xxxx
+        char2 = str.charCodeAt(i++);
+        out += String.fromCharCode(((c & 0x1f) << 6) | (char2 & 0x3f));
+        break;
+      case 14:
+        // 1110 xxxx  10xx xxxx  10xx xxxx
+        char2 = str.charCodeAt(i++);
+        char3 = str.charCodeAt(i++);
+        out += String.fromCharCode(
+          ((c & 0x0f) << 12) | ((char2 & 0x3f) << 6) | ((char3 & 0x3f) << 0)
+        );
+        break;
+    }
+  }
+  return out;
+}
+
+//编码
+function encodeBase64(str: string): string {
+  return base64encode(utf16to8(str));
+}
+//解码
+function decodeBase64(str: string): string {
+  return utf8to16(base64decode(str));
+}
+
+export { encodeBase64, decodeBase64 };
+```
