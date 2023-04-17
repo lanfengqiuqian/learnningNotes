@@ -1543,3 +1543,23 @@ get不存在请求实体部分。所以请求头不需要设置`Content-Type`字
         }
     );
     ```
+
+
+#### 打包的dist无法本地直接打开
+
+Vue打包后生成的dist文件中的index.html，双击在浏览器中打开后发现一片空白，打开控制台有很多报错：“Failed to load resource: net::ERR_FILE_NOT_FOUND”。
+
+这是因为dist文件是需要放在服务器上运行的，资源默认放在根目录下。打开index.html可以发现，css和js文件的引用使用的是绝对路径，例如：<link href=/css/chunk-00d5eabc.f78fa75d.css rel=prefetch>，对本地磁盘来说，/指向磁盘根目录，所以找不到引用的文件。
+
+有以下解决方案：1. 使用http-server创建一个服务器来访问资源；2. 将index.html中资源引用的绝对路径改为相对路径；3.还可以手写一个简单的node服务器。
+
+[https://juejin.cn/post/6844904064317128711](https://juejin.cn/post/6844904064317128711)
+
+使用http-server
+http-server是一个基于命令行的http服务器。使用方法很简单：
+
+安装：npm install http-server -g
+进入dist文件夹：cd dist
+执行命令：http-server
+
+大功告成！可以打开浏览器在localhost:8080中查看了。

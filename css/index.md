@@ -129,3 +129,34 @@
     > div::-webkit-scrollbar-track-piece 内层轨道，滚动条中间部分（除去
     > div::-webkit-scrollbar-corner 边角，即两个滚动条的交汇处  
     > div::-webkit-resizer 两个滚动条的交汇处上用于通过拖动调整元素大小的小控件注意此方案有兼容性问题，一般需要隐藏滚动条时我都是用一个色块通过定位盖上去，或者将子级元素调大，父级元素使用 overflow-hidden 截掉滚动条部分。暴力且直接。
+
+9. 设置背景图片完美填充
+
+    ```css
+    // 方案一
+    margin:0px;
+    background: url(images/bg.png) no-repeat;
+    background-size:100% 100%;
+    background-attachment:fixed;
+
+    // 方案二
+    background: url("bg.png") no-repeat;
+    height:100%;
+    width:100%;
+    overflow: hidden;
+    background-size:cover;//或者background-size:100%;
+
+    // 方案三
+    /* 加载背景图 */
+    background-image: url(images/bg.jpg);
+    /* 背景图垂直、水平均居中 */
+    background-position: center center;
+    /* 背景图不平铺 */
+    background-repeat: no-repeat;
+    /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+    background-attachment: fixed;
+    /* 让背景图基于容器大小伸缩 */
+    background-size: cover;
+    /* 设置背景颜色，背景图加载过程中会显示背景色 */
+    background-color: #464646;
+    ```

@@ -180,3 +180,20 @@
     在文件头部输入`[toc]`即可
 
     前提是你的内容中用了`标题`标记
+
+
+
+### 将md文档转换为html页面的小工具
+
+```shell
+npm install -g i5ting_toc
+i5ting_toc -f 文件路径 -o
+```
+
+```shell
+-h, --help             output usage information
+-V, --version          output the version number
+-f, --file [filename]  default is README.md
+-o, --open             open in browser
+-v, --verbose          打印详细日志
+```

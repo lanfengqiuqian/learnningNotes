@@ -77,6 +77,23 @@ git config --global http.proxy 'socks5://127.0.0.1:7891'
 git config --global https.proxy 'socks5://127.0.0.1:7891'
 ```
 
+也可以手动配置代理
+
+在`~/.gitconfig`
+
+```shell
+[http]
+    proxy = http://127.0.0.1:55681
+[https]
+    proxy = http://127.0.0.1:55681
+
+
+# 或者这样
+[http]
+[http "https://github.com"]
+    proxy = http://127.0.0.1:xxxx
+```
+
 参见[文章]](https://gist.github.com/why168/9b30f542ff6008d1f66297474a2844de)
 
 
@@ -115,3 +132,7 @@ git config --global https.proxy 'socks5://127.0.0.1:7891'
     > size:5000..6000 关键字  
 
     这里的单位是kb，500代表5M
+
+### github访问慢解决方案
+
+> https://mp.weixin.qq.com/s?__biz=MjM5MDA2MTI1MA==&mid=2649126312&idx=2&sn=ce2722fb69b52283ff3ccc3502a2a7b3&chksm=be585205892fdb13f1768fbca09107b2557276c29213b2ff3da7b747103eb702c3d3d2b0131e&scene=27

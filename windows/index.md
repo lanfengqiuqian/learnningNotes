@@ -260,3 +260,18 @@ win + x 进入快捷方式菜单列表 => u > x
 
 > ipconfig/displaydns // 查看dns  
 > ipconfig/flushdns // 刷新dns  
+
+
+### 系统镜像下载
+
+1. 稳定且快
+
+    > https://www.xitongzhijia.net/win10/202302/279978.html
+
+2. 官方地址
+
+    > https://www.microsoft.com/zh-cn/software-download/windows10ISO
+
+3. 有迅雷的话可以考虑这个
+
+    > https://msdn.itellyou.cn/
