@@ -193,3 +193,12 @@
 
     > https://handbrake.fr/rotation.php?file=HandBrake-1.6.1.dmg
 
+19. iphone和mac日历订阅
+
+    iphone：【设置】【日历】【账户】【添加账户】【其他】【添加已订阅的日历】【将下方订阅代码粘贴】【存储】
+
+    > https://www.shuyz.com/githubfiles/china-holiday-calender/master/holidayCal.ics
+
+    mac：【左上角文件】【新建日历订阅】【粘贴下方代码】
+
+    > https://www.shuyz.com/githubfiles/china-holiday-calender/master/holidayCal.ics

@@ -413,3 +413,56 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
 
     # 然后在浏览器中输入 http://yourdomain.com/yourfile.php 访问该文件，如果页面显示了 PHP 的相关信息，则表示 PHP 已经成功安装并运行。
     ```
+
+
+### centos7安装环境和项目部署
+
+    1. git
+
+        > yum install git
+
+    2. nvm
+
+        > curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+
+        可以参考[http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html](http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html)
+
+    3. node
+
+        > nvm install 16
+
+    4. 项目
+
+        > git config --global user.username    
+        > git config --global user.email   
+        > git clone xxxx
+
+    5. yarn
+
+        > npm install -g yarn
+
+    6. pm2
+
+        ```js
+        // 这里我使用npm进行pm2的全局安装
+        npm install -g pm2
+
+        // 安装完成后可以使用  -v 参数 查看pm2的版本 检测是否安装成功
+        pm2 -v
+
+        
+        ```
+    
+    7. 这个时候在服务器可以访问通接口了应该
+
+        ```js
+        curl http://127.0.0.1:3007/my/userinfo
+        ```
+
+        如果在postman或者浏览器掉不通服务器的话，是没有开启防火墙的问题
+
+        ```js
+        http://106.52.249.188:3007/my/userinfo
+        ```
+
+        去对应的腾讯云或者阿里云，你的服务商开启，`但是我的在上面开启了没有生效，最后还是去宝塔【安全】->【系统防火墙】开启才生效的`

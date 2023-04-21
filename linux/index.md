@@ -403,15 +403,3 @@
         # 用于过滤不想想是的文件或者文件夹
         tree -I node_modules
         ```
-
-19. centos7安装环境
-
-    1. git
-
-        > yum install git
-
-    2. nvm
-
-        > curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-
-        可以参考[http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html](http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html)

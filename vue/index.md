@@ -622,3 +622,22 @@ Vue.prototype.$confirm=MessageBox.confirm;
 [https://www.cnblogs.com/JianXin1994/p/16196622.html](https://www.cnblogs.com/JianXin1994/p/16196622.html)
 
 但是发现meta没有生效，待测试
+
+
+### render遍历生成元素（vue语法）
+
+表格的column，想要遍历生成元素的情况下，使用遍历生成`元素字符串`，然后使用`v-html`插入模板字符串
+```js
+{
+    label: "仓库编号",
+    prop: "warehouseCode",
+    width: 100,
+    render: () => {
+    let str = "";
+    for (let i = 0; i < 8; i++) {
+        str += `<br />${i}`;
+    }
+    return <div v-html={str}></div>;
+    },
+},
+```
