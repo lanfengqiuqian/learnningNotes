@@ -403,3 +403,7 @@
         # 用于过滤不想想是的文件或者文件夹
         tree -I node_modules
         ```
+
+19. 安装docker
+
+> https://blog.csdn.net/weixin_43977692/article/details/127492590

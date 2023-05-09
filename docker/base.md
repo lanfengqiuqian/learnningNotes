@@ -26,3 +26,12 @@ sudo rm -rf hub-tool*
 sudo rm -rf kube*
 sudo rm -rf vpnkit*
 ```
+
+
+### linux安装docker
+
+> https://blog.csdn.net/weixin_43977692/article/details/127492590
+
+### docker删除镜像、容器
+
+> https://blog.csdn.net/u014282578/article/details/127866389

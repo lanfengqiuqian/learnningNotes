@@ -466,3 +466,7 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
         ```
 
         去对应的腾讯云或者阿里云，你的服务商开启，`但是我的在上面开启了没有生效，最后还是去宝塔【安全】->【系统防火墙】开启才生效的`
+
+### 公众号接入chatgpt
+
+> https://github.com/husanr/wechat_gpt_laf
