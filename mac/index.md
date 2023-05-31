@@ -189,6 +189,28 @@
 
             按`win + e`打开我的电脑，会有一个dvd驱动器，双击安装他，然后重启就好啦
 
+    3. 使用utm
+
+        1. 安装和下载
+
+            > https://mac.getutm.app/
+
+            1. 
+
+        2. 遇到的问题
+
+            虚拟机开机提示：`uefi interactive shell v2.2`
+
+            原因是镜像不对，换一个镜像
+
+        3. 注意点！！！！
+
+            `安装的时候`当看到画面显示“Press any key to boot from CD or DVD..”，请务必及时按键盘上的任意键
+
+            我每次没有理会这个，每次进入到设置uefi的页面，每次都以为是镜像有问题
+
+            `安装完成以后`进入系统的时候就不要按了，否则又是进入安装系统
+
 18. 视频格式转换器HandBrake
 
     > https://handbrake.fr/rotation.php?file=HandBrake-1.6.1.dmg
@@ -202,3 +224,7 @@
     mac：【左上角文件】【新建日历订阅】【粘贴下方代码】
 
     > https://www.shuyz.com/githubfiles/china-holiday-calender/master/holidayCal.ics
+
+20. utm虚拟机
+
+    > https://mac.getutm.app/

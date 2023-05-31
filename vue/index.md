@@ -641,3 +641,43 @@ Vue.prototype.$confirm=MessageBox.confirm;
     },
 },
 ```
+
+### 下拉菜单或者弹出层关闭会闪或者飘走
+
+原因：绝对定位的根元素消失了，但是这个时候，弹窗元素还没有消失，导致无法定位
+
+解决方案：强制让弹窗先消失，然后再消失根元素
+
+
+### 报错`[plugin:vite:vue] Unnecessary value binding used alongside v-model. It will interfere with v-model's behavior.`
+
+代码如下
+
+```js
+<input type="text" value="" v-model="text1" />
+```
+
+原因：多写了`value=""`，删除即可
+
+
+### uniapp报错`Undefined variable $u-type-primary-light`
+
+背景：`uniapp`引入`uview-ui`后，出现这个报错了
+
+解决步骤
+
+1. 排查`HBuilder X`是否没有安装`scss/sass`插件
+2. 查看根目录下`uni.scss`文件中是否引入了`theme.scss`
+3. 查看根目录下`App.vue`文件中是否添加了`lang="scss"`和`index.scss`
+
+
+### 报错`Can’t find stylesheet to import.`
+
+```shell
+10:28:29.004 [plugin:vite:css] Can’t find stylesheet to import.
+10:28:29.009 ╷
+10:28:29.009 5 │ @import ‘uview-ui/theme.scss’;
+10:28:29.017 │ ^^^^^^^^^^^^^^^^^^^^^
+10:28:29.017 ╵
+10:28:29.035 /Users/xxxxx/wallpaper/pages/user/user.vue 5:9 root stylesheet
+```

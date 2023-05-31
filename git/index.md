@@ -386,3 +386,11 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     // 提交到远程master分支
     git push -f origin master
     ```
+
+50. 忽略所有目录的`node_modules`
+
+    `gitignore`中写
+
+    ```js
+    **/node_modules
+    ```

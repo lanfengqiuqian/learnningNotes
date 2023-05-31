@@ -163,6 +163,31 @@
     background-color: #464646;
     ```
 
-10. chrome中文界面下会默认将小鱼12px的文本强制按照12px显示
+10. chrome中文界面下会默认将小于12px的文本强制按照12px显示
 
-    可通过设置`-webkit-text-size-adjust: none;`解决
+    [https://blog.csdn.net/qq_43687594/article/details/124479693](https://blog.csdn.net/qq_43687594/article/details/124479693)
+
+
+
+11. css浏览器前缀
+
+    定义：CSS的“前缀”（即在CSS属性名前面添加特定的字符串）。这些前缀告诉浏览器使用的CSS版本，并确保网站在多个浏览器上的正确呈现
+
+    常见浏览器前缀
+
+    ```js
+    -webkit- Chrome和Safari浏览器的私有前缀
+    -moz-  Mozilla Firefox浏览器的私有前缀
+    -ms-   Microsoft Internet Explorer浏览器的私有前缀
+    -o-    Opera浏览器的私有前缀
+    ```
+
+    在下面的示例中，我们将展示如何在所有浏览器上实现一个渐变背景，包括使用前缀的示例代码：
+
+    ```js
+    background: linear-gradient(to bottom, #1e5799 0%, #7db9e8 100%); /* 标准语法，所有现代浏览器都支持 */ 
+    background: -webkit-linear-gradient(top, #1e5799 0%, #7db9e8 100%); /* Chrome 和 Safari */ 
+    background: -moz-linear-gradient(top, #1e5799 0%, #7db9e8 100%); /* Firefox */ 
+    background: -ms-linear-gradient(top, #1e5799 0%, #7db9e8 100%); /* Internet Explorer */ 
+    background: -o-linear-gradient(top, #1e5799 0%, #7db9e8 100%); /* Opera */
+    ```

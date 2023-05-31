@@ -423,7 +423,7 @@ defineExpose({
 
 #### 父组件
 
-```js
+```html
 <template>
   <CanvasSign ref="signRef" title="手绘canvas签名" />
   <button @click="getBase64">父组件submit</button>

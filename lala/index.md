@@ -417,55 +417,69 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
 
 ### centos7安装环境和项目部署
 
-    1. git
+1. git
 
-        > yum install git
+    > yum install git
 
-    2. nvm
+2. nvm
 
-        > curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+    > curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
-        可以参考[http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html](http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html)
+    可以参考[http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html](http://www.manongjc.com/detail/60-vqiarrjnlsqfboo.html)
 
-    3. node
+3. node
 
-        > nvm install 16
+    > nvm install 16
 
-    4. 项目
+4. 项目
 
-        > git config --global user.username    
-        > git config --global user.email   
-        > git clone xxxx
+    > git config --global user.username    
+    > git config --global user.email   
+    > git clone xxxx
 
-    5. yarn
+5. yarn
 
-        > npm install -g yarn
+    > npm install -g yarn
 
-    6. pm2
+6. pm2
 
-        ```js
-        // 这里我使用npm进行pm2的全局安装
-        npm install -g pm2
+    ```js
+    // 这里我使用npm进行pm2的全局安装
+    npm install -g pm2
 
-        // 安装完成后可以使用  -v 参数 查看pm2的版本 检测是否安装成功
-        pm2 -v
+    // 安装完成后可以使用  -v 参数 查看pm2的版本 检测是否安装成功
+    pm2 -v
+    ```
 
-        
-        ```
-    
-    7. 这个时候在服务器可以访问通接口了应该
+    常用其他命令
 
-        ```js
-        curl http://127.0.0.1:3007/my/userinfo
-        ```
+    ```shell
+    $ pm2 stop all                  # 停止所有的应用程序
+    $ pm2 stop 0                    # 停止 id为 0的指定应用程序
+    $ pm2 restart all               # 杀死并重新启动所有进程
+    $ pm2 reload all                # 实现0秒的停机重新加载。重载 cluster mode下的所有进程
+    $ pm2 delete all                # 关闭并删除所有应用
+    $ pm2 delete 0                  # 删除指定应用 id 0
 
-        如果在postman或者浏览器掉不通服务器的话，是没有开启防火墙的问题
+    $ pm2 kill                      # 杀死pm2管理的所有进程
 
-        ```js
-        http://106.52.249.188:3007/my/userinfo
-        ```
+    $ pm2 ls                        # 列表 PM2 启动的所有的应用程序
+    $ pm2 start app.js              # 启动项目
+    ```
 
-        去对应的腾讯云或者阿里云，你的服务商开启，`但是我的在上面开启了没有生效，最后还是去宝塔【安全】->【系统防火墙】开启才生效的`
+7. 这个时候在服务器可以访问通接口了应该
+
+    ```js
+    curl http://127.0.0.1:3007/my/userinfo
+    ```
+
+    如果在postman或者浏览器掉不通服务器的话，是没有开启防火墙的问题
+
+    ```js
+    http://106.52.249.188:3007/my/userinfo
+    ```
+
+    去对应的腾讯云或者阿里云，你的服务商开启，`但是我的在上面开启了没有生效，最后还是去宝塔【安全】->【系统防火墙】开启才生效的`
 
 ### 公众号接入chatgpt
 
