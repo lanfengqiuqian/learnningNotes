@@ -110,6 +110,11 @@
 
     2. 永久修改，见[博客](https://www.jianshu.com/p/1c37903dd09d)
 
+        ```
+        export http_proxy=http://127.0.0.1:7890;
+        export https_proxy=http://127.0.0.1:7890;
+        ```
+
 
 2. linux
 

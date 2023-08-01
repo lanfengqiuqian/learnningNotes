@@ -92,8 +92,53 @@
 6. 修改input中的placeholder样式（含内容样式）
 
     ```css
-    input::-webkit-input-placeholder {
-        // 样式代码
+    input::placeholder {
+        // some code
+    }
+    <!-- 其他浏览器兼容 -->
+    /* - Chrome ≤56,
+    - Safari 5-10.0
+    - iOS Safari 4.2-10.2
+    - Opera 15-43
+    - Opera Mobile >12
+    - Android Browser 2.1-4.4.4
+    - Samsung Internet
+    - UC Browser for Android
+    - QQ Browser */
+    ::-webkit-input-placeholder {
+        color: #ccc;
+        font-weight: 400;
+    }
+
+    /* Firefox 4-18 */
+    :-moz-placeholder {
+        color: #ccc;
+        font-weight: 400;
+    }
+
+    /* Firefox 19-50 */
+    ::-moz-placeholder {
+        color: #ccc;
+        font-weight: 400;
+    }
+
+    /* - Internet Explorer 10–11
+    - Internet Explorer Mobile 10-11 */
+    :-ms-input-placeholder {
+        color: #ccc !important;
+        font-weight: 400 !important;
+    }
+
+    /* Edge (also supports ::-webkit-input-placeholder) */
+    ::-ms-input-placeholder {
+        color: #ccc;
+        font-weight: 400;
+    }
+
+    /* CSS Working Draft */
+    ::placeholder {
+        color: #ccc;
+        font-weight: 400;
     }
     ```
 
@@ -191,3 +236,42 @@
     background: -ms-linear-gradient(top, #1e5799 0%, #7db9e8 100%); /* Internet Explorer */ 
     background: -o-linear-gradient(top, #1e5799 0%, #7db9e8 100%); /* Opera */
     ```
+
+12. `last-child`和`:last-of-type`
+
+    关键点：
+    1. `last-child`：父元素的最后一个子元素，且这个元素是css指定的元素，才可以生效
+
+        说明：如果父元素最后一个不是指定的元素，则不生效
+
+    2. `last-of-type`：一群同选择器的元素中的最后一个
+
+        说明：找相同的符合条件的选择器，然后这里面的最后一个元素
+
+    ```html
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style type="text/css">
+            p {
+                border-bottom: 1px solid #AAAAAA;
+            }
+            <!-- 最后一个p元素生效 -->
+            .p:last-of-type {
+                border-bottom-color: #F00;
+            }
+            <!-- 不生效 -->
+            .p:last-child {
+                color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="p">我是第1个p元素的内容</p>
+        <p class="p">我是第2个p元素的内容</p>
+        <p class="p">我是第3个p元素的内容</p>
+        <p class="p">我是最后一个p元素的内容</p>
+        <div class="p">我是干扰元素</div>
+    </body>
+    ```
+

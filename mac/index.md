@@ -228,3 +228,17 @@
 20. utm虚拟机
 
     > https://mac.getutm.app/
+
+21. 打造好看的mac终端
+
+    > https://developer.aliyun.com/article/1100368#slide-4
+
+22. 安装oh-my-zsh之后出现node、npm等命令找不到
+
+    ```
+    vim ~/.zshrc
+    // 在最后一行添加
+    source ~/.zshrc.pre-oh-my-zsh
+
+    // wq 保存退出重新打开终端即可
+    ```

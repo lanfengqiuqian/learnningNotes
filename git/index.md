@@ -394,3 +394,15 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     ```js
     **/node_modules
     ```
+
+51. 报错`git@github.com: Permission denied (publickey).`
+
+    原因：没有配置正确的ssh密钥，重新配置即可
+
+    1. 通过运行 `ls -al ~/.ssh` 命令，确认你是否已经有 SSH 密钥。如果你没有密钥，可以通过运行 `ssh-keygen` 命令来生成。
+    2. 运行 `cat ~/.ssh/id_rsa.pub` 命令，并将输出复制到 GitHub 帐户的 SSH 密钥设置中。
+    3. `ssh -T git@github.com`检查远程仓库的访问权限
+
+        > Hi lanfengqiuqian! You've successfully authenticated, but GitHub does not provide shell access.
+
+52. 
