@@ -681,3 +681,47 @@ Vue.prototype.$confirm=MessageBox.confirm;
 10:28:29.017 ╵
 10:28:29.035 /Users/xxxxx/wallpaper/pages/user/user.vue 5:9 root stylesheet
 ```
+
+### input自动转为大写
+
+1. 使用`toUpperCase`方法
+
+    可以实现，但是输入文字会有干扰，比较有局限性，适合纯字母输入。
+
+    ```html
+    <el-input onkeyup="this.value=this.value.toUpperCase()" v-model="form.hphm" placeholder="请输入号牌号码"></el-input>
+    ```
+
+2. 使用`text-transform`属性
+
+    只需要给输入框加上一个 class，把属性加上即可，局限性非常小，推荐使用。
+
+    ```html
+    <div class="toUpperCase">
+        <el-input v-model="form.hphm" placeholder="请输入号牌号码"></el-input>
+    </div>
+
+    .toUpperCase ::v-deep .el-input__inner {
+        text-transform: uppercase !important;
+    }
+    ```
+
+3. `toUpperCase`方法+`computed`属性
+
+    最佳方案
+
+    ```html
+    <!-- //v-model="codeval" 绑定的codeval要和computed中的codeval一致 -->
+    <el-input v-model="codeval" placeholder="请输入号牌号码"></el-input>
+
+    computed: {
+        codeval: {
+            get: function () {
+                return this.form.hphm;//绑定的model数据
+            },
+            set: function (val) {
+                this.form.hphm = val.toUpperCase();//toUpperCase()方法用于将小写字符转换为大写
+            }
+        }
+    },
+    ```

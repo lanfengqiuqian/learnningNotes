@@ -286,3 +286,65 @@ yarn是一个与npm兼容的node包管理器。使用它安装npm包，会自动
     registry=https://registry.npm.taobao.org/
     @test:registry = https://npm.xx.com
     ```
+
+
+### npm前加@是什么意思
+
+比如`vue-cli`与`@vue/cli`的区别
+
+1. `@`前缀是什么意思
+
+  表示该软件包是范围包，类似相对路径
+
+  ```js
+  import MyTitle from '@/comopnents/my-title'
+  ```
+
+2. 为什么要用叫命名空间（或者叫做范围）
+
+  不用的场景：假如你想发布一个包，叫做`my-title`，如果这个时候别人已经发布过了这个名字，那么你就必须改名，比如叫`mine-title`
+
+  用的场景：假如你想发布一个包，叫做`my-title`，因为有了命名空间，实际你的名字叫做`@user/my-title`，别人即使也发布过了，但是因为是不同的命名空间，比如叫`@other/my-title`
+
+3. 命名空间的界定
+
+  我们在注`册npm帐户时`，`系统自动分配`给我们的。我们可以在这个匹配的命名空间内，发布我们自己的包。
+
+  且在这个命名空间内创建发布的包不会与其他用户或组织创建的包同名的包，而不会发生冲突。
+
+  当在package.json文件中作为从属项列出时，带作用域的程序包之前带有其作用域名称。命名空间名称是介于`@和斜线之间的所有内容`。
+
+  ```js
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "@vue/eslint-config-typescript": "^11.0.2",
+  ```
+
+4. 命名格式
+
+  `@myorg/mypackage` 即： `@组织名/包名`
+
+  `@yourname/mypackage` 即 `@你的名称/包名`
+
+
+### 判断是生产环境还是开发环境
+
+```js
+// production || development
+process.env.NODE_ENV
+```
+
+### npm install命令不同参数
+
+```
+npm install moduleName # 安装模块到项目目录下
+ 
+npm install -g moduleName # -g 的意思是将模块安装到全局，具体安装到磁盘哪个位置，要看 npm config prefix 的位置。
+ 
+npm install -save moduleName # -save 的意思是将模块安装到项目目录下，并在package文件的dependencies节点写入依赖。
+ 
+npm install -save-dev moduleName # -save-dev 的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖。
+```

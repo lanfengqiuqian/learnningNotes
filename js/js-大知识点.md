@@ -1671,3 +1671,66 @@ http-server是一个基于命令行的http服务器。使用方法很简单：
     last 1 chrome version
     last 1 firefox version
     ```
+
+
+### 使用patch-package修改node_modules（给NPM包打补丁）
+
+参考文章[https://juejin.cn/post/6962554654643191815](https://juejin.cn/post/6962554654643191815)
+
+需求点：想要修改node_modules中某些代码
+
+1. 安装patch-package
+
+    根据需求看修改的包是哪里的
+
+    ```js
+    // 开发测试环境
+    npm install patch-package --save-dev
+
+    // 生产环境
+    npm install patch-package --save
+    ```
+
+2. 直接去修改node_modules中的代码
+
+    额外提一句，保险起见，最好把`package.json`中的版本号锁定
+
+3. 生成补丁
+
+    比如我的包是`@vue+cli-plugin-babel`
+
+    到根目录下执行`npx patch-package @vue+cli-plugin-babel`
+
+    然后就会生成如下文件：`patches/@vue+cli-plugin-babel+5.0.8.patch`
+
+    里面就是一些修改的ref
+
+    ```js
+    diff --git a/node_modules/@vue/cli-plugin-babel/index.js b/node_modules/@vue/cli-plugin-babel/index.js
+    index 4148963..258f0f0 100644
+    --- a/node_modules/@vue/cli-plugin-babel/index.js
+    +++ b/node_modules/@vue/cli-plugin-babel/index.js
+    @@ -2,6 +2,8 @@ const path = require('path')
+    const babel = require('@babel/core')
+    const { isWindows } = require('@vue/cli-shared-utils')
+    
+    +console.log('hello world');
+    +
+    function getDepPathRegex (dependencies) {
+    const deps = dependencies.map(dep => {
+        if (typeof dep === 'string') {
+    ```
+
+4. 加入版本管理
+
+    `git add => commit => push`
+
+5. 完善npm脚本
+
+    当其他同事拉到代码如何应用补丁呢？基于上述操作我们在`npm install`后执行`patch-package`命令即可，这个流程可借助`npm script`实现，在`package.json`的`script`中添加如下字段及内容：
+
+    ```json
+    {
+        "postinstall":"patch-package"
+    }
+    ```

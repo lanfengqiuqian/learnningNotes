@@ -1557,3 +1557,27 @@ console.log("srcList :>> ", srcList);
     在选择引入的目录时，你应该考虑你的项目的构建工具和目标环境。如果你使用的是传统的打包工具（如 Browserify）或需要支持旧版浏览器，可以选择引入 dist 目录的文件。如果你使用的是现代的构建工具和模块化系统，并希望充分利用 ES 模块化特性，可以选择引入 es 目录的文件。如果你需要对库进行二次开发或自定义操作，可以选择引入 lib 目录的文件。
 
     最佳做法是查看库的文档或官方指南，了解它们推荐的引入方式，并与你的项目需求进行匹配。有些库可能同时提供 dist、lib 和 es 目录，以适应不同的项目需求。
+
+55. 解决map中需要进行promise请求的问题
+
+    背景：在一个表格list中，有一个字段需要请求接口来获取
+
+    问题：在map的回调用请求接口返回的是promise，无法渲染list
+
+    解决：使用`Promise.all()`
+
+    ```js
+    const getList = async () {
+        const list = await getTableList();
+        const tableList = await Promise.all(list.map((item) => {
+            const data = await getStatus(item.code);
+            return {
+                ...item,
+                code: data.code,
+            }
+        }));
+    }
+    ```
+
+
+56. 

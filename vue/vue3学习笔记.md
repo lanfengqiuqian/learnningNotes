@@ -713,3 +713,37 @@ const pickerOptions = (time) => {
   );
 };
 ```
+
+### 使用 Vue 3 Script Setup 时 ESLint 报错 ‘defineProps’ is not defined
+
+1. 检查`eslint-plugin-vue`的版本
+
+    > npm list eslint-plugin-vue
+
+    若版本在 v8.0.0 以上，跳转到 Step 2，否则直接到 Step 3 的内容
+
+2. 版本为 v8.0.0+
+
+    打开`.eslintrc.js`文件并修改如下：
+
+    ```js
+    env: {
+        node: true,
+        // The Follow config only works with eslint-plugin-vue v8.0.0+
+        "vue/setup-compiler-macros": true,
+    },
+    ```
+
+3. 版本为 v8.0.0 以下
+
+    打开 .eslintrc.js 文件并修改如下：
+
+    ```js
+    // The Follow configs works with eslint-plugin-vue v7.x.x
+    globals: {
+        defineProps: "readonly",
+        defineEmits: "readonly",
+        defineExpose: "readonly",
+        withDefaults: "readonly",
+    },
+    ```

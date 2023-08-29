@@ -405,4 +405,23 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
 
         > Hi lanfengqiuqian! You've successfully authenticated, but GitHub does not provide shell access.
 
-52. 
+52. log和reflog的区别
+
+    `git reflog` 可以查看所有分支的所有操作记录（包括已经`被删除的 commit` 记录和 `reset` 的操作）
+
+    例如执行 `git reset --hard HEAD~1`，退回到上一个版本，用`git log`则是看不出来被删除的`commitid`，用`git reflog`则可以看到被删除的`commitid`，我们就可以买后悔药，恢复到被删除的那个版本
+
+53. 基于远程分支创建本地分支
+
+    ```shell
+    # 更新远程分支
+    git fetch origin
+
+    # 如果有新创建的，那么会输出  * [new branch]      feat/230818 -> origin/feat/230818
+
+    # 列出所有本地和远程分支
+    git branch -a
+
+    # 基于远程分支创建本地分支
+    git checkout -b feat/230818 origin/feat/230818
+    ```
