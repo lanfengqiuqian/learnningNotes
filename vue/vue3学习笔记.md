@@ -747,3 +747,169 @@ const pickerOptions = (time) => {
         withDefaults: "readonly",
     },
     ```
+
+
+### 查看项目打包大小
+
+1. 在线调试
+
+    1. 安装`webpack`插件
+
+        ```shell
+        npm i webpack-boundle-analyzer -D 
+        或者 npm i webpack-boundle-analyzer --save-dev
+        ```
+
+    2. 在`vue.config.js`中配置
+
+        ```js
+        module.exports = {
+        chainWebpack: config => {
+            // 当环境变量user_analyzer为true使用
+            if (process.env.use_analyzer) {
+                config
+                .plugin('webpack-bundle-analyzer')
+                .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+            }
+        }
+        ```
+
+    3. 在`package.json`中配置命令
+
+        ```json
+        {
+            "scripts": {
+                "serve": "vue-cli-service serve"
+                "analyzer": "cross-env use_analyzer=true npm run serve"
+            }
+        }
+        ```
+
+    注意： 定义该指令必须要安装`cross_env`（`cross-env`这是一款运行跨平台设置和使用环境变量的脚本），否则会出现下面的报错信息
+
+    4. 运行
+
+        ```js
+        npm run analyzer
+        ```
+
+        该界面会运行在`8888`端口（`http://127.0.0.1:8888/`）如果端口被占用则会报错。
+
+2. 使用`vue-cli3`中内置命令
+
+    1. 直接在`package.json`中配置命令，在`build`后追加`-report`
+
+        ```js
+        "scripts": {
+            "build": "vue-cli-service build --report",
+        }
+        ```
+
+    2.  直接运行`build`
+
+        ```shell
+        npm run build
+        ```
+
+    3. 打开`dist`目录下的`report.html`文件
+
+
+### vue-virtual-scroller虚拟滚动遇到的问题
+
+#### 安装和使用
+见官方文档：[https://github.com/Akryum/vue-virtual-scroller/tree/master/packages/vue-virtual-scroller](https://github.com/Akryum/vue-virtual-scroller/tree/master/packages/vue-virtual-scroller)
+#### 如何获取子组件的实例
+1. 背景
+	
+	本来正常情况下，要获取`v-for`渲染的子组件的实例，通过`ref`绑定即可获取到数组，并通过`index`即可定位到vue实例
+
+	```html
+	<template>
+	  <RecycleScroller
+	    class="scroller"
+	    :items="list"
+	    :item-size="32"
+	    key-field="id"
+	    v-slot="{ item }"
+	  >
+	    <Info ref="info">
+	      {{ item.name }}
+	    </Info>
+	  </RecycleScroller>
+	</template>
+	```
+
+	但是由于这里使用的是虚拟列表，`info.value`打印出来的结果只是渲染出来的第一个实例
+
+2. 解决方案
+	
+	发现，通过为每一个组件绑定不同的ref，通过这多个`ref`能够获取到每一个实例，比如`info0.value`、`info1.value`
+
+	那么，就只需要根据`list`动态的创建多个`ref`，优化方案，多个`ref`放到数组中，通过`index`访问
+
+	```html
+    <RecycleScroller
+        class="scroller"
+        ref="scroller"
+        :items="arr"
+        :item-size="145"
+        :buffer="400"
+        key-field="itemCode"
+        v-slot="{ item, index }"
+    >
+        <OutInfo
+        :ref="outInfoRefs[index]"
+        />
+    </RecycleScroller>
+
+	//子组件的实例（这里通过数组来进行存储，每一个实例存储一个）
+	const outInfoRefs: any = [];
+	arr.value.forEach(item => outInfoRefs.push(ref()));
+	```
+
+	这样打印出来的`outInfoRefs`将会是多个`ref`实例
+
+	`注意`：这里打印出来的并没有所有的，只有视口上展示出来的加上不可见的预加载的几个
+
+	比如是这样的：`[null, null, null, ref(), ref(), ref(), ref(), null, null, null]`
+
+#### 如何保存不在视口区域内的子组件的状态
+
+1. 背景
+	
+	如果你在子组件的`onMounted`中输出日志的话，会发现，只有一开始加载的几个元素会输出，后面为了提高效率只是重复渲染这已经加载的几个元素而已
+
+	`那么问题来了`：实际上不同的子组件里面的状态是不一样的，传递进去的`props`是会获取到的，但是自己维护的是不变的
+
+	比如每个子组件有一个`input`，你在第一个输入了一个`hello`，假定你重复渲染的子组件是5个，那么在第6个子组件渲染的时候，你会惊奇的发现他已经变成了`hello`，这显然不是我们需要的结果
+
+2. 解决方案
+
+	前面说过，`props`是会正常获取到的，那么通过`watch`到`props`的变化，比如传递一个`index`
+
+	然后在这个`watch`中根据需要，去初始化组件状态，那么就可以实现
+
+	```js
+	watch(
+	  () => props.index,
+	  (newVal) => {
+	    // 由于使用的是虚拟滚动，每个子元素是复用的，css样式会保留，通过监听index的变化，来达到重新渲染每个子元素的效果
+	    if (props.focusIndex === newVal) {
+	      // 如果当前子元素是选中的，那么需要进行一些操作
+	    } else {
+	      // 如果当前子元素不是选中的，那么需要进行另一些操作
+	      doBlur(1);
+	      delColor();
+	      editIsDisabled();
+	    }
+	  }
+	);
+	```
+
+3. 另一个问题（赋初值，保存变化值）
+
+	假定第一个元素的`input`已经赋值了`hello`，如果通过上面的代码的话，那么第6个已经正常置空了
+
+	但是回去到第1个时候，会发现也被置空了，但是并不能通过`props`获取到刚才的改变，因为没有保存
+
+	因为子元素无法保存，但是对应的数据是可以保存的，比如添加一个属性`tempValue`，在change的时候，通过props进行改变，然后在watch的时候赋值上去，这样是可行的

@@ -43,7 +43,8 @@
 14. 回到n次之前提交  
     `git reset --hard HEAD^n`
 15. 撤回`git add`的提交  
-    `git reset 文件名`
+    `git reset 文件名`  
+    `git reset .` 撤回所有暂存区的更改
 16. 克隆大文件  
     `git clone --depth=1 http://xxx/mp.git`
 17. 关联远程仓库  
@@ -304,6 +305,10 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
         5. git stash apply stash@{$num}：将内容恢复到当前分支下，不会删除栈中保存的记录
 
         6. git stash show：查看堆栈中最新保存的stash和当前目录的差异，显示做了哪些改动
+
+        7. git stash clear: 清除所有stash的内容
+
+        8. git stash drop stash@{0} 删除第一个队列
 
 45. git报错：'origin' does not appear to be a git repository
 

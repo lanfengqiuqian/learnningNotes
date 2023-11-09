@@ -4,143 +4,143 @@
  * @LastEditTime: 2022-08-24 14:39:28
  * @FilePath: \learnningNotes\js\index-小知识点.md
 -->
-1. substr()和substring()
 
-    |      | substr             | substring            |
-    | ---- | ------------------ | -------------------- |
-    | 功能 | 截取一定长度字符串 | 截取一定长度字符串   |
-    | 参数 | (start, length)    | (start, end)左闭右开 |
-    如果`start`或`end`为`NaN`或负数，那么将会被替换为0
+1. substr()和 substring()
+
+   |      | substr             | substring            |
+   | ---- | ------------------ | -------------------- |
+   | 功能 | 截取一定长度字符串 | 截取一定长度字符串   |
+   | 参数 | (start, length)    | (start, end)左闭右开 |
+
+   如果`start`或`end`为`NaN`或负数，那么将会被替换为 0
 
 2. 大括号必须跟在前一个语句的同一行
 
-    ```js
-    function test() {
-        return 
-        {
-            name: "lan",
-            age: 12
-        }
-    }
-    console.log(test()); // undefined
-    ```
+   ```js
+   function test() {
+       return
+       {
+           name: "lan",
+           age: 12
+       }
+   }
+   console.log(test()); // undefined
+   ```
 
-    理想的情况下，应该是输出一个对象，上面代码结果输出是`undefined`，为什么呢？  
+   理想的情况下，应该是输出一个对象，上面代码结果输出是`undefined`，为什么呢？
 
-    js的`分号插入机制`：如果语句没有使用分号结束，会自动不充分号，所以上面的代码相当于
+   js 的`分号插入机制`：如果语句没有使用分号结束，会自动不充分号，所以上面的代码相当于
 
-    ```js
-    function test() {
-        return undefined; // 自动插入分号
-        {
-            name: "lan",
-            age: 12
-        }
-    }
-    console.log(test()); // undefined
-    ```
+   ```js
+   function test() {
+       return undefined; // 自动插入分号
+       {
+           name: "lan",
+           age: 12
+       }
+   }
+   console.log(test()); // undefined
+   ```
 
-    应该改为
+   应该改为
 
-    ```js
-    function test() {
-        return {
-            name: "lan",
-            age: 12
-        }
-    }
-    console.log(test()); // {name: "lan", age: 12}
-    ```
+   ```js
+   function test() {
+     return {
+       name: "lan",
+       age: 12,
+     };
+   }
+   console.log(test()); // {name: "lan", age: 12}
+   ```
 
-3. js中对象的属性名只能是字符串，如果以数字作为属性名也会被强行转化为字符串
+3. js 中对象的属性名只能是字符串，如果以数字作为属性名也会被强行转化为字符串
 
-4. a标签中的download属性需要同源才能够生效
-    
+4. a 标签中的 download 属性需要同源才能够生效
 5. 去除前后空格
 
-    该方法不会去除中间的空格
+   该方法不会去除中间的空格
 
-    > str.trim()
+   > str.trim()
 
 6. concat()
 
-    不会改变原来的数组，返回的是一个新的拼接后的数组，参数可以是一个数组，也可以是数组中的元素
+   不会改变原来的数组，返回的是一个新的拼接后的数组，参数可以是一个数组，也可以是数组中的元素
 
-    ```js
-    let arr1 = [1,2,3];
-    let arr2 = [2,3,4];
-    // 参数是数组
-    let arr3 = arr1.concat(arr2); // [1,2,3,2,3,4]
-    // 参数是数组元素
-    let arr4 = arr1.concat(...arr2); // [1,2,3,2,3,4]
-    ```
+   ```js
+   let arr1 = [1, 2, 3];
+   let arr2 = [2, 3, 4];
+   // 参数是数组
+   let arr3 = arr1.concat(arr2); // [1,2,3,2,3,4]
+   // 参数是数组元素
+   let arr4 = arr1.concat(...arr2); // [1,2,3,2,3,4]
+   ```
 
 7. 计算数组的交并差补
 
-    使用concat、filter
+   使用 concat、filter
 
-    ```js
-    var a = [1,2,3,4];
-    var b = [3,4,5,6];
-    // 交集（同时在a和b中的元素）
-    var c = a.filter(item => b.indexOf(item) > -1); // [3,4]
-    // 差集（只在a中不在b中的元素）
-    var d = a.filter(item => b.indexOf(item) === -1); // [1,2]
-    // 并集（将a和b合并，只包含一份重复的元素）
-    var e = b.concat(a.filter(item => b.indexOf(item) === -1)); // [1,2,3,4,5,6]
-    // 补集（去除a和b中重复的元素之后，将两个数组进行合并），也可以看做是两个差集合并
-    var tempA = a.filter(item => b.indexOf(item) === -1); // [1,2]
-    var tempB = b.filter(item => a.indexOf(item) === -1); // [5,6]
-    var f = (tempA).concat(tempB); // [1,2,5,6]
-    ```
+   ```js
+   var a = [1, 2, 3, 4];
+   var b = [3, 4, 5, 6];
+   // 交集（同时在a和b中的元素）
+   var c = a.filter((item) => b.indexOf(item) > -1); // [3,4]
+   // 差集（只在a中不在b中的元素）
+   var d = a.filter((item) => b.indexOf(item) === -1); // [1,2]
+   // 并集（将a和b合并，只包含一份重复的元素）
+   var e = b.concat(a.filter((item) => b.indexOf(item) === -1)); // [1,2,3,4,5,6]
+   // 补集（去除a和b中重复的元素之后，将两个数组进行合并），也可以看做是两个差集合并
+   var tempA = a.filter((item) => b.indexOf(item) === -1); // [1,2]
+   var tempB = b.filter((item) => a.indexOf(item) === -1); // [5,6]
+   var f = tempA.concat(tempB); // [1,2,5,6]
+   ```
 
 8. 对象解构：赋初值，重命名，嵌套解构
 
-    ```js
-    const obj = {
-        name: "lan",
-        age: 12,
-        address: {
-            province: 'jiangxi',
-            city: 'yichun'
-        }
-    }
+   ```js
+   const obj = {
+     name: "lan",
+     age: 12,
+     address: {
+       province: "jiangxi",
+       city: "yichun",
+     },
+   };
 
-    // 解构
-    const {name, age, address} = obj;
+   // 解构
+   const { name, age, address } = obj;
 
-    // 赋初值
-    const {name = 'zhangsan'} = obj;
+   // 赋初值
+   const { name = "zhangsan" } = obj;
 
-    // 重命名
-    const {age: myAge} = obj;
+   // 重命名
+   const { age: myAge } = obj;
 
-    // 嵌套解构
-    const {address: {
-        province,
-        city
-    }} = obj;
-    ```
+   // 嵌套解构
+   const {
+     address: { province, city },
+   } = obj;
+   ```
 
 9. reduce()
 
-    一般用于数组的求和
+   一般用于数组的求和
 
-    ```js
-    let arr = [1,2,3];
-    let total = arr.reduce((a, b) => a + b); // 6
-    ```
+   ```js
+   let arr = [1, 2, 3];
+   let total = arr.reduce((a, b) => a + b); // 6
+   ```
 
-    参数：callback（累加回调）, initialValue
+   参数：callback（累加回调）, initialValue
 
-    | 参数         | 子参数       | 说明               |
-    | ------------ | ------------ | ------------------ |
-    | callbck      |              | 累加回调           |
-    |              | total        | 累加初始值         |
-    |              | currentValue | 当前元素           |
-    |              | currentIndex | 当前元素索引       |
-    |              | arr          | 数组对象           |
-    | initialValue |              | 可传递的累加初始值 |
+   | 参数         | 子参数       | 说明               |
+   | ------------ | ------------ | ------------------ |
+   | callbck      |              | 累加回调           |
+   |              | total        | 累加初始值         |
+   |              | currentValue | 当前元素           |
+   |              | currentIndex | 当前元素索引       |
+   |              | arr          | 数组对象           |
+   | initialValue |              | 可传递的累加初始值 |
 
 10. 获取含特殊字符的对象属性
 
@@ -161,81 +161,81 @@
 
     比如：换行符
 
-    > let val = item['第一行\n第二行'];
+    > let val = item['第一行\n 第二行'];
 
-11. JSON.stringify和JSON.parse的参数
+11. JSON.stringify 和 JSON.parse 的参数
 
     1. JSON.stringify
 
-        ```js
-        JSON.stringify(value[, replacer [, space]])
-        ```
+       ```js
+       JSON.stringify(value[, replacer [, space]])
+       ```
 
-        第二个参数replacer，可以是一个数组，也可以是一个回调函数
+       第二个参数 replacer，可以是一个数组，也可以是一个回调函数
 
-        1. 当为数组时，只有一个在数组中的属性名才会被序列化到最终的JSON字符串中
+       1. 当为数组时，只有一个在数组中的属性名才会被序列化到最终的 JSON 字符串中
 
-        2. 当为回调函数是，每一个属性都会执行该回调函数，需要返回值
+       2. 当为回调函数是，每一个属性都会执行该回调函数，需要返回值
 
-        ```js
-        let obj = {
-            name: 'jack',
-            age: 12
-        }
-        JSON.stringify(obj, ['name']); // {"name":"jack"}
-        JSON.stringify(obj, (key, value) => {
-            console.log(key, value); // name jack age 12
-            return value;
-        }); // {"name":"jack","age":12}
-        ```
+       ```js
+       let obj = {
+         name: "jack",
+         age: 12,
+       };
+       JSON.stringify(obj, ["name"]); // {"name":"jack"}
+       JSON.stringify(obj, (key, value) => {
+         console.log(key, value); // name jack age 12
+         return value;
+       }); // {"name":"jack","age":12}
+       ```
 
-        第三个参数是控制字符串间距，如果是一个数字，则序列化的时候每一级别回比上一级别多缩进该值的空格（最多10个空格）；如果是一个字符串，则每一级别回比上一级别多缩进该字符串。
+       第三个参数是控制字符串间距，如果是一个数字，则序列化的时候每一级别回比上一级别多缩进该值的空格（最多 10 个空格）；如果是一个字符串，则每一级别回比上一级别多缩进该字符串。
 
-        ```js
-        let obj = {
-            name: 'jack',
-            age: 12
-        }
-        JSON.stringify(obj, null, 2);
-        /*
-        "{"name":"jack","age":12}"
-        */
-        JSON.stringify(obj, null, 2);
-        /*
-        "{
-          "name": "jack",
-          "age": 12
-        }"
-        */
-        ```
+       ```js
+       let obj = {
+         name: "jack",
+         age: 12,
+       };
+       JSON.stringify(obj, null, 2);
+       /*
+       "{"name":"jack","age":12}"
+       */
+       JSON.stringify(obj, null, 2);
+       /*
+       "{
+         "name": "jack",
+         "age": 12
+       }"
+       */
+       ```
 
-        注意，如果一个被序列化的对象拥有`toJson`方法，那么该`toJson`方法就会覆盖该对象默认的序列化行为，如`fetch`方法的`reponse`
+       注意，如果一个被序列化的对象拥有`toJson`方法，那么该`toJson`方法就会覆盖该对象默认的序列化行为，如`fetch`方法的`reponse`
 
     2. JSON.parse
 
-        ```js
-        JSON.parse(text[, reviver])
-        ```
+       ```js
+       JSON.parse(text[, reviver])
+       ```
 
-        第二个参数reviver是一个回调，每一个属性都会调用此函数
+       第二个参数 reviver 是一个回调，每一个属性都会调用此函数
 
-        ```js
-        let str = "{name: "jack", age: 12}";
-        JSON.parse(str, (key ,val) => {
-            console.log(key, val); // name jack age 12
-            return val;
-        });
-        ```
+       ```js
+       let str = "{name: "jack", age: 12}";
+       JSON.parse(str, (key ,val) => {
+           console.log(key, val); // name jack age 12
+           return val;
+       });
+       ```
 
-12. 解析get中的参数
+12. 解析 get 中的参数
 
     ```js
     const q = {};
-    location.search.replace(/([^?&=]+)=([^&]+)/g,(_,k,v)=>q[k]=v);
+    location.search.replace(/([^?&=]+)=([^&]+)/g, (_, k, v) => (q[k] = v));
     console.log(q);
     ```
 
-13. new操作符过程过做了什么
+13. new 操作符过程过做了什么
 
     > var p = new Person();
 
@@ -247,10 +247,10 @@
     // 把构造函数的this指向新对象，并执行函数体
     var result = Person.call(o);
     // 判断构造函数的返回值类型，如果是值类型则返回该对象，如果是引用类型，就返回这个引用类型的对象
-    if (typeof(result) === 'object') {
-        obj = result;
+    if (typeof result === "object") {
+      obj = result;
     } else {
-        obj = o;
+      obj = o;
     }
     ```
 
@@ -258,28 +258,27 @@
 
     ```js
     function New(obj, ...arg) {
-        // 创建新对象，原型为构造函数的原型
-        // 可以拆分写法，如下
-        // let newObj = {};
-        // newObj.__proto = obj.prototype;
-        let newObj = Object.create(obj.prototype);
-        // 修改this指向为新对象，并执行函数体
-        let result = obj.apply(res, arg);
-        // 如果返回值不是有效对象，则返回新对象
-        return (typeof result === 'object') ? result : res;
+      // 创建新对象，原型为构造函数的原型
+      // 可以拆分写法，如下
+      // let newObj = {};
+      // newObj.__proto = obj.prototype;
+      let newObj = Object.create(obj.prototype);
+      // 修改this指向为新对象，并执行函数体
+      let result = obj.apply(res, arg);
+      // 如果返回值不是有效对象，则返回新对象
+      return typeof result === "object" ? result : res;
     }
     ```
 
     **对于构造函数返回值的解释：**  
-    如果构造函数返回了一个“对象”，那么这个对象会取代整个new出来的结果。如果构造函数没有返回对象，那么new出来的结果为步骤1创建的对象。（一般情况下构造函数不返回任何值，不过用户如果线覆盖这个返回值，可以自己选择一个普通对象来覆盖。当然，返回数组也会覆盖，因为数组也是对象）
+    如果构造函数返回了一个“对象”，那么这个对象会取代整个 new 出来的结果。如果构造函数没有返回对象，那么 new 出来的结果为步骤 1 创建的对象。（一般情况下构造函数不返回任何值，不过用户如果线覆盖这个返回值，可以自己选择一个普通对象来覆盖。当然，返回数组也会覆盖，因为数组也是对象）
 
 14. 构造函数和普通函数的区别
 
-    #### 前言 函数内部有两个不同的内部方法：`【Call】和【construct】`  
+    #### 前言 函数内部有两个不同的内部方法：`【Call】和【construct】`
 
-    1. 当使用new调用函数是，会执行【coustruct】方法，执行过程就是`new`操作符执行的过程
+    1. 当使用 new 调用函数是，会执行【coustruct】方法，执行过程就是`new`操作符执行的过程
     2. 当直接调用函数，会执行【call】方法，直接执行函数体
-
 
     #### 区别
 
@@ -287,88 +286,89 @@
     2. 调用方式不一样，作用也不一样（`构造函数用来新建实例对象`）
        1. 普通函数调用：`person()`
        2. 构造函数调用：需要使用`new`关键字`new Person()`
-    3. 构造函数的函数名和类名相同：Person()这个构造函数，Person既是函数名，也是对象的类名
+    3. 构造函数的函数名和类名相同：Person()这个构造函数，Person 既是函数名，也是对象的类名
     4. 构造函数内部用`this`来构造属性和方法
 
-        ```js
-        function Person(name, age) {
-            this.name = name;
-            this.age = age;
-            this.say = function() {
-                console.log('hello');
-            }
-        }
-        ```
+       ```js
+       function Person(name, age) {
+         this.name = name;
+         this.age = age;
+         this.say = function () {
+           console.log("hello");
+         };
+       }
+       ```
+
     5. 当函数体为空时，执行结果不一样
 
-        1. 普通函数结果为undefined
-        2. 构造函数结果为一个空对象
+       1. 普通函数结果为 undefined
+       2. 构造函数结果为一个空对象
 
     6. 用`instanceof`可以检查一个对象是否是一个类的实例
 
-        > console.log(p instanceof Person); // true  
-        > console.log(p instanceof Car); // false
-        
-        任何对象和Object做instanceof结果都是true
+       > console.log(p instanceof Person); // true  
+       > console.log(p instanceof Car); // false
+
+       任何对象和 Object 做 instanceof 结果都是 true
 
     7. 判断函数被调用的方式
 
-        1. es5中依据`this`是否为构造函数的实例，来判断函数被调用的方式
+       1. es5 中依据`this`是否为构造函数的实例，来判断函数被调用的方式
 
-            ```js
-            function Person() {
-                if (this instanceof Person) {
-                    console.log('作为构造函数调用');
-                } else {
-                    console.log('作为普通函数调用');
-                }
+          ```js
+          function Person() {
+            if (this instanceof Person) {
+              console.log("作为构造函数调用");
+            } else {
+              console.log("作为普通函数调用");
             }
-            ```
+          }
+          ```
 
-            缺陷：如果使用call或者apply修改函数内的this只想到函数的实例上，就不能够区分是否通过new调用
+          缺陷：如果使用 call 或者 apply 修改函数内的 this 只想到函数的实例上，就不能够区分是否通过 new 调用
 
-            ```js
-            let p = new Person();
-            Person.call(p);
-            ```
+          ```js
+          let p = new Person();
+          Person.call(p);
+          ```
 
-        2. es6引入了`new.target`这个元属性进行区分。
+       2. es6 引入了`new.target`这个元属性进行区分。
 
-            > 元属性：是指非对象的属性，可以提供非对象目标的补充信息  
-            > 使用new调用函数时，会执行【construct】方法，new.target是函数本身  
-            > 直接调用函数，会执行【Call】方法，nwe.target为undefined  
-            > new.target在函数体外使用是一个语法错误
-            
-            ```js
-            function Person(){
-                if(new.target === Person){
-                    console.log('构造函数调用');
-                }else{
-                    console.log('普通函数调用');
-                }
+          > 元属性：是指非对象的属性，可以提供非对象目标的补充信息  
+          > 使用 new 调用函数时，会执行【construct】方法，new.target 是函数本身  
+          > 直接调用函数，会执行【Call】方法，nwe.target 为 undefined  
+          > new.target 在函数体外使用是一个语法错误
+
+          ```js
+          function Person() {
+            if (new.target === Person) {
+              console.log("构造函数调用");
+            } else {
+              console.log("普通函数调用");
             }
-            ```
+          }
+          ```
 
 15. 正则匹配去除括号
 
     1. 仅去除括号，不去除括号内容
-        ```js
-        // 移除所有小括号
-        str.replace(/\[|]/g,"")
-        ```
+
+       ```js
+       // 移除所有小括号
+       str.replace(/\[|]/g, "");
+       ```
 
     2. 去除括号，以及括号内容
-        ```js
-        // 去除中括号及其内容
-        str.replace(/\[.*\]/g, "");
-        ```
+       ```js
+       // 去除中括号及其内容
+       str.replace(/\[.*\]/g, "");
+       ```
 
 16. 正则匹配密码
 
-    1. 至少8位字母和数字混合：` /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$/`
+    1. 至少 8 位字母和数字混合：` /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$/`
 
-
-    2. 6位纯数字：`/^\d{6}$/`
+    2. 6 位纯数字：`/^\d{6}$/`
 
 17. 创建固定长度为空的数组，并进行填充
 
@@ -377,40 +377,54 @@
     arr.fill("hello"); // ["hello", "hello", "hello", "hello", "hello"]
     ```
 
-18. 获取FormData的内容
+18. 获取 FormData 的内容
 
     ```js
     let formData = new FormData();
-    formData('name', 'name');
-    formData('age', 12);
+    formData("name", "name");
+    formData("age", 12);
     //第一种
     for (var value of formData.values()) {
-        console.log(value);
+      console.log(value);
     }
     //第二种
     for (var [a, b] of formData.entries()) {
-        console.log(a, b);
-    }    
+      console.log(a, b);
+    }
     ```
 
 19. 时间戳转化为时间
 
     ```js
-    function add0(m){return m<10?'0'+m:m }
+    function add0(m) {
+      return m < 10 ? "0" + m : m;
+    }
     function format(shijianchuo) {
-        //shijianchuo是整数，否则要parseInt转换
-        var time = new Date(shijianchuo);
-        var y = time.getFullYear();
-        var m = time.getMonth()+1;
-        var d = time.getDate();
-        var h = time.getHours();
-        var mm = time.getMinutes();
-        var s = time.getSeconds();
-        return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+      //shijianchuo是整数，否则要parseInt转换
+      var time = new Date(shijianchuo);
+      var y = time.getFullYear();
+      var m = time.getMonth() + 1;
+      var d = time.getDate();
+      var h = time.getHours();
+      var mm = time.getMinutes();
+      var s = time.getSeconds();
+      return (
+        y +
+        "-" +
+        add0(m) +
+        "-" +
+        add0(d) +
+        " " +
+        add0(h) +
+        ":" +
+        add0(mm) +
+        ":" +
+        add0(s)
+      );
     }
     ```
 
-    js获取时间戳
+    js 获取时间戳
 
     ```js
     let time1 = Date.parse(new Date()); //1603009257000,精确到秒
@@ -433,38 +447,40 @@
      * @return int 生成后的数字
      */
     export function randomNumber() {
-        // 生成 最小值 到 最大值 区间的随机数
-        const random = (min, max) => {
-            return Math.floor(Math.random() * (max - min + 1) + min)
-        }
-        if (arguments.length === 1) {
-            let [length] = arguments
-            // 生成指定长度的随机数字，首位一定不是 0
-            let nums = [...Array(length).keys()].map((i) => (i > 0 ? random(0, 9) : random(1, 9)))
-            return parseInt(nums.join(''))
-        } else if (arguments.length >= 2) {
-            let [min, max] = arguments
-            return random(min, max)
-        } else {
-            return Number.NaN
-        }
+      // 生成 最小值 到 最大值 区间的随机数
+      const random = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      };
+      if (arguments.length === 1) {
+        let [length] = arguments;
+        // 生成指定长度的随机数字，首位一定不是 0
+        let nums = [...Array(length).keys()].map((i) =>
+          i > 0 ? random(0, 9) : random(1, 9)
+        );
+        return parseInt(nums.join(""));
+      } else if (arguments.length >= 2) {
+        let [min, max] = arguments;
+        return random(min, max);
+      } else {
+        return Number.NaN;
+      }
     }
 
     /**
-    * 随机生成字符串
-    * @param length 字符串的长度
-    * @param chats 可选字符串区间（只会生成传入的字符串中的字符）
-    * @return string 生成的字符串
-    */
+     * 随机生成字符串
+     * @param length 字符串的长度
+     * @param chats 可选字符串区间（只会生成传入的字符串中的字符）
+     * @return string 生成的字符串
+     */
     export function randomString(length, chats) {
-        if (!length) length = 1
-        if (!chats) chats = '0123456789qwertyuioplkjhgfdsazxcvbnm'
-        let str = ''
-        for (let i = 0; i < length; i++) {
-            let num = randomNumber(0, chats.length - 1)
-            str += chats[num]
-        }
-        return str
+      if (!length) length = 1;
+      if (!chats) chats = "0123456789qwertyuioplkjhgfdsazxcvbnm";
+      let str = "";
+      for (let i = 0; i < length; i++) {
+        let num = randomNumber(0, chats.length - 1);
+        str += chats[num];
+      }
+      return str;
     }
     ```
 
@@ -472,20 +488,25 @@
 
     ```js
     //获取时间
-    function getDay(day) { //这里的day是时间（列如：7，-7）
-        let today = new Date();
-        let targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
-        today.setTime(targetday_milliseconds); //注意，这行是关键代码，到这时间已经转行为毫秒
-        return this.format(today)
+    function getDay(day) {
+      //这里的day是时间（列如：7，-7）
+      let today = new Date();
+      let targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+      today.setTime(targetday_milliseconds); //注意，这行是关键代码，到这时间已经转行为毫秒
+      return this.format(today);
     }
     //格式化日期
     function format(date) {
-        let year = date.getFullYear()
-        let month = date.getMonth() + 1
-        let day = date.getDate()
-        if (month >= 1 && month <= 9) { month = `0${month}` }
-        if (day >= 1 && day <= 9) { day = `0${day}` }
-        return `${year}-${month}-${day}`
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = `0${month}`;
+      }
+      if (day >= 1 && day <= 9) {
+        day = `0${day}`;
+      }
+      return `${year}-${month}-${day}`;
     }
     ```
 
@@ -493,82 +514,99 @@
 
     1. 使用插件的方式
 
-        1. 安装插件：`npm install -g increase-memory-limit cross-env`
+       1. 安装插件：`npm install -g increase-memory-limit cross-env`
 
-        2. 在`package.json`中增加下面的脚本
+       2. 在`package.json`中增加下面的脚本
 
-            > "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
+          > "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
 
-        3. 执行脚本
+       3. 执行脚本
 
-            > npm run fix-memory-limit
+          > npm run fix-memory-limit
 
-        4. 找到node_modules/@vue/cli-service/bin/vue-cli-service.js文件，把最后的限制删掉
+       4. 找到 node_modules/@vue/cli-service/bin/vue-cli-service.js 文件，把最后的限制删掉
 
-            > const requiredVersion = require('../package.json').engines.node --max-old-space-size=4096   
-            改为
-            > const requiredVersion = require('../package.json').engines.node   
+          > const requiredVersion = require('../package.json').engines.node --max-old-space-size=4096  
+          > 改为
+          > const requiredVersion = require('../package.json').engines.node
 
     2. 在`package.json`文件的打包脚本的地方增加命令
 
-        如我的
+       如我的
 
-        > "build": "node --max_old_space_size=4096 node_modules/.bin/vue-cli-service build",
+       > "build": "node --max_old_space_size=4096 node_modules/.bin/vue-cli-service build",
 
-        这里的关键点就是找到对应的打包命令的文件在哪里
+       这里的关键点就是找到对应的打包命令的文件在哪里
 
 23. 计算两个日期相差天数
 
-    > const day = (Date.parse(startDay) - Date.parse(endDay)) / (24 * 60 * 60 * 1000)
-
+    > const day = (Date.parse(startDay) - Date.parse(endDay)) / (24 _ 60 _ 60 \* 1000)
 
 24. 禁止页面缩放
+
     ```js
     // 禁止通过	ctrl + +/- 和 	ctrl + 滚轮 对页面进行缩放
     disableBrowserZoom = () => {
-    document.addEventListener('keydown', function (event) {
-        if ((event.ctrlKey === true || event.metaKey === true) &&
-        (event.which === 61 || event.which === 107 ||
-            event.which === 173 || event.which === 109 ||
-            event.which === 187 || event.which === 189)) {
-        event.preventDefault()
+      document.addEventListener(
+        "keydown",
+        function (event) {
+          if (
+            (event.ctrlKey === true || event.metaKey === true) &&
+            (event.which === 61 ||
+              event.which === 107 ||
+              event.which === 173 ||
+              event.which === 109 ||
+              event.which === 187 ||
+              event.which === 189)
+          ) {
+            event.preventDefault();
+          }
+        },
+        false
+      );
+      // Chrome IE 360
+      window.addEventListener(
+        "mousewheel",
+        function (event) {
+          if (event.ctrlKey === true || event.metaKey) {
+            event.preventDefault();
+          }
+        },
+        {
+          passive: false,
         }
-    }, false)
-    // Chrome IE 360
-    window.addEventListener('mousewheel', function (event) {
-        if (event.ctrlKey === true || event.metaKey) {
-        event.preventDefault()
-        }
-    }, {
-        passive: false
-    })
+      );
 
-    // firefox
-    window.addEventListener('DOMMouseScroll', function (event) {
-        if (event.ctrlKey === true || event.metaKey) {
-        event.preventDefault()
+      // firefox
+      window.addEventListener(
+        "DOMMouseScroll",
+        function (event) {
+          if (event.ctrlKey === true || event.metaKey) {
+            event.preventDefault();
+          }
+        },
+        {
+          passive: false,
         }
-    }, {
-        passive: false
-    })
-    }
+      );
+    };
     ```
 
-25. 打印catch里面的error
+25. 打印 catch 里面的 error
 
-    在某种情况下，不能够直接输出catch里面的error的时候
+    在某种情况下，不能够直接输出 catch 里面的 error 的时候
 
     > console.log("error", String(error))
 
-26. js转化非正常格式的json
+26. js 转化非正常格式的 json
 
 27. 普通的对象
 
     ```js
     let obj1 = {
-        name: 'lan',
-        age: 12
-    }
+      name: "lan",
+      age: 12,
+    };
     let str1 = JSON.stringify(obj1); // '{"name":"lan","age":12}'
     ```
 
@@ -576,9 +614,9 @@
 
     ```js
     let obj2 = {
-        name: 'lan',
-        100: 200
-    }
+      name: "lan",
+      100: 200,
+    };
     // 注意这里经过序列化之后数字属性也加上了引号，所以是可以正常转化回来的
     let str2 = JSON.stringify(obj2); // '{"100":200,"name":"lan"}'
 
@@ -603,61 +641,61 @@
 // 将数字转化为英文单位，如1000为1K，10000000位10M
 // 保留两位小数，如果数值不合法返回false
 function translateNumToEn(num) {
-    if (typeof num !== 'number') {
-        return false;
-    }
-    // 判断正负数
-    let sign = num >= 0 ? '' : '-';
+  if (typeof num !== "number") {
+    return false;
+  }
+  // 判断正负数
+  let sign = num >= 0 ? "" : "-";
 
-    // 取绝对值
-    num = Math.abs(num);
+  // 取绝对值
+  num = Math.abs(num);
 
-    let str = "";
-    if (num === 0) {
-        str = "0";
-    } else if (num < 1e3) {
-        str = Math.round(num * 1e2) / 1e2 + "";
-    } else if (num < 1e6 && num >= 1e3) {
-        str = Math.round(num / 1e3 * 1e2) / 1e2 + "K";
-    } else if (num < 1e9 && num >= 1e3) {
-        str = Math.round(num / 1e6 * 1e2) / 1e2 + "M";
-    } else if (num >= 1e9) {
-        str = Math.round(num / 1e9 * 1e2) / 1e2 + "B";
-    } else {
-        return false;
-    }
-    return sign + str;
+  let str = "";
+  if (num === 0) {
+    str = "0";
+  } else if (num < 1e3) {
+    str = Math.round(num * 1e2) / 1e2 + "";
+  } else if (num < 1e6 && num >= 1e3) {
+    str = Math.round((num / 1e3) * 1e2) / 1e2 + "K";
+  } else if (num < 1e9 && num >= 1e3) {
+    str = Math.round((num / 1e6) * 1e2) / 1e2 + "M";
+  } else if (num >= 1e9) {
+    str = Math.round((num / 1e9) * 1e2) / 1e2 + "B";
+  } else {
+    return false;
+  }
+  return sign + str;
 }
 
 // 将英文单位数字转化为纯数字
 function translateEnToNum(str) {
-    if (typeof str !== "string") {
-        return false;
-    }
+  if (typeof str !== "string") {
+    return false;
+  }
 
-    // 考虑有些英文是用千分位逗号分隔的
-    str = str.replaceAll(',', '');
+  // 考虑有些英文是用千分位逗号分隔的
+  str = str.replaceAll(",", "");
 
-    // 判断正负数
-    let sign = str.includes('-') ? '-' : '';
-    str = str.replaceAll('-', '');
+  // 判断正负数
+  let sign = str.includes("-") ? "-" : "";
+  str = str.replaceAll("-", "");
 
-    if (str.includes('k') || str.includes('K')) {
-        str = str.replaceAll('k', '');
-        str = str.replaceAll('K', '');
-        str = Number(str) * 1e3;
-    } else if (str.includes('m') || str.includes('M')) {
-        str = str.replaceAll('m', '');
-        str = str.replaceAll('M', '');
-        str = Number(str) * 1e6;
-    } else if (str.includes('b') || str.includes('B')) {
-        str = str.replaceAll('b', '');
-        str = str.replaceAll('B', '');
-        str = Number(str) * 1e9;
-    } else {
-    }
+  if (str.includes("k") || str.includes("K")) {
+    str = str.replaceAll("k", "");
+    str = str.replaceAll("K", "");
+    str = Number(str) * 1e3;
+  } else if (str.includes("m") || str.includes("M")) {
+    str = str.replaceAll("m", "");
+    str = str.replaceAll("M", "");
+    str = Number(str) * 1e6;
+  } else if (str.includes("b") || str.includes("B")) {
+    str = str.replaceAll("b", "");
+    str = str.replaceAll("B", "");
+    str = Number(str) * 1e9;
+  } else {
+  }
 
-    return Number(sign + str);
+  return Number(sign + str);
 }
 ```
 
@@ -670,32 +708,32 @@ function translateEnToNum(str) {
 // 英文：月 日 年 如：Jun 12 2022 单日的话是"Jun 8 2022"
 // 标准：年-月-日 如：2022-06-12
 function translateEnDateToNorm(str) {
-    let monObj = {
-        "Jan": "01",
-        "Feb": "02",
-        "Mar": "03",
-        "Apr": "04",
-        "May": "05",
-        "Jun": "06",
-        "Jul": "07",
-        "Aug": "08",
-        "Spt": "9",
-        "Oct": "10",
-        "Nov": "11",
-        "Dec": "12"
-    };
-    let arr = str.split(' ');
-    let year = arr[2];
-    let month = monObj[arr[0]];
-    let day = arr[1];
-    day = day.length === 1 ? '0' + day : day;
-    return `${year}-${month}-${day}`;
+  let monObj = {
+    Jan: "01",
+    Feb: "02",
+    Mar: "03",
+    Apr: "04",
+    May: "05",
+    Jun: "06",
+    Jul: "07",
+    Aug: "08",
+    Spt: "9",
+    Oct: "10",
+    Nov: "11",
+    Dec: "12",
+  };
+  let arr = str.split(" ");
+  let year = arr[2];
+  let month = monObj[arr[0]];
+  let day = arr[1];
+  day = day.length === 1 ? "0" + day : day;
+  return `${year}-${month}-${day}`;
 }
 ```
 
-30. replaceAll这个方法有些浏览器不支持
+30. replaceAll 这个方法有些浏览器不支持
 
-    `replaceAll`这个方法chrome和node是正常能够使用的，但是现在已知钉钉浏览器和puppeteer无头浏览器都不支持这个方法
+    `replaceAll`这个方法 chrome 和 node 是正常能够使用的，但是现在已知钉钉浏览器和 puppeteer 无头浏览器都不支持这个方法
 
     会报错：`str.replaceAll is not a function`
 
@@ -703,102 +741,138 @@ function translateEnDateToNorm(str) {
 
     > str.replace(/,/g, '');
 
-31. 调用接口获取ip
+31. 调用接口获取 ip
 
     ```js
-    fetch('https://api.ipify.org/?format=json')
-    .then(res => res.json())
-    .then(res => console.log(res))
+    fetch("https://api.ipify.org/?format=json")
+      .then((res) => res.json())
+      .then((res) => console.log(res));
     ```
 
-32. 将任意文件转换为base64
+32. 将任意文件转换为 base64
 
     ```html
-    <!doctype html>
+    <!DOCTYPE html>
     <html>
-    <head>
-    <meta charset="utf-8">
-    <meta name="description" content="在线Base64生成转换小工具，可以实现任意文件转Base64 Data-URI编码，文件往页面中一拖即可。" />
-    <meta name="keywords" content="base64, FileReader, readAsDataURL, 文件" />
-    <meta name="author" content="谢勇彬，XYB" />
-    <title>任意文件转base64-直接拖进来</title>
-    <style>
-        body { word-break: break-all; margin: 0 1em; min-height: 100vh; font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace; overflow: hidden;}
-        .empty::before{position: absolute; font-size: 50px; content: '任意文件\A拖到这里'; white-space: pre; left: 50%; top: 50%; transform: translate(-50%,-50%); color: gray;}
-    </style>
-    </head>
-    <body class="empty">
-    <script>
-        window.addEventListener("dragenter", function(event) { event.preventDefault(); }, false);
-        window.addEventListener("dragover", function(event) { event.preventDefault(); }, false);
-        window.addEventListener("drop", function(event) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.body.insertAdjacentHTML("afterBegin", '<p>' + e.target.result + '</p>');
-                document.body.classList.remove('empty');
-            };
-            reader.readAsDataURL(event.dataTransfer.files[0]);
-            event.preventDefault();
-        }, false);
-    </script>
-    
-    </body>
+      <head>
+        <meta charset="utf-8" />
+        <meta
+          name="description"
+          content="在线Base64生成转换小工具，可以实现任意文件转Base64 Data-URI编码，文件往页面中一拖即可。"
+        />
+        <meta
+          name="keywords"
+          content="base64, FileReader, readAsDataURL, 文件"
+        />
+        <meta name="author" content="谢勇彬，XYB" />
+        <title>任意文件转base64-直接拖进来</title>
+        <style>
+          body {
+            word-break: break-all;
+            margin: 0 1em;
+            min-height: 100vh;
+            font-family: Consolas, "Andale Mono", "Lucida Console",
+              "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+            overflow: hidden;
+          }
+          .empty::before {
+            position: absolute;
+            font-size: 50px;
+            content: "任意文件\A拖到这里";
+            white-space: pre;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: gray;
+          }
+        </style>
+      </head>
+      <body class="empty">
+        <script>
+          window.addEventListener(
+            "dragenter",
+            function (event) {
+              event.preventDefault();
+            },
+            false
+          );
+          window.addEventListener(
+            "dragover",
+            function (event) {
+              event.preventDefault();
+            },
+            false
+          );
+          window.addEventListener(
+            "drop",
+            function (event) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                document.body.insertAdjacentHTML(
+                  "afterBegin",
+                  "<p>" + e.target.result + "</p>"
+                );
+                document.body.classList.remove("empty");
+              };
+              reader.readAsDataURL(event.dataTransfer.files[0]);
+              event.preventDefault();
+            },
+            false
+          );
+        </script>
+      </body>
     </html>
     ```
 
-33. 前端实现访问一个图片url直接下载该图片
+33. 前端实现访问一个图片 url 直接下载该图片
 
 ```js
-function downloadIamge(imgsrc, name){
- 
+function downloadIamge(imgsrc, name) {
   let image = new Image();
- 
+
   // 解决跨域 Canvas 污染问题
   image.setAttribute("crossOrigin", "anonymous");
- 
-  image.onload = function() {
- 
+
+  image.onload = function () {
     let canvas = document.createElement("canvas");
- 
+
     canvas.width = image.width;
- 
+
     canvas.height = image.height;
- 
+
     let context = canvas.getContext("2d");
- 
+
     context.drawImage(image, 0, 0, image.width, image.height);
- 
+
     let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
- 
+
     let a = document.createElement("a"); // 生成一个a元素
- 
+
     let event = new MouseEvent("click"); // 创建一个单击事件
- 
+
     a.download = name || "photo"; // 设置图片名称
- 
+
     a.href = url; // 将生成的URL设置为a.href属性
- 
+
     a.dispatchEvent(event); // 触发a的单击事件
- 
-  }
- 
+  };
+
   image.src = imgsrc;
 }
 
-downloadIamge('http://172.168.10.21:3006/test/image/download','ppcm')
+downloadIamge("http://172.168.10.21:3006/test/image/download", "ppcm");
 ```
 
-在oss上传的时候如果制定了`Content-Type`是`image/jpeg`，则产生的外链在浏览器上直接显示。
+在 oss 上传的时候如果制定了`Content-Type`是`image/jpeg`，则产生的外链在浏览器上直接显示。
 
 如果设置的`Content-Type`是`application/octet-steam`或者`multipart/form-data`，则外链是直接下载的
-
 
 34. 截取两个字符串之间的字符串
 
 核心：使用`match`方法
 
 ```js
-let str = 'hskdfhska;jl234iyiofsdhaklfnaskn,xcnvm,zxn891237499safhas,n';
+let str = "hskdfhska;jl234iyiofsdhaklfnaskn,xcnvm,zxn891237499safhas,n";
 let s = str.match(/ha(\S*)n,/)[1];
 // 'klfnask'
 ```
@@ -807,18 +881,17 @@ let s = str.match(/ha(\S*)n,/)[1];
 
     1. `history.go(0)`，除非有在服务端解释才能生成的页面代码，否则直接读取缓存中的数据
 
-        不刷新
+       不刷新
 
     2. `location.reload()`，重新连接服务器以读得新的页面
 
-        刷新
+       刷新
 
     3. `location=location`，执行后仍支持前进后退
-        
 
-    4. `location.assign(location)`：相当于一个链接跳转到指定url
+    4. `location.assign(location)`：相当于一个链接跳转到指定 url
 
-        可以后退
+       可以后退
 
     5. `document.execCommand('Refresh')`
 
@@ -826,11 +899,11 @@ let s = str.match(/ha(\S*)n,/)[1];
 
     7. `location.replace(location)`
 
-        执行后没有前进后退
+       执行后没有前进后退
 
     8. `document.URL = location.href`
 
-37. 常用的Match对象的方法
+36. 常用的 Match 对象的方法
 
     1. Math.abs() : 返回一个数的绝对值
 
@@ -842,18 +915,17 @@ let s = str.match(/ha(\S*)n,/)[1];
 
     5. Math.trunc() : 返回整数部分
 
-    5. Math.min() : 返回一组数据最小值
+    6. Math.min() : 返回一组数据最小值
 
-        > Math.min(1,2,3,4,5); // 1
+       > Math.min(1,2,3,4,5); // 1
 
-        如果没有参数，返回`Infinity`
+       如果没有参数，返回`Infinity`
 
-        如果有一个参数不能转为数值，则结果为`NaN`
+       如果有一个参数不能转为数值，则结果为`NaN`
 
-    6. Match.max() : 返回一组数据最大值
+    7. Match.max() : 返回一组数据最大值
 
-
-38. 获取浏览器地址栏中的参数
+37. 获取浏览器地址栏中的参数
 
     ```js
     getQueryVariable(variable) {
@@ -874,15 +946,15 @@ let s = str.match(/ha(\S*)n,/)[1];
     }
     ```
 
-39. JSON.parse(JSON.stringify(obj))实现深拷贝的弊端
+38. JSON.parse(JSON.stringify(obj))实现深拷贝的弊端
 
-1. 深拷贝和浅拷贝
+39. 深拷贝和浅拷贝
 
     深拷贝：只是将数据中所有的数据饮用下来，依旧指向同一个存放地址，拷贝之后的数据修改之后，也会影响到元数据中的对象数据。如`Object.assign()`/`...扩展运算符`
 
     浅拷贝：将数据中所有的数据拷贝下来，对拷贝之后的数据进行修改不会影响到原数据
 
-2. JSON.parse(JSON.stringify(obj))深拷贝的弊端
+40. JSON.parse(JSON.stringify(obj))深拷贝的弊端
 
     | 对象            | 序列化结果 |
     | --------------- | ---------- |
@@ -890,199 +962,190 @@ let s = str.match(/ha(\S*)n,/)[1];
     | RegExp、Error   | 空对象     |
     | 函数、undefined | 丢失       |
     | NaN、Infinity   | null       |
-    
-    只能序列化对象的可枚举的自有属性，如果obj中的对象是由构造函数生成的，则会丢失对象的`constructor`
+
+    只能序列化对象的可枚举的自有属性，如果 obj 中的对象是由构造函数生成的，则会丢失对象的`constructor`
 
     如果对象中存在循环引用的情况也无法正确实现深拷贝
 
     ```js
-    function Person (name) {
-        this.name = 20
+    function Person(name) {
+      this.name = 20;
     }
 
-    const p = new Person('p')
+    const p = new Person("p");
 
     let a = {
-        data0: '1',
-        date1: [new Date('2020-03-01'), new Date('2020-03-05')],
-        data2: new RegExp('\\w+'),
-        data3: new Error('1'),
-        data4: undefined,
-        data5: function () {
-            console.log(1)
-        },
-        data6: NaN,
-        data7: p
-    }
+      data0: "1",
+      date1: [new Date("2020-03-01"), new Date("2020-03-05")],
+      data2: new RegExp("\\w+"),
+      data3: new Error("1"),
+      data4: undefined,
+      data5: function () {
+        console.log(1);
+      },
+      data6: NaN,
+      data7: p,
+    };
 
-    let b = JSON.parse(JSON.stringify(a))
+    let b = JSON.parse(JSON.stringify(a));
     ```
 
-3. 递归实现深拷贝
+41. 递归实现深拷贝
 
     ```js
     function deepClone(obj) {
-        // 如果不是对象，则直接返回
-        if (typeof obj !== 'object') {
-            return obj;
+      // 如果不是对象，则直接返回
+      if (typeof obj !== "object") {
+        return obj;
+      }
+      // 判断是数组还是对象，如果是数据，对于数组进行拷贝，如果是对象对于对象进行拷贝
+      let objClone = Array.isArray(obj) ? [] : {};
+      // 进行深拷贝不能为空
+      if (obj && typeof obj === "object") {
+        for (key in obj) {
+          if (obj[key] && typeof obj[key] === "object") {
+            objClone[key] = deepClone(obj[key]);
+          } else {
+            objClone[key] = obj[key];
+          }
         }
-        // 判断是数组还是对象，如果是数据，对于数组进行拷贝，如果是对象对于对象进行拷贝
-        let objClone = Array.isArray(obj) ? [] : {};
-        // 进行深拷贝不能为空
-        if (obj && typeof obj === "object") {
-            for(key in obj) {
-                if (obj[key] && typeof obj[key] === "object") {
-                    objClone[key] = deepClone(obj[key]);
-                } else {
-                    objClone[key] = obj[key];
-                }
-            }
-        }
-        return objClone;
-    }    
+      }
+      return objClone;
+    }
     ```
 
-40. call、apply与bind 用法和区别
+42. call、apply 与 bind 用法和区别
 
 相同点：都用于改变`this`指向的绑定
 
 不同点：
 
-1. call、apply会`立即执行函数`。`call`传递参数调用形参是以散列的形式（`fn.call(obj,1,2,3)`），而`apply`的形参是一个数组。在传参的情况下，`call`的性能要高于`apply`，因为`apply`在执行的时候还要多一步解析数组
+1. call、apply 会`立即执行函数`。`call`传递参数调用形参是以散列的形式（`fn.call(obj,1,2,3)`），而`apply`的形参是一个数组。在传参的情况下，`call`的性能要高于`apply`，因为`apply`在执行的时候还要多一步解析数组
 
-2. `bind`在改变`this`之后返回的是一个全新的绑定函数，即返回一个新的函数，不会立即执行函数。并且之后的`this`指向无法再通过call、apply、bind改变。
+2. `bind`在改变`this`之后返回的是一个全新的绑定函数，即返回一个新的函数，不会立即执行函数。并且之后的`this`指向无法再通过 call、apply、bind 改变。
 
 实现
 
 1. call
 
-    ```js
-    let obj = {
-        name: "lan"
-    }
-    function fn() {
-        console.log('...arguments', ...arguments);
-        console.log('this.name', this.name);
-    }
-    fn.call(obj, 1, 2, 3);
-    ```
+   ```js
+   let obj = {
+     name: "lan",
+   };
+   function fn() {
+     console.log("...arguments", ...arguments);
+     console.log("this.name", this.name);
+   }
+   fn.call(obj, 1, 2, 3);
+   ```
 
 2. apply
 
-    ```js
-    let obj = {
-        name: "lan"
-    }
-    function fn() {
-        console.log('...arguments', ...arguments);
-        console.log('this.name', this.name);
-    }
-    fn.apply(obj, [1, 2, 3]);
-    ```
+   ```js
+   let obj = {
+     name: "lan",
+   };
+   function fn() {
+     console.log("...arguments", ...arguments);
+     console.log("this.name", this.name);
+   }
+   fn.apply(obj, [1, 2, 3]);
+   ```
 
 3. bind
 
-    ```js
-    let bindObj = {
-        name: 'bind-name'
-    }
-    let applyObj = {
-        name: 'apply-name'
-    }
-    function fn() {
-        console.log('...arguments', ...arguments);
-        console.log('this.name', this.name);
-    }
-    let bfn = fn.bind(bindObj, [1, 2, 3]);
-    bfn();
+   ```js
+   let bindObj = {
+     name: "bind-name",
+   };
+   let applyObj = {
+     name: "apply-name",
+   };
+   function fn() {
+     console.log("...arguments", ...arguments);
+     console.log("this.name", this.name);
+   }
+   let bfn = fn.bind(bindObj, [1, 2, 3]);
+   bfn();
 
-    // 这里重新绑定不会改变this指向
-    bfn.apply(applyObj);
-    ```
+   // 这里重新绑定不会改变this指向
+   bfn.apply(applyObj);
+   ```
 
-41. 将当前时间/指定时间转换为时间戳（毫秒）
+4. 将当前时间/指定时间转换为时间戳（毫秒）
 
 ```js
 // 方式一
 Date.now(); // 1606381881650(打印时的时间戳)
 // 方式二
 new Date() - 0; // 1606381881650
-new Date('2022-03-05')-0; // 1646438400000
+new Date("2022-03-05") - 0; // 1646438400000
 // 方式三
 +new Date(); // 1646572862004
-+new Date('2022-03-05'); // 1646438400000
++new Date("2022-03-05"); // 1646438400000
 // 方式四
-new Date().valueOf() // 1606381881650
-new Date('2022-03-05').valueOf() // 1646438400000
+new Date().valueOf(); // 1606381881650
+new Date("2022-03-05").valueOf(); // 1646438400000
 // 方式五
-new Date() * 1 // 1606381881650
-new Date('2022-03-05') * 1 // 1646438400000
+new Date() * 1; // 1606381881650
+new Date("2022-03-05") * 1; // 1646438400000
 // 方式六
-Number(new Date()) // 1646574434807
-Number(new Date('2022-03-05')) // 1646438400000
+Number(new Date()); // 1646574434807
+Number(new Date("2022-03-05")); // 1646438400000
 // 方式七
-new Date().getTime() // 1606381881650
-new Date('2022-03-05').getTime()// 1646438400000
+new Date().getTime(); // 1606381881650
+new Date("2022-03-05").getTime(); // 1646438400000
 ```
 
 42. 页面加载完成
 
-纯js方法
+纯 js 方法
 
 ```js
-
 // (1)、页面所有内容加载完成执行
-window.onload = function(){
-    
-}
- 
+window.onload = function () {};
+
 // (2)、页面加载完毕
-document.onreadystatechange = function(){
-    if(doucument.readyState == 'complete'){
-        // 页面加载完毕
-    }
-}
+document.onreadystatechange = function () {
+  if (doucument.readyState == "complete") {
+    // 页面加载完毕
+  }
+};
 ```
 
-jquery方法
+jquery 方法
 
 注：
-（1）jquery方法兼容性好，并且实在dom资源加载完毕的情况下执行，（不包括图片视频资源）
-（2）第1种是第2种的简写方式。两个是document加载完成后就执行方法
-（3）window.onload = function(){};都是等到整个window加载完成执行方法体。是使用dom对象
-（4）执行顺序
-    1.）第1种和第2种无论放在哪里都是最先执行，window.onload = function(){};在其之后执行，“在标签上静态绑定onload事件，<body onload="aaa()">等待body加载完成，就会执行aaa()方法/函数”最后执行
+（1）jquery 方法兼容性好，并且实在 dom 资源加载完毕的情况下执行，（不包括图片视频资源）
+（2）第 1 种是第 2 种的简写方式。两个是 document 加载完成后就执行方法
+（3）window.onload = function(){};都是等到整个 window 加载完成执行方法体。是使用 dom 对象
+（4）执行顺序 1.）第 1 种和第 2 种无论放在哪里都是最先执行，window.onload = function(){};在其之后执行，“在标签上静态绑定 onload 事件，<body onload="aaa()">等待 body 加载完成，就会执行 aaa()方法/函数”最后执行
 
 ```js
-$(function(){
+$(function () {});
 
-})
-
-$(document).ready(function(){
-    // document 不写默认document
-})
+$(document).ready(function () {
+  // document 不写默认document
+});
 ```
 
 需要补充的是，如果页面元素是根据接口动态渲染的话，接口数据是异步的，可能有些节点获取不到
 
-
-43. js获取浏览器语言
+43. js 获取浏览器语言
 
 ```js
 function getCurrentPageLanguage() {
-    var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();
-    if (JsSrc.indexOf('zh') >= 0) {
-        // 假如浏览器语言是中文
-        return 'zh';
-    }
-    else if (JsSrc.indexOf('en') >= 0) {
-        // 假如浏览器语言是英文
-        return 'en';
-    }
-    else {
-        // 假如浏览器语言是其它语言
-        return 'other';
-    }
+  var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();
+  if (JsSrc.indexOf("zh") >= 0) {
+    // 假如浏览器语言是中文
+    return "zh";
+  } else if (JsSrc.indexOf("en") >= 0) {
+    // 假如浏览器语言是英文
+    return "en";
+  } else {
+    // 假如浏览器语言是其它语言
+    return "other";
+  }
 }
 ```
 
@@ -1104,163 +1167,162 @@ function getCurrentPageLanguage() {
 
     1. 定义
 
-        1. 是独一无二的值
-        2. 是基本数据类型，不是引用类型
+       1. 是独一无二的值
+       2. 是基本数据类型，不是引用类型
 
     2. 基本用法
 
-        ```js
-        // 参数name没有任何意义，只适用于标识
-        const name = Symbol('name');
-        ```
+       ```js
+       // 参数name没有任何意义，只适用于标识
+       const name = Symbol("name");
+       ```
 
-    3. 使用Symbol作为对象属性名
+    3. 使用 Symbol 作为对象属性名
 
-        注意：需要使用`[]`进行包裹，不可以使用`obj.xxx`来访问
+       注意：需要使用`[]`进行包裹，不可以使用`obj.xxx`来访问
 
-        ```js
-        //后面的括号可以给symbol做上标记便于识别
-        let name=Symbol('name');
-        let say=Symbol('say');
-        let obj= {
-            //如果想 使用变量作为对象属性的名称，必须加上中括号，.运算符后面跟着的都是字符串
-            [name]: 'lnj',
-            [say]: function () {
-                console.log('say')
-            }
-        }
-        obj.name='it666';
-        obj[Symbol('name')]='it666'
-        console.log(obj)
-        ```
+       ```js
+       //后面的括号可以给symbol做上标记便于识别
+       let name = Symbol("name");
+       let say = Symbol("say");
+       let obj = {
+         //如果想 使用变量作为对象属性的名称，必须加上中括号，.运算符后面跟着的都是字符串
+         [name]: "lnj",
+         [say]: function () {
+           console.log("say");
+         },
+       };
+       obj.name = "it666";
+       obj[Symbol("name")] = "it666";
+       console.log(obj);
+       ```
 
     4. 转换和运算
 
-        只能转换为字符串和布尔值（恒为`true`）
+       只能转换为字符串和布尔值（恒为`true`）
 
-        不能做任何运算，会报错，如`(Symbol()) + 1`
+       不能做任何运算，会报错，如`(Symbol()) + 1`
 
     5. 遍历
 
-        普通的遍历对象无法访问到symbol的属性，需要使用`Object.getOwnPropertySymbols()`或者`Reflect.ownKeys()`
+       普通的遍历对象无法访问到 symbol 的属性，需要使用`Object.getOwnPropertySymbols()`或者`Reflect.ownKeys()`
 
-        ```js
-        let _password = Symbol('password')
-        const obj = {
-            name: '小明',
-            gender: 'male',
-            [_password]: '11038'
-        }
-        for (let item in obj) {
-            console.log(item);
-        }
-        console.log(Object.keys(obj));
-        console.log(Object.values(obj));
-        console.log(Object.getOwnPropertyNames(obj));
-        console.log(Object.getOwnPropertySymbols(obj)); // [Symbol(password)]
-        console.log(Reflect.ownKeys(obj)); // ['name', 'gender', Symbol(password)]
-        // 输出11038，所以还是可以直接访问到symbol类型的属性，所以symbol并不能真正实现私有变量的设定，所以一般只用于定义一些非私有的、但又希望只用于内部的方法
-        console.log(obj[_password]);
-        ```
+       ```js
+       let _password = Symbol("password");
+       const obj = {
+         name: "小明",
+         gender: "male",
+         [_password]: "11038",
+       };
+       for (let item in obj) {
+         console.log(item);
+       }
+       console.log(Object.keys(obj));
+       console.log(Object.values(obj));
+       console.log(Object.getOwnPropertyNames(obj));
+       console.log(Object.getOwnPropertySymbols(obj)); // [Symbol(password)]
+       console.log(Reflect.ownKeys(obj)); // ['name', 'gender', Symbol(password)]
+       // 输出11038，所以还是可以直接访问到symbol类型的属性，所以symbol并不能真正实现私有变量的设定，所以一般只用于定义一些非私有的、但又希望只用于内部的方法
+       console.log(obj[_password]);
+       ```
 
-    6. Symbol自带的方法
+    6. Symbol 自带的方法
 
-        1. Symbol.for
+       1. Symbol.for
 
-            1. 因为Symbol的值都是独一无二的，但是我们希望可以重新使用同一个Symbol值
-            2. 接受一个字符串作为参数，然后搜索有没有以该参数作为名称的“Symbol值，如果有，就返回这个Symbol值，否则就新建一个以该字符串为名称的Symbol值，并将其注册到全局
-            
-            ```js
-            const s1 = Symbol.for('foo');
-            const s2 = Symbol.for('foo');
-            console.log(s1 === s2); // true
-            ```
+          1. 因为 Symbol 的值都是独一无二的，但是我们希望可以重新使用同一个 Symbol 值
+          2. 接受一个字符串作为参数，然后搜索有没有以该参数作为名称的“Symbol 值，如果有，就返回这个 Symbol 值，否则就新建一个以该字符串为名称的 Symbol 值，并将其注册到全局
 
-        2. Symbol.keyFor
+          ```js
+          const s1 = Symbol.for("foo");
+          const s2 = Symbol.for("foo");
+          console.log(s1 === s2); // true
+          ```
 
-            由于`Symbol()`写法没有登记机制，每次调用都会返回一个不同的值
+       2. Symbol.keyFor
 
-            `Symbol.keyFor()`返回一个一个已登机的Symbol类型值的key
+          由于`Symbol()`写法没有登记机制，每次调用都会返回一个不同的值
 
-            ```js
-            const s1 = Symbol.for('foo');
-            Symbol.keyFor(s1); // foo
-            const s2 = Symbol('foo');
-            Symbol.keyFor(s2); // undefined
-            ```
+          `Symbol.keyFor()`返回一个一个已登机的 Symbol 类型值的 key
+
+          ```js
+          const s1 = Symbol.for("foo");
+          Symbol.keyFor(s1); // foo
+          const s2 = Symbol("foo");
+          Symbol.keyFor(s2); // undefined
+          ```
 
     7. 应用场景
 
-        1. 企业开发中如果需要对一些第三方的插件、框架进行自定义的时候，可能会因为添加了同名的属性或者方法，将框架中原有的属性或者方法覆盖掉，这时候可以使用Symbol作为属性或者方法的名称
+       1. 企业开发中如果需要对一些第三方的插件、框架进行自定义的时候，可能会因为添加了同名的属性或者方法，将框架中原有的属性或者方法覆盖掉，这时候可以使用 Symbol 作为属性或者方法的名称
 
-        2. 消除魔术字符串
+       2. 消除魔术字符串
 
-            魔术字符串：在代码中多次出现、与代码形成强耦合的某一个具体的`字符串或者数值`
+          魔术字符串：在代码中多次出现、与代码形成强耦合的某一个具体的`字符串或者数值`
 
-        3. 为对象定义一些非私有的，但是又只希望内部可以访问的成员
+       3. 为对象定义一些非私有的，但是又只希望内部可以访问的成员
 
+47. history 和 hash 路由
 
-47. history和hash路由
+    1. hash 模式
 
-    1. hash模式
+       1. 介绍：hash 就是 url 尾巴后的`#`号以及后面的字符，由于 hash 值的变化不会导致浏览器向服务器发送请求，而且 hash 改变会触发`hashchange`事件，hashChange 事件中获取当前 hash 值，并根据 hash 值来修改页面内容，则达到了前端路由的目的。在 html5 之前，都是使用 hash 来做前端路由的。
 
-        1. 介绍：hash就是url尾巴后的`#`号以及后面的字符，由于hash值的变化不会导致浏览器向服务器发送请求，而且hash改变会触发`hashchange`事件，hashChange事件中获取当前hash值，并根据hash值来修改页面内容，则达到了前端路由的目的。在html5之前，都是使用hash来做前端路由的。
+       2. 核心：可以在 window 对象上监听`onhashchange`事件
 
-        2. 核心：可以在window对象上监听`onhashchange`事件
+       3. 使用
 
-        3. 使用
+          ```js
+          window.onhashchange = function (event) {
+            console.log(event.oldURL, event.newURL);
+            document.body.style.color = location.hash.slice(1);
+          };
+          ```
 
-            ```js
-            window.onhashchange = function(event) {
-                console.log(event.oldURL, event.newURL);
-                document.body.style.color = location.hash.slice(1);
-            }
-            ```
+    2. history 模式
 
-    2. history模式
+       1. 介绍：已经有了 hash 模式了，为什么还要搞一个 history 呢？
 
-        1. 介绍：已经有了hash模式了，为什么还要搞一个history呢？
+          1. `#`hash 本身是用来做页面定位的，如果用来做路由的话，原来的锚点的功能就不能用了。
+          2. hash 穿参是基于 url 的，如果要传递复杂的数据，会有体积的限制，而 history 不仅可以在 url 里放参数，还可以将数据存放在一个特定的对象中
 
-            1. `#`hash本身是用来做页面定位的，如果用来做路由的话，原来的锚点的功能就不能用了。
-            2. hash穿参是基于url的，如果要传递复杂的数据，会有体积的限制，而history不仅可以在url里放参数，还可以将数据存放在一个特定的对象中
+       2. history 的 api
 
-        2. history的api
+          ```js
+          window.history.pushState(state, title, url);
+          // state：需要保存的数据，这个数据在触发popstate事件时，可以在event.state里获取
+          // title：标题，基本没用，一般传 null
+          // url：设定新的历史记录的 url。新的 url 与当前 url 的 origin 必须是一樣的，否则会抛出错误。
+          // url可以是绝对路径，也可以是相对路径。
+          // 如 当前url是 https://www.baidu.com/a/,执行history.pushState(null, null, './qq/')，
+          // 则变成 https://www.baidu.com/a/qq/，
+          // 执行history.pushState(null, null, '/qq/')，则变成 https://www.baidu.com/qq/
+          window.history.replaceState(state, title, url);
+          // 与 pushState 基本相同，但她是修改当前历史记录，而 pushState 是创建新的历史记录
+          window.addEventListener("popstate", function () {
+            // 监听浏览器前进后退事件，pushState 与 replaceState 方法不会触发
+            console.log(event.state);
+          });
+          history.state; //是一个属性，可以得到当前页的state信息。
+          // 通过window.history对象来控制页面历史记录跳转
+          window.history.back(); // 后退
+          window.history.forward(); // 前进
+          window.history.go(1); // 前进一步，-2为后退两步，window.history.lengthk可以查看当前历史堆栈中页面的数量
+          ```
 
-            ```js
-            window.history.pushState(state, title, url) 
-            // state：需要保存的数据，这个数据在触发popstate事件时，可以在event.state里获取
-            // title：标题，基本没用，一般传 null
-            // url：设定新的历史记录的 url。新的 url 与当前 url 的 origin 必须是一樣的，否则会抛出错误。
-            // url可以是绝对路径，也可以是相对路径。
-            // 如 当前url是 https://www.baidu.com/a/,执行history.pushState(null, null, './qq/')，
-            // 则变成 https://www.baidu.com/a/qq/，
-            // 执行history.pushState(null, null, '/qq/')，则变成 https://www.baidu.com/qq/
-            window.history.replaceState(state, title, url)
-            // 与 pushState 基本相同，但她是修改当前历史记录，而 pushState 是创建新的历史记录
-            window.addEventListener("popstate", function() {
-            // 监听浏览器前进后退事件，pushState 与 replaceState 方法不会触发  
-                console.log(event.state)            
-            });
-            history.state;//是一个属性，可以得到当前页的state信息。
-            // 通过window.history对象来控制页面历史记录跳转
-            window.history.back() // 后退
-            window.history.forward() // 前进
-            window.history.go(1) // 前进一步，-2为后退两步，window.history.lengthk可以查看当前历史堆栈中页面的数量
-            ```
+       3. 区别
 
-        3. 区别
+          ```
+          1. hash模式较丑，history模式较优雅;
+          2. pushState设置的新URL可以是与当前URL同源的任意URL；而hash只可修改#后面的部分，故只可设置与当前同文档的URL;
+          3. pushState设置的新URL可以与当前URL一模一样，这样也会把记录添加到栈中；而hash设置的新值必须与原来不一样才会触发记录添加到栈中;
+          4. pushState通过stateObject可以添加任意类型的数据到记录中；而hash只可添加短字符串;
+          5. pushState可额外设置title属性供后续使用;
+          6. hash兼容IE8以上，history兼容IE10以上;
+          7. history模式需要后端配合将所有访问都指向index.html，否则用户刷新页面，会导致404错误。
+          ```
 
-            ```
-            1. hash模式较丑，history模式较优雅;
-            2. pushState设置的新URL可以是与当前URL同源的任意URL；而hash只可修改#后面的部分，故只可设置与当前同文档的URL;
-            3. pushState设置的新URL可以与当前URL一模一样，这样也会把记录添加到栈中；而hash设置的新值必须与原来不一样才会触发记录添加到栈中;
-            4. pushState通过stateObject可以添加任意类型的数据到记录中；而hash只可添加短字符串;
-            5. pushState可额外设置title属性供后续使用;
-            6. hash兼容IE8以上，history兼容IE10以上;
-            7. history模式需要后端配合将所有访问都指向index.html，否则用户刷新页面，会导致404错误。
-            ```
-
-48. base64编码和解码
+48. base64 编码和解码
 
 ```js
 //下面是64个基本的编码
@@ -1413,7 +1475,7 @@ function decodeBase64(str: string): string {
 export { encodeBase64, decodeBase64 };
 ```
 
-49. console对象常用方法
+49. console 对象常用方法
 
 ```js
 console.log(text,text2,...)   //用于在console窗口输出信息。它可以接受多个参数，将它们的结果连接起来输出。如果第一个参数是格式字符串（使用了格式占位符），console.log方法将依次用后面的参数替换占位符，然后再进行输出。
@@ -1446,9 +1508,9 @@ console.clear()  //用于清除当前控制台的所有输出，将光标回置�
 
 50. Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded.
 
-    背景：将base64转化为文件对象的时候报错了
+    背景：将 base64 转化为文件对象的时候报错了
 
-    原因：不需要base64开头的类型标志
+    原因：不需要 base64 开头的类型标志
 
     ```js
     // 出问题的str
@@ -1494,24 +1556,24 @@ arr.forEach((el) => {
 console.log("srcList :>> ", srcList);
 ```
 
-52. reduce有初始值和无初始值区别
+52. reduce 有初始值和无初始值区别
 
-    1. 有初始值，从index为0开始执行，初始值为设定的初始值
-    2. 无初始值，从index为1开始执行，初始值为index为0的项
+    1. 有初始值，从 index 为 0 开始执行，初始值为设定的初始值
+    2. 无初始值，从 index 为 1 开始执行，初始值为 index 为 0 的项
 
     ```js
-    const arr = [1,2,3,4]
-    arr.reduce((a,b) => {
-        console.log(a, b);
-        return a+b;
-    })
-    arr.reduce((a,b) => {
-        console.log(a, b);
-        return a+b;
-    }, 0)
+    const arr = [1, 2, 3, 4];
+    arr.reduce((a, b) => {
+      console.log(a, b);
+      return a + b;
+    });
+    arr.reduce((a, b) => {
+      console.log(a, b);
+      return a + b;
+    }, 0);
     ```
 
-53. Number类型精度丢失问题
+53. Number 类型精度丢失问题
 
     可参考[https://cloud.tencent.com/developer/article/1752099](https://cloud.tencent.com/developer/article/1752099)
 
@@ -1519,23 +1581,22 @@ console.log("srcList :>> ", srcList);
 
     原因：
 
-    1. 在其他语言，如Java中，Long类型占64位二进制bit，最大值为：9223372036854774807（2^63 - 1）长度约19位。
-    2. 而在Js中，由于Number类型的值也包含了小数，最大值为：9007199254740993（2^53 - 1）长度约16位。
-    3. 因此当Java返回超过16位的Long型字段转为json时，前端Js得到的数据将由于溢出而导致精度丢失。
+    1. 在其他语言，如 Java 中，Long 类型占 64 位二进制 bit，最大值为：9223372036854774807（2^63 - 1）长度约 19 位。
+    2. 而在 Js 中，由于 Number 类型的值也包含了小数，最大值为：9007199254740993（2^53 - 1）长度约 16 位。
+    3. 因此当 Java 返回超过 16 位的 Long 型字段转为 json 时，前端 Js 得到的数据将由于溢出而导致精度丢失。
 
     解决方案
 
-    1. 推荐后端解决，后端传string类型即可
+    1. 推荐后端解决，后端传 string 类型即可
     2. 前端通过`正则表达式解析替换`、或者`修改json parser`，但比较麻烦
 
-
-54. node_modules中lib/es/dist三种打包产物的区别
+54. node_modules 中 lib/es/dist 三种打包产物的区别
 
     是通过三个不同的模块系统打包生成的
 
-    1. es：es module模块系统
-    2. lib: commonjs模块系统
-    3. dist：UMD模块系统
+    1. es：es module 模块系统
+    2. lib: commonjs 模块系统
+    3. dist：UMD 模块系统
 
     dist 目录：
 
@@ -1548,7 +1609,7 @@ console.log("srcList :>> ", srcList);
     lib 目录通常包含库的源代码或经过编译但未压缩的文件，适用于开发和自定义构建。
     这些文件可能包含源代码、非压缩的文件、模块化的文件等，适用于进行自定义构建、修改或拓展库的功能。
     如果你需要对库进行自定义操作，比如按需引入特定模块、修改源代码或进行二次开发，可以引入 lib 目录中的文件。
-    
+
     es 目录：
 
     es 目录通常包含库的 ES 模块化文件，适用于现代的构建工具和模块化系统（如 webpack、Rollup 等）。
@@ -1558,11 +1619,11 @@ console.log("srcList :>> ", srcList);
 
     最佳做法是查看库的文档或官方指南，了解它们推荐的引入方式，并与你的项目需求进行匹配。有些库可能同时提供 dist、lib 和 es 目录，以适应不同的项目需求。
 
-55. 解决map中需要进行promise请求的问题
+55. 解决 map 中需要进行 promise 请求的问题
 
-    背景：在一个表格list中，有一个字段需要请求接口来获取
+    背景：在一个表格 list 中，有一个字段需要请求接口来获取
 
-    问题：在map的回调用请求接口返回的是promise，无法渲染list
+    问题：在 map 的回调用请求接口返回的是 promise，无法渲染 list
 
     解决：使用`Promise.all()`
 
@@ -1579,5 +1640,21 @@ console.log("srcList :>> ", srcList);
     }
     ```
 
+56. 字符串排序
 
-56. 
+```js
+let arr = ["a", "c", "d", "b", "x", "q", "j"];
+arr.sort((a, b) => a.localeCompare(b)); // ['a', 'b', 'c', 'd', 'j', 'q', 'x']
+```
+
+57. 常用的页面浏览器的几种高度
+
+| 属性                 | 介绍         | 备注                                         |
+| -------------------- | ------------ | -------------------------------------------- |
+|window.screen.height | 电脑屏幕高度 | 只和设备有关，和浏览器，工具栏，控制台等无关 |
+|window.screen.availHeight|电脑屏幕可用高度|电脑屏幕高度减去顶部工具栏和底部工具栏|
+|window.innerHeight|浏览器视口（viewport）高度（单位：像素），如果存在滚动条则包括它。|网页页面的可视区域，不包括控制台，书签栏等|
+|window.outerHeight|整个浏览器的高度|浏览器窗口拉伸可以改变|
+|element.clientHeight|元素的可视高度||
+|element.scrollHeight|元素的高度|包括不可见的|
+|element.offsetHeight|元素的可视高度 + 滚动条的高度||

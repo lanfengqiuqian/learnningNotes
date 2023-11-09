@@ -142,6 +142,10 @@ It is not the most correct option but it works.
 
     功能：代码智能提示（很强大）
 
+    > 免费版只有35%的功能，收费版，每月10美元  
+
+    > 后来改为Codeium了，免费
+
 17. Vue VSCode Snippets
 
     功能：vue代码块插件
@@ -167,6 +171,18 @@ It is not the most correct option but it works.
 21. DotENV
 
     功能：env文件高亮
+
+22. codesnap
+
+    功能：选中代码，生成漂亮的截图（公众号之类的图片都是这个）
+
+    使用：command + shift + p，然后搜索codesnap，然后选择代码
+
+23. Draw.io Integration
+
+    功能：在vscode中绘制流程图
+
+    使用：创建`.dio`、`.png`、`.svg`结尾的文件并打开
 
 ### 删除一行快捷键
 

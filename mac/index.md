@@ -242,3 +242,29 @@
 
     // wq 保存退出重新打开终端即可
     ```
+
+23. 禁用chrome浏览器的双指前进后退
+
+    1. mac
+
+        终端输入命令，回车，重启浏览器
+
+        > defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
+
+    2. windows
+
+        chrome输入，将选项改为`disable`
+
+
+        > chrome://flags/#overscroll-history-navigation
+
+24. mds、mds_stores、mdworker 占用大量 cpu 和内存
+
+    原因：Spotlight 中文名称为 聚焦，就是按下 Command + 空格 弹窗的那个搜索框。
+
+        利用“聚焦”，您可以在 Mac 上查找应用、文稿及其他文件。您还可以利用“聚焦建议”来获取新闻、体育、影片、天气等信息。
+
+    解决：禁止`聚焦`索引文件。
+
+    > sudo mdutil -a -i off // 禁止  
+    > sudo mdutil -a -i on  // 开启  

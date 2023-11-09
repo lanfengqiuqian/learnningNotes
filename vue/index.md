@@ -725,3 +725,34 @@ Vue.prototype.$confirm=MessageBox.confirm;
         }
     },
     ```
+
+### 为应用内抛出的未捕获错误指定一个全局处理函数。
+
+```js
+interface AppConfig {
+  errorHandler?: (
+    err: unknown,
+    instance: ComponentPublicInstance | null,
+    // `info` 是一个 Vue 特定的错误信息
+    // 例如：错误是在哪个生命周期的钩子上抛出的
+    info: string
+  ) => void
+}
+
+app.config.errorHandler = (err, instance, info) => {
+  // 处理错误，例如：报告给一个服务
+}
+```
+
+### 动态绑定多个值
+
+使用不带参数的`v-bind`进行绑定
+
+```js
+const objectOfAttrs = {
+  id: 'container',
+  class: 'wrapper'
+}
+
+<div v-bind="objectOfAttrs"></div>
+```
