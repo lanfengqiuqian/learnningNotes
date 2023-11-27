@@ -1734,3 +1734,73 @@ http-server是一个基于命令行的http服务器。使用方法很简单：
         "postinstall":"patch-package"
     }
     ```
+
+
+### 有限状态机
+
+1. 是一个非常有用的模型，可以模拟世界上大部分事物
+
+    表示有限个状态以及这些状态之间的转移和动作等行为的数学计算机模型
+
+    1. 状态总数（state）是有限的
+    2. 任意时刻，只会处在一种状态之中
+    3. 某种条件下，会从一种状态转变到另一种状态
+
+2. js中的状态机
+
+    ```js
+    // 每个函数是一个状态
+    function state(input) {
+        // 函数的参数就是输入
+        // 在函数中，可以自由的编写代码，处理每个状态的逻辑
+        // 返回值作为下一个状态
+        return next;
+    }
+    
+    // 这里是调用
+    while(input) {
+        // 获取输入
+        // 把状态机的返回值作为下一个状态
+        state = state(input);
+    }
+    ```
+
+3. 案例
+
+    网页上有一个菜单元素，鼠标悬停的时候，菜单显示，鼠标移开的时候，菜单隐藏
+
+    如果使用有限状态机描述，就是这个菜单只有两种状态，鼠标引发状态改变
+
+    ```js
+    const menu = {
+        // 当前状态
+        currentState: 'hide',
+        // 绑定事件
+        initialize: function() {
+            const self = this;
+            self.on('hover', self.transitioin);
+        },
+        // 状态转换
+        transition: function(event) {
+            switch(this.currentState) {
+                case 'hide':
+                    this.currentState = 'show';
+                    // do something
+                    break
+                case 'show':
+                    this.currentState = 'hide';
+                    // do something
+                    break;
+                default:
+                    console.log('error');
+                    break;
+            }
+        }
+    }
+    ```
+
+    可以看到，有限状态机的写法，逻辑清晰，表达力强，有利于封装事件，一个对象的状态越多，发生的事件爱你越多，就月适合采用有限状态机的写法
+
+    js是一种异步操作特别多的语言，常用的解决方案是指定回调函数，但是这样会才造成代码结构混乱，难以测试和除错等问题。
+
+    有限状态机提供了更好的方法：把异步操作与对象的状态改变挂钩，当异步操作结束的时候，发生相应的状态改变，由此再触发其他操作。这比回调函数、事件监听、发布/订阅等解决方案，在逻辑上更合理、更易于降低代码复杂度
