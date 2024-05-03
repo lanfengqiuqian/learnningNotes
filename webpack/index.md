@@ -9,11 +9,25 @@
 
 ### 概念
 
-1. webpack是什么
+0. webpack是什么
 
     是一个现代js静态模块打包器，当`webpack`处理应用程序时，会递归构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将这些模块打包成一个或多个`bundle`
 
-2. 核心概念
+1. 打包工具作用
+
+    1. 转换es6语法
+    2. 转换jsx
+    3. css前缀补全/预处理器
+    4. 压缩混淆
+    5. 图片压缩
+
+2. 为什么选择webpack
+
+    1. 社区生态丰富
+    2. 配置灵活和插件化扩展
+    3. 官方更新迭代速度快
+
+3. 核心概念
 
     1. `entry`：入口
     2. `output`：输出
@@ -1141,10 +1155,37 @@ module.exports = {
     如果在`./src/components`
     
 
+## 其他笔记
 
+### loader
 
+常用的loader
 
+| 名称          | 概述                       |
+| ------------- | -------------------------- |
+| babel-loader  | 转换es6，es7等新特性的语法 |
+| css-loader    | 支持.css文件的加载和解析   |
+| less-loader   | 将less文件转换成css        |
+| ts-loader     | 将TS转换为JS               |
+| file-loader   | 进行图片、字体等的打包     |
+| raw-loader    | 将文件以字符串的形式导入   |
+| thread-loader | 多进程打包js和css          |
 
+### plugin
+
+常用的plugins
+
+| 名称                     | 描述                                          |
+| ------------------------ | --------------------------------------------- |
+| CommonsChunkPlugin       | 将chunks相同的模块代码提取成公共js            |
+| CleanWebpackPlugin       | 清理构建目录                                  |
+| ExtractTextWebpackPlugin | 将css文件从bunld文件里提取成一个代理的css文件 |
+| CopyWebpackPlugin        | 将文件或者文件夹拷贝到构建的输出目录          |
+| HtmlWebpackPlugin        | 创建html文件去承载输出的bundle                |
+| UglifyjsWebpackPlugin    | 压缩js                                        |
+| ZipWebpackPlugin         | 将打包出的资源生成一个zip包                   |
+
+### 热更新原理
 
 
 

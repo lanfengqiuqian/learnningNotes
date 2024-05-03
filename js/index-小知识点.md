@@ -1002,7 +1002,7 @@ let s = str.match(/ha(\S*)n,/)[1];
       let objClone = Array.isArray(obj) ? [] : {};
       // 进行深拷贝不能为空
       if (obj && typeof obj === "object") {
-        for (key in obj) {
+        for (let key in obj) {
           if (obj[key] && typeof obj[key] === "object") {
             objClone[key] = deepClone(obj[key]);
           } else {

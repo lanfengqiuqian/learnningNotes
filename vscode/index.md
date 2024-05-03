@@ -184,6 +184,10 @@ It is not the most correct option but it works.
 
     使用：创建`.dio`、`.png`、`.svg`结尾的文件并打开
 
+24. code runner
+
+    功能：vscode中运行js文件
+
 ### 删除一行快捷键
 
 > ctrl + shift + k;
@@ -848,3 +852,6 @@ It is not the most correct option but it works.
 
 }
 ```
+
+
+### vscode中运行js文件
