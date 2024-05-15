@@ -19,13 +19,17 @@ export default function (containerRef) {
   }
   onMounted(() => {
     const div = containerRef.value;
-    div.addEventListener('contextmenu', handleContextMenu);
+    if (div) {
+        div.addEventListener('contextmenu', handleContextMenu);
+    }
     window.addEventListener('click', closeMenu, true);
     window.addEventListener('contextmenu', closeMenu, true);
   });
   onUnmounted(() => {
     const div = containerRef.value;
-    div.removeEventListener('contextmenu', handleContextMenu);
+    if (div) {
+        div.removeEventListener('contextmenu', handleContextMenu);
+    }
     window.removeEventListener('click', closeMenu, true);
     window.removeEventListener('contextmenu', closeMenu, true);
   });
@@ -35,7 +39,6 @@ export default function (containerRef) {
     y,
   };
 }
-
 ```
 
 
