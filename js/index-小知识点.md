@@ -1658,3 +1658,12 @@ arr.sort((a, b) => a.localeCompare(b)); // ['a', 'b', 'c', 'd', 'j', 'q', 'x']
 |element.clientHeight|元素的可视高度||
 |element.scrollHeight|元素的高度|包括不可见的|
 |element.offsetHeight|元素的可视高度 + 滚动条的高度||
+
+
+58. Failed to execute ‘setRequestHeader‘ on ‘XMLHttpRequest‘: String contains non ISO-8859-1 code point
+
+原因：接口请求的headers参数里有不符合 ISO-8859-1 标准的字符，所以导致设置接口headers参数的setRequestHeader方法失效，然后报错
+
+    正常情况是不会给请求头插入非标准字符的
+
+    比如我这次是因为登录之后获取的token异常，然后每次请求的时候放的token取出来也异常了

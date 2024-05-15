@@ -407,3 +407,8 @@
 19. 安装docker
 
 > https://blog.csdn.net/weixin_43977692/article/details/127492590
+
+
+20. 项目部署问题：nginx 刷新显示404、xftp无法连接服务器、Nginx403 Forbidden解决、nginx反向代理解决前端跨域问题
+
+> https://www.cnblogs.com/goloving/p/8995603.html

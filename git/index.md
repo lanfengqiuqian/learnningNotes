@@ -430,3 +430,15 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     # 基于远程分支创建本地分支
     git checkout -b feat/230818 origin/feat/230818
     ```
+
+54. git pull报错`refusing to merge unrelated histories`
+
+    原因：因为两个根本不相干的 git 库， 一个是本地库， 一个是远端库， 然后本地要去推送到远端， 远端觉得这个本地库跟自己不相干， 所以告知无法合并
+
+    ```
+    // 方案1
+    git clone远程仓库到本地，将需要推送的内容放到该仓库下 ， 然后提交上去 ， 这样算是一次update操作
+
+    // 方案2
+    git pull origin master --allow-unrelated-historie 
+    ```

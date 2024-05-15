@@ -188,6 +188,10 @@ It is not the most correct option but it works.
 
     功能：vscode中运行js文件
 
+25. CamelCase
+
+    功能：下划线转驼峰
+
 ### 删除一行快捷键
 
 > ctrl + shift + k;
@@ -199,6 +203,10 @@ It is not the most correct option but it works.
 原因：使用了`ctrl + M`切换了`Tab`按键行为（缩进或者移动焦点）
 
 解决：再使用`ctrl + M`切换回去就好了
+
+### vue文件中写style没有代码提示了
+
+安装`Vue - Official`插件即可
 
 ### 扩大（缩小）选择
 

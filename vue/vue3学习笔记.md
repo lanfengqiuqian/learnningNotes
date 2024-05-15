@@ -913,3 +913,95 @@ const pickerOptions = (time) => {
 	但是回去到第1个时候，会发现也被置空了，但是并不能通过`props`获取到刚才的改变，因为没有保存
 
 	因为子元素无法保存，但是对应的数据是可以保存的，比如添加一个属性`tempValue`，在change的时候，通过props进行改变，然后在watch的时候赋值上去，这样是可行的
+
+#### Module ‘“xx.vue“‘ has no default export.Vetur(1192)
+
+`vetur`是一个vscode插件，用于为`.vue`单文件组件提供代码高亮以及语法支持
+
+github的issue中有如下一段话
+
+```js
+If you take a look at how Evan recently responded about the recommended approach going forward, it seems that volar is currently the extension of choice for vue 3.
+```
+
+那既然官方推荐 _volar_那肯定要去看下，简单的说volar是vetur的升级版本，提供了更牛叉的功能并有更好的TS支持。
+
+提示：实际在vscode项目中找不到`volar`插件了，改为叫`Vue-Official`
+
+#### 控制台警告 Feature flag __VUE_PROD_HYDRATION_MISMATCH_DETAILS__ is not explicitly defined
+
+原因：这个警告是由 Vue 在开发环境中的特定配置引起的，它提示你在 esm-bundler 版本的 Vue 中需要定义特定的编译时特性标志（compile-time feature flags）以获得更好的树状结构提示（better tree-shaking）。
+
+方案：要解决这个警告，你可以通过在项目的构建配置中定义相关的编译时特性标志。具体的操作取决于你使用的构建工具（如 webpack、Vite 等）和构建配置。
+
+1. webpack
+
+```js
+// webpack.config.js
+
+const webpack = require('webpack');
+
+module.exports = {
+  plugins: [
+    new webpack.DefinePlugin({
+       __VUE_OPTIONS_API__: 'true',
+      __VUE_PROD_DEVTOOLS__: 'false',
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+    })
+  ],
+  // other webpack config settings
+};
+```
+
+2. vite
+
+```js
+// vite.config.js
+
+export default {
+  define: {
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false
+  },
+  // other Vite config settings
+};
+```
+
+3. vue-cli
+
+```js
+//vue.config.js
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
+  chainWebpack: (config) => {
+    config.plugin('define').tap((definitions) => {
+      Object.assign(definitions[0], {
+        __VUE_OPTIONS_API__: 'true',
+        __VUE_PROD_DEVTOOLS__: 'false',
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+      })
+      return definitions
+    })
+  }
+})
+```
+
+4. rollup
+
+```js
+//vue.config.js
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
+  chainWebpack: (config) => {
+    config.plugin('define').tap((definitions) => {
+      Object.assign(definitions[0], {
+        __VUE_OPTIONS_API__: 'true',
+        __VUE_PROD_DEVTOOLS__: 'false',
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+      })
+      return definitions
+    })
+  }
+})
+```
