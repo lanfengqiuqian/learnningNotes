@@ -186,11 +186,22 @@ It is not the most correct option but it works.
 
 24. code runner
 
-    功能：vscode中运行js文件
+    功能：vscode中运行js文件（也可以运行其他语言）
 
 25. CamelCase
 
     功能：下划线转驼峰
+
+26. Tailwind CSS IntelliSense
+
+    功能：tailwind提示插件
+
+27. Tailwind Docs
+
+    功能：tailwind文档插件
+
+    使用：`ctrl + shift + p`打开搜索某一个属性的使用，可以快捷搜索比如`td flex`
+
 
 ### 删除一行快捷键
 
