@@ -291,3 +291,19 @@ win + x 进入快捷方式菜单列表 => u > x
 ### 和microsoft商店相关的卡住
 
 解决方案：检查网络，关闭代理，基本上可以ok
+
+
+### Program Files和Program Files（x86）有什么区别
+
+windows系统现在有32位和64位两种
+
+在64位系统下，为了`更好的兼容32位程序`，在安装一些32位程序（PS：某些程序只有32位），windwos系统会默认安装到`program files(x86)`这个文件夹下，大多数还是安装到`program files`文件夹下的
+
+在其他方面两个意义都差不多
+
+
+### windows终端美化（类似mac的oh my zsh）
+
+oh my posh
+
+> https://blog.sunguoqi.com/posts/oh-my-posh/

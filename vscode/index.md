@@ -202,6 +202,14 @@ It is not the most correct option but it works.
 
     使用：`ctrl + shift + p`打开搜索某一个属性的使用，可以快捷搜索比如`td flex`
 
+28. chinese lorem
+
+    您只需键入jw即可在HTML文件中生成默认的128个简体中文字符。 也可以通过键入jw <字符数>来定义要生成多少个字符。 例如：jw66生成66个字符。 输入触发词汇后按tab或者enter即可产生所需数量的词汇
+
+29. lorem ipsum
+
+    拓展中心搜索该插件名称并安装。Ctrl+Shift+P 调出控制台。
+
 
 ### 删除一行快捷键
 
@@ -874,3 +882,47 @@ It is not the most correct option but it works.
 
 
 ### vscode中运行js文件
+
+code runner插件
+
+
+### 自动填充随机文本字符串
+
+关键字：`lorem`
+
+但 Vscode 自带的 lorem 仅支持 `HTML` 文件，不支持其它格式的文件，比如 `Markdown` 等。
+
+1. chinese lorem
+
+    您只需键入jw即可在HTML文件中生成默认的128个简体中文字符。 也可以通过键入jw <字符数>来定义要生成多少个字符。 例如：jw66生成66个字符。 输入触发词汇后按tab或者enter即可产生所需数量的词汇
+
+2. lorem ipsum
+
+    拓展中心搜索该插件名称并安装。Ctrl+Shift+P 调出控制台。
+
+
+### `LF`文件和`CRLF`类型
+
+1. crlf和lf介绍
+
+    由于历史原因，`windows`下和`linux下`的文本文件的`换行符`不一致。
+
+    1. Windows在换行的时候，同时使用了回车符CR(carriage-return character)和换行符LF(linefeed character) 
+    2. 而Mac和Linux系统，仅仅使用了换行符LF 
+    3. 老版本的Mac系统使用的是回车符CR 
+
+    因此，文本文件在不同系统下创建和使用时就会出现不兼容的问题
+
+2. 会导致的问题
+
+   1. prettier报警告`Delete `␍`eslintprettier/prettier`
+   2. 如果做了`pre-commit`的话会导致无法提交
+
+3. 解决f方案
+
+    1. 针对单个文件：vscode编辑器右下角`选择行尾序列`，切换为`LF`
+    2. 针对vscode编辑器：
+       1. 搜索`end of line`：将设置改为`lf`
+       2. 搜索`eol`：将设置改为`lf`
+    3. 针对项目：
+       1. `prettierrc.json`文件增加属性`endOfLine: 'lf'`

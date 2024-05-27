@@ -1005,3 +1005,107 @@ module.exports = defineConfig({
   }
 })
 ```
+
+
+### 使用`unplugin-auto-import`实现模块自动导入
+
+1. 安装
+
+    > npm i unplugin-auto-import -D
+
+2. 配置（以vite+ts为例）
+
+    1. vite.config.js
+
+        ```js
+        import { defineConfig } from 'vite';
+        import vue from '@vitejs/plugin-vue';
+        import ViteAutoImport from 'unplugin-auto-import/vite';
+
+        export default defineConfig({
+            plugins: [
+                ViteAutoImport({
+                imports: ['vue', 'vue-router'],
+                dirs: ['src/api'], // 非第三方模块导入位置
+                dts: 'src/auto-imports.d.ts', // 手动指定生成文件位置
+                eslintrc: {
+                    enabled: false,  // 1、改为true用于生成eslint配置。2、生成后改回false，避免重复生成消耗
+                    filepath: 'src/.eslintrc-auto-import.json', // 手动指定生成的eslintrc文件位置
+                },
+                }),
+            ],
+        });
+        ```
+
+    2. tsconfig.json
+
+        ```json
+        {
+            "include": [
+                "src/**/*.d.ts",
+                "./*.d.ts",
+                "src/auto-imports.d.ts" // 导入上一步生成的配置文件
+            ],
+        }
+        ``
+
+    3. .eslintrc.js
+
+        完成1和2之后如果还报类似`reactive' is not defined`再改这里
+
+        原因：未配置自动导入相应的 eslint 规则
+        
+        处理：通过 autoimport 中的配置生成对应 .eslintrc-auto-import.json 配置文件，并在 .eslintrc 中引入
+
+        ```js
+        extends: [
+            './src/.eslintrc-auto-import.json'
+        ],
+        ```
+
+
+### route和router的区别
+
+1. route
+
+    是表示当前激活的路由对象，它包含了与当前路由相关的所有信息，主要包括
+
+    1. path：当前路由的路径
+    2. params：动态路径参数
+    3. query：url查询参数
+    4. name：路由的名称
+    5. meta：路由元信息
+    6. matched：当前匹配的路由记录数组
+
+2.  router
+    
+    是`vue router`的实例，负责管理应用的路由。它包含了控制导航的各种方法，如跳转路由、导航守卫等。
+
+    1. push：导航到一个新的url
+    2. replace：替换当前的url
+    3. go：类似浏览器的history.go方法
+    4. beforeEach：注册全局前置导航守卫
+    5. afterEach：注册全局后置导航守卫
+    6. currentRoute：当前激活的路由对象
+
+
+### vue3 `TypeError: Cannot read properties of null (reading 'insertBefore')`报错
+
+本地运行是正常的，但是打包部署到服务器报错了
+
+这个错误通常是由于在组件中使用了 `insertBefore` 方法时，试图插入到一个不存在的父节点导致的。您可以使用 `v-if` 指令或在 `JavaScript` 代码中进行 `null` 值检查来避免这种情况。
+
+可能的一些原因
+
+1. v-if 导致:（使用v-show替换了v-if）
+2. v-for导致：
+3. 数据初始化为undefined，但是在模板中有调用或者渲染。
+
+
+解决方案（选其一或者都选）
+
+1. 升级`vue`版本，`vue@3.2.45`以上的版本解决了
+
+2. 使用`v-show`替代`v-if`
+
+3. `v-if`的每一步都做非空判断，如`v-if="a.b.c"`改为`v-if="a && a.b && a.b.c"`
