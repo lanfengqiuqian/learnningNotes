@@ -863,3 +863,37 @@ It is not the most correct option but it works.
 
 
 ### vscode中运行js文件
+
+安装插件`code runner`
+
+
+### windows的powershell能够识别命令，但是vscode的终端不识别
+
+原因：这个问题通常是由于VS Code的终端没有更新系统环境变量所导致的。即使你在系统中正确设置了环境变量，VS Code在启动后并不会自动更新环境变量，需要手动重新加载或重启VS Code才能生效
+
+方案（按顺序尝试）
+
+1. 重新启动 VS Code：（`这个步骤一般都能解决`）
+
+    确保你已经关闭所有的VS Code窗口，然后重新打开它。这会强制VS Code重新加载系统环境变量。
+    手动重新加载 VS Code 终端：
+
+2. 在VS Code中打开一个新的终端窗口（Ctrl + ` 或者通过菜单导航: 终端 > 新建终端）。
+    运行命令 `Get-Command pnpm`，查看系统是否已经识别pnpm命令。如果仍然未识别，可以继续以下步骤。
+
+3. 检查环境变量是否正确设置：
+
+    1. 确保你的PNPM路径已正确添加到系统的 Path 环境变量中。打开一个新的PowerShell窗口（确保不是VS Code的终端），输入 `echo $env:Path` 检查是否包含PNPM的安装路径。
+    2. 如果路径未正确添加，确保你在系统环境变量的设置步骤中没有遗漏或错误。
+    
+4. 手动添加环境变量到 VS Code：
+
+    在VS Code中，可以临时手动添加环境变量以确保VS Code终端能够识别PNPM命令。编辑VS Code的 `settings.json` 文件（通过 `File > Preferences > Settings` 或者直接按 F1 然后输入 Preferences: Open Settings (JSON)）。
+    添加以下内容，将PNPM的路径添加到VS Code的环境变量配置中：
+    ```json
+    "terminal.integrated.env.windows": {
+        "Path": "C:\\Users\\YourUsername\\AppData\\Roaming\\npm;${env:Path}"
+    }
+    ```
+    请将 `C:\\Users\\YourUsername\\AppData\\Roaming\\npm` 替换为你的`PNPM安装路径`。
+    完成这些步骤后，VS Code的终端应该能够识别并执行pnpm命令。如果问题依然存在，可以尝试再次确认系统环境变量的配置或重装PNPM以确保路径正确。

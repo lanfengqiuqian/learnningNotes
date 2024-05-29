@@ -348,3 +348,26 @@ npm install -save moduleName # -save 的意思是将模块安装到项目目录�
  
 npm install -save-dev moduleName # -save-dev 的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖。
 ```
+
+
+### nvm安装报错`Could not retrieve https://npm.taobao.org/mirrors/node/latest-v18.x/SHASUMS256.txt.`
+
+到nvm安装目录如`setting.txt`中修改
+
+```shell
+node_mirror: https://cdn.npmmirror.com/binaries/node/
+npm_mirror: https://cdn.npmmirror.com/binaries/npm/
+```
+
+### 淘宝镜像源更换
+
+原先的淘宝镜像源`https://registry.npm.taobao.org`
+
+> npm config set registry https://registry.npmmirror.com
+
+
+### 解决 npm或pnpm : 无法加载文件 C:\Users\hp\AppData\Roaming\npm\cnpm.ps1，因为在此系统上禁止运行脚本
+
+1. 输入命令：`set-ExecutionPolicy RemoteSigned` 然后回车
+2. 选择：输入A选择全是，或者输入Y选择是 都可以的
+3. 接着重新启动然后去运行就可以了

@@ -1639,6 +1639,43 @@ http-server是一个基于命令行的http服务器。使用方法很简单：
 大功告成！可以打开浏览器在localhost:8080中查看了。
 
 
+使用`express`的方式
+
+```js
+// express和http-proxy-middleware需要安装
+const express = require('express');
+const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+const app = express();
+const PORT = 9007;
+
+// 设置静态文件目录 这里对应着vite配置的base部分
+app.use('/zj', express.static(path.join(__dirname, 'dist')));
+
+// 配置代理
+app.use(
+  '/fungusrecognize',
+  createProxyMiddleware({
+    target: 'http://xxx.xxx.xxx',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/fungusrecognize': '', // 移除路径中的 /fungusrecognize 部分
+    },
+  })
+);
+
+// 处理所有其他请求，返回index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}/zj`);
+});
+```
+
+
 ### .browserlistrc配置
 
 1. 定义
