@@ -1667,3 +1667,31 @@ arr.sort((a, b) => a.localeCompare(b)); // ['a', 'b', 'c', 'd', 'j', 'q', 'x']
     正常情况是不会给请求头插入非标准字符的
 
     比如我这次是因为登录之后获取的token异常，然后每次请求的时候放的token取出来也异常了
+
+
+59. &&运算符和||运算符的优先级
+
+  `&&`高于`||`
+
+  如下案例
+
+  ```js
+  true || false && false; // true
+
+  (true || false) && false; // false
+  true || (false && false); // true
+  ```
+
+60. 全局dom变量
+
+  页面上有id的元素，会自动在全局上创建一个和id同名的变量，值为该dom元素
+
+  ```js
+  // html
+  <div id="hello"></div>
+
+  // js
+  if (typeof hello == 'undefined') {
+    console.log("永远不会执行 ")
+  }
+  ```
