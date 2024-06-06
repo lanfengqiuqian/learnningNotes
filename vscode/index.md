@@ -44,6 +44,7 @@ mac：`ctrl` + `g` 注意在这里 mac 的是 ctrl 而不是 command 哦
 
    > 折叠  
    > ctrl + k, ctrl + [
+   >
    > > 展开
    > > ctrl + k, ctrl + ]
 
@@ -899,3 +900,18 @@ code runner 插件
       2. 搜索`eol`：将设置改为`lf`
    3. 针对项目：
       1. `prettierrc.json`文件增加属性`endOfLine: 'lf'`
+
+### windows 上的一些快捷键冲突
+
+`ctrl+.`: 代码建议修复
+
+和 windows 的`中英文标点切换`冲突了,把输入法中这一项去掉就行
+
+`ctrl+shift+f`: 代码格式化
+
+和 windows 的`中文繁简体切换`冲突了
+
+### 对于单个工作区的单独设置
+
+1. 图形化界面，打开设置之后，分为`用户`和`工作区`两个选项卡
+2. 工作区配置，在工作区`根目录`下创建`.vscode/settings.json`中进行编辑

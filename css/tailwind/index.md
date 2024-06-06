@@ -15,7 +15,7 @@
    ```js
    /** @type {import('tailwindcss').Config} */
    export default {
-     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,vue}"],
      theme: {
        extend: {},
      },
@@ -57,7 +57,7 @@
 
    功能：文档查询
 
-### Tailwind CSS IntelliSense没有提示
+### Tailwind CSS IntelliSense 没有提示
 
 1. 使用 cdn 引入的 html 文件中
 
@@ -73,12 +73,11 @@ export default {
 };
 ```
 
-然后引入到html文件中
+然后引入到 html 文件中
 
 ```js
 <script type="module">
-  import cfg from "./tailwind.config.js";
-  tailwind.config = cfg;
+  import cfg from "./tailwind.config.js"; tailwind.config = cfg;
 </script>
 ```
 
@@ -92,7 +91,7 @@ export default {
 
 ### 自定义样式优先级
 
-在一个元素上多个类名定义了同一个样式时，取决于css的顺序，而不是class的顺序
+在一个元素上多个类名定义了同一个样式时，取决于 css 的顺序，而不是 class 的顺序
 
 ```js
 .btn {
@@ -109,10 +108,7 @@ export default {
 <button class="bg-black btn">...</button>
 ```
 
-
-
 ### 在某一个层级设置自定义类名
-
 
 ```css
 @tailwind base;
@@ -124,7 +120,6 @@ export default {
     /* ... */
   }
 }
-
 ```
 
 规则
@@ -133,8 +128,7 @@ export default {
 `components`: 用于您希望能够使用实用程序覆盖的基于类的样式。
 `utilities`: 适用于小型、单一用途的类，应始终优先于任何其他样式。
 
-
-### 定义一个类名，继承多个tailwind类名
+### 定义一个类名，继承多个 tailwind 类名
 
 参见 `https://www.tailwindcss.cn/docs/adding-custom-styles#using-css-and-layer`
 
@@ -156,7 +150,6 @@ export default {
   /* ... */
 }
 ```
-
 
 ### 负值
 

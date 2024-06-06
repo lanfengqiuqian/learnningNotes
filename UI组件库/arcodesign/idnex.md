@@ -156,3 +156,36 @@ Error: EBUSY: resource busy or locked, rmdir 'C:\Users\25776\.arco_template_cach
 pnpm 需要 node`18`的版本，要切换`18`，而不是`16`
 
 `总结`：初始化需要 16 的版本，安装依赖需要 18 的版本
+
+### 路由的`name`属性不能重复
+
+即使实在`children`中也是不能重复的
+
+### 点击路由菜单，激活状态是上一次的
+
+`src\router\guard\index.ts`中`setupPageGuard`这个方法是设置高亮激活状态的
+
+### 安装依赖报错
+
+```shell
+PS D:\code\bad_front> pnpm i
+ WARN  14 deprecated subdependencies found: @types/vfile-message@2.0.0, ajv@8.15.0, glob@7.2.3, inflight@1.0.6, resolve-url@0.2.1, rimraf@2.6.3, rimraf@2.7.1, rimraf@3.0.2, source-map-resolve@0.5.3, source-map-url@0.4.1, stable@0.1.8, trim@0.0.1, urix@0.1.0, uuid@3.4.0
+Packages: +1127
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ ERR_PNPM_UNEXPECTED_PKG_CONTENT_IN_STORE  Package name mismatch found while reading {"integrity":"sha512-oYs1UUtO97ZO2lJ4bwnWeQW8/zvOIQLGKcvPTsWmvc2SYgBb+upuNS5NxoLaMU4h8Ju3Nbj6Cq8mD2LQoqVKFA==","tarball":"https://registry.npmmirror.com/ajv/-/ajv-8.14.0.tgz"} from the store. This means that the lockfile is broken. Expected package: ajv@8.15.0. Actual package in the store by the given integrity: ajv@8.14.0.
+
+This error happened while installing the dependencies of stylelint@14.13.0
+ at table@6.8.2
+Progress: resolved 1169, reused 1124, downloaded 2, added 380
+```
+
+尝试一下几种方式
+
+1. 重新安装
+2. 删除`node_modules`在重新安装
+3. 清除 pnpm 缓存再重新安装`pnpm store prune`
+4. 更换镜像源（我最后是用这个方式解决的）
+
+   更换了一个腾讯镜像源
+
+   > registry=http://mirrors.cloud.tencent.com/npm/

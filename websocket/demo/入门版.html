@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebSocket Demo</title>
+  </head>
+  <body>
+    <h1>WebSocket Demo</h1>
+    <button id="connectBtn">Connect</button>
+    <button id="sendBtn">Send Message</button>
+    <button id="closeBtn">Close Connection</button>
+    <div id="messages"></div>
+
+    <script>
+      let socket;
+
+      document.getElementById("connectBtn").onclick = function () {
+        socket = new WebSocket("ws://localhost:8080");
+
+        socket.onopen = function () {
+          document.getElementById("messages").innerHTML +=
+            "<p>Connection opened</p>";
+        };
+
+        socket.onmessage = function (event) {
+          document.getElementById("messages").innerHTML +=
+            "<p>Received: " + event.data + "</p>";
+        };
+
+        socket.onclose = function () {
+          document.getElementById("messages").innerHTML +=
+            "<p>Connection closed</p>";
+        };
+
+        socket.onerror = function (error) {
+          document.getElementById("messages").innerHTML +=
+            "<p>Error: " + error.message + "</p>";
+        };
+      };
+
+      document.getElementById("sendBtn").onclick = function () {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          socket.send("Hello, Server!");
+        }
+      };
+
+      document.getElementById("closeBtn").onclick = function () {
+        if (socket) {
+          socket.close();
+        }
+      };
+    </script>
+  </body>
+</html>

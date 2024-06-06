@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebSocket Chat Demo</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: #f5f5f5;
+        justify-content: center;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        max-width: 600px;
+        height: 80vh;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .chat-header,
+      .chat-footer {
+        padding: 15px;
+        background: #007bff;
+        color: #fff;
+      }
+      .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .chat-header input {
+        padding: 8px;
+        border: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        flex: 1;
+      }
+      .chat-header button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #0056b3;
+        color: #fff;
+        cursor: pointer;
+      }
+      .chat-header button:hover {
+        background: #004494;
+      }
+      .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background: #f9f9f9;
+      }
+      .chat-footer {
+        display: flex;
+        align-items: center;
+      }
+      .chat-footer input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+      .chat-footer button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+      .chat-footer button:hover {
+        background: #0056b3;
+      }
+      .message {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+      .message p {
+        margin: 0;
+        padding: 10px;
+        border-radius: 4px;
+        max-width: 70%;
+        word-wrap: break-word;
+      }
+      .message.user {
+        align-items: flex-end;
+      }
+      .message.user p {
+        background: #007bff;
+        color: #fff;
+      }
+      .message.other {
+        align-items: flex-start;
+      }
+      .message.other p {
+        background: #e9ecef;
+        color: #333;
+      }
+      .info {
+        text-align: center;
+        font-style: italic;
+        color: #888;
+        margin-bottom: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>WebSocket Chat Demo</h1>
+    <div class="chat-container">
+      <div class="chat-header">
+        <input id="username" placeholder="Enter your username" />
+        <button id="connectBtn">Connect</button>
+      </div>
+      <div class="chat-messages" id="messages"></div>
+      <div class="chat-footer">
+        <input id="messageInput" placeholder="Enter your message" />
+        <button id="sendBtn">Send</button>
+        <button id="closeBtn">Close</button>
+      </div>
+    </div>
+
+    <script>
+      let socket;
+      let username;
+
+      document.getElementById("connectBtn").onclick = function () {
+        username = document.getElementById("username").value;
+        if (!username) {
+          alert("Please enter a username");
+          return;
+        }
+
+        socket = new WebSocket("ws://localhost:8080");
+
+        socket.onopen = function () {
+          document.getElementById("messages").innerHTML +=
+            '<p class="info">Connection opened</p>';
+          socket.send(JSON.stringify({ type: "username", username }));
+        };
+
+        socket.onmessage = function (event) {
+          const data = JSON.parse(event.data);
+          if (data.type === "notification") {
+            document.getElementById(
+              "messages"
+            ).innerHTML += `<p class="info">${data.message}</p>`;
+          } else {
+            const messageClass = data.username === username ? "user" : "other";
+            document.getElementById(
+              "messages"
+            ).innerHTML += `<div class="message ${messageClass}"><p><strong>${data.username}:</strong> ${data.message}</p></div>`;
+          }
+          document.getElementById("messages").scrollTop =
+            document.getElementById("messages").scrollHeight;
+        };
+
+        socket.onclose = function () {
+          document.getElementById("messages").innerHTML +=
+            '<p class="info">Connection closed</p>';
+        };
+
+        socket.onerror = function (error) {
+          document.getElementById("messages").innerHTML +=
+            '<p class="info">Error: ' + error.message + "</p>";
+        };
+      };
+
+      document.getElementById("sendBtn").onclick = sendMessage;
+      document.getElementById("messageInput").onkeydown = function (event) {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+        }
+      };
+
+      document.getElementById("closeBtn").onclick = function () {
+        if (socket) {
+          socket.close();
+        }
+      };
+
+      function sendMessage() {
+        const message = document.getElementById("messageInput").value;
+        if (socket && socket.readyState === WebSocket.OPEN && message) {
+          socket.send(JSON.stringify({ type: "message", message }));
+          document.getElementById("messageInput").value = "";
+        }
+      }
+    </script>
+  </body>
+</html>
