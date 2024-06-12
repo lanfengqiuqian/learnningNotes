@@ -4,34 +4,35 @@
  * @LastEditTime: 2022-08-08 18:04:43
  * @FilePath: \learnningNotes\git\index.md
 -->
+
 1. 查看所有分支  
-    仅本地分支： `git branch`  
-    仅远程分支： `git branch -r`  
-    本地及远程分支：`git branch -a` （其中远程分支会使用红色标记）
+   仅本地分支： `git branch`  
+   仅远程分支： `git branch -r`  
+   本地及远程分支：`git branch -a` （其中远程分支会使用红色标记）
 2. 新建一个分支  
-    `git branch 分支名称`
+   `git branch 分支名称`
 3. 创建并切换某一个分支  
-    `git checkout -b 分支名称`  
-    仅切换分支：`git checkout 分支名称`
+   `git checkout -b 分支名称`  
+   仅切换分支：`git checkout 分支名称`
 4. 重命名某一个分支  
-    `git branch (-m | -M) <oldbranch> <newbranch>`
+   `git branch (-m | -M) <oldbranch> <newbranch>`
 5. 删除某一个分支  
-    `git branch -d 分支名称`
+   `git branch -d 分支名称`
 6. 强制删除某一个分支  
-    `git branch -D 分支名称`
+   `git branch -D 分支名称`
 7. 查看远程仓库地址  
-    `git remote -v`
+   `git remote -v`
 8. 查看全局配置  
-    `git config -l`
-9.  全局配置文件位置  
-    `.git/config`
+   `git config -l`
+9. 全局配置文件位置  
+   `.git/config`
 10. 配置用户名和邮箱  
     `git config --global user.name "John Doe"`
     `git config --global user.email johndoe@example.com`
-11. 查看提交日志（获取hash码）  
+11. 查看提交日志（获取 hash 码）  
     `git log`
 12. 回到之前某一次提交  
-    `git reset --hard 上一次提交的hash码`  
+    `git reset --hard 上一次提交的hash码`
     ```
     // git reset 参数
     --mixed 默认，重置暂存区的文件（和上一次保持一致），工作区内容保持不变
@@ -40,7 +41,7 @@
     ```
 13. 回到上一次提交  
     `git reset --hard HEAD^`
-14. 回到n次之前提交  
+14. 回到 n 次之前提交  
     `git reset --hard HEAD^n`
 15. 撤回`git add`的提交  
     `git reset 文件名`  
@@ -49,16 +50,16 @@
     `git clone --depth=1 http://xxx/mp.git`
 17. 关联远程仓库  
     `git remote add origin git@github.com:lenve/test.git`
-18. 删除关联的远程仓库，一般情况下是origin，如果不是需要换  
+18. 删除关联的远程仓库，一般情况下是 origin，如果不是需要换  
     `git remote rm origin`
-19. 查看某个文件或某行代码最近一次改变是谁写的    
+19. 查看某个文件或某行代码最近一次改变是谁写的  
     `git blame file_name`  
-    `git blame -L 58,100 file_name`  # 58~100 行代码  
+    `git blame -L 58,100 file_name` # 58~100 行代码  
     输出格式：  
     `commit_ID | 代码提交作者 | 提交时间 | 代码位于文件中的行数 | 实际代码 `  
     例子  
     `2eb3a3b3 (zhangsan 2020-11-10 14:14:05 +0800 179)   $default_addr = "";`
-20. 根据commitid查看对应的提交记录  
+20. 根据 commitid 查看对应的提交记录  
     `git show commit_ID`
 21. 合并分支  
     `git merge 分支名称`
@@ -72,10 +73,10 @@
     `git push -f origin master`
 25. 初始化子模块仓库
     `git submodule update --init --recursive`
-26. 浅拉取最后一次提交记录，用户clone项目体积很大的代码
+26. 浅拉取最后一次提交记录，用户 clone 项目体积很大的代码
     `git clone -b 分支名 --depth=1 仓库路径`
-27. GIT_TRACE_PACKET=1、GIT_TRACE=1、GIT_CURL_VERBOSE=1等参数设置可以打印调试信息
-28. 生成ssh的公钥和私钥
+27. GIT_TRACE_PACKET=1、GIT_TRACE=1、GIT_CURL_VERBOSE=1 等参数设置可以打印调试信息
+28. 生成 ssh 的公钥和私钥
     `ssh-keygen -t rsa -C your@example.com -b 4096`
 29. The following untracked working tree files would be overwritten by merge
 
@@ -88,27 +89,27 @@
     ```bash
     git clean -n
     // 是一次 clean 的演习, 告诉你哪些文件会被删除，不会真的删除
-    
+
     git clean -f
     // 删除当前目录下所有没有 track 过的文件
     // 不会删除 .gitignore 文件里面指定的文件夹和文件, 不管这些文件有没有被 track 过
-    
+
     git clean -f <path>
     // 删除指定路径下的没有被 track 过的文件
-    
+
     git clean -df
-    
+
     // 删除当前目录下没有被 track 过的文件和文件夹
-    
+
     git clean -xf
-    
+
     // 删除当前目录下所有没有 track 过的文件.
     // 不管是否是 .gitignore 文件里面指定的文件夹和文件
-    
-    git clean 
+
+    git clean
     // 对于刚编译过的项目也非常有用
     // 如, 他能轻易删除掉编译后生成的 .o 和 .exe 等文件`在这里插入代码片`. 这个在打包要发布一个 release 的时候非常有用
-    
+
     git reset --hard
     git clean -df
     git status
@@ -116,18 +117,18 @@
     // 此时建议运行 git status，会告诉你这是一个干净的工作目录, 又是一个新的开始了！
     ```
 
-30. 连接git仓库失败
+30. 连接 git 仓库失败
 
     > fatal: unable to access 'https://github.com/xxxx/xxx.git/': Failed to connect to 127.0.0.1 port 7891: Connection refused
 
-    原因是git代理失效了，将代理取消即可
+    原因是 git 代理失效了，将代理取消即可
 
     ```shell
     git config --global --unset http.proxy
     git config --global --unset https.proxy
     ```
 
-31. git限制上传大文件（超过25MB）
+31. git 限制上传大文件（超过 25MB）
 
     > https://www.jianshu.com/p/1071b11a94b4
 
@@ -137,7 +138,7 @@
     4. 最后点击发布
     5. 之后就能在`releases`的界面看到你的文件了
 
-32. 开启和取消git代理
+32. 开启和取消 git 代理
 
     开启代理：这里的`7890`是代理`http`的端口号
 
@@ -153,21 +154,21 @@
     git config --global --unset https.proxy
     ```
 
-33. 文件被忽略，但是不在gitignore中
+33. 文件被忽略，但是不在 gitignore 中
 
-vscode中表现：文件名是灰色的（git没有发现他改变）
+vscode 中表现：文件名是灰色的（git 没有发现他改变）
 
-git中表现：`git add .`没有任何内容，`git status`也没有改变
+git 中表现：`git add .`没有任何内容，`git status`也没有改变
 
 解决方案：使用`-f`参数手动添加被`ignored`忽略的文件
 
     > git add xxx -f
 
-34. 常见的git工作流
+34. 常见的 git 工作流
 
     > https://www.jianshu.com/p/7eba1f0b5b42
 
-35. git bash箭头无效
+35. git bash 箭头无效
 
     1. 使用数字进行选择
     2. 使用其他终端
@@ -179,12 +180,12 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
 37. 忽略文件
 
     `gitignore`：整个仓库的文件忽略，对于本地远程都生效
-    
+
     `.git/info/exclude`：只对于本地的仓库代码生效
 
     注意：这两种方式都只适用于新创建的文件，如果文件已经被纳入了版本管理中，那么修改是无效的
 
-38. git提交规范（前缀）
+38. git 提交规范（前缀）
 
     ```
     feat: 新功能（feature）
@@ -205,11 +206,11 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
 
     分支名
 
-    1. sprint分支：当开发产品新功能或者试验新功能时，从master创建一个新的sprint分支
-    2. develop分支：汇总开发这完成的工作成果
-    3. hotfix分支：当master分支产品出现需要立即修复的bug时，从master创建一个新的hostfix分支，修复完成合并到master，然后删除hotfix分支
-    4. feature分支：开发公用方法、组件等模块
-    5. master分支：存储功能已开发完成的工作分支
+    1. sprint 分支：当开发产品新功能或者试验新功能时，从 master 创建一个新的 sprint 分支
+    2. develop 分支：汇总开发这完成的工作成果
+    3. hotfix 分支：当 master 分支产品出现需要立即修复的 bug 时，从 master 创建一个新的 hostfix 分支，修复完成合并到 master，然后删除 hotfix 分支
+    4. feature 分支：开发公用方法、组件等模块
+    5. master 分支：存储功能已开发完成的工作分支
 
     环境
 
@@ -220,52 +221,52 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     5. pre：灰度测试环境，生产数据，影响的是生产环境，不过范围比较小
     6. prod：线上真实环境
 
-40. release和tag的区别
+40. release 和 tag 的区别
 
-    1. tag：是git的功能，用于给一次commit进行标识，以识别特定的版本，一般用于给版本标识
-    2. release：是github、码云等代码托管平台的功能，可以在tag的基础上添加编译好的二进制文件，如.deb、.ext等，方便用户下载，也方便以后查找特定版本的程序
+    1. tag：是 git 的功能，用于给一次 commit 进行标识，以识别特定的版本，一般用于给版本标识
+    2. release：是 github、码云等代码托管平台的功能，可以在 tag 的基础上添加编译好的二进制文件，如.deb、.ext 等，方便用户下载，也方便以后查找特定版本的程序
 
-41. local和remote分支名不同，如何push
+41. local 和 remote 分支名不同，如何 push
 
     问题：当不同的时候报如下错误
 
     > src refspec 分支名 does not match any
 
-    原因：默认情况下，需要local和remote分支名相同才能push
+    原因：默认情况下，需要 local 和 remote 分支名相同才能 push
 
     解决方案：
 
-    1. 本地新建一个新的分支，和远程分支名相同，然后push
+    1. 本地新建一个新的分支，和远程分支名相同，然后 push
 
     2. 强制指定分支名
 
-        > git push -u origin local_branch_name:romote_branch_name
+       > git push -u origin local_branch_name:romote_branch_name
 
     3. 修改默认配置文件
 
-        详见[https://segmentfault.com/a/1190000002783245](https://segmentfault.com/a/1190000002783245)
+       详见[https://segmentfault.com/a/1190000002783245](https://segmentfault.com/a/1190000002783245)
 
 42. 远程新建了分支，本地看不到
 
-    拉取分支，远程被删除的分支不会同步删除本地origin的分支
+    拉取分支，远程被删除的分支不会同步删除本地 origin 的分支
+
     1. git fetch
 
-        如果只想更新指定分支`git fetch origin xxx`
+       如果只想更新指定分支`git fetch origin xxx`
 
-    必须带有–prune，否则跟git fetch等价。除了会拉取新分支，还会删除掉别人远程删除的分支
-    2. git remote update origin --prune
+    必须带有–prune，否则跟 git fetch 等价。除了会拉取新分支，还会删除掉别人远程删除的分支 2. git remote update origin --prune
 
-43.  Pulling without specifying how to reconcile divergent branches is discouraged. You can squelch this message by running one of the following commands sometime before your next pull
+43. Pulling without specifying how to reconcile divergent branches is discouraged. You can squelch this message by running one of the following commands sometime before your next pull
 
     ```shell
     hint: Pulling without specifying how to reconcile divergent branches is
     hint: discouraged. You can squelch this message by running one of the following
     hint: commands sometime before your next pull:
-    hint: 
+    hint:
     hint:   git config pull.rebase false  # merge (the default strategy)
     hint:   git config pull.rebase true   # rebase
     hint:   git config pull.ff only       # fast-forward only
-    hint: 
+    hint:
     hint: You can replace "git config" with "git config --global" to set a default
     hint: preference for all repositories. You can also pass --rebase, --no-rebase,
     hint: or --ff-only on the command line to override the configured default per
@@ -281,38 +282,37 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     ```
 
     解决方案：
-    
-    1. 先使用`git config pull.rebase false`，然后重新进行拉取  
-    2. 如果不生效，再使用`git config pull.rebase true`然后重新进行拉取
 
+    1. 先使用`git config pull.rebase false`，然后重新进行拉取
+    2. 如果不生效，再使用`git config pull.rebase true`然后重新进行拉取
 
 44. git stash
 
-    1. 介绍：将当前的工作状态保存到git栈，在需要的时候再恢复。
+    1. 介绍：将当前的工作状态保存到 git 栈，在需要的时候再恢复。
 
     2. 使用场景：当在一个分支的开发工作未完成，却又要切换到另外一个分支进行开发的时候，可以先将自己写好的代码，储存到`git`栈，进行另外一个分支的代码开发。这时候`git stash`命令就派上用场了！
 
     3. 常用命令
 
-        1. git stash：保存当前工作区和暂存区的状态，将当前的修改保存到git栈，等以后需要的时候再恢复
+       1. git stash：保存当前工作区和暂存区的状态，将当前的修改保存到 git 栈，等以后需要的时候再恢复
 
-        2. git stash save '注释'：存储时增加注释，便于查找
+       2. git stash save '注释'：存储时增加注释，便于查找
 
-        3. git stash pop：将最新的一个记录拿出来，并且会将最新保存的内容删除
+       3. git stash pop：将最新的一个记录拿出来，并且会将最新保存的内容删除
 
-        4. git stash list：查看stash的所有内容
+       4. git stash list：查看 stash 的所有内容
 
-        5. git stash apply stash@{$num}：将内容恢复到当前分支下，不会删除栈中保存的记录
+       5. git stash apply stash@{$num}：将内容恢复到当前分支下，不会删除栈中保存的记录
 
-        6. git stash show：查看堆栈中最新保存的stash和当前目录的差异，显示做了哪些改动
+       6. git stash show：查看堆栈中最新保存的 stash 和当前目录的差异，显示做了哪些改动
 
-        7. git stash clear: 清除所有stash的内容
+       7. git stash clear: 清除所有 stash 的内容
 
-        8. git stash drop stash@{0} 删除第一个队列
+       8. git stash drop stash@{0} 删除第一个队列
 
-45. git报错：'origin' does not appear to be a git repository
+45. git 报错：'origin' does not appear to be a git repository
 
-    原因：是由于git找不到远端的仓库地址了，在git文件夹下，config文件里配置上即可
+    原因：是由于 git 找不到远端的仓库地址了，在 git 文件夹下，config 文件里配置上即可
 
     ```bash
     // 查看配置
@@ -337,11 +337,11 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     // 如果缺少了哪一部分的话直接手填也行，除了url都是固定的
     ```
 
-46. 删除项目git配置
+46. 删除项目 git 配置
 
     > rm -r .git
 
-47. git初始化警告
+47. git 初始化警告
 
     ```bash
     $ git init
@@ -369,7 +369,7 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
 
     > git reset --hard origin/master
 
-49. 创建一个无commit分支并推送到远程
+49. 创建一个无 commit 分支并推送到远程
 
     ```bash
     // 切换到新的分支
@@ -402,15 +402,15 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
 
 51. 报错`git@github.com: Permission denied (publickey).`
 
-    原因：没有配置正确的ssh密钥，重新配置即可
+    原因：没有配置正确的 ssh 密钥，重新配置即可
 
     1. 通过运行 `ls -al ~/.ssh` 命令，确认你是否已经有 SSH 密钥。如果你没有密钥，可以通过运行 `ssh-keygen` 命令来生成。
     2. 运行 `cat ~/.ssh/id_rsa.pub` 命令，并将输出复制到 GitHub 帐户的 SSH 密钥设置中。
     3. `ssh -T git@github.com`检查远程仓库的访问权限
 
-        > Hi lanfengqiuqian! You've successfully authenticated, but GitHub does not provide shell access.
+       > Hi lanfengqiuqian! You've successfully authenticated, but GitHub does not provide shell access.
 
-52. log和reflog的区别
+52. log 和 reflog 的区别
 
     `git reflog` 可以查看所有分支的所有操作记录（包括已经`被删除的 commit` 记录和 `reset` 的操作）
 
@@ -431,7 +431,7 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     git checkout -b feat/230818 origin/feat/230818
     ```
 
-54. git pull报错`refusing to merge unrelated histories`
+54. git pull 报错`refusing to merge unrelated histories`
 
     原因：因为两个根本不相干的 git 库， 一个是本地库， 一个是远端库， 然后本地要去推送到远端， 远端觉得这个本地库跟自己不相干， 所以告知无法合并
 
@@ -440,5 +440,27 @@ git中表现：`git add .`没有任何内容，`git status`也没有改变
     git clone远程仓库到本地，将需要推送的内容放到该仓库下 ， 然后提交上去 ， 这样算是一次update操作
 
     // 方案2
-    git pull origin master --allow-unrelated-historie 
+    git pull origin master --allow-unrelated-historie
     ```
+
+55. 测试是否能连接上 github
+
+    > ssh -T git@github.com
+
+    能成功的话，会返回`Hi username! You've successfully authenticated, but GitHub does not provide shell access.`
+
+56. 报错：`detected dubious ownership`
+
+    原因：意味着 Git 认为当前仓库的所有权存在疑问。可以通过将该目录添加到安全目录列表来解决这个问题
+
+    假如我的项目位置是`/www/wwwroot/bad_back`
+
+    ```shell
+    # 添加配置
+    git config --global --add safe.directory /www/wwwroot/bad_back
+
+    # 确认配置已添加
+    git config --global --get-all safe.directory
+    ```
+
+    再次尝试应该就可以了

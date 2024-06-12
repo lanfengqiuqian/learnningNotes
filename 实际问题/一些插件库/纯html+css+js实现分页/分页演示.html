@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./paginationself.css">
+    <style>
+        /* 外壳样式,可选,写了就覆盖默认的 */
+        /* #pagination_self {
+            width: 98%;
+            height: 50px;
+            border: 1px solid #e5e5e5;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }  */
+    </style>
+</head>
+
+<body>
+    <!-- id名不可变动! -->
+    <div id="pagination_self">
+    </div>
+    <script src="./paginationself.js"></script>
+    <script>
+        // 使用
+        var fy = document.getElementById("pagination_self");
+        paginationself(fy, {
+            pageInfo: {
+                pageNum:2,
+                totalPage:25
+            }
+        }, (nowPage) => {
+            //此为回调函数,可省略~
+            console.log(nowPage);
+        });
+        //等同于
+        // paginationself(fy,{});
+    </script>
+</body>
+
+</html>
