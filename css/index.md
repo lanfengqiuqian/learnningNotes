@@ -384,15 +384,31 @@ background-color: #464646;
     }
     ```
 
-
-### table设置圆角
+### table 设置圆角
 
 背景
 
-1. 如果我们`直接`对table设置`border-radius`是不会生效的
-2. 因为table的默认属性`border-collapse`值为`collapse`。`border-collapse:collapse`和`border-radius`不兼容。
+1. 如果我们`直接`对 table 设置`border-radius`是不会生效的
+2. 因为 table 的默认属性`border-collapse`值为`collapse`。`border-collapse:collapse`和`border-radius`不兼容。
 3. 因此，我们需要将`border-collapse`的值设置为`separate`。
 
 方案
 
 可以参考这个[https://juejin.cn/post/6844904175856271374](https://juejin.cn/post/6844904175856271374)
+
+### 有序列表和无序列表的序号不展示
+
+原因：`ol`标签`padding-left`属性，需要保留`20px`左右
+
+解决（选其一即可）：
+
+1. 手动设置`ol`的`padding-left`
+
+2. 设置`li`的样式
+
+```css
+ol li {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+```

@@ -1649,49 +1649,99 @@ arr.sort((a, b) => a.localeCompare(b)); // ['a', 'b', 'c', 'd', 'j', 'q', 'x']
 
 57. 常用的页面浏览器的几种高度
 
-| 属性                 | 介绍         | 备注                                         |
-| -------------------- | ------------ | -------------------------------------------- |
-|window.screen.height | 电脑屏幕高度 | 只和设备有关，和浏览器，工具栏，控制台等无关 |
-|window.screen.availHeight|电脑屏幕可用高度|电脑屏幕高度减去顶部工具栏和底部工具栏|
-|window.innerHeight|浏览器视口（viewport）高度（单位：像素），如果存在滚动条则包括它。|网页页面的可视区域，不包括控制台，书签栏等|
-|window.outerHeight|整个浏览器的高度|浏览器窗口拉伸可以改变|
-|element.clientHeight|元素的可视高度||
-|element.scrollHeight|元素的高度|包括不可见的|
-|element.offsetHeight|元素的可视高度 + 滚动条的高度||
-
+| 属性                      | 介绍                                                               | 备注                                         |
+| ------------------------- | ------------------------------------------------------------------ | -------------------------------------------- |
+| window.screen.height      | 电脑屏幕高度                                                       | 只和设备有关，和浏览器，工具栏，控制台等无关 |
+| window.screen.availHeight | 电脑屏幕可用高度                                                   | 电脑屏幕高度减去顶部工具栏和底部工具栏       |
+| window.innerHeight        | 浏览器视口（viewport）高度（单位：像素），如果存在滚动条则包括它。 | 网页页面的可视区域，不包括控制台，书签栏等   |
+| window.outerHeight        | 整个浏览器的高度                                                   | 浏览器窗口拉伸可以改变                       |
+| element.clientHeight      | 元素的可视高度                                                     |                                              |
+| element.scrollHeight      | 元素的高度                                                         | 包括不可见的                                 |
+| element.offsetHeight      | 元素的可视高度 + 滚动条的高度                                      |                                              |
 
 58. Failed to execute ‘setRequestHeader‘ on ‘XMLHttpRequest‘: String contains non ISO-8859-1 code point
 
-原因：接口请求的headers参数里有不符合 ISO-8859-1 标准的字符，所以导致设置接口headers参数的setRequestHeader方法失效，然后报错
+原因：接口请求的 headers 参数里有不符合 ISO-8859-1 标准的字符，所以导致设置接口 headers 参数的 setRequestHeader 方法失效，然后报错
 
     正常情况是不会给请求头插入非标准字符的
 
     比如我这次是因为登录之后获取的token异常，然后每次请求的时候放的token取出来也异常了
 
-
 59. &&运算符和||运算符的优先级
 
-  `&&`高于`||`
+`&&`高于`||`
 
-  如下案例
+如下案例
 
-  ```js
-  true || false && false; // true
+```js
+true || (false && false); // true
 
-  (true || false) && false; // false
-  true || (false && false); // true
-  ```
+(true || false) && false; // false
+true || (false && false); // true
+```
 
-60. 全局dom变量
+60. 全局 dom 变量
 
-  页面上有id的元素，会自动在全局上创建一个和id同名的变量，值为该dom元素
+页面上有 id 的元素，会自动在全局上创建一个和 id 同名的变量，值为该 dom 元素
 
-  ```js
-  // html
-  <div id="hello"></div>
+```js
+// html
+<div id="hello"></div>;
 
-  // js
-  if (typeof hello == 'undefined') {
-    console.log("永远不会执行 ")
-  }
-  ```
+// js
+if (typeof hello == "undefined") {
+  console.log("永远不会执行 ");
+}
+```
+
+61. 如何使用 js 设置 hover 属性
+
+使用`onmouseover`和`onmouseout`
+
+```js
+<body>
+<ul>
+    <li>雪花</li>
+    <li>百威</li>
+    <li>燕京</li>
+    <li>青岛</li>
+    <li>崂山</li>
+    <li>珠江</li>
+</ul>
+</body>
+
+<script>
+
+    //获取所有的li标签
+    var list = document.getElementsByTagName("li");
+    for (var i = 0; i < list.length; i++) {
+        //为li注册鼠标进入事件
+        list[i].onmouseover = function () {
+            //设置其背景颜色为黄色
+            this.style.backgroundColor = "yellow";
+        };
+        //为li注册鼠标离开事件
+        list[i].onmouseout = function () {
+            //恢复到这个标签默认的颜色
+            this.style.backgroundColor = "";
+        };
+    }
+
+</script>
+```
+
+62. js 动态设置 video 的 src 不更新
+
+正常情况下，video 的 scr 两种写法
+
+```html
+<video src="xxx"></video>
+
+<video>
+  <source src="xxx" />
+</video>
+```
+
+如果 src 不是写死的，而是从后台获取的，需要动态更新
+
+在使用`srouce`的写法时，不会重新加载，只能用`video`的`src`

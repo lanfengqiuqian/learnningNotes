@@ -915,3 +915,19 @@ code runner 插件
 
 1. 图形化界面，打开设置之后，分为`用户`和`工作区`两个选项卡
 2. 工作区配置，在工作区`根目录`下创建`.vscode/settings.json`中进行编辑
+
+### 模糊搜索
+
+可以参考[https://blog.csdn.net/qq_37539693/article/details/125356318](https://blog.csdn.net/qq_37539693/article/details/125356318)
+
+使用下面的符号代表任意内容
+
+> (.\*?)
+
+但是如果有换行符的话，需要使用下面的方式
+
+> ([\s\S]\*?)
+>
+> <div id="tpaWorker_43">([\s\S]*?)</div>
+
+有时候这样也匹配不到，需要在最后的 div 标签之后增加一个回车进行搜索

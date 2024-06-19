@@ -1069,6 +1069,34 @@ module.exports = defineConfig({
    5. afterEach：注册全局后置导航守卫
    6. currentRoute：当前激活的路由对象
 
+### 几种路由模式区别：hash、history、memory
+
+1. hash 模式
+
+1. 在实际 url 中存在一个`#`，会导致原本的`锚点`功能不可用，而且不美观
+1. 这部分 url 从未实际发送到服务端，所以服务器不需要进行特殊处理
+1. 对 seo 不友好
+
+1. memory 模式
+
+1. 不会与 url 进行交互，也不会自动触发初始导航，需要`app.use(router)`之后手动 push 到初始导航
+1. 非常适合 node 环境和`ssr`
+1. 不会有历史记录，所以无法前进和后退
+
+1. history（html5）模式
+
+1. 美观
+1. 需要额外的服务器配置，否则会得到一个`404`错误
+1. 原理是服务器添加一个回退路由，在不匹配任何资源的情况下，匹配到`index.html`
+
+nginx 配置如下，其他配置参考[官网](https://router.vuejs.org/zh/guide/essentials/history-mode.html#nginx)
+
+```shell
+location / {
+  try_files $uri $uri/ /index.html;
+}
+```
+
 ### vue3 `TypeError: Cannot read properties of null (reading 'insertBefore')`报错
 
 本地运行是正常的，但是打包部署到服务器报错了
