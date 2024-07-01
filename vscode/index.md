@@ -211,6 +211,12 @@ It is not the most correct option but it works.
 
     拓展中心搜索该插件名称并安装。Ctrl+Shift+P 调出控制台。
 
+30. insert numbers
+
+    同时给多行文本插入序号，可以设定开始序号和步长：
+
+    `ctrl+alt+n`：`%d:start:step`
+
 ### 删除一行快捷键
 
 > ctrl + shift + k;

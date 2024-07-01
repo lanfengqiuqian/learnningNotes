@@ -1745,3 +1745,29 @@ if (typeof hello == "undefined") {
 如果 src 不是写死的，而是从后台获取的，需要动态更新
 
 在使用`srouce`的写法时，不会重新加载，只能用`video`的`src`
+
+63. dom 增删类名
+
+```js
+element.classList.add("className");
+element.classList.add("className1", "className2", "className3");
+
+// 切换类名，如果不存在，则添加，如果存在则删除
+element.classList.toggle("className");
+
+element.classList.remove("className");
+element.classList.remove("className1", "className2", "className3");
+
+// 如果需要支持更老的浏览器，使用className属性来当成字符串操作
+var className = element.className; // 获取原有类名
+var removeClassName = "className"; // 需要删除的类名
+var newClassName = className.replace(removeClassName, ""); // 移除需要删除的类名
+element.className = newClassName; // 更新类名
+```
+
+64. 设置select的提示值
+
+```js
+var selectElement = document.getElementById('mySelect');
+selectElement.selectedIndex = 0; // 设置初始选中提示值
+``

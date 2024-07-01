@@ -135,7 +135,7 @@ $ pm2 start app.js              # 启动项目
 
 看上去是数据库的问题，因为接口还是可以调通的，尝试重启后端服务器其实可以生效，但是肯定不能自己经常手动重启后端服务
 
-原因：因为太久没有活跃，数据库断开连接了
+原因：因为太久没有活跃，数据库断开连接了，不会重连， 默认是 8 小时
 
 解决：
 
@@ -163,6 +163,48 @@ process.on("uncaughtException", function (err) {
 ```
 
 适用于还有另一个报错的情况，`Error: Connection lost The server closed the connection`
+
+3. 监听连接报错，然后重连
+
+```js
+function handleError(err) {
+  if (err) {
+    // 如果是连接断开，自动重新连接
+    if (err.code === "PROTOCOL_CONNECTION_LOST") {
+      connect();
+    } else {
+      console.error(err.stack || err);
+    }
+  }
+}
+
+// 连接数据库
+function connect() {
+  db = mysql.createConnection(config);
+  db.connect(handleError);
+  db.on("error", handleError);
+}
+
+var db;
+connect();
+```
+
+4. 使用连接池的方式
+
+```js
+var mysql = require("mysql");
+var pool = mysql.createPool(config);
+
+pool.getConnection(function (err, connection) {
+  // Use the connection
+  connection.query("SELECT something FROM sometable", function (err, rows) {
+    // And done with the connection.
+    connection.end();
+
+    // Don't use the connection here, it has been returned to the pool.
+  });
+});
+```
 
 ### 记录日志
 
