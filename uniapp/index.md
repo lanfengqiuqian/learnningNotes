@@ -11,3 +11,10 @@
 #### 使用自定义导航栏
 
 官方文档[https://uniapp.dcloud.net.cn/collocation/pages.html#customnav](https://uniapp.dcloud.net.cn/collocation/pages.html#customnav)
+
+
+#### 运行报错：uni-app编译器下载失败
+
+尝试通过管理员身份运行程序
+
+如果还是不行的话，查看日志：`【帮助】 => 查看运行日志`
