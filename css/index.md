@@ -448,3 +448,41 @@ white-space 属性：
 4. revert（恢复）：回归至浏览器样式
 
    尊重浏览器的默认样式，恢复为浏览器默认样式表定义的值
+
+### 设置父元素透明
+
+```css
+.parent {
+  background-color: transparent;
+}
+```
+
+### 去除 button 边框
+
+```css
+.btn {
+  padding: 0;
+  border: 0;
+  &::after {
+    outline: none;
+    border: none;
+  }
+}
+```
+
+### 去掉`input[type=number]`的步进器
+
+```css
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+```
+
+### input 设置`flex: 1`失败
+
+input 默认有`min-width`，大约在`100px`左右

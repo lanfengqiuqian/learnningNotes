@@ -49,12 +49,11 @@ await downloadFileToDir(
 );
 ```
 
-### mac安装nvm
+### mac 安装 nvm
 
 > brew install nvm
 
-
-### npm安装cnpm和yarn
+### npm 安装 cnpm 和 yarn
 
 > npm install -g cnpm --registry=https://registry.npm.taobao.org  
 > npm install --global yarn
@@ -144,10 +143,10 @@ await downloadFileToDir(
 
    解决方案：使用管理员身份重新打开一个终端再执行命令即可即可
 
-6. 设置默认node版本
+6. 设置默认 node 版本
 
-  > nvm alias default 16  
-  > nvm alias default v16.18.0
+> nvm alias default 16  
+> nvm alias default v16.18.0
 
 ### Node Sass does not yet support your current environment: Windows 64-bit with
 
@@ -172,7 +171,7 @@ node 版本支持的 node-sass 版本如下
 | Node 8  | 4.5.3+, <5.0                | 57          |
 | Node <8 | <5.0                        | <57         |
 
-推荐使用nvm进行管理[https://blog.csdn.net/qq_40833182/article/details/120186970?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&utm_relevant_index=2](https://blog.csdn.net/qq_40833182/article/details/120186970?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&utm_relevant_index=2)
+推荐使用 nvm 进行管理[https://blog.csdn.net/qq_40833182/article/details/120186970?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&utm_relevant_index=2](https://blog.csdn.net/qq_40833182/article/details/120186970?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-120186970-blog-121540363.pc_relevant_aa_2&utm_relevant_index=2)
 
 ### 全局安装模块和卸载
 
@@ -183,7 +182,7 @@ node 版本支持的 node-sass 版本如下
 
 ### 查看全局安装了什么依赖
 
-> npm list -g --depth 0  // 用这个就可以，只查看最外层  
+> npm list -g --depth 0 // 用这个就可以，只查看最外层  
 > npm list -g // 这个会递归
 
 ### 全局安装的模块默认位置
@@ -192,7 +191,7 @@ node 版本支持的 node-sass 版本如下
 
 > C:\Users\aiyong\node_modules
 
-### npm查看本地安装了什么源，以及设置其他源
+### npm 查看本地安装了什么源，以及设置其他源
 
 ```shell
 // 查看当前源
@@ -228,15 +227,13 @@ console.log("age", age);
 
 > process.cwd()
 
+### Install fail! Error: Unsupported URL Type "workspace:": workspace:\*
 
-### Install fail! Error: Unsupported URL Type "workspace:": workspace:*
+原因：检查 package.json 中的项目依赖版本是否出现[workspace:]。如果使用 npm i 来安装，它会出现 "不支持的 URL 类型 "workspace:": workspace:"。
 
-原因：检查package.json中的项目依赖版本是否出现[workspace:]。如果使用npm i来安装，它会出现 "不支持的URL类型 "workspace:": workspace:"。
+解决：使用 yarn 来安装，就 ok！
 
-解决：使用yarn来安装，就ok！
-
-
-### NPM依赖包中`~`、`^`、`*`的区别
+### NPM 依赖包中`~`、`^`、`*`的区别
 
 ```
 ~ 会匹配最近的小版本依赖包，比如~1.2.3会匹配所有1.2.x版本，但是不包括1.3.0
@@ -250,109 +247,106 @@ console.log("age", age);
 什么符号都不加的话，就是锁定版本
 ```
 
-使用yarn来管理依赖
+使用 yarn 来管理依赖
 
-yarn是一个与npm兼容的node包管理器。使用它安装npm包，会自动在项目目录中创建一个yarn.lock文件。该文件包含了当前项目中所安装的依赖包的版本信息。其他人在使用yarn安装项目的依赖包时就可以通过该文件创建一个完全相同的依赖环境。
+yarn 是一个与 npm 兼容的 node 包管理器。使用它安装 npm 包，会自动在项目目录中创建一个 yarn.lock 文件。该文件包含了当前项目中所安装的依赖包的版本信息。其他人在使用 yarn 安装项目的依赖包时就可以通过该文件创建一个完全相同的依赖环境。
 
-
-### .npmrc文件
+### .npmrc 文件
 
 1. 作用
 
-    可以理解为npm运行时配置文件，可以设置`package.json`中的依赖包的安装来源
+   可以理解为 npm 运行时配置文件，可以设置`package.json`中的依赖包的安装来源
 
 2. 优先级
 
-    电脑中有多个`.npmrc`文件，按照如下顺序读取
+   电脑中有多个`.npmrc`文件，按照如下顺序读取
 
-    1. 当前项目的配置文件`/project/.npmrc`
-    2. 用户配置文件`~/.npmrc`
-    3. 全局配置文件`/etc/npmrc`
-    4. npm内置配置文件
+   1. 当前项目的配置文件`/project/.npmrc`
+   2. 用户配置文件`~/.npmrc`
+   3. 全局配置文件`/etc/npmrc`
+   4. npm 内置配置文件
 
-    ```shell
-    # 获取.npmrc用户配置文件路径
-    npm config get userconfig
+   ```shell
+   # 获取.npmrc用户配置文件路径
+   npm config get userconfig
 
-    # 如果想恢复默认配置，只需要将用户配置文件~/.npmrc删除即可
-    ```
+   # 如果想恢复默认配置，只需要将用户配置文件~/.npmrc删除即可
+   ```
 
 3. 如何设置
-    ```
-    # 可以使用key=value来设置
-    registry=https://registry.npm.taobao.org
 
-    # 也可以指定特殊命名空间以@test开头的包去https://npm.xx.com下载，其他的去淘宝镜像下载
-    registry=https://registry.npm.taobao.org/
-    @test:registry = https://npm.xx.com
-    ```
+   ```
+   # 可以使用key=value来设置
+   registry=https://registry.npm.taobao.org
 
+   # 也可以指定特殊命名空间以@test开头的包去https://npm.xx.com下载，其他的去淘宝镜像下载
+   registry=https://registry.npm.taobao.org/
+   @test:registry = https://npm.xx.com
+   ```
 
-### npm前加@是什么意思
+### npm 前加@是什么意思
 
 比如`vue-cli`与`@vue/cli`的区别
 
 1. `@`前缀是什么意思
 
-  表示该软件包是范围包，类似相对路径
+表示该软件包是范围包，类似相对路径
 
-  ```js
-  import MyTitle from '@/comopnents/my-title'
-  ```
+```js
+import MyTitle from "@/comopnents/my-title";
+```
 
 2. 为什么要用叫命名空间（或者叫做范围）
 
-  不用的场景：假如你想发布一个包，叫做`my-title`，如果这个时候别人已经发布过了这个名字，那么你就必须改名，比如叫`mine-title`
+不用的场景：假如你想发布一个包，叫做`my-title`，如果这个时候别人已经发布过了这个名字，那么你就必须改名，比如叫`mine-title`
 
-  用的场景：假如你想发布一个包，叫做`my-title`，因为有了命名空间，实际你的名字叫做`@user/my-title`，别人即使也发布过了，但是因为是不同的命名空间，比如叫`@other/my-title`
+用的场景：假如你想发布一个包，叫做`my-title`，因为有了命名空间，实际你的名字叫做`@user/my-title`，别人即使也发布过了，但是因为是不同的命名空间，比如叫`@other/my-title`
 
 3. 命名空间的界定
 
-  我们在注`册npm帐户时`，`系统自动分配`给我们的。我们可以在这个匹配的命名空间内，发布我们自己的包。
+我们在注`册npm帐户时`，`系统自动分配`给我们的。我们可以在这个匹配的命名空间内，发布我们自己的包。
 
-  且在这个命名空间内创建发布的包不会与其他用户或组织创建的包同名的包，而不会发生冲突。
+且在这个命名空间内创建发布的包不会与其他用户或组织创建的包同名的包，而不会发生冲突。
 
-  当在package.json文件中作为从属项列出时，带作用域的程序包之前带有其作用域名称。命名空间名称是介于`@和斜线之间的所有内容`。
+当在 package.json 文件中作为从属项列出时，带作用域的程序包之前带有其作用域名称。命名空间名称是介于`@和斜线之间的所有内容`。
 
-  ```js
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-typescript": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^11.0.2",
-  ```
+```js
+  "@vue/cli-plugin-eslint": "~5.0.0",
+  "@vue/cli-plugin-router": "~5.0.0",
+  "@vue/cli-plugin-typescript": "~5.0.0",
+  "@vue/cli-service": "~5.0.0",
+  "@vue/eslint-config-prettier": "^6.0.0",
+  "@vue/eslint-config-typescript": "^11.0.2",
+```
 
 4. 命名格式
 
-  `@myorg/mypackage` 即： `@组织名/包名`
+`@myorg/mypackage` 即： `@组织名/包名`
 
-  `@yourname/mypackage` 即 `@你的名称/包名`
-
+`@yourname/mypackage` 即 `@你的名称/包名`
 
 ### 判断是生产环境还是开发环境
 
 ```js
 // production || development
-process.env.NODE_ENV
+process.env.NODE_ENV;
 ```
 
-### npm install命令不同参数
+### npm install 命令不同参数
 
 ```
 npm install moduleName # 安装模块到项目目录下
- 
+
 npm install -g moduleName # -g 的意思是将模块安装到全局，具体安装到磁盘哪个位置，要看 npm config prefix 的位置。
- 
+
 npm install -save moduleName # -save 的意思是将模块安装到项目目录下，并在package文件的dependencies节点写入依赖。
- 
+
 npm install -save-dev moduleName # -save-dev 的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖。
 ```
 
+### nvm 安装报错`Could not retrieve https://npm.taobao.org/mirrors/node/latest-v18.x/SHASUMS256.txt.`
 
-### nvm安装报错`Could not retrieve https://npm.taobao.org/mirrors/node/latest-v18.x/SHASUMS256.txt.`
-
-到nvm安装目录如`setting.txt`中修改
+到 nvm 安装目录如`setting.txt`中修改
 
 ```shell
 node_mirror: https://cdn.npmmirror.com/binaries/node/
@@ -365,9 +359,33 @@ npm_mirror: https://cdn.npmmirror.com/binaries/npm/
 
 > npm config set registry https://registry.npmmirror.com
 
-
-### 解决 npm或pnpm : 无法加载文件 C:\Users\hp\AppData\Roaming\npm\cnpm.ps1，因为在此系统上禁止运行脚本
+### 解决 npm 或 pnpm : 无法加载文件 C:\Users\hp\AppData\Roaming\npm\cnpm.ps1，因为在此系统上禁止运行脚本
 
 1. 输入命令：`set-ExecutionPolicy RemoteSigned` 然后回车
-2. 选择：输入A选择全是，或者输入Y选择是 都可以的
+2. 选择：输入 A 选择全是，或者输入 Y 选择是 都可以的
 3. 接着重新启动然后去运行就可以了
+
+### 使用 http 模块启动一个最简单的开发服务器
+
+```js
+const http = require("http");
+
+const hostname = "localhost";
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  console.log("req.url :>> ", req.url);
+  if (req.url === "/test") {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ message: "Proxy is working!" }));
+  } else {
+    res.statusCode = 404;
+    res.end("Not Found");
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+```

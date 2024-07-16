@@ -74,6 +74,18 @@ windows 可以直接用微软商店下载，挺快的
 2. `微信开发者工具中`的菜单栏：`工具 --> 构建 npm`
 3. 强烈提示：安装依赖的时候一定要用`npm`，不要用`cnpm yarn pnpm`之类的，否则很有可能出问题
 
+#### 省市区选择的源数据
+
+小程序使用默认的时候是不需要自己造数据的，内置了数据，但是比如自己的后台管理系统需要的话，那么就需要源数据了
+
+这个是`2023-7-14`的数据
+
+> https://img.bazhuay.com/1689320190143_615.json
+
+如何一直使用最新的可以参考
+
+> https://developers.weixin.qq.com/community/develop/article/doc/0002ca873b076037a33be090656413
+
 ### 遇到的一些问题
 
 #### `构建npm`时：`NPM package not found. Please confirm npm packages which need to build are belong to minigrogramRoot directory. Or you may edit project.config.json's packNpmManually and packNpmRelationList`
@@ -115,3 +127,11 @@ windows 可以直接用微软商店下载，挺快的
 对比：安卓手机正常，体验版正常，直接预览正常
 
 解决：使用`真机调试1.0`，不要使用默认的`真机调试2.0`
+
+更新：后来发现了解决方案，需要把`uniapp`的`manifest.json`中`微信小程序配置`的`es6转es5`和`上传代码自动压缩`打开就可以了
+
+#### 小程序 input 组件 type="nickname"获取微信昵称，v-model 绑定值为空
+
+微信小程序设计如此
+
+需要使用`@change`来手动设置

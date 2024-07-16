@@ -1116,3 +1116,31 @@ location / {
 2. 使用`v-show`替代`v-if`
 
 3. `v-if`的每一步都做非空判断，如`v-if="a.b.c"`改为`v-if="a && a.b && a.b.c"`
+
+### 在 router 中使用 pinia
+
+官方文档的说明[https://pinia.vuejs.org/zh/core-concepts/outside-component-usage.html](https://pinia.vuejs.org/zh/core-concepts/outside-component-usage.html)
+
+```js
+import { createRouter } from "vue-router";
+const router = createRouter({
+  // ...
+});
+
+// ❌ 由于引入顺序的问题，这将失败
+const store = useStore();
+
+router.beforeEach((to, from, next) => {
+  // 我们想要在这里使用 store
+  if (store.isLoggedIn) next();
+  else next("/login");
+});
+
+router.beforeEach((to) => {
+  // ✅ 这样做是可行的，因为路由器是在其被安装之后开始导航的，
+  // 而此时 Pinia 也已经被安装。
+  const store = useStore();
+
+  if (to.meta.requiresAuth && !store.isLoggedIn) return "/login";
+});
+```
