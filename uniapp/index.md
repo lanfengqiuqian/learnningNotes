@@ -88,6 +88,63 @@ onLoad(() => {
 2. 体验版，默认需要配置服务器域名，也可以打开【小程序右上角】-【开发调试】模式，这种情况下也不校验
 3. 正式版一定要配置
 
+#### 关于进入到`tabbar`页面触发的生命周期
+
+1. 点击底部的`tabbar`的时候，`onShow`和`onTabItemTap`都会触发
+2. 使用`uni.switchTab()`，只会触发`onShow`
+
+PS：`如果没有触发，尝试重新打开微信开发者工具或者重新编译`（我已经踩过这个坑了）
+
+#### 设置 button 为透明无边框
+
+因为小程序中一些功能，需要使用`button`来触发，但是显示内容却是图片或者 icon 之类的
+
+```html
+<!-- 小程序或者uniapp有一个属性plain 是设置为透明的，但是只是背景透明了 边框之类的还没 -->
+<button plain class="wrap-btn" type="default" open-type="contact">
+  <image src="/static/img/customer.png" mode=""></image>
+</button>
+
+<style>
+  .wrap-btn {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    border-color: transparent;
+
+    &::after {
+      border: none;
+    }
+  }
+
+  /* boder设置如果不生效的话，需要加上!important */
+  button[plain] {
+    border: none !important;
+    border-color: transparent;
+  }
+</style>
+```
+
+#### 如何配置 vite 或者 webpack
+
+官网 <https://zh.uniapp.dcloud.io/collocation/vite-config.html>
+
+创建的项目默认是没有`vite.config.js`文件的
+
+如果需要手动修改`vite`配置，直接在根目录新建`vite.config.js`，然后重新启动项目（如果没有生效的话，关闭 hbuildx 然后重新打开）
+
+注意：`必须引用 '@dcloudio/vite-plugin-uni' 并且添加到 plugins 中`
+
+```js
+import { defineConfig } from "vite";
+import uni from "@dcloudio/vite-plugin-uni";
+
+export default defineConfig({
+  plugins: [uni()],
+});
+```
+
 ### 问题
 
 ####
@@ -179,3 +236,61 @@ slot 需要使用内容进行占位，要不然无法点击到组件的话无法
 尝试通过管理员身份运行程序
 
 如果还是不行的话，查看日志：`【帮助】 => 查看运行日志`
+
+#### 使用`uni.navigateTo`跳转`TabBar`报错`navigateTo:fail can not navigateTo a tabbar page`
+
+要跳转的话需要使用`navigator`组件，而且需要设置属性`open-type="switchTab"`
+
+或者使用`uni.switchTab`api 也可以
+
+PS：如果不设置的话无论使用组件跳转还是函数跳转都无效
+
+PS：跳转到`tabbar`页面的话无法传递参数，只能使用页面通信的方式，如`setStorage`
+
+#### rich-text 超出显示横向滚动条了
+
+```css
+width: 100%;
+overflow-wrap: break-word;
+```
+
+#### type=tel 无效
+
+官方文档
+
+> https://zh.uniapp.dcloud.io/component/input.html#type
+
+但是实际没有用，最后使用`type=number`+`maxLength=11`替换的
+
+如果一定要用`tel`的话，考虑下面两种思路
+
+```js
+this.$refs.input.forEach((input) => {
+  if (input.$attrs.ntype === "tel") {
+    input.$el.getElementsByTagName("input")[0].type = "tel";
+  }
+});
+```
+
+```js
+typeChange(){
+  var controls = document.getElementsByTagName('input');
+    for(var i=0; i<controls.length; i++){
+      if(controls[i].type=='number'){
+      controls[i].type='tel';
+    }
+  }
+}
+```
+
+#### 在 scroll-view 中的 fixed 元素会被遮挡一部分
+
+参见这个帖子
+
+> https://developers.weixin.qq.com/community/develop/doc/000e8032ef872854cacb097285b800
+
+解决方案：不要把`fixed`放到`scroll-view`中即可
+
+#### 切换页面的时候 onShow 方法有时候不触发
+
+微信开发者工具有时候确实不触发，尝试使用`真机调试`

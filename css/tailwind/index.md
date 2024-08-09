@@ -154,3 +154,35 @@ export default {
 ### 负值
 
 写在类名最前面，如`-m-8`表示`margin: -8rem`
+
+### 任意
+
+1. 使用任意 style
+
+```css
+class="[--scroll-offset:56px]"
+```
+
+2. 使用任意属性值
+
+```css
+class="text-[22px] lg:top-[34px]"
+```
+
+3. 有空格的情况：`使用下划线替换`
+
+```css
+class="grid grid-cols-[1fr_500px_2fr]"
+```
+
+4. 有下划线的情况：直接使用即可
+
+```css
+class="bg-[url('/what_a_rush.png')]"
+```
+
+5. 下划线和空格都有：`使用反斜杠显式转义`
+
+```css
+class="before:content-['hello\_world']"
+```

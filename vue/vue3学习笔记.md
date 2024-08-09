@@ -1144,3 +1144,42 @@ router.beforeEach((to) => {
   if (to.meta.requiresAuth && !store.isLoggedIn) return "/login";
 });
 ```
+
+### 在子组件上绑定原生事件
+
+需求：点击`Card`组件的时候，执行`handle`方法
+
+```html
+<!-- 父组件 -->
+<Card @click="handle" />
+
+<!-- 子组件 -->
+<template>
+  <div class="container">
+    <div class="title"></div>
+    <div class="content"></div>
+  </div>
+</template>
+```
+
+在 vue2 中使用`@click.native`区分自定义事件和原生事件
+
+```html
+<!-- 父组件 -->
+<Card @click.native="handle" />
+```
+
+在`vue3`中移除了`.native`，根据没有在`defineEmits`中定义的事件为原生事件
+
+```html
+<!-- 父组件 -->
+<Card @click="handle" />
+
+<!-- 子组件 -->
+<template>
+  <div class="container" @click="$emit('click')">
+    <div class="title"></div>
+    <div class="content"></div>
+  </div>
+</template>
+```

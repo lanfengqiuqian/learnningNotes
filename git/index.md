@@ -464,3 +464,69 @@ git 中表现：`git add .`没有任何内容，`git status`也没有改变
     ```
 
     再次尝试应该就可以了
+
+57. 执行`git commit`命令之后，校验失败，导致代码丢失了
+
+日志如下
+
+```shell
+PS D:\code\tuyeqiu> git commit -m "7.22 update"
+
+> arco-design-pro-vue@1.0.0 lint-staged
+> npx lint-staged
+
+✔ Preparing lint-staged...
+⚠ Running tasks for staged files...
+❯ package.json — 44 files
+❯ *.{js,ts,jsx,tsx} — 24 files
+✔ prettier --write
+✖ eslint --fix [FAILED]
+❯ *.vue — 17 files
+✔ prettier --write
+✖ eslint --fix [KILLED]
+✔ *.{less,css} — 1 file
+↓ Skipped because of errors from tasks.
+✖ error: Your local changes to the following files would be overwritten by merge:
+src/auto-imports.d.ts
+Please commit your changes or stash them before you merge.
+Aborting
+Index was not unstashed.
+↓
+✖ lint-staged failed due to a git error.
+
+✖ lint-staged failed due to a git error.
+Any lost modifications can be restored from a git stash:
+
+> git stash list
+stash@{0}: automatic lint-staged backup
+> git stash apply --index stash@{0}
+
+
+✖ eslint --fix:
+
+D:\code\tuyeqiu\src\api\interceptor.ts
+5:10 warning 'getToken' is defined but never used @typescript-eslint/no-unused-vars
+
+D:\code\tuyeqiu\src\constant\city.js
+3:7 warning 'originData' is assigned a value but never used @typescript-eslint/no-unused-vars
+
+D:\code\tuyeqiu\src\store\modules\user\index.ts
+76:9 warning Unexpected console statement no-console
+
+D:\code\tuyeqiu\src\utils\tools.js
+9:10 warning Unexpected unnamed function func-names
+14:22 error Use the rest parameters instead of 'arguments' prefer-rest-params
+54:43 error Unary operator '++' used no-plusplus
+63:43 error Unary operator '++' used no-plusplus
+65:45 error Unary operator '++' used no-plusplus
+92:41 warning Unexpected console statement no-console
+
+✖ 9 problems (4 errors, 5 warnings)
+
+
+✖ eslint --fix failed without output (KILLED).
+```
+
+从日志中可以看到`Please commit your changes or stash them before you merge.`
+
+代码没有恢复，但是在`stash`中存着，不要担心

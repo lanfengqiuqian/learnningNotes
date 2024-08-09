@@ -189,3 +189,47 @@ Progress: resolved 1169, reused 1124, downloaded 2, added 380
    更换了一个腾讯镜像源
 
    > registry=http://mirrors.cloud.tencent.com/npm/
+
+### 配置不需要子菜单的一级菜单
+
+参见最后一个回复
+
+> https://github.com/arco-design/arco-design-vue/issues/965
+
+1. 外层菜单增加配置`hideChildrenInMenu: true`，隐藏子菜单
+2. 外层菜单增加配置`redirect: '/dashboard/workplace'`， 点击后跳转到目标子菜单
+3. `children` 目标子菜单中增加配置 `activeMenu: 'dashboard'`, 更改选中后的一级菜单选中状态
+
+```ts
+import { DEFAULT_LAYOUT } from "../base";
+import { AppRouteRecordRaw } from "../types";
+
+const DASHBOARD: AppRouteRecordRaw = {
+  path: "/dashboard",
+  name: "dashboard",
+  component: DEFAULT_LAYOUT,
+  redirect: "/dashboard/workplace",
+  meta: {
+    locale: "工作台",
+    requiresAuth: false,
+    icon: "icon-dashboard",
+    order: 0,
+    hideChildrenInMenu: true,
+  },
+  children: [
+    {
+      path: "workplace",
+      name: "workplace",
+      component: () => import("@/views/workplace/index.vue"),
+      meta: {
+        locale: "工作台",
+        activeMenu: "dashboard",
+        requiresAuth: true,
+        roles: ["*"],
+      },
+    },
+  ],
+};
+
+export default DASHBOARD;
+```

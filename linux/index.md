@@ -410,3 +410,29 @@
 20. 项目部署问题：nginx 刷新显示 404、xftp 无法连接服务器、Nginx403 Forbidden 解决、nginx 反向代理解决前端跨域问题
 
 > https://www.cnblogs.com/goloving/p/8995603.html
+
+21. 安装宝塔
+
+```shell
+// 执行命令
+yum install -y wget && wget -O install.sh https://download.bt.cn/install/install_6.0.sh && sh install.sh ed8484bec
+
+// 有一个确认步骤，输入【y即可】，等待几分钟
+
+// 完成之后会有提示
+========================面板账户登录信息==========================
+
+ 【云服务器】请在安全组放行 33466 端口
+ 外网面板地址: https://xxxx:33466/90e71d1c
+ 内网面板地址: https://xxxx:33466/90e71d1c
+ username: xxx
+ password: xxx
+
+ 浏览器访问以下链接，添加宝塔客服
+ https://www.bt.cn/new/wechat_customer
+==================================================================
+```
+
+注意：`【云服务器】请在安全组放行 33466 端口`
+
+详细可见[https://www.bt.cn/bbs/thread-114414-1-1.html](https://www.bt.cn/bbs/thread-114414-1-1.html)
