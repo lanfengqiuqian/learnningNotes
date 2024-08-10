@@ -110,6 +110,69 @@ docker 是一个开源平台，支持开发人员`构建、部署、运行、更
 
    > docker -v
 
+### mac 安装 homebrew
+
+官网
+
+> https://brew.sh/zh-cn/
+
+如果进不去的话，把代理关了，这个网站不需要翻墙也能够进去的
+
+终端执行命令
+
+> /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+这里需要终端能够翻墙才能够执行成功
+
+如果不能翻墙的话，可以使用国内的镜像源，参见下面的博客
+
+> https://blog.csdn.net/iteapoy/article/details/134701525
+
+安装完之后使用`brew -v`提示命令找不到
+
+```shell
+# 打开配置文件
+vim ~/.bash_profile
+# 最后一行增加如下，把homebrew增加到环境变量中
+export PATH="/opt/homebrew/bin:$PATH"
+# 保存退出
+:wq
+# 使改动生效
+source ~/.bash_profile
+```
+
+原因可以查看<https://blog.csdn.net/lyz21/article/details/114683483>
+
+### 终端配置代理（以 clashx 为例）
+
+测试是否有了代理
+
+```shell
+curl -I https://www.google.com
+# HTTP/1.1 200 Connection established 成功
+```
+
+临时代理，关闭了终端就会失效
+
+> export https_proxy=http://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export all_proxy=socks5://127.0.0.1:7890
+
+常驻代理
+
+```shell
+# 1. 查看终端shell脚本，macos一般是zsh
+echo $0
+
+# 2. 根据输出提示编辑对应文件，将上面临时代理中的命令粘贴进来，保存文件。
+# bash
+vi ~/.bashrc
+# zsh
+vi ~/.zshrc
+# 保存并退出
+:wq
+
+# 3. 重启终端，测试连接 Google，提示 200 表示代理成功。
+```
+
 ### mac 安装 docker
 
 1. 如果没有安装 homebrew 要先安装

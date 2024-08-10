@@ -51,6 +51,8 @@ await downloadFileToDir(
 
 ### mac 安装 nvm
 
+<https://juejin.cn/post/7083026831263137800>
+
 > brew install nvm
 
 ### npm 安装 cnpm 和 yarn
