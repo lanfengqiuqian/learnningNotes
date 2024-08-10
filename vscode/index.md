@@ -169,6 +169,8 @@ It is not the most correct option but it works.
 
     功能：同步配置（现在这个内置了，而且插件的那个非常占用 cpu，不推荐）
 
+    如何同步：直接 vscode 登录账号，就可以同步了
+
 21. DotENV
 
     功能：env 文件高亮
