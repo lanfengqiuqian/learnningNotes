@@ -530,3 +530,29 @@ D:\code\tuyeqiu\src\utils\tools.js
 从日志中可以看到`Please commit your changes or stash them before you merge.`
 
 代码没有恢复，但是在`stash`中存着，不要担心
+
+58. git 绑定多个远程仓库
+
+    1. 使用`git remote set-url`，不推荐
+
+    2. 使用`git remote add`命令
+
+       添加远程仓库，使用`origin-gitlab`作为新仓库别名，和之前的`origin区别开`
+
+       > git remote add origin-gitlab git@gitlab:OTT/GxLive_APK.git
+
+       查看配置的远程仓库，会发现有 4 个输出结果（2 个 fetch，2 个 push）
+
+       > git remote -v
+
+       查看当前分支有关联的远程分支
+
+       > git branch -vv
+       >
+       > - dev 27437bf [origin/dev] <Apk> Release v1.3.20.
+
+       这个时候直接调用`git pull`会拉取`origin/dev`分支的代码
+
+       可以执行如下命令修改本地`dev`分支追踪的远程分支
+
+       > git branch --set-upstream dev origin-gitlab/dev

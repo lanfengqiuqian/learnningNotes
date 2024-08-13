@@ -145,6 +145,20 @@ export default defineConfig({
 });
 ```
 
+#### 想要在 onShow 中获取到参数
+
+```js
+onShow(() => {
+  let pageArr = getCurrentPages(); //获取应用页面栈
+  let currentPage = pageArr[pageArr.length - 1]; //获取当前页面信息
+  console.log("onshow----option:", currentPage.options); //获取页面传递的信息
+});
+```
+
+#### 使用其他字体
+
+<https://blog.csdn.net/weixin_45803990/article/details/118754518>
+
 ### 问题
 
 ####
