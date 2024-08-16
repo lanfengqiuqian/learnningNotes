@@ -436,3 +436,9 @@ yum install -y wget && wget -O install.sh https://download.bt.cn/install/install
 注意：`【云服务器】请在安全组放行 33466 端口`
 
 详细可见[https://www.bt.cn/bbs/thread-114414-1-1.html](https://www.bt.cn/bbs/thread-114414-1-1.html)
+
+22. 域名和 ssl 证书
+
+1. 域名是网站的标识符，是用户访问网站的入口
+1. ssl 证书是保证网站安全的手段，是一种数字证书，用于加密网站和用户之间的通信，确保用户信息和网站内容在传输过程中不被窃取、篡改或伪造
+1. 一个域名可以申请多个 ssl 证书，一个 ssl 证书也可以包含多个域名

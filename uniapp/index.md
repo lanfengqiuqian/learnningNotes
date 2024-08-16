@@ -161,7 +161,9 @@ onShow(() => {
 
 ### 问题
 
-####
+#### 微信小程序开发者工具 [error] Error: Fail to open IDE
+
+一般是
 
 #### onTabItemTap 钩子函数在真机上不触发，在微信开发者工具正常触发
 
@@ -308,3 +310,24 @@ typeChange(){
 #### 切换页面的时候 onShow 方法有时候不触发
 
 微信开发者工具有时候确实不触发，尝试使用`真机调试`
+
+#### 接口请求本地模拟器可以调通，但是真机调试和体验版都不行
+
+1. 如果是使用的服务器 ip 的形式的话，本地和真机调试要打开`不校验合法域名`，体验版要打开`开发调试`功能
+2. 如果是使用的域名的话
+   1. 需要在`开发者后台`配置`request合法域名`
+   2. 域名必须要`A级`的`https`域名
+
+检测域名是否是 A 级：<https://myssl.com/>
+
+具体可以查看<https://blog.csdn.net/qq_38377190/article/details/131410439>
+
+我这边遇到的问题是，配置服务器的人把`1个ssl证书应用到了2个域名`，导致解析出问题
+
+#### 小程序真机调试调用本地后端接口失败
+
+苹果手机微信本地网络隐私权限没开，隐私-本地网络-微信
+
+可查看<https://developers.weixin.qq.com/community/develop/doc/0002e656d80df8574e9d884325c800>
+
+#### MiniProgramError {"errMsg": "hideLoading: fail: toast can't be found"}
