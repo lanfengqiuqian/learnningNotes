@@ -331,3 +331,5 @@ typeChange(){
 可查看<https://developers.weixin.qq.com/community/develop/doc/0002e656d80df8574e9d884325c800>
 
 #### MiniProgramError {"errMsg": "hideLoading: fail: toast can't be found"}
+
+<https://developers.weixin.qq.com/community/develop/doc/0008e440e6cb58d4050a4b7e451c00?_at=1619083932616>

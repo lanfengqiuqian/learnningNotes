@@ -422,14 +422,14 @@ yum install -y wget && wget -O install.sh https://download.bt.cn/install/install
 // 完成之后会有提示
 ========================面板账户登录信息==========================
 
- 【云服务器】请在安全组放行 33466 端口
- 外网面板地址: https://xxxx:33466/90e71d1c
- 内网面板地址: https://xxxx:33466/90e71d1c
- username: xxx
- password: xxx
+【云服务器】请在安全组放行 33466 端口
+外网面板地址: https://xxxx:33466/90e71d1c
+内网面板地址: https://xxxx:33466/90e71d1c
+username: xxx
+password: xxx
 
- 浏览器访问以下链接，添加宝塔客服
- https://www.bt.cn/new/wechat_customer
+浏览器访问以下链接，添加宝塔客服
+https://www.bt.cn/new/wechat_customer
 ==================================================================
 ```
 
@@ -439,6 +439,86 @@ yum install -y wget && wget -O install.sh https://download.bt.cn/install/install
 
 22. 域名和 ssl 证书
 
-1. 域名是网站的标识符，是用户访问网站的入口
-1. ssl 证书是保证网站安全的手段，是一种数字证书，用于加密网站和用户之间的通信，确保用户信息和网站内容在传输过程中不被窃取、篡改或伪造
-1. 一个域名可以申请多个 ssl 证书，一个 ssl 证书也可以包含多个域名
+    1. 域名是网站的标识符，是用户访问网站的入口
+    2. ssl 证书是保证网站安全的手段，是一种数字证书，用于加密网站和用户之间的通信，确保用户信息和网站内容在传输过程中不被窃取、篡改或伪造
+    3. 一个域名可以申请多个 ssl 证书，一个 ssl 证书也可以包含多个域名
+
+23. 域名层级：顶级域名、一级域名、二级域名和三级域名区别
+
+    1.  顶级域名（TLD）
+
+        是互联网上最高级别的域名，通常代表一个国家或者一个特定的组织。如`.com`代表商业公司，`.net`代表网络组织，`.org`达标非盈利组织，`.cn`代表中国等。
+
+        这些顶级域名由互联网名称和编号分配机构给负责管理和分配
+
+    2.  一级域名
+
+        如`www.example.com`中，`example.com`就是一级域名，`www`就是二级域名。
+
+        在一级域名中，通常包含了顶级域名的信息，同事也反映出网站的性质或者组织类型。
+
+    3.  二级域名
+
+        是依附于一级域名的子域名，他通常用来表示网站的具体页面或者服务
+
+        例如`www`表示网站的主页，`mail`表示邮件服务器，`ftp`表示 ftp 服务器等
+
+24. 宝塔设置 A 站点 SSL,同服务器下其他未设 SSL 站点访问 HTTPS 默认会打开 A 站点
+
+    问题：宝塔创建`aaa.com`站点使用了 `https`，其它站点(例如`bbb.com`)使用的是 `http`，而未配置或开启 `https` 协议，但是你使用`https://bbb.com`访问网站的时候，神奇的事情就发生了，网站内容显示的是`https://aaa.com`的内容。明明`bbb.com`没有开启 `https` 却可以访问，而且内容还是`aaa.com`网站的内容
+
+    <https://blog.csdn.net/changshaoke/article/details/120965947>
+
+25. nginx 正向代理和反向代理
+
+    1.  什么是正向代理
+
+        1. 就是我们常说的代理
+        2. 隐藏了真实的客户端，服务端不知道真正的客户端是谁
+        3. 客户端请求的服务都被代理服务器代替来请求
+
+    2.  正向代理的用途
+
+        1.  可以翻墙访问国外网站
+        2.  可以做缓存，加速访问资源
+        3.  可以记录用户访问记录，对外隐藏用户信息
+
+    3.  什么是反向代理
+
+        1.  隐藏了真实的服务端，客户端不知道访问的真是服务器
+        2.  反向代理服务器会将请求代理到真实的服务器上去
+
+    4.  反向代理的用途
+
+        1. 保证内网的安全，阻止 web 攻击，大型网站通常会将反向代理作为公网访问地址，真正的 web 服务器是内网
+        2. 负载均衡，通过反向代理服务器来优化网站的负载
+        3. 解决前端跨域问题
+
+    5.  nginx 配置方式
+
+        正向代理：一般是在客户端配置，nginx 配置的场景不多
+
+        反向代理
+
+        ```
+        upstream backend{
+           server 172.16.0.10:8080;
+           server 172.16.0.20:8080;
+           server 172.16.0.30:8080;
+        }
+
+        server {
+           resolver 8.8.8.8;
+           resolver 114.114.114.114;
+           listen 8080;
+           access_log /home/lin/proxy.access.log;
+           error_log /home/lin/proxy.error.log;
+           location / {
+              proxy_pass http://backend;
+              proxy_set_header Host $http_host;
+              proxy_ssl_session_reuse off;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;#记录客户端地址，多级代理服务期地址
+              proxy_hide_header X-Forwarded-For;#不记录客户端地址
+           }
+        }
+        ```
