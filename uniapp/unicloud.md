@@ -6,7 +6,9 @@
 
 ## 知识点
 
-### 云对象 url 化之后，如何判断是 uniapp 中通过对象实例调用，还是使用 http 请求进行调用的
+### 云对象
+
+#### 云对象 url 化之后，如何判断是 uniapp 中通过对象实例调用，还是使用 http 请求进行调用的
 
 通过`this.getHttpInfo()`
 
@@ -40,6 +42,14 @@
    详细见<https://doc.dcloud.net.cn/uniCloud/cloud-obj.html#get-http-info>
 
 2. 如果是 uniapp 中通过对象实例调用，返回的是`undefined`
+
+### jql
+
+#### 简单查询和复杂查询
+
+简单查询的二元运算符，左右两侧不能都是字段，比如`price1 > price2`
+
+这种情况需要使用复杂查询
 
 ## 问题
 

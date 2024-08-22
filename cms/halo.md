@@ -115,3 +115,9 @@ location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|flv|mp4|ico)$ {
 ```
 
 注意`http://halo`是你的实际地址，比如我的是`http://localhost:8090`
+
+#### 部署了 halo 之后，导致其他之前可用的服务出问题了
+
+我这边的一种情况是`phpAdmin`访问不了了
+
+解决：打开全局的`nginx配置文件`，把`server`块调换顺序，原先是`888端口的phpAdmin在后面，80端口的halo在前面`，现在改为了`888端口的phpAdmin在前面，80端口的halo在后面`，然后`重启nginx`

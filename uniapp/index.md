@@ -40,6 +40,12 @@
 
 `一定要注意的是`：这里需要用`px`作为单位，因为 api 返沪的是`px`，如果用`rpx`去计算的话会有问题
 
+#### 简单写死顶部区域和底部区域
+
+1. 顶部（`188rpx`）：状态栏 + 胶囊
+
+2. 底部（`40rpx`）：操作条的安全区域
+
 #### button 中使用图片，修改 button 样式，达到仅展示图片
 
 ```css
@@ -158,6 +164,47 @@ onShow(() => {
 #### 使用其他字体
 
 <https://blog.csdn.net/weixin_45803990/article/details/118754518>
+
+#### 修改日历组件样式
+
+默认的`uni-calendar`组件的样式不好看，也没有属性支持修改样式
+
+直接在`/uni_modules/uni-calendar/components/uni-calendar/uni-calendar.vue`文件中修改
+
+我这里提供我简单修改了的样式
+
+#### 修改导航栏标题
+
+```js
+uni.setNavigationBarTitle({
+  title: "修改的标题",
+});
+```
+
+#### 设置页面高度 100%
+
+在`app.vue`文件中
+
+```css
+page {
+  height: 100%;
+}
+```
+
+然后对应的页面，如`index.vue`
+
+```html
+<template>
+  <view class="container"></view>
+</template>
+
+<style>
+  .container {
+    padding: 32rpx;
+    box-sizing: border-box;
+  }
+</style>
+```
 
 ### 问题
 
@@ -333,3 +380,7 @@ typeChange(){
 #### MiniProgramError {"errMsg": "hideLoading: fail: toast can't be found"}
 
 <https://developers.weixin.qq.com/community/develop/doc/0008e440e6cb58d4050a4b7e451c00?_at=1619083932616>
+
+#### 微信开发者工具使用原生导航栏字体没有加粗
+
+这个不用调整，是开发者工具显示问题，真机调试和体验版都是正常加粗的
