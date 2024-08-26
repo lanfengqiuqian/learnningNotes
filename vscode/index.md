@@ -930,7 +930,7 @@ code runner 插件
    1. prettier 报警告`Delete `␍`eslintprettier/prettier`
    2. 如果做了`pre-commit`的话会导致无法提交
 
-3. 解决 f 方案
+3. 解决方案
 
    1. 针对单个文件：vscode 编辑器右下角`选择行尾序列`，切换为`LF`
    2. 针对 vscode 编辑器：

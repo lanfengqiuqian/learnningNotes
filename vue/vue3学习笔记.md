@@ -1183,3 +1183,60 @@ router.beforeEach((to) => {
   </div>
 </template>
 ```
+
+### vue3 动态引入图片
+
+可以看<https://www.cnblogs.com/echohye/p/17135990.html>
+
+也可以看<https://cn.vitejs.dev/guide/assets.html>
+
+```html
+<img :src="image" v-for="image in urls" />
+```
+
+原因：如果资源在`assets`文件夹，打包后会把图片名加上`hash`值，直接通过`:src="image"`方式引入并不会在打包的时候解析，导致开发环境可以正常引入，但是打包后却不能正常显示
+
+解决方案
+
+1. 放到`public`目录下，使用绝对路径（`不适用动态情况`）
+
+   ```html
+   <!-- public/images/logo.png -->
+   <img src="/images/logo.png" />
+   ```
+
+2. 使用`import`导入（`适用于单个`）
+
+```js
+import homeIcon from '@/assets/images/home/home_icon.png'
+
+<img :src="homeIcon" />
+```
+
+3. `new URL() + import.meta.url` （`支持多个，推荐`）
+
+```js
+// 获取assets静态资源
+export const getAssetsFile = (url: string) => {
+  return new URL(`../assets/images/${url}`, import.meta.url).href;
+};
+```
+
+```js
+import {getAssetsFile} from '@/util/public-use'
+
+// 可以包含文件路径
+<img :src="getAssetsFile('/home/home_icon.png')" />
+```
+
+4. 背景图片引入方式
+
+```css
+.imgText {
+  background-image: url("../../assets/images/1462466500644.jpg");
+}
+```
+
+一定要使用`相对路径`，生产环境会自动加上`hash`
+
+使用`绝对路径`会导致开发正常，但是生产异常
