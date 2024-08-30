@@ -486,3 +486,140 @@ input[type="number"] {
 ### input 设置`flex: 1`失败
 
 input 默认有`min-width`，大约在`100px`左右
+
+### 设置文字渐变
+
+测试的时候，字数设置多一些，更明显
+
+1. 方案一
+
+```css
+/*实现文字颜色从红到黄的线性渐变效果*/
+.gradient-text {
+  background: linear-gradient(
+    to right,
+    #ff0000,
+    #ffff00
+  ); /*设置渐变的方向从左到右 颜色从ff0000到ffff00*/
+  -webkit-background-clip: text; /*将设置的背景颜色限制在文字中*/
+  -webkit-text-fill-color: transparent; /*给文字设置成透明*/
+}
+```
+
+2. `SVG`图像实现`text-fill-color`(兼容性不好，不推荐)
+
+```css
+/*利用SVG图像实现文字颜色从蓝到白的渐变效果*/
+.gradient-color {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><linearGradient id="Gradient"><stop offset="0%" stop-color="blue"/><stop offset="100%" stop-color="white"/></linearGradient><mask id="Mask"><text x="0" y="50%" dy=".35em">Gradients are awesome!</text></mask><rect x="0" y="0" width="100%" height="100%" fill="url(#Gradient)" mask="url(#Mask)"/></svg>');
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+```
+
+3. 方案三
+
+```css
+/*利用background-clip属性实现文字颜色从绿到白的渐变效果*/
+.gradient-color {
+  background-image: linear-gradient(to right, green, white);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+```
+
+### 文本垂直对齐方式
+
+```css
+/* 水平居中 */
+text-align: center;
+
+/* 垂直居中 */
+vertical-align: middle;
+/* 其他常用属性：top middle bottom */
+```
+
+详见<https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align>
+
+### 导航栏布局内容区域滚动条影响到了整个页面
+
+原先的布局
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beautiful Layout</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: "Arial", sans-serif;
+        background: #f4f4f4;
+      }
+      .layout {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .head {
+        height: 60px;
+        background: #333;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+      }
+      .container {
+        flex: 1;
+        display: flex;
+      }
+      .sider {
+        width: 200px;
+        background: #ddd;
+        height: fit-content;
+      }
+      .content {
+        flex: 1;
+        padding-left: 20px;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+      .page {
+        height: 1100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <div class="head">Header</div>
+      <div class="container">
+        <div class="sider">Sidebar</div>
+        <div class="content">
+          <div class="page">
+            <h1>Welcome to My Page</h1>
+            <p>This is a simple and beautiful layout.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+修改位置
+
+```css
+.container {
+  flex: 1;
+  display: flex;
+  /* 加这一行代码 */
+  overflow-y: auto;
+}
+```

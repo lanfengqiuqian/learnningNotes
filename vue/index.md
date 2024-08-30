@@ -834,159 +834,152 @@ export default defineConfig({
 
    ```
 
-### userRouter函数返回的是undefined
+### userRouter 函数返回的是 undefined
 
-原因：`useRouter`一定要放在`setup`方法内的顶层，否则作用域改变useRouter()执行返回的是undefined。
+原因：`useRouter`一定要放在`setup`方法内的顶层，否则作用域改变 useRouter()执行返回的是 undefined。
 
 解决方案：
 
-1. 在setup函数中使用（vue3）
+1. 在 setup 函数中使用（vue3）
 
-2. 如果非要在普通的ts或者js文件中使用router的话
+2. 如果非要在普通的 ts 或者 js 文件中使用 router 的话
 
-  导入router的定义的文件暴露出来的`router`对象
+导入 router 的定义的文件暴露出来的`router`对象
 
-  ```js
-  // 定义位置 src\router\index.ts
-  export const router = createRouter({});
+```js
+// 定义位置 src\router\index.ts
+export const router = createRouter({});
 
-  // 使用
-  import router from '@/router/index';
-  router.push({ name: 'login' });
-  ```
+// 使用
+import router from "@/router/index";
+router.push({ name: "login" });
+```
 
-
-### Vue项目使用Nprogress
+### Vue 项目使用 Nprogress
 
 > https://cloud.tencent.com/developer/article/2192271
 
-
 1. 安装
 
-  > yarn add nprogress
-  > 如果要带ts版本 yarn add @types/nprogress -D
+> yarn add nprogress
+> 如果要带 ts 版本 yarn add @types/nprogress -D
 
 2. 引入
 
-  在需要用的文件中文件中引入功能和样式，比如`route/index.ts`
+在需要用的文件中文件中引入功能和样式，比如`route/index.ts`
 
-  ```js
-  import NProgress from 'nprogress'
-  import 'nprogress/nprogress.css'
-  ```
+```js
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+```
 
 3. 修改配置（可选）
 
-  ```js
-  NProgress.configure({
-    easing: 'ease', // 动画方式
-    speed: 1000, // 递增进度条的速度
-    showSpinner: false, // 是否显示加载ico
-    trickleSpeed: 200, // 自动递增间隔
-    minimum: 0.3, // 更改启动时使用的最小百分比
-    parent: 'body', //指定进度条的父容器
-  })
-  ```
+```js
+NProgress.configure({
+  easing: "ease", // 动画方式
+  speed: 1000, // 递增进度条的速度
+  showSpinner: false, // 是否显示加载ico
+  trickleSpeed: 200, // 自动递增间隔
+  minimum: 0.3, // 更改启动时使用的最小百分比
+  parent: "body", //指定进度条的父容器
+});
+```
 
 4. 基础使用
 
-  ```js
-  // 开启进度条
-    NProgress.start();
-  // 关闭进度条
-    NProgress.done();
-  // 随机递增
-  NProgress.inc();
-  // 手动递增
-  NProgress.inc(0.2);
-  // 手动设置百分比
-  NProgress.set(0.4);
-  ```
+```js
+// 开启进度条
+NProgress.start();
+// 关闭进度条
+NProgress.done();
+// 随机递增
+NProgress.inc();
+// 手动递增
+NProgress.inc(0.2);
+// 手动设置百分比
+NProgress.set(0.4);
+```
 
+### 动态引入本地图片的几种方式
 
-  ### 动态引入本地图片的几种方式
+```html
+<template>
+  <img src="@/assets/images/logo.png" alt="方式1" />
+  <img src="../../../assets/images/logo.png" alt="方式2" />
+  <img :src="LogoImg1" alt="方式3" />
+  <img :src="LogoImg2" alt="方式4" />
+  <!-- <img :src="imgUrl1" alt="方式5">
+  <img :src="imgUrl2" alt="方式6"> -->
+  <!-- <LogoImg1 placeholder="方式7" />
+  <LogoImg2 placeholder="方式8" /> -->
+</template>
 
-  ```html
-  <template>
-    <img src="@/assets/images/logo.png" alt="方式1">
-    <img src="../../../assets/images/logo.png" alt="方式2">
-    <img :src="LogoImg1" alt="方式3">
-    <img :src="LogoImg2" alt="方式4">
-    <!-- <img :src="imgUrl1" alt="方式5">
-    <img :src="imgUrl2" alt="方式6"> -->
-    <!-- <LogoImg1 placeholder="方式7" />
-    <LogoImg2 placeholder="方式8" /> -->
-  </template>
-
-  <script setup lang="ts">
+<script setup lang="ts">
   import LogoImg1 from "@/assets/images/logo.png";
   import LogoImg2 from "../../../assets/images/logo.png";
 
-  const imgUrl1 = "@/assets/images/logo.png"
-  const imgUrl2 = "../../../assets/images/logo.png"
-  </script>
-  ```
+  const imgUrl1 = "@/assets/images/logo.png";
+  const imgUrl2 = "../../../assets/images/logo.png";
+</script>
+```
 
-  这里有8种方式，前面4种没有注释的方式可行，后面4种注释了方式不可行，最后2种代码会报错
+这里有 8 种方式，前面 4 种没有注释的方式可行，后面 4 种注释了方式不可行，最后 2 种代码会报错
 
 ### 右键菜单功能
 
 > https://juejin.cn/post/7250513276236267557
 
-1. 原生vue实现
+1. 原生 vue 实现
 
-  ```html
-  <template>
-    <div class="home">
-      <!-- 在需要右键菜单的元素，绑定contextmenu事件 -->
-      <div class="element" @contextmenu.prevent="openMenu($event, 'item1')">right click this element</div>
-        
-      <!-- 右键菜单部分 -->
-    <ul v-show="visible1"
-      :style="{ left: position.left + 'px', top: position.top + 'px', display: (visible1 ? 'block' : 'none') }"
-      class="contextmenu">
-      <div class="item">
-        复制Vue代码
-      </div>
-      <div class="item" @click="console.log('copy');">
-        复制SVG
-      </div>
-      <div class="item" @click="console.log('download1');">
-        下载SVG
-      </div>
-      <div class="item" @click="console.log('download2');">
-        下载PNG
-      </div>
-  </ul>
+```html
+<template>
+  <div class="home">
+    <!-- 在需要右键菜单的元素，绑定contextmenu事件 -->
+    <div class="element" @contextmenu.prevent="openMenu($event, 'item1')">
+      right click this element
     </div>
-  </template>
-  <script  lang="ts" setup>
-  import { ref, watch } from 'vue';
 
-  const visible1 = ref(false)
+    <!-- 右键菜单部分 -->
+    <ul
+      v-show="visible1"
+      :style="{ left: position.left + 'px', top: position.top + 'px', display: (visible1 ? 'block' : 'none') }"
+      class="contextmenu"
+    >
+      <div class="item">复制Vue代码</div>
+      <div class="item" @click="console.log('copy');">复制SVG</div>
+      <div class="item" @click="console.log('download1');">下载SVG</div>
+      <div class="item" @click="console.log('download2');">下载PNG</div>
+    </ul>
+  </div>
+</template>
+<script lang="ts" setup>
+  import { ref, watch } from "vue";
+
+  const visible1 = ref(false);
   const position = ref({
     top: 0,
-    left: 0
-  })
-  const rightClickItem = ref('')
-  const openMenu = (e:MouseEvent, item:any) => {
-    visible1.value = true
-    position.value.top = e.pageY
-    position.value.left = e.pageX
-    rightClickItem.value = item
-  }
+    left: 0,
+  });
+  const rightClickItem = ref("");
+  const openMenu = (e: MouseEvent, item: any) => {
+    visible1.value = true;
+    position.value.top = e.pageY;
+    position.value.left = e.pageX;
+    rightClickItem.value = item;
+  };
   const closeMenu = () => {
-    visible1.value = false
-  }
+    visible1.value = false;
+  };
   watch(visible1, () => {
     if (visible1.value) {
-      document.body.addEventListener('click', closeMenu)
+      document.body.addEventListener("click", closeMenu);
     } else {
-      document.body.removeEventListener('click', closeMenu)
+      document.body.removeEventListener("click", closeMenu);
     }
-  })
-  </script>
-  <style scoped lang="less">
+  });
+</script>
+<style scoped lang="less">
   .element {
     width: 100px;
     height: 100px;
@@ -1013,16 +1006,38 @@ export default defineConfig({
       line-height: 35px;
       color: rgb(29, 33, 41);
       cursor: pointer;
-
     }
     .item:hover {
       background: rgb(229, 230, 235);
     }
   }
-  </style>
+</style>
+```
 
-  ```
-
-2. npm包推荐
+2. npm 包推荐
 
 > https://github.com/CyberNika/v-contextmenu
+
+### 去除默认的深浅色主题
+
+vue 框架默认加了跟随系统主题（深色和浅色）
+
+但是如果你的项目页面没有做适配的话，会很违和
+
+在`src\assets\base.css`中有如下代码，把他们注释掉即可
+
+```css
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}
+```

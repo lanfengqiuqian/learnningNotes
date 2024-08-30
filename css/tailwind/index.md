@@ -186,3 +186,27 @@ class="bg-[url('/what_a_rush.png')]"
 ```css
 class="before:content-['hello\_world']"
 ```
+
+### 设置import
+
+在类名前面加`!`即可
+
+```css
+clsss="!h-[330px]"
+```
+
+### 行夹，用于限定字体行数
+
+<https://tailwind.nodejs.cn/docs/line-clamp>
+
+
+```css
+/* line-clamp-1 */
+
+.text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+```

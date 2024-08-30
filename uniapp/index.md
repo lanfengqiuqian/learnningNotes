@@ -26,7 +26,7 @@
 2. 使用`placeholder-class`增加类名（`这个可以`）
 
    1. 只能使用`font-size、font-weight、color`这几个属性
-   2. 如果`style`中有`scoped`时，需要在类名前加上`/deep/`
+   2. 如果`style`中有`scoped`时，需要在类名前加上`/deep/`或者`::v-deep`
 
 3. 使用原生 css 方法修改（`这个我没生效`）
 
@@ -206,6 +206,138 @@ page {
 </style>
 ```
 
+#### 引用 less 全局变量
+
+1. 在`vite.config.js`文件中（`如果没有就根目录新建一个`）配置
+
+   ```js
+   import { defineConfig } from "vite";
+   import uni from "@dcloudio/vite-plugin-uni";
+
+   let path = require("path");
+   let stylePath = path.resolve(__dirname, "common/common.less"); // common/common.less是less的路径
+
+   export default defineConfig({
+     plugins: [uni()],
+     css: {
+       preprocessorOptions: {
+         less: {
+           javascriptEnabled: true,
+           additionalData: `@import "${stylePath}";`,
+         },
+       },
+     },
+   });
+   ```
+
+2. common.less
+
+   ```less
+   @color: #8675ff;
+   ```
+
+3. 项目文件使用
+
+   ```html
+   <style scoped lang="less">
+     .container {
+       color: @color;
+     }
+   ```
+
+注意不要把`@color`写成了`$color`，否则会报错`[plugin:vite:css] Recursive property reference for $color`
+
+我找了好久才找到这个问题。。。
+
+#### uni-list 组件设置圆角
+
+```css
+::v-deep .uni-list {
+  border-radius: 16rpx;
+}
+
+::v-deep .uni-list-item {
+  border-radius: 16rpx;
+}
+```
+
+#### input 组件跟随键盘一起弹出
+
+1. 如果是只有一个`input`组件，那么直接把`input`放到非视口区，就会自动跟随上来
+
+2. 如果是一个`复杂的组合元素`（如有头像+输入框+按钮）
+
+```html
+<button @click="test">show input</button>
+
+<view class="comments" :style="{bottom: keyboardHeight}" v-if="focus">
+  <image :src="info.avatar" mode=""></image>
+  <uni-easyinput
+    :adjust-position="false"
+    class="input"
+    :focus="focus"
+    @focus="focusHandle"
+    @blur="blurHandle"
+    @keyboardheightchange="onKeyboardHeightChange"
+    placeholder="写留言"
+  ></uni-easyinput>
+  <button class="btn" size="mini">发送</button>
+</view>
+```
+
+```js
+const initHeight = "0";
+const keyboardHeight = ref(initHeight);
+const focus = ref(false);
+
+const test = () => {
+  focus.value = true;
+};
+const focusHandle = (event) => {
+  // keyboardHeight.value = event.detail.height + 'px';
+};
+const blurHandle = () => {
+  keyboardHeight.value = initHeight;
+  focus.value = false;
+};
+
+const onKeyboardHeightChange = (event) => {
+  setTimeout(() => {
+    keyboardHeight.value = event.detail.height + "px";
+  }, 150);
+};
+```
+
+```less
+.comments {
+  position: fixed;
+  left: 32rpx;
+  right: 32rpx;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  height: 100rpx;
+
+  image {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 30rpx;
+    margin-right: 20rpx;
+  }
+
+  .btn {
+    margin-left: 8rpx;
+    background: #8675ff;
+    color: #fff;
+    font-size: 28rpx;
+    padding: 16rpx 18px;
+    line-height: 36rpx;
+  }
+}
+```
+
+`关键点：`：需要设置`:adjust-position="false"`，否则会出现`键盘先把页面顶上去，然后input再掉下来的奇怪现象`
+
 ### 问题
 
 #### 微信小程序开发者工具 [error] Error: Fail to open IDE
@@ -384,3 +516,23 @@ typeChange(){
 #### 微信开发者工具使用原生导航栏字体没有加粗
 
 这个不用调整，是开发者工具显示问题，真机调试和体验版都是正常加粗的
+
+#### uni-pupop 组件底部有一部分透明
+
+使用`uni-pupop`组件的`background-color`属性，比如设置为`#fff`
+
+#### uni-popup 滚动穿透问题
+
+<https://uniapp.dcloud.net.cn/component/uniui/uni-popup.html#%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-app>
+
+#### text 组件中使用 image 不显示
+
+```html
+<text>
+  <image />
+</text>
+```
+
+如上这么使用`image`是无法展示出来的，检查`dom`的时候会一直在页面左上角，宽高为 0，无论怎么修改样式都不行
+
+官方 <https://uniapp.dcloud.net.cn/component/text.html#%E5%AD%90%E7%BB%84%E4%BB%B6> 说了，`text`组件只能嵌套`text`组件
