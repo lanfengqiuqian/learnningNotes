@@ -171,6 +171,16 @@ vi ~/.zshrc
 :wq
 
 # 3. 重启终端，测试连接 Google，提示 200 表示代理成功。
+
+
+# 判断终端是否走代理了
+curl cip.cc
+#IP	: 104.xxx.187.xxx
+#地址	: 美国  加利福尼亚州  洛杉矶
+#运营商	: it7.net
+#数据二	: 美国 | 洛杉矶
+#数据三	: 美国加利福尼亚洛杉矶
+#URL	: http://www.cip.cc/104.xxx.187.xxx
 ```
 
 ### mac 安装 docker

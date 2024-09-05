@@ -939,3 +939,9 @@ code runner 插件
 > <div id="tpaWorker_43">([\s\S]*?)</div>
 
 有时候这样也匹配不到，需要在最后的 div 标签之后增加一个回车进行搜索
+
+### 终端中使用命令行打开文件或目录
+
+1. 使用`shift + command + p`打开命令面板
+2. 搜索`install code command in PATH`，并执行
+3. 然后终端输入`code 文件名`打开文件，输入`code .`打开目录
