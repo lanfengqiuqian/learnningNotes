@@ -86,6 +86,24 @@ windows 可以直接用微软商店下载，挺快的
 
 > https://developers.weixin.qq.com/community/develop/article/doc/0002ca873b076037a33be090656413
 
+#### style 中使用 background-image 不支持使用本地图片
+
+会报错：`[渲染层网络层错误] pages/index/index.wxss 中的本地资源图片无法通过 WXSS 获取，可以使用网络图片，或者 base64，或者使用<image/>标签`
+
+1. 使用`image`组件，在布局下面盖一层图片，缺点（布局结构可读性不高）
+2. 将图片转为`base64`，缺点
+
+| 方式                                  | 缺点                                                 |
+| ------------------------------------- | ---------------------------------------------------- |
+| 使用 image 组件，在布局下面盖一层图片 | 布局结构可读性不高                                   |
+| 使用 base64                           | 内容太长，影响阅读                                   |
+| 使用行内样式，最简单                  | 代码不够优雅，（后来验证模拟器可以，但是真机不可以） |
+| 使用网络图片，最推荐                  | 需要放到服务器上                                     |
+
+`注意`：`使用网络图片`，需要图片链接是查看形式，而不是下载形式
+
+比如宝塔文件`分享`功能的链接浏览器点开是`下载`，而不是查看，需要放到部署的站点上，通过站点+路径访问的图片才是查看的
+
 ### 遇到的一些问题
 
 #### `构建npm`时：`NPM package not found. Please confirm npm packages which need to build are belong to minigrogramRoot directory. Or you may edit project.config.json's packNpmManually and packNpmRelationList`

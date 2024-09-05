@@ -69,15 +69,43 @@ It is not the most correct option but it works.
 
 ### 好用的 vscode 插件整理
 
-1. Auto Close Tag
+直接查看我最新的博客<https://lanfengqiuqian.blog.csdn.net/article/details/141421595>
+
+1. ~~Auto Close Tag（已经内置）~~
 
    功能：自动闭合标签
 
-2. Bracket Pair Colorizer
+   设置搜索：`auto closing tags`
+
+2. ~~Bracket Pair Colorizer 和 Bracket Pair Colorizer 2(vscode 内置了)~~
 
    功能：代码括号匹配高亮，彩虹颜色匹配
 
    缺点：代码多了容易导致很卡（后来我卸载了。。。），现在发现已经集成到 vscode 中了
+
+   设置搜索：`Bracket Pair Colorization`
+
+   `one dark pro`默认只有 3 种括号颜色，我这里修改了一下自用
+
+   ```json
+    "workbench.colorCustomizations": {
+        "[One Dark Pro]": {
+            "editorBracketHighlight.foreground1": "#FFD580",
+            "editorBracketPairGuide.activeBackground1": "#FFD58040",
+            "editorBracketHighlight.foreground2": "#C581D6",
+            "editorBracketPairGuide.activeBackground2": "#C581D640",
+            "editorBracketHighlight.foreground3": "#87CEFA",
+            "editorBracketPairGuide.activeBackground3": "#87CEFA40",
+            "editorBracketHighlight.foreground4": "#98FB98",
+            "editorBracketPairGuide.activeBackground4": "#98FB9840",
+            "editorBracketHighlight.foreground5": "#F0E68C",
+            "editorBracketPairGuide.activeBackground5": "#F0E680B2",
+            "editorBracketHighlight.foreground6": "#B0C4DE",
+            "editorBracketPairGuide.activeBackground6": "#B0C4DE40",
+            "editorBracketHighlight.unexpectedBracket.foreground": "#FF6347"
+        }
+    }
+   ```
 
 3. Beautify
 
@@ -103,9 +131,11 @@ It is not the most correct option but it works.
 
    功能：高亮匹配标签
 
-8. indent-rainbow
+8. ~~indent-rainbow (已经内置)~~
 
    功能：代码缩进高亮彩虹色
+
+   设置搜索：`Bracket pairs`
 
 9. koroFileHeader
 
@@ -125,7 +155,7 @@ It is not the most correct option but it works.
 
     功能：html 文件在浏览器打开
 
-13. Path Intellisense
+13. ~~Path Intellisense(vscode 内置)~~
 
     功能：路径自动感知
 
@@ -900,7 +930,7 @@ code runner 插件
    1. prettier 报警告`Delete `␍`eslintprettier/prettier`
    2. 如果做了`pre-commit`的话会导致无法提交
 
-3. 解决 f 方案
+3. 解决方案
 
    1. 针对单个文件：vscode 编辑器右下角`选择行尾序列`，切换为`LF`
    2. 针对 vscode 编辑器：
@@ -945,3 +975,15 @@ code runner 插件
 1. 使用`shift + command + p`打开命令面板
 2. 搜索`install code command in PATH`，并执行
 3. 然后终端输入`code 文件名`打开文件，输入`code .`打开目录
+
+### 保存格式化设置只针对修改的内容
+
+在进行多人协作的时候，如果代码格式化的方式不一样的话，经常会出现格式化了自己没有修改的部分
+
+`设置 => Format On Save Mode => 选择modificationsIfAvailable`
+
+### 为某个工作区进行单独的 vscode 设置
+
+创建`/.vscode/settings.json`文件，里面就是当前工作区的设置
+
+或者是设置中修改配置的时候顶部 tab 有`用户`和`工作区`分栏，选择`工作区即可`

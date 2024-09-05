@@ -233,3 +233,101 @@ const DASHBOARD: AppRouteRecordRaw = {
 
 export default DASHBOARD;
 ```
+
+### 路由菜单使用自定义的图标
+
+1. 在 iconbox 创建团队图标库
+
+<https://github.com/arco-design/arco-design-pro-vue/issues/350>
+
+2. 使用 iconfont 的话，推荐这个
+
+<https://arco.design/vue/component/icon#icon-font>
+
+3. 修改项目中读取路由的`icon`属性进行自定义渲染
+
+<https://github.com/arco-design/arco-design-pro-vue/issues/305>
+
+### 通过图标名称渲染图标
+
+arcodesign 中的图标一个图标是一个组件，如`<icon-down />`
+
+现在有一个需求，想要通过图标名称进行渲染，比如动态菜单栏图标
+
+系统中的实现可以参考`src\components\menu\index.vue:97行`
+
+```js
+_route.forEach((element) => {
+  // This is demo, modify nodes as needed
+  const icon = element?.meta?.icon
+    ? () => h(compile(`<${element?.meta?.icon}/>`))
+    : null;
+  const node =
+    element?.children && element?.children.length !== 0 ? (
+      <a-sub-menu
+        key={element?.name}
+        v-slots={{
+          icon,
+          title: () => h(compile(element?.meta?.locale || '')),
+        }}
+      >
+        {travel(element?.children)}
+      </a-sub-menu>
+    ) : (
+      <a-menu-item
+        key={element?.name}
+        v-slots={{ icon }}
+        onClick={() => goto(element)}
+      >
+        {element?.meta?.locale || ''}
+      </a-menu-item>
+    );
+  nodes.push(node as never);
+});
+```
+
+我这边使用的是另外一种实现方式
+
+1. 使用 `<component>` 标签：
+
+`<component :is="Component" />` 用于动态渲染 `VNode 对象`。Component 是一个返回组件的计算属性，因此可以使用 `<component>` 标签来渲染它。 2. v-if 判断：
+
+使用 `v-if="Component"` 来确保只有在 Component 存在时才进行渲染，避免渲染空内容。
+
+3. 计算属性的返回值：
+
+计算属性 Component 返回的是一个 `VNode 实例`，而不是模板中的字符串。VNode 需要通过 `<component :is="Component" />` 进行渲染。
+
+这种方法确保了 JSX 渲染的组件能够正确地显示在模板中。这样，传入不同的 name prop 就会渲染不同的图标组件。
+
+```html
+<!-- 定义组件 -->
+<template>
+  <span v-if="Component">
+    <component :is="Component" />
+  </span>
+</template>
+
+<script setup lang="tsx">
+  import { defineProps, computed } from "vue";
+
+  const props = defineProps<{ name: string }>();
+
+  const mapping = {
+    "icon-list": () => <icon-list />,
+    "icon-customer-service": () => <icon-customer-service />,
+    "icon-message": () => <icon-message />,
+    "icon-poweroff": () => <icon-poweroff />,
+    "icon-settings": () => <icon-settings />,
+    "icon-live-broadcast": () => <icon-live-broadcast />,
+    "icon-music": () => <icon-music />,
+  };
+
+  const Component = computed(() => {
+    return mapping[props.name] ? mapping[props.name]() : null;
+  });
+</script>
+
+<!-- 使用组件 -->
+<CustomerIcon name="icon-down" />
+```

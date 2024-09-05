@@ -26,7 +26,7 @@
 2. 使用`placeholder-class`增加类名（`这个可以`）
 
    1. 只能使用`font-size、font-weight、color`这几个属性
-   2. 如果`style`中有`scoped`时，需要在类名前加上`/deep/`
+   2. 如果`style`中有`scoped`时，需要在类名前加上`/deep/`或者`::v-deep`
 
 3. 使用原生 css 方法修改（`这个我没生效`）
 
@@ -39,6 +39,12 @@
 解决方案：根据[官方文档](https://uniapp.dcloud.net.cn/api/system/info.html#getsysteminfo)中的 api 获取各个地方的高度，然后进行调整
 
 `一定要注意的是`：这里需要用`px`作为单位，因为 api 返沪的是`px`，如果用`rpx`去计算的话会有问题
+
+#### 简单写死顶部区域和底部区域
+
+1. 顶部（`188rpx`）：状态栏 + 胶囊
+
+2. 底部（`40rpx`）：操作条的安全区域
 
 #### button 中使用图片，修改 button 样式，达到仅展示图片
 
@@ -145,9 +151,198 @@ export default defineConfig({
 });
 ```
 
+#### 想要在 onShow 中获取到参数
+
+```js
+onShow(() => {
+  let pageArr = getCurrentPages(); //获取应用页面栈
+  let currentPage = pageArr[pageArr.length - 1]; //获取当前页面信息
+  console.log("onshow----option:", currentPage.options); //获取页面传递的信息
+});
+```
+
+#### 使用其他字体
+
+<https://blog.csdn.net/weixin_45803990/article/details/118754518>
+
+#### 修改日历组件样式
+
+默认的`uni-calendar`组件的样式不好看，也没有属性支持修改样式
+
+直接在`/uni_modules/uni-calendar/components/uni-calendar/uni-calendar.vue`文件中修改
+
+我这里提供我简单修改了的样式
+
+#### 修改导航栏标题
+
+```js
+uni.setNavigationBarTitle({
+  title: "修改的标题",
+});
+```
+
+#### 设置页面高度 100%
+
+在`app.vue`文件中
+
+```css
+page {
+  height: 100%;
+}
+```
+
+然后对应的页面，如`index.vue`
+
+```html
+<template>
+  <view class="container"></view>
+</template>
+
+<style>
+  .container {
+    padding: 32rpx;
+    box-sizing: border-box;
+  }
+</style>
+```
+
+#### 引用 less 全局变量
+
+1. 在`vite.config.js`文件中（`如果没有就根目录新建一个`）配置
+
+   ```js
+   import { defineConfig } from "vite";
+   import uni from "@dcloudio/vite-plugin-uni";
+
+   let path = require("path");
+   let stylePath = path.resolve(__dirname, "common/common.less"); // common/common.less是less的路径
+
+   export default defineConfig({
+     plugins: [uni()],
+     css: {
+       preprocessorOptions: {
+         less: {
+           javascriptEnabled: true,
+           additionalData: `@import "${stylePath}";`,
+         },
+       },
+     },
+   });
+   ```
+
+2. common.less
+
+   ```less
+   @color: #8675ff;
+   ```
+
+3. 项目文件使用
+
+   ```html
+   <style scoped lang="less">
+     .container {
+       color: @color;
+     }
+   ```
+
+注意不要把`@color`写成了`$color`，否则会报错`[plugin:vite:css] Recursive property reference for $color`
+
+我找了好久才找到这个问题。。。
+
+#### uni-list 组件设置圆角
+
+```css
+::v-deep .uni-list {
+  border-radius: 16rpx;
+}
+
+::v-deep .uni-list-item {
+  border-radius: 16rpx;
+}
+```
+
+#### input 组件跟随键盘一起弹出
+
+1. 如果是只有一个`input`组件，那么直接把`input`放到非视口区，就会自动跟随上来
+
+2. 如果是一个`复杂的组合元素`（如有头像+输入框+按钮）
+
+```html
+<button @click="test">show input</button>
+
+<view class="comments" :style="{bottom: keyboardHeight}" v-if="focus">
+  <image :src="info.avatar" mode=""></image>
+  <uni-easyinput
+    :adjust-position="false"
+    class="input"
+    :focus="focus"
+    @focus="focusHandle"
+    @blur="blurHandle"
+    @keyboardheightchange="onKeyboardHeightChange"
+    placeholder="写留言"
+  ></uni-easyinput>
+  <button class="btn" size="mini">发送</button>
+</view>
+```
+
+```js
+const initHeight = "0";
+const keyboardHeight = ref(initHeight);
+const focus = ref(false);
+
+const test = () => {
+  focus.value = true;
+};
+const focusHandle = (event) => {
+  // keyboardHeight.value = event.detail.height + 'px';
+};
+const blurHandle = () => {
+  keyboardHeight.value = initHeight;
+  focus.value = false;
+};
+
+const onKeyboardHeightChange = (event) => {
+  setTimeout(() => {
+    keyboardHeight.value = event.detail.height + "px";
+  }, 150);
+};
+```
+
+```less
+.comments {
+  position: fixed;
+  left: 32rpx;
+  right: 32rpx;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  height: 100rpx;
+
+  image {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 30rpx;
+    margin-right: 20rpx;
+  }
+
+  .btn {
+    margin-left: 8rpx;
+    background: #8675ff;
+    color: #fff;
+    font-size: 28rpx;
+    padding: 16rpx 18px;
+    line-height: 36rpx;
+  }
+}
+```
+
+`关键点：`：需要设置`:adjust-position="false"`，否则会出现`键盘先把页面顶上去，然后input再掉下来的奇怪现象`
+
 ### 问题
 
-####
+#### 微信小程序开发者工具 [error] Error: Fail to open IDE
+
+一般是
 
 #### onTabItemTap 钩子函数在真机上不触发，在微信开发者工具正常触发
 
@@ -294,3 +489,50 @@ typeChange(){
 #### 切换页面的时候 onShow 方法有时候不触发
 
 微信开发者工具有时候确实不触发，尝试使用`真机调试`
+
+#### 接口请求本地模拟器可以调通，但是真机调试和体验版都不行
+
+1. 如果是使用的服务器 ip 的形式的话，本地和真机调试要打开`不校验合法域名`，体验版要打开`开发调试`功能
+2. 如果是使用的域名的话
+   1. 需要在`开发者后台`配置`request合法域名`
+   2. 域名必须要`A级`的`https`域名
+
+检测域名是否是 A 级：<https://myssl.com/>
+
+具体可以查看<https://blog.csdn.net/qq_38377190/article/details/131410439>
+
+我这边遇到的问题是，配置服务器的人把`1个ssl证书应用到了2个域名`，导致解析出问题
+
+#### 小程序真机调试调用本地后端接口失败
+
+苹果手机微信本地网络隐私权限没开，隐私-本地网络-微信
+
+可查看<https://developers.weixin.qq.com/community/develop/doc/0002e656d80df8574e9d884325c800>
+
+#### MiniProgramError {"errMsg": "hideLoading: fail: toast can't be found"}
+
+<https://developers.weixin.qq.com/community/develop/doc/0008e440e6cb58d4050a4b7e451c00?_at=1619083932616>
+
+#### 微信开发者工具使用原生导航栏字体没有加粗
+
+这个不用调整，是开发者工具显示问题，真机调试和体验版都是正常加粗的
+
+#### uni-pupop 组件底部有一部分透明
+
+使用`uni-pupop`组件的`background-color`属性，比如设置为`#fff`
+
+#### uni-popup 滚动穿透问题
+
+<https://uniapp.dcloud.net.cn/component/uniui/uni-popup.html#%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-app>
+
+#### text 组件中使用 image 不显示
+
+```html
+<text>
+  <image />
+</text>
+```
+
+如上这么使用`image`是无法展示出来的，检查`dom`的时候会一直在页面左上角，宽高为 0，无论怎么修改样式都不行
+
+官方 <https://uniapp.dcloud.net.cn/component/text.html#%E5%AD%90%E7%BB%84%E4%BB%B6> 说了，`text`组件只能嵌套`text`组件

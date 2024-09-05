@@ -6,7 +6,9 @@
 
 ## 知识点
 
-### 云对象 url 化之后，如何判断是 uniapp 中通过对象实例调用，还是使用 http 请求进行调用的
+### 云对象
+
+#### 云对象 url 化之后，如何判断是 uniapp 中通过对象实例调用，还是使用 http 请求进行调用的
 
 通过`this.getHttpInfo()`
 
@@ -41,4 +43,57 @@
 
 2. 如果是 uniapp 中通过对象实例调用，返回的是`undefined`
 
+### jql
+
+#### 简单查询和复杂查询
+
+简单查询的二元运算符，左右两侧不能都是字段，比如`price1 > price2`
+
+这种情况需要使用复杂查询
+
 ## 问题
+
+### database
+
+#### 权限校验未通过，未能获取当前用户信息，当前用户为匿名身份
+
+一般是数据库设置了相应的权限，找到对应表的`schema.json`配置
+
+如我的配置，其中`permission`部分都是`false`，需要的改为`true`就好了
+
+```js
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": false,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+    "product": {
+    	"description": "产品名称",
+      "bsonType": "string"
+    },
+    "create_time": {
+    	"description": "创建时间",
+      "bsonType": "timestamp",
+      "defaultValue":{
+        "$env": "now"
+      }
+    }
+	}
+}
+``
+```
+
+#### 定时器报错：`Method[_timing] was not found in index.obj.js`
+
+需要在`index.obj.js`的函数中写`_timing`方法
+
+> https://doc.dcloud.net.cn/uniCloud/trigger.html#cloudobject
