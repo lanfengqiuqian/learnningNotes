@@ -1728,3 +1728,525 @@ var countNodes = function(root) {
   return walk(root);
 };
 ```
+
+#### 102. 二叉树的层序遍历
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+  if (root === null) return [];
+
+  const ret = [];
+  const queue = [root];
+
+  while (queue.length) {
+    const curQueue = [];
+    let len = queue.length;
+    
+    while (len) {
+      const cur = queue.shift();
+      cur.left && queue.push(cur.left);
+      cur.right && queue.push(cur.right);
+      curQueue.push(cur.val);
+      len--;
+    }
+
+    ret.push(curQueue);
+  }
+
+  return ret;
+};
+```
+
+#### 107. 二叉树的层序遍历2
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrderBottom = function(root) {
+  if (root === null) return [];
+
+  const ret = [];
+  const queue = [root];
+
+  while (queue.length) {
+    const curQueue = [];
+    let len = queue.length;
+    
+    while (len) {
+      const cur = queue.shift();
+      cur.left && queue.push(cur.left);
+      cur.right && queue.push(cur.right);
+      curQueue.push(cur.val);
+      len--;
+    }
+
+    ret.unshift(curQueue);
+  }
+
+  return ret;
+};
+```
+
+#### 199. 二叉树的右视图
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var rightSideView = function(root) {
+  if (root === null) return [];
+
+  const ret = [];
+  const queue = [root];
+  
+  while (queue.length) {
+    let len = queue.length;
+
+    while (len) {
+      const cur = queue.shift();
+      cur.left && queue.push(cur.left);
+      cur.right && queue.push(cur.right);
+      
+      if (len === 1) {
+        ret.push(cur.val);
+      }
+      len--;
+    }
+  }
+
+  return ret;
+};
+```
+
+#### 116. 填充每个节点的下一个右侧节点指针
+
+```js
+/**
+ * // Definition for a _Node.
+ * function _Node(val, left, right, next) {
+ *    this.val = val === undefined ? null : val;
+ *    this.left = left === undefined ? null : left;
+ *    this.right = right === undefined ? null : right;
+ *    this.next = next === undefined ? null : next;
+ * };
+ */
+
+/**
+ * @param {_Node} root
+ * @return {_Node}
+ */
+var connect = function(root) {
+    if (root === null) return root;
+
+    const queue = [root];
+
+    while (queue.length) {
+      let len = queue.length;
+      const curArr = [];
+
+      while (len) {
+        const cur = queue.shift();
+        curArr.push(cur);
+
+        cur.left && queue.push(cur.left);
+        cur.right && queue.push(cur.right);
+        
+        len--;
+      }
+
+      for (let i = 0; i < curArr.length; i++) {
+        curArr[i].next = curArr[i+1] || null
+      }
+    }
+    
+    return root;
+};
+```
+
+#### 429. n叉树的层序遍历
+
+```js
+/**
+ * // Definition for a _Node.
+ * function _Node(val,children) {
+ *    this.val = val;
+ *    this.children = children;
+ * };
+ */
+
+/**
+ * @param {_Node|null} root
+ * @return {number[][]}
+ */
+var levelOrder = function (root) {
+  if (root === null) return [];
+
+  const ret = [];
+  const queue = [root];
+
+  while (queue.length) {
+    let len = queue.length;
+    const curArr = [];
+
+    while (len) {
+      const cur = queue.shift();
+      curArr.push(cur.val);
+      const ch = cur.children
+      if (!ch) return;
+      for(let i = 0; i < ch.length; i++) {
+        const item = ch[i];
+        item && queue.push(item);
+      }
+      len--;
+    }
+    ret.push(curArr);
+  }
+  return ret;
+};
+
+```
+
+#### 515. 在每个树行中找最大值
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var largestValues = function(root) {
+  if (root === null) return [];
+
+  const ret = [];
+  const queue = [root];
+
+  while (queue.length) {
+    let len = queue.length;
+    let max = -Infinity;
+
+    while (len) {
+      const cur = queue.shift();
+      max = Math.max(max, cur.val);
+      cur.left && queue.push(cur.left);
+      cur.right && queue.push(cur.right);
+      
+      len--;
+    }
+
+    ret.push(max);
+  }
+  
+  return ret;
+};
+```
+
+#### 112. 路径总和
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {boolean}
+ */
+var hasPathSum = function(root, targetSum) {
+  if (root === null) return false;
+
+  if (!root.left && !root.right) {
+    return root.val === targetSum;
+  }
+
+  const offset = targetSum - root.val;
+  return hasPathSum(root.left, offset) || hasPathSum(root.right, offset);
+};
+```
+
+#### 404. 左叶子之和
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumOfLeftLeaves = function(root) {
+  let total = 0;
+  function travese(node) {
+    if (node === null) return;
+    if (node.left && !node.left.left && !node.left.right) total += node.left.val;
+    
+    node.left && travese(node.left);
+    node.right && travese(node.right);
+  }
+  travese(root);
+  return total;
+};
+```
+
+#### 98. 验证二叉搜索树
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isValidBST = function(root) {
+  let pre = -Infinity;
+  function travese(node) {
+    if (node === null) return true;
+
+    const left = travese(node.left);
+    if (pre >= node.val) return false;
+    pre = node.val;
+    const right = travese(node.right);
+
+    return left && right;
+  }
+  return travese(root);
+};
+```
+
+
+#### 99. 恢复二叉搜索树
+
+先存储排序数组，找到不符合升序条件的数的位置，然后交换他们的值
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
+var recoverTree = function(root) {
+  const arr = [];
+  function travese(node) {
+    if (node === null) return;
+
+    travese(node.left);
+    // todo
+    arr.push(node);
+    travese(node.right);
+  }
+  travese(root);
+
+  let first;
+  let second;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].val > arr[i + 1].val) {
+      if (!first) {
+        first = arr[i];
+      }
+      second = arr[i + 1];
+    }
+  }
+  [first.val, second.val] = [second.val, first.val];
+};
+```
+
+#### 108. 将有序数组转化为二叉搜索树
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
+var sortedArrayToBST = function(nums) {
+  if (nums.length === 0) return null;
+
+  const mid = Math.floor(nums.length / 2);
+  const root = new TreeNode(nums[mid]);
+  root.left = sortedArrayToBST(nums.slice(0, mid));
+  root.right = sortedArrayToBST(nums.slice(mid + 1));
+
+  return root;
+};
+```
+
+#### 654. 最大二叉树
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
+var constructMaximumBinaryTree = function(nums) {
+  if (nums.length === 0) return null
+
+  const max = Math.max(...nums);
+  const index = nums.indexOf(max);
+  const root = new TreeNode(max);
+  root.left = constructMaximumBinaryTree(nums.slice(0, index));
+  root.right = constructMaximumBinaryTree(nums.slice(index + 1));
+
+  return root;
+};
+```
+
+#### 109. 有序链表转换为二叉搜索树
+
+先转换为数组，然后使用108题的方法
+```js
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {TreeNode}
+ */
+var sortedListToBST = function(head) {
+  const arr = [];
+  let node = head;
+  while (node) {
+    arr.push(node.val);
+    node = node.next;
+  }
+  return sortedArrayToBST(arr);
+};
+
+var sortedArrayToBST = function(nums) {
+  if (nums.length === 0) return null;
+
+  const mid = Math.floor(nums.length / 2);
+  const root = new TreeNode(nums[mid]);
+  root.left = sortedArrayToBST(nums.slice(0, mid));
+  root.right = sortedArrayToBST(nums.slice(mid + 1));
+
+  return root;
+};
+```
+
+通过链表快慢指针找中间节点
+
+```js
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {TreeNode}
+ */
+var sortedListToBST = function(head) {
+  function travese(head, tail) {
+    if (head === tail) return null;
+  
+    let fast = head;
+    let slow = head;
+    while (fast !== tail && fast.next !== tail) {
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+    const root = new TreeNode(slow.val);
+    root.left = travese(head, slow);
+    root.right = travese(slow.next, tail);
+    return root;
+  }
+  return travese(head, null);
+};
+```
