@@ -623,3 +623,208 @@ vertical-align: middle;
   overflow-y: auto;
 }
 ```
+
+
+### 变形、过渡、动画
+
+1. 变形（transform）
+
+
+设置一个元素的`旋转（rotate）`、`缩放（scale）`、`倾斜（skew）`或`平移（translate）`
+
+```shell
+1. 可以利用 transform 功能来实现文字或图像的 旋转、缩放、倾斜、移动 这四种类型的变形处理
+     1. 旋转 rotate
+            1. 用法: transform: rotate(45deg);
+            2. 提供一个参数 “角度”, 单位 deg 为度的意思, 正数为顺时针旋转, 负数为逆时针旋转, 上述代码作用是顺时针旋转45度
+​
+     2. 缩放 scale
+            1. 用法: transform: scale(0.5)  或者  transform: scale(0.5, 2);
+            2. 一个参数时: 表示水平和垂直同时缩放该倍率
+            3. 两个参数时: 第一个参数指定水平方向的缩放倍率, 第二个参数指定垂直方向的缩放倍率 。
+​
+     3. 倾斜 skew
+            1. 用法: transform: skew(30deg)  或者 transform: skew(30deg, 30deg);
+            2. 一个参数时: 表示水平方向的倾斜角度 。
+            3. 两个参数时: 第一个参数表示水平方向的倾斜角度, 第二个参数表示垂直方向的倾斜角度 。
+            4. skew 的默认原点 transform-origin 是这个物件的中心点
+​
+     4. 移动 translate
+            1. 用法: transform: translate(45px)  或者 transform: translate(45px, 150px);
+            2. 一个参数时: 表示水平方向的移动距离;
+            3. 两个参数时: 第一个参数表示水平方向的移动距离, 第二个参数表示垂直方向的移动距离 。
+​
+2. 基准点 transform-origin
+     1. 在使用 transform 方法进行文字或图像的变形时, 是以元素的中心点为基准点进行的 。 使用 transform-origin 属性, 可以改变变形的基准点 
+     2. 用法: transform-origin: 10px 10px;
+     3. 表示相对左上角原点的距离, 单位 px, 第一个参数表示相对左上角原点水平方向的距离, 第二个参数表示相对左上角原点垂直方向的距离;
+     4. 两个参数除了可以设置为具体的像素值, 其中第一个参数可以指定为 left、center、right, 第二个参数可以指定为 top、center、bottom。
+​
+3. 多方法组合变形
+     1. 用法: transform: rotate(45deg) scale(0.5) skew(30deg, 30deg) translate(100px, 100px);
+     2. 这四种变形方法顺序可以随意, 但不同的顺序导致变形结果不同, 原因是变形的顺序是从左到右依次进行
+```
+
+2. 过渡（transition）
+
+
+过渡可以为一个元素在`不同状态之间切换`的时候定义不同的过渡效果。比如在不同的伪元素之间切换，像是`:hover`，`:active` 或者通过 JavaScript 实现的状态变化。
+
+```css
+.content {
+  /* property name | duration | timing function | delay */
+  transition: margin-right 4s ease-in-out 1s;
+}
+```
+
+举例，元素hover的时候变宽
+
+```css
+.center {
+  width: 200px;
+  /* 这个如果不加 收回的时候闪烁 */
+  transition: width 2s;
+}
+.center:hover {
+  width: 300px;
+  /* 这个如果不加 展开的时候闪烁 */
+  transition: width 2s;
+}
+```
+
+```shell
+1. 语法:
+     1. transition: 属性是个复合属性 。
+     2. transition: property duration timing-function delay
+     3. 默认值为: transition: all 0 ease 0;
+​
+2. 属性介绍:
+     1. transition-property: 规定设置过渡效果的 css 属性名称 。
+     2. transition-duration: 规定完成过渡效果需要多少秒或毫秒 。
+     3. transition-timing-function: 指定过渡函数, 规定速度效果的速度曲线 。
+     4. transition-delay: 指定开始出现的延迟时间 。
+   
+3. 子属性详解:
+     1. transition-property: none |all |property;
+        1. 值为 none 时, 没有属性会获得过渡效果
+        2. 值为 all 时, 所有属性都将获得过渡效果
+        3. 值为指定的 css 属性应用过渡效果, 多个属性用逗号隔开
+        4. css 属性实际使用时的设置:
+           1. color: background-color, border-color, color, outline-color ;
+           2. length: 真实的数字 如：word-spacing,width,vertical-align,top,right,bottom,left,padding,outline-width,margin,min-width,min-height,max-width,max-height,line-height,height,border-width,border-spacing,
+           3. integer: 离散步骤（整个数字）, 在真实的数字空间, 以及使用 floor() 转换为整数时发生 如: outline-offset,z-index 。
+           4. number: 真实的（浮点型）数值, 如:zoom, opacity, font-weight 。
+           5. rectangle: 通过 x, y, width 和 height（转为数值）变换，如: crop 。
+           6. visibility: 离散步骤, 在0到1数字范围之内, 0表示“隐藏”, 1表示完全"显示"; 如: visibility 。
+           7. shadow: 作用于 color, x, y 和 blur（模糊）属性; 如：text-shadow 。
+           8. background-image: 通过每次停止时的位置和颜色进行变化 。 它们必须有相同的类型（放射状的或是线性的）和相同的停止数值以便执行动画 。
+​
+     2. transition-duration
+        1. transition-duration: time;
+        2. 该属性主要用来设置一个属性过渡到另一个属性所需的时间, 也就是从旧属性过渡到新属性花费的时间长度, 俗称持续时间
+​
+     3. transition-timing-function: linear| ease| ease-in| ease-out| ease-in-out| cubic-bezier(n,n,n,n);
+        1. 该属性指的是过渡的 “缓动函数” 。 主要用来指定浏览器的过渡速度, 以及过渡期间的操作进展情况 。
+        2.  注意: 值 cubic-bezier(n,n,n,n) 可以定义自己的值, 如 cubic-bezier(0.42,0,0.58,1) 。
+        3. 各个子属性详细解析:
+                 1. linear: 匀速 (约等于)== cubic-bezier(0,0,1,1) 。
+                 2. ease: 慢快慢  (约等于)== cubic-bezier(0.25,0.1,0.25,0.1) 。
+                 3. ease-in: 慢速开始的过渡 (约等于)== cubic-bezier(0.45,0.,1,1) 。
+                 4. ease-out: 慢速结束的过渡 (约等于)== cubic-bezier(0,0.,0.58,1) 。
+                 5. ease-in-out: 慢速开始和结束的过渡 (约等于)== cubic-bezier(0.45,0.,0.58,1) 。
+                 6. cubic-bezier(n,n,n,n): 在 cubic-bezier 函数中定义自己的值; 可能的值是0~1之间的数值 。
+            
+        4. transition-delay
+            1. 这个属性没什么说的了, 就是过渡效果开始前的延迟时间, 单位秒或者毫秒
+```
+
+3. 动画（animation）
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 200px;
+        height: 200px;
+        background-color: pink;
+        animation: 3s linear 0s infinite alternate demo;
+      }
+
+      @keyframes demo {
+        form {
+          width: 200px;
+        }
+        to {
+          width: 800px;
+          background-color: limegreen;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+  </body>
+</html>
+```
+
+```shell
+1. 在 CSS3 中创建动画, 您需要学习 @keyframes 规则 。
+​
+1. @keyframes 规则用于创建动画 。 在 @keyframes 中规定某项 CSS 样式, 就能创建由当前样式逐渐改为新样式的动画效果 。
+​
+1. 必须定义动画的名称和时长 。 如果忽略时长, 则动画不会允许, 因为默认值是 0。
+​
+1. 请用百分比来规定变化发生的时间, 或用关键词 "from" 和 "to", 等同于 0% 和 100% 。
+​
+1. 语法: animation: name duration timing-function delay iteration-count direction;
+     1. animation-name    规定需要绑定到选择器的 keyframe 名称*
+     2. animation-duration   规定动画完成一个周期所花费的秒或毫秒。默认是 0。
+     3. animation-timing-function    规定动画的速度曲线。 默认是 "ease"。
+        1. linear   动画从头到尾的速度是相同的。
+        2. ease 默认。动画以低速开始，然后加快，在结束前变慢。
+        3. ease-in  动画以低速开始。
+        4. ease-out 动画以低速结束。
+        5. ease-in-out  动画以低速开始和结束。
+        6. cubic-bezier(n,n,n,n)    在 cubic-bezier 函数中自己的值。可能的值是从 0 到 1 的数值。
+     4. animation-delay    规定动画何时开始 。 默认是 0。
+     5. animation-iteration-count    规定动画被播放的次数 (from到to算作一次, to到from算作一次; 注意计算方式) 。
+        1. 默认是 1 。
+        2. infinite规定动画应该无限次播放。
+     6. animation-direction    规定动画是否在下一周期逆向地播放 。 默认是 "normal"; alternate (轮流),。
+        1. normal   默认值。动画按正常播放。
+        2. reverse  动画反向播放。
+        3. alternate    动画在奇数次（1、3、5...）正向播放，在偶数次（2、4、6...）反向播放。
+        4. alternate-reverse    动画在奇数次（1、3、5...）反向播放，在偶数次（2、4、6...）正向播放。
+        5. initial  设置该属性为它的默认值 。
+​
+1. 子属性详解
+     1. alternate(轮流):
+            1. alternate (轮流): 动画播放在第偶数次向前播放, 第奇数次向反方向播放 (animation-iteration-count 取值大于1时设置有效
+            2. 语法: animation-direction: alternate;
+​
+     1. animation-play-state 规定动画是否正在运行或暂停 。 默认是 "running" 播放; paused 暂停播放 。
+            1. 语法: animation-play-state: paused;
+                                                    
+     2. animation-fill-mode   属性规定动画在播放之前或之后, 其动画效果是否可见; 规定对象动画时间之外的状态; none | forwards | backwards | both 。
+            1. none:       不改变默认行为 (默认, 回到动画没开始时的状态) 。
+            2. forwards:   当动画完成后，保持最后一个属性值（在最后一个关键帧中定义) (动画结束后动画停留在结束状态) 。
+            3. backwards:  在 animation-delay 所指定的一段时间内, 在动画显示之前, 应用开始属性值 (在第一个关键帧中定义) （动画回到第一帧的状态）。
+            4. both:       向前和向后填充模式都被应用 （根据 animation-direction 轮流应用 forwards 和 backwords 规则）。
+            5. 语法:        animation-fill-mode: forwards
+               1. 0% 是动画的开始, 100% 是动画的完成。
+```
+
+### 简单对比background、background-image、background-color
+
+1. `background`是一个简写属性的集合，包括`image`和`color`，同时还包含其他的属性
+2. `background-image`用于设置背景图片或者是渐变色的背景
+3. `background-color`用于设置单一的背景颜色
+
+### transform对行元素不生效
+
+需要改为`inline-block`或者`block`

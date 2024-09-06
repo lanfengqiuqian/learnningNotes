@@ -46,6 +46,16 @@
 
 2. 底部（`40rpx`）：操作条的安全区域
 
+#### 关于计算滚动区域
+
+1. 如果是自定义页面（`顶部`是自己实现的）
+
+  > height: calc(100vh - 188rpx - 40rpx - 其他区域高度)
+
+2. 如果是正常页面（`顶部`用的是原生的）
+
+  > height: calc(100vh - 40rpx - 其他区域高度)
+
 #### button 中使用图片，修改 button 样式，达到仅展示图片
 
 ```css
@@ -249,6 +259,11 @@ page {
 
 我找了好久才找到这个问题。。。
 
+#### uni-list-item组件使用插槽
+
+一旦使用插槽，那么3个插槽需要都使用，否则别的无效
+
+
 #### uni-list 组件设置圆角
 
 ```css
@@ -337,6 +352,254 @@ const onKeyboardHeightChange = (event) => {
 ```
 
 `关键点：`：需要设置`:adjust-position="false"`，否则会出现`键盘先把页面顶上去，然后input再掉下来的奇怪现象`
+
+#### 使用自定义全屏相机拍照
+
+<https://ext.dcloud.net.cn/plugin?id=7962>
+
+
+#### 类似淘宝的搜索页面
+
+```html
+<template>
+	<view class="container">
+		<view class="search-wrap">
+			<uni-search-bar class="search-input" placeholder="请输入您想搜索的内容" radius="100" @confirm="search"
+				v-model="keyword" cancelButton="none">
+			</uni-search-bar>
+			<view class="btn" @click="searchHandle">
+				搜索
+			</view>
+		</view>
+		<view class="search-view" v-if="!showResult">
+			<view class="search-view mar-both">
+				<view class="search-view search-title">
+					<text class="search-text big-title hot">当前热搜</text>
+					<uni-icons type="eye" size="20" color="#b3b3b3" v-if="!hide" @click="hide=!hide"></uni-icons>
+					<uni-icons type="eye-slash" size="20" color="#b3b3b3" v-else @click="hide=!hide"></uni-icons>
+				</view>
+				<view class="search-view search-item-container" v-if="!hide">
+					<view class="search-view grey-btn-text" v-for="(find,index) in finds" :key="index">
+						<text class="search-text text-ellipsis item-text" @click="doFind(find)">{{find}}</text>
+					</view>
+				</view>
+				<div class="search-view hide-tip-container" v-else>
+					<span class="search-text hide-tip">当前搜索发现已隐藏</span>
+				</div>
+				<view class="search-view search-title" v-if="historys.length>0">
+					<text class="search-text big-title">搜索历史</text>
+					<uni-icons type="trash" size="20" color="#b3b3b3" @click="del"></uni-icons>
+				</view>
+				<view class="search-view search-item-container" v-if="historys.length>0">
+					<view class="search-view grey-btn-text" v-for="(his,index) in historys" :key="index">
+						<text class="search-text text-ellipsis item-text" @click="doFind(his)">{{his}}</text>
+					</view>
+				</view>
+				<div class="search-view area-buffer" v-if="historys.length>0"></div>
+			</view>
+		</view>
+		<view class="result-page" v-else>
+			<view class="tab">
+				<view class="tab-item" :class="{active: active == 1}" @click="active = 1">剧目</view>
+				<view class="tab-item" :class="{active: active == 2}" @click="active = 2">活动</view>
+				<view class="tab-item" :class="{active: active == 3}" @click="active = 3">资讯</view>
+				<view class="tab-item" :class="{active: active == 4}" @click="active = 4">商品</view>
+			</view>
+			<view class="list-wrap">
+
+			</view>
+		</view>
+	</view>
+</template>
+<script setup>
+	import {
+		ref
+	} from 'vue'
+
+	const historys = ref(['三国演义', '水浒传']);
+	const finds = ref(['红楼梦', '梁山伯与祝英台', '金瓶梅', '天仙配', '西游记', '老人与海']);
+	const hide = ref(false)
+	const keyword = ref('')
+	const del = () => {
+		uni.showModal({
+			//title: '提示',
+			content: '确认删除全部历史记录?',
+			success: function(res) {
+				if (res.confirm) {
+					console.log('用户点击确定');
+					that.historys = []
+				} else if (res.cancel) {
+					console.log('用户点击取消');
+				}
+			}
+		});
+	}
+	const doFind = (key) => {
+		common(key);
+	}
+	const search = (e) => {
+		common(e.value);
+	}
+	const common = (key) => {
+		//省略查询api接口,只处理搜索组件本身的逻辑
+		//1、传值给search-bar进行查询
+		keyword.value = key
+		//2、本次搜索加入历史记录中(查询过先删除再加入)
+		const index = historys.value.indexOf(key);
+		// 如果已经存在，则先删除
+		if (index !== -1) {
+			historys.value.splice(index, 1);
+		}
+		historys.value.unshift(key)
+	}
+
+	const showResult = ref(true);
+
+	const searchHandle = () => {
+		showResult.value = true;
+	}
+
+	const active = ref('1');
+	const list = ref([]);
+</script>
+
+<style scoped lang="less">
+	.container {
+		padding: 32rpx;
+
+		.search-wrap {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 32rpx;
+
+			.search-input {
+				flex: 1;
+
+				::v-deep .uni-searchbar {
+					padding: 0;
+				}
+			}
+
+			.btn {
+				line-height: 44rpx;
+				font-size: 32rpx;
+				margin-left: 20rpx;
+				color: #333;
+			}
+		}
+
+		.tab {
+			display: flex;
+
+			&-item {
+				flex: 1;
+				line-height: 76rpx;
+				font-weight: 600;
+				text-align: center;
+				font-size: 14px;
+				color: #9BA5C4;
+			}
+
+			.active {
+				color: @color;
+
+				&::after {
+					content: '';
+					display: block;
+					width: 44rpx;
+					height: 4rpx;
+					background-color: @color;
+					border-radius: 4rpx;
+					margin-left: calc(50% - 22rpx);
+					transform: translateY(-10rpx);
+				}
+			}
+		}
+
+		.search-view {
+			align-content: flex-start;
+			border: 0 solid #000;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			flex-shrink: 0;
+			margin: 0;
+			min-width: 0;
+			padding: 0;
+		}
+
+		.search-text {
+			box-sizing: border-box;
+			display: block;
+			font-size: 28rpx;
+			white-space: pre-wrap;
+		}
+
+		.big-title {
+			margin-bottom: 20rpx;
+			margin-top: 40rpx;
+			font-weight: bold;
+		}
+
+		.hot {
+			color: #FF3E00;
+			margin-top: 0rpx;
+		}
+
+		.search-title {
+			align-items: center;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			margin-top: 20rpx;
+		}
+
+		.area-buffer {
+			height: 30rpx;
+		}
+
+		.grey-btn-text {
+			background-color: #f8f8f8;
+			border-radius: 50rpx;
+			height: 60rpx;
+			line-height: 60rpx;
+			margin: 15rpx 15rpx 0 0;
+			padding: 0 24rpx;
+		}
+
+		.search-item-container {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap
+		}
+
+		.item-text {
+			font-size: 24rpx;
+			color: rgb(102, 102, 102);
+		}
+
+		.text-ellipsis {
+			max-width: 650rpx;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap
+		}
+
+		.hide-tip-container {
+			align-items: center;
+			display: flex;
+			justify-content: center;
+			margin-top: 30rpx;
+		}
+
+		.hide-tip {
+			color: #b3b3b3;
+			font-size: 24rpx;
+		}
+	}
+</style>
+```
 
 ### 问题
 
@@ -525,6 +788,32 @@ typeChange(){
 
 <https://uniapp.dcloud.net.cn/component/uniui/uni-popup.html#%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-app>
 
+```html
+<template>
+	<page-meta :page-style="'overflow:'+(show?'hidden':'visible')"></page-meta>
+	<view class="container">
+		<!-- 普通弹窗 -->
+		<uni-popup ref="popup" background-color="#fff" @change="change">
+		<!-- ... -->
+		</uni-popup>
+	</view>
+</template>
+<script>
+	export default {
+		data() {
+			return {
+				show:false
+			}
+		},
+		methods: {
+			change(e) {
+				this.show = e.show
+			}
+		}
+	}
+</script>
+```
+
 #### text 组件中使用 image 不显示
 
 ```html
@@ -536,3 +825,18 @@ typeChange(){
 如上这么使用`image`是无法展示出来的，检查`dom`的时候会一直在页面左上角，宽高为 0，无论怎么修改样式都不行
 
 官方 <https://uniapp.dcloud.net.cn/component/text.html#%E5%AD%90%E7%BB%84%E4%BB%B6> 说了，`text`组件只能嵌套`text`组件
+
+
+#### 有些元素点击事件不触发
+
+一般都是元素层级被遮挡了
+
+1. 有可能是`定位元素`
+2. 也有可能是其他元素超出范围了，但是由于没有内容，所以看不出来
+   1. 比如我这次遇到的就是兄弟元素的一个子元素`height: 100%; padding: 16px;`导致高度超出预期
+
+#### 地图收费了
+
+改用`天地图`
+
+<https://blog.csdn.net/qq285744011/article/details/125162871>
