@@ -828,3 +828,36 @@ vertical-align: middle;
 ### transform对行元素不生效
 
 需要改为`inline-block`或者`block`
+
+### 边框渐变
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .border-box {
+        border: 4px solid transparent;
+        border-radius: 16px;
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
+        background-image: linear-gradient(to right, #fff, #fff),
+          linear-gradient(90deg, #8f41e9, #578aef);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="border-box">
+      <div class="content">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste ratione
+        necessitatibus numquam sunt nihil quos saepe sit facere. Alias accusamus
+        voluptate accusantium facere fugiat animi temporibus adipisci! Corporis,
+        accusamus tempora.
+      </div>
+    </div>
+  </body>
+</html>
+```
