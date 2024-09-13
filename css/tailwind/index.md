@@ -210,3 +210,9 @@ clsss="!h-[330px]"
   -webkit-line-clamp: 1;
 }
 ```
+
+### 设置单行文本溢出显示省略号
+
+```css
+css="truncate"
+```

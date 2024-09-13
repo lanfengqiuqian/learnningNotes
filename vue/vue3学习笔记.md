@@ -1240,3 +1240,57 @@ import {getAssetsFile} from '@/util/public-use'
 一定要使用`相对路径`，生产环境会自动加上`hash`
 
 使用`绝对路径`会导致开发正常，但是生产异常
+
+### v-for 中使用 ref
+
+<https://juejin.cn/post/7108539841360429086#heading-3>
+
+```html
+<li
+  v-for="(item, index) in $store.getters.categorys"
+  :key="item.id"
+  :ref="(el) => setItemRef(el, index)"
+  @click="onItemClick(item)"
+>
+  {{ item.name }}
+</li>
+
+<script>
+let itemRefs = []
+const setItemRef = (el, index) => {
+  if (el) {
+    itemRefs[index] = (el)
+  }
+}
+</script>
+```
+
+### mitt监听不到
+
+`emit`和`on`需要使用同一个实例
+
+就是说`A文件`导出，然后`B文件`引入使用
+
+
+### 报错 failed to fetch dynamically imported module
+
+一般情况下都是路径找不到或者不正确
+
+一般是使用类似`@/....`的语法，但是`vite`中的配置没有识别`@`
+
+比如我的项目中，只配置了`ts`，那么`js`文件就没有被识别到
+
+### 同时传递多个属性
+
+```html
+const post = {
+  id: 1,
+  title: 'hello'
+}
+
+<MyComponent v-bind="post" />
+
+<!-- 等价于 -->
+ <MyComponent v-bind:id="post.id" v-bind:title="post.title" />
+ <MyComponent :id="post.id" :title="post.title" />
+```

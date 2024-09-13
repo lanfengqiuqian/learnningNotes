@@ -1978,3 +1978,7 @@ export function htmlToExcel(
   return wbout;
 }
 ```
+
+### 判断接口响应类型（blob/json）
+
+<https://blog.csdn.net/qq_43382853/article/details/130268491?ops_request_misc=%257B%2522request%255Fid%2522%253A%252269335A66-79AC-4286-8F1E-359749A741B7%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=69335A66-79AC-4286-8F1E-359749A741B7&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-130268491-null-null.nonecase&utm_term=%E5%90%8E%E7%AB%AF%E8%BF%94%E5%9B%9E&spm=1018.2226.3001.4450>

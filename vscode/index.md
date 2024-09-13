@@ -249,6 +249,10 @@ It is not the most correct option but it works.
 
     `ctrl+alt+n`：`%d:start:step`
 
+31. Color Highlight
+
+    显示代码中的颜色
+
 ### 删除一行快捷键
 
 > ctrl + shift + k;

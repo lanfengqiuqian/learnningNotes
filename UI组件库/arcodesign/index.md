@@ -331,3 +331,27 @@ _route.forEach((element) => {
 <!-- 使用组件 -->
 <CustomerIcon name="icon-down" />
 ```
+
+### 获取 tree 组件所有选中的节点（包括祖先节点）
+
+绑定`ref`之后通过`getCheckedNodes`和`getHalfCheckedNodes`
+
+```js
+const retArr = [
+  ...treeRef.value.getCheckedNodes().map((i) => i.key),
+  ...treeRef.value.getHalfCheckedNodes().map((i) => i.key),
+];
+```
+
+### 回显tree的父子关联关系
+
+默认情况下，selected-key传入了父节点的话，那么子节点所有都会被选中，如果在没有全选的情况下，应该是要半选状态的
+
+设置`only-check-leaf`属性，通过子节点决定父节点的选中状态
+
+
+### tree的禁用状态
+
+`a-tree`组件上没有`disabled`属性，需要在数据`data`上加`disabled`
+
+如果是在表单组件中，也可以设置`a-form-item`的属性为`disabled`
