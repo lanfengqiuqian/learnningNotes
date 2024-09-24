@@ -556,3 +556,17 @@ D:\code\tuyeqiu\src\utils\tools.js
        可以执行如下命令修改本地`dev`分支追踪的远程分支
 
        > git branch --set-upstream dev origin-gitlab/dev
+
+59. `.gitignore`不生效
+
+    原因是 `.gitignore` 只能忽略那些原来没有被`track`的文件，如果某些文件已经被纳入了版本管理中，则修改`.gitignore`是无效的。
+
+    解决方法就是先把`本地缓存删除`（改变成`未track状态`），然后再提交。
+
+    ```shell
+    git rm -r --cached .
+
+    git add .
+
+    git commit -m 'update .gitignore'
+    ```

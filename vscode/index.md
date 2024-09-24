@@ -175,7 +175,7 @@ It is not the most correct option but it works.
 
     > 免费版只有 35%的功能，收费版，每月 10 美元
 
-    > 后来改为 Codeium 了，免费
+    > 我后来选择 Codeium 了，免费
 
 17. Vue VSCode Snippets
 

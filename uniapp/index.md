@@ -712,11 +712,33 @@ PS：如果不设置的话无论使用组件跳转还是函数跳转都无效
 
 PS：跳转到`tabbar`页面的话无法传递参数，只能使用页面通信的方式，如`setStorage`
 
-#### rich-text 超出显示横向滚动条了
+#### 富文本`rich-text` 超出显示横向滚动条了
 
 ```css
-width: 100%;
-overflow-wrap: break-word;
+<view class="rich-text-wrap">
+	<rich-text :nodes="info.detail"></rich-text>
+</view>
+
+/* 文本的处理 */
+.rich-text-wrap {
+	width: 100%;
+	overflow-wrap: break-word;
+}
+```
+```js
+/* 图片的处理 */
+
+// 这个我实际没生效，查资料说微信小程序不支持设置img标签的style
+content.replace(/<img/g, "<img style='width:100%'");  
+```
+```js
+// 最终解决方案是使用class
+content.replace(/<img/g, '<img class="rich-text-img-style" ');
+// 然后在App.vue中全局设置样式
+.rich-text-img-style {
+	height: 100% !important;
+	width: 100% !important;
+}
 ```
 
 #### type=tel 无效

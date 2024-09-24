@@ -1770,4 +1770,19 @@ element.className = newClassName; // 更新类名
 ```js
 var selectElement = document.getElementById('mySelect');
 selectElement.selectedIndex = 0; // 设置初始选中提示值
-``
+```
+
+65. 逻辑假值
+
+  有`""`、`null`、`undefined`、`NaN`、`0`
+
+  进行`==`比较的时候，怎么记忆，记忆为`true`的，其他的都是`false`
+
+  1. 
+
+
+66. 判断运算符
+    
+    有`&&`、`||`、`?`、`?.`、`??`
+
+    对于逻辑假值怎么判断

@@ -1256,21 +1256,33 @@ import {getAssetsFile} from '@/util/public-use'
 </li>
 
 <script>
-let itemRefs = []
-const setItemRef = (el, index) => {
-  if (el) {
-    itemRefs[index] = (el)
-  }
-}
+  let itemRefs = [];
+  const setItemRef = (el, index) => {
+    if (el) {
+      itemRefs[index] = el;
+    }
+  };
 </script>
 ```
 
-### mitt监听不到
+### mitt 监听不到
 
 `emit`和`on`需要使用同一个实例
 
 就是说`A文件`导出，然后`B文件`引入使用
 
+### mitt 取消监听无效
+
+需要传递第二个参数，就是注册的函数
+
+```js
+onMounted(() => {
+  mitter.on("mitt-name", callback);
+});
+onUnmounted(() => {
+  mitter.off("mitt-name", callback); // <--关键代码，第二个参数要传入订阅时的回调函数
+});
+```
 
 ### 报错 failed to fetch dynamically imported module
 
@@ -1283,14 +1295,11 @@ const setItemRef = (el, index) => {
 ### 同时传递多个属性
 
 ```html
-const post = {
-  id: 1,
-  title: 'hello'
-}
+const post = { id: 1, title: 'hello' }
 
 <MyComponent v-bind="post" />
 
 <!-- 等价于 -->
- <MyComponent v-bind:id="post.id" v-bind:title="post.title" />
- <MyComponent :id="post.id" :title="post.title" />
+<MyComponent v-bind:id="post.id" v-bind:title="post.title" />
+<MyComponent :id="post.id" :title="post.title" />
 ```

@@ -157,3 +157,24 @@ var b = 1;
 // 这是一段代码
 /* eslint-disable */
 ```
+
+#### 解决eslint和prettier的冲突
+
+<https://juejin.cn/post/7156893291726782500#heading-8>
+
+思路：关闭`eslint`的格式化功能，只需要它做好代码质量检测的功能即可
+
+```js
+// 安装依赖
+yarn add eslint-config-prettier eslint-plugin-prettier -D
+
+// .eslintrc
+{
+   // 其余的配置
+ - "extends": ["eslint:recommended", "standard"]
+ + "extends": ["eslint:recommended", "standard",  "plugin:prettier/recommended"]
+  // 其余的配置
+}
+```
+
+如果修改了.prettierrc的配置选项，会发现 eslint 和 prettier又冲突了，这是因为vscode插件缓存没有及时更新，重启下vscode即可。
