@@ -1,3 +1,46 @@
+### 开源小程序
+
+1. 充电桩
+
+   <https://github.com/cheinlu/HarmonyOS-groundhog-charging-system>
+
+   一套包含鸿蒙、微信小程序、云平台充电设备管理系统。鸿蒙App使用HarmonyOS 4.0开发，小程序使用uniapp开发；功能涉及：登录、注册、查找充电站和充电站、在线充电、订单查询、个人中心等云平台使用。
+
+   ![充电桩](images/image1.png)
+
+2. 会员营销
+
+   <https://gitee.com/fuint/fuint-uniapp>
+
+   fuint会员营销系统是一套开源的实体店铺会员管理和营销系统。前端基于 Uniapp，Element UI，支持小程序、h5。主要功能包含电子优惠券、储值卡、实体卡、计次卡、短信发送、储值卡、会员积分、会员等级权益体系，支付收款等会员日常营销工具。本系统适用于各类实体店铺，如零售超市、酒吧、酒店、汽车4S店、鲜花店、奶茶店、甜品店、餐饮店、农家乐等，是实体店铺会员营销必备的一款利器。
+   
+   ![会员营销](images/image2.png)
+
+3. AI办公
+
+   <https://gitee.com/rocy_wang/aioffice>
+
+   一个 AI 办公小程序，支持 AI 视频、AI 换脸、AI 机器人、AI 文生图、AI 话画、AI 私域、AI 图片识字、AI 抠图、AI 提示词工程、AI PPT、AI WORD、AI 招聘。
+
+   ![AI办公](images/image.png)
+
+4. ChatGPT-MP
+
+   <https://gitee.com/smalle/ChatGPT-MP>
+
+   基于 ChatGPT 实现的微信小程序，包含前后台，支持打字效果输出流式输出，支持AI聊天次数限制，支持分享增加次数等功能。
+
+   ![ChatGPT-MP](images/image-1.png)
+
+5. 生鲜商城
+
+   <https://gitee.com/zhengkaixing/kxmall>
+
+   kxmall 生鲜商城使用 uniapp 开发，可同时编译到微信小程序、H5、Android App、iOS App 等多个平台。
+
+   ![生鲜商城](images/image-2.png)
+
+
 ### hbuild 好用插件整理
 
 1. 命令面板
@@ -869,3 +912,11 @@ typeChange(){
 改用`天地图`
 
 <https://blog.csdn.net/qq285744011/article/details/125162871>
+
+#### `new Date(""YYYY-MM-DD hh:mm:ss")` 在部分 iOS 下无法正常使用
+
+在较新版本的安卓和ios上都正常，但是`iphone xr`上确实复现了
+
+```js
+new Date(('YYYY-MM-DD hh:mm:ss').replace(/-/g, '/'))
+```
