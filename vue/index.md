@@ -222,6 +222,34 @@ assetsPublicPath: '/',
    </style>
    ```
 
+#### ::v-deep /deep/ v-deep() >>> 几种区别
+
+|方式|用法 区别|兼容性|注意|
+|-|-|-|-|
+|/deep/|是vue2.x中用的|支持css预处理器（less，scss）|vue3.x不被官方支持，会报警告，甚至无效|
+|::v-deep|在vue2.x中是/deep/的别名，但是官方文档未提及，在vue3.x中土建用法|支持css预处理器和原生css|
+|>>>|是css原生语法，但是在vue单文件组件（.vue）中，并不总是被直接支持，因为vue会将其视为普通css选择器的一部分|仅在某些某些特定环境（如webpack的css-loader中）和原生css中有效，vue单文件组件中通常需要特定配置才能使用|
+|v-deep()|特殊用法，在vue3的composition API中，可以通过v-deep()函数在style标签中动态应用深度选择器，这不是css语法的一部分，而是vue3特有的模板编译特性||
+
+总结：vue2中推荐使用`/deep/`，vue3中推荐使用`::v-deep`
+
+```html
+<!-- vue2 -->
+<style scoped>
+.parent /deep/ .child {
+  /* 样式规则 */
+}
+</style>
+
+<!-- vue3 -->
+ <style scoped>
+.parent::v-deep .child-class {
+  color: blue;
+  font-weight: bold;
+}
+</style>
+```
+
 ### this.$set() 和 vue.set()
 
 1. 应用场景

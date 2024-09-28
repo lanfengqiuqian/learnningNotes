@@ -1720,7 +1720,7 @@ var binaryTreePaths = function (root) {
  * @param {TreeNode} root
  * @return {number}
  */
-var countNodes = function(root) {
+var countNodes = function (root) {
   function walk(node) {
     if (node === null) return 0;
     return walk(node.left) + walk(node.right) + 1;
@@ -1744,7 +1744,7 @@ var countNodes = function(root) {
  * @param {TreeNode} root
  * @return {number[][]}
  */
-var levelOrder = function(root) {
+var levelOrder = function (root) {
   if (root === null) return [];
 
   const ret = [];
@@ -1753,7 +1753,7 @@ var levelOrder = function(root) {
   while (queue.length) {
     const curQueue = [];
     let len = queue.length;
-    
+
     while (len) {
       const cur = queue.shift();
       cur.left && queue.push(cur.left);
@@ -1769,7 +1769,7 @@ var levelOrder = function(root) {
 };
 ```
 
-#### 107. 二叉树的层序遍历2
+#### 107. 二叉树的层序遍历 2
 
 ```js
 /**
@@ -1784,7 +1784,7 @@ var levelOrder = function(root) {
  * @param {TreeNode} root
  * @return {number[][]}
  */
-var levelOrderBottom = function(root) {
+var levelOrderBottom = function (root) {
   if (root === null) return [];
 
   const ret = [];
@@ -1793,7 +1793,7 @@ var levelOrderBottom = function(root) {
   while (queue.length) {
     const curQueue = [];
     let len = queue.length;
-    
+
     while (len) {
       const cur = queue.shift();
       cur.left && queue.push(cur.left);
@@ -1824,12 +1824,12 @@ var levelOrderBottom = function(root) {
  * @param {TreeNode} root
  * @return {number[]}
  */
-var rightSideView = function(root) {
+var rightSideView = function (root) {
   if (root === null) return [];
 
   const ret = [];
   const queue = [root];
-  
+
   while (queue.length) {
     let len = queue.length;
 
@@ -1837,7 +1837,7 @@ var rightSideView = function(root) {
       const cur = queue.shift();
       cur.left && queue.push(cur.left);
       cur.right && queue.push(cur.right);
-      
+
       if (len === 1) {
         ret.push(cur.val);
       }
@@ -1866,35 +1866,35 @@ var rightSideView = function(root) {
  * @param {_Node} root
  * @return {_Node}
  */
-var connect = function(root) {
-    if (root === null) return root;
+var connect = function (root) {
+  if (root === null) return root;
 
-    const queue = [root];
+  const queue = [root];
 
-    while (queue.length) {
-      let len = queue.length;
-      const curArr = [];
+  while (queue.length) {
+    let len = queue.length;
+    const curArr = [];
 
-      while (len) {
-        const cur = queue.shift();
-        curArr.push(cur);
+    while (len) {
+      const cur = queue.shift();
+      curArr.push(cur);
 
-        cur.left && queue.push(cur.left);
-        cur.right && queue.push(cur.right);
-        
-        len--;
-      }
+      cur.left && queue.push(cur.left);
+      cur.right && queue.push(cur.right);
 
-      for (let i = 0; i < curArr.length; i++) {
-        curArr[i].next = curArr[i+1] || null
-      }
+      len--;
     }
-    
-    return root;
+
+    for (let i = 0; i < curArr.length; i++) {
+      curArr[i].next = curArr[i + 1] || null;
+    }
+  }
+
+  return root;
 };
 ```
 
-#### 429. n叉树的层序遍历
+#### 429. n 叉树的层序遍历
 
 ```js
 /**
@@ -1922,9 +1922,9 @@ var levelOrder = function (root) {
     while (len) {
       const cur = queue.shift();
       curArr.push(cur.val);
-      const ch = cur.children
+      const ch = cur.children;
       if (!ch) return;
-      for(let i = 0; i < ch.length; i++) {
+      for (let i = 0; i < ch.length; i++) {
         const item = ch[i];
         item && queue.push(item);
       }
@@ -1934,7 +1934,6 @@ var levelOrder = function (root) {
   }
   return ret;
 };
-
 ```
 
 #### 515. 在每个树行中找最大值
@@ -1952,7 +1951,7 @@ var levelOrder = function (root) {
  * @param {TreeNode} root
  * @return {number[]}
  */
-var largestValues = function(root) {
+var largestValues = function (root) {
   if (root === null) return [];
 
   const ret = [];
@@ -1967,13 +1966,13 @@ var largestValues = function(root) {
       max = Math.max(max, cur.val);
       cur.left && queue.push(cur.left);
       cur.right && queue.push(cur.right);
-      
+
       len--;
     }
 
     ret.push(max);
   }
-  
+
   return ret;
 };
 ```
@@ -1994,7 +1993,7 @@ var largestValues = function(root) {
  * @param {number} targetSum
  * @return {boolean}
  */
-var hasPathSum = function(root, targetSum) {
+var hasPathSum = function (root, targetSum) {
   if (root === null) return false;
 
   if (!root.left && !root.right) {
@@ -2021,12 +2020,13 @@ var hasPathSum = function(root, targetSum) {
  * @param {TreeNode} root
  * @return {number}
  */
-var sumOfLeftLeaves = function(root) {
+var sumOfLeftLeaves = function (root) {
   let total = 0;
   function travese(node) {
     if (node === null) return;
-    if (node.left && !node.left.left && !node.left.right) total += node.left.val;
-    
+    if (node.left && !node.left.left && !node.left.right)
+      total += node.left.val;
+
     node.left && travese(node.left);
     node.right && travese(node.right);
   }
@@ -2050,7 +2050,7 @@ var sumOfLeftLeaves = function(root) {
  * @param {TreeNode} root
  * @return {boolean}
  */
-var isValidBST = function(root) {
+var isValidBST = function (root) {
   let pre = -Infinity;
   function travese(node) {
     if (node === null) return true;
@@ -2065,7 +2065,6 @@ var isValidBST = function(root) {
   return travese(root);
 };
 ```
-
 
 #### 99. 恢复二叉搜索树
 
@@ -2084,7 +2083,7 @@ var isValidBST = function(root) {
  * @param {TreeNode} root
  * @return {void} Do not return anything, modify root in-place instead.
  */
-var recoverTree = function(root) {
+var recoverTree = function (root) {
   const arr = [];
   function travese(node) {
     if (node === null) return;
@@ -2125,7 +2124,7 @@ var recoverTree = function(root) {
  * @param {number[]} nums
  * @return {TreeNode}
  */
-var sortedArrayToBST = function(nums) {
+var sortedArrayToBST = function (nums) {
   if (nums.length === 0) return null;
 
   const mid = Math.floor(nums.length / 2);
@@ -2152,8 +2151,8 @@ var sortedArrayToBST = function(nums) {
  * @param {number[]} nums
  * @return {TreeNode}
  */
-var constructMaximumBinaryTree = function(nums) {
-  if (nums.length === 0) return null
+var constructMaximumBinaryTree = function (nums) {
+  if (nums.length === 0) return null;
 
   const max = Math.max(...nums);
   const index = nums.indexOf(max);
@@ -2167,7 +2166,8 @@ var constructMaximumBinaryTree = function(nums) {
 
 #### 109. 有序链表转换为二叉搜索树
 
-先转换为数组，然后使用108题的方法
+先转换为数组，然后使用 108 题的方法
+
 ```js
 /**
  * Definition for singly-linked list.
@@ -2188,7 +2188,7 @@ var constructMaximumBinaryTree = function(nums) {
  * @param {ListNode} head
  * @return {TreeNode}
  */
-var sortedListToBST = function(head) {
+var sortedListToBST = function (head) {
   const arr = [];
   let node = head;
   while (node) {
@@ -2198,7 +2198,7 @@ var sortedListToBST = function(head) {
   return sortedArrayToBST(arr);
 };
 
-var sortedArrayToBST = function(nums) {
+var sortedArrayToBST = function (nums) {
   if (nums.length === 0) return null;
 
   const mid = Math.floor(nums.length / 2);
@@ -2232,10 +2232,10 @@ var sortedArrayToBST = function(nums) {
  * @param {ListNode} head
  * @return {TreeNode}
  */
-var sortedListToBST = function(head) {
+var sortedListToBST = function (head) {
   function travese(head, tail) {
     if (head === tail) return null;
-  
+
     let fast = head;
     let slow = head;
     while (fast !== tail && fast.next !== tail) {
@@ -2248,5 +2248,446 @@ var sortedListToBST = function(head) {
     return root;
   }
   return travese(head, null);
+};
+```
+
+#### 230. 二叉搜索树中第 K 小的元素
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function (root, k) {
+  const arr = [];
+  function travese(root) {
+    root.left && travese(root.left);
+    arr.push(root.val);
+    root.right && travese(root.right);
+  }
+  travese(root);
+  return arr[k - 1];
+};
+```
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function (root, k) {
+  let count = 0;
+  const stack = [];
+
+  while (root || stack.length) {
+    while (root) {
+      stack.push(root);
+      root = root.left;
+    }
+    root = stack.pop();
+    count++;
+    if (count === k) {
+      return root.val;
+    }
+    root = root.right;
+  }
+};
+```
+
+#### 700. 二叉搜索树中的搜索
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} val
+ * @return {TreeNode}
+ */
+var searchBST = function (root, val) {
+  function travese(root) {
+    if (root === null) return null;
+    if (root.val === val) return root;
+    if (root.val > val) return travese(root.left);
+    if (root.val < val) return travese(root.right);
+  }
+  return travese(root);
+};
+```
+
+#### 701. 二叉搜索树中的插入操作
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} val
+ * @return {TreeNode}
+ */
+var insertIntoBST = function (root, val) {
+  if (root === null) {
+    return new TreeNode(val);
+  }
+  if (root.val > val) {
+    root.left = insertIntoBST(root.left, val);
+  } else {
+    root.right = insertIntoBST(root.right, val);
+  }
+  return root;
+};
+```
+
+### 栈
+
+#### 225. 用队列实现栈
+
+```js
+var MyStack = function () {
+  // 队列只有push和shift操作：后面进，前面出
+  // 主操作
+  this.queue1 = [];
+  // 备份
+  this.queue2 = [];
+};
+
+/**
+ * @param {number} x
+ * @return {void}
+ */
+MyStack.prototype.push = function (x) {
+  this.queue1.push(x);
+};
+
+/**
+ * @return {number}
+ */
+MyStack.prototype.pop = function () {
+  // queue1为空
+  while (this.queue1.length > 1) {
+    this.queue2.push(this.queue1.shift());
+  }
+  const tmp = this.queue1.shift();
+  [this.queue1, this.queue2] = [this.queue2, this.queue1];
+  return tmp;
+};
+
+/**
+ * @return {number}
+ */
+MyStack.prototype.top = function () {
+  const tmp = this.pop();
+  this.push(tmp);
+  return tmp;
+};
+
+/**
+ * @return {boolean}
+ */
+MyStack.prototype.empty = function () {
+  return !this.queue1.length && !this.queue2.length;
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * var obj = new MyStack()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.empty()
+ */
+```
+
+#### 232. 用栈实现队列
+
+```js
+var MyQueue = function () {
+  // 栈有push和pop
+  // 要实现push和shift
+  this.stack1 = [];
+  this.stack2 = [];
+};
+
+/**
+ * @param {number} x
+ * @return {void}
+ */
+MyQueue.prototype.push = function (x) {
+  this.stack1.push(x);
+};
+
+/**
+ * @return {number}
+ */
+MyQueue.prototype.pop = function () {
+  while (this.stack1.length > 1) {
+    this.stack2.push(this.stack1.pop());
+  }
+  const tmp = this.stack1.pop();
+  while (this.stack2.length) {
+    this.stack1.push(this.stack2.pop());
+  }
+  return tmp;
+};
+
+/**
+ * @return {number}
+ */
+MyQueue.prototype.peek = function () {
+  const tmp = this.pop();
+  while (this.stack1.length) {
+    this.stack2.push(this.stack1.pop());
+  }
+  this.stack1.push(tmp);
+  while (this.stack2.length) {
+    this.stack1.push(this.stack2.pop());
+  }
+  return tmp;
+};
+
+/**
+ * @return {boolean}
+ */
+MyQueue.prototype.empty = function () {
+  return !this.stack1.length && !this.stack2.length;
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * var obj = new MyQueue()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.peek()
+ * var param_4 = obj.empty()
+ */
+```
+
+```js
+var MyQueue = function () {
+  // 栈有push和pop
+  // 要实现push和shift
+  this.stackIn = [];
+  this.stackOut = [];
+};
+
+/**
+ * @param {number} x
+ * @return {void}
+ */
+MyQueue.prototype.push = function (x) {
+  this.stackIn.push(x);
+};
+
+/**
+ * @return {number}
+ */
+MyQueue.prototype.pop = function () {
+  if (this.stackOut.length) return this.stackOut.pop();
+  while (this.stackIn.length) {
+    this.stackOut.push(this.stackIn.pop());
+  }
+  return this.stackOut.pop();
+};
+
+/**
+ * @return {number}
+ */
+MyQueue.prototype.peek = function () {
+  const tmp = this.pop();
+  this.stackOut.push(tmp);
+  return tmp;
+};
+
+/**
+ * @return {boolean}
+ */
+MyQueue.prototype.empty = function () {
+  return !this.stackIn.length && !this.stackOut.length;
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * var obj = new MyQueue()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.peek()
+ * var param_4 = obj.empty()
+ */
+```
+
+#### 150. 逆波兰表达式求值
+
+```js
+/**
+ * @param {string[]} tokens
+ * @return {number}
+ */
+var evalRPN = function (tokens) {
+  const stack = [];
+  while (tokens.length) {
+    const t = tokens.shift();
+    let tmp;
+    switch (t) {
+      case "+":
+        stack.push(stack.pop() + stack.pop());
+        break;
+      case "-":
+        tmp = stack.pop();
+        stack.push(stack.pop() - tmp);
+        break;
+      case "*":
+        stack.push(stack.pop() * stack.pop());
+        break;
+      case "/":
+        tmp = stack.pop();
+        const ret = stack.pop() / tmp;
+
+        stack.push(ret > 0 ? Math.floor(ret) : Math.ceil(ret));
+        break;
+      default:
+        stack.push(Number(t));
+    }
+  }
+  return stack.pop();
+};
+```
+
+#### 151. 反转字符串中的单词
+
+```js
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function (s) {
+  const arr = [];
+  let str = "";
+  for (let i = 0; i < s.length; i++) {
+    const cur = s[i];
+    if (cur === " ") {
+      if (str.length > 0) {
+        arr.unshift(str);
+        str = "";
+      }
+    } else if (i === s.length - 1) {
+      str += cur;
+      arr.unshift(str);
+    } else {
+      str += cur;
+    }
+  }
+  return arr.join(" ");
+};
+```
+
+### 二分思想 
+
+#### 704. 二分查找（作为二分的案例讲注意点）
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var search = function (nums, target) {
+  let left = 0;
+  // 这里如果用Length - 1的话是可以访问到的，下面要用<=
+  // 这里如果用length的话，下面要用<
+  let right = nums.length - 1;
+  while (left <= right) {
+    // 这里要注意两个很大的数导致相加越界的情况
+    // let mid = left + Math.ceil((right - left) / 2)
+    let mid = Math.ceil((left + right) / 2);
+    const midNum = nums[mid];
+    if (midNum === target) {
+      return mid;
+    } else if (midNum > target) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+  return -1;
+};
+```
+
+
+#### 153. 寻找旋转排序数组中的最小值
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMin = function(nums) {
+    let left = 0;
+    let right = nums.length - 1;
+    while (left <= right) {
+        const mid = (left + right) >> 1;
+        if (nums[mid] > nums[right]) {
+            left = mid + 1;
+        } else if (nums[mid] < nums[right]) {
+            right = mid;
+        } else {
+            right--;
+        }
+    }
+    return nums[left];
+};
+```
+
+#### 69. x的平方根
+
+```js
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var mySqrt = function(x) {
+    let left = 0;
+    let right = x;
+    while (left <= right) {
+        const mid = (left + right) >> 1;
+        const midNum = mid * mid;
+        if (midNum > x) {
+            right = mid - 1;
+        } else if (midNum < x) { 
+            left = mid + 1;
+        } else {
+            return mid;
+        }
+    }
+    return left - 1;
 };
 ```

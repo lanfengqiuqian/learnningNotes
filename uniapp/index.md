@@ -847,3 +847,9 @@ typeChange(){
 改用`天地图`
 
 <https://blog.csdn.net/qq285744011/article/details/125162871>
+
+
+#### 选择头像api报错
+
+需要在开发者后台开通权限
+<https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11691660367cfUvX&version=&lang=zh_CN&token=>
