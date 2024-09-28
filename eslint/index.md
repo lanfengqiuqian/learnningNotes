@@ -157,3 +157,35 @@ var b = 1;
 // 这是一段代码
 /* eslint-disable */
 ```
+
+#### 解决eslint和prettier的冲突
+
+<https://juejin.cn/post/7156893291726782500#heading-8>
+
+思路：关闭`eslint`的格式化功能，只需要它做好代码质量检测的功能即可
+
+```js
+// 安装依赖
+yarn add eslint-config-prettier eslint-plugin-prettier -D
+
+// .eslintrc
+{
+   // 其余的配置
+ - "extends": ["eslint:recommended", "standard"]
+ + "extends": ["eslint:recommended", "standard",  "plugin:prettier/recommended"]
+  // 其余的配置
+}
+```
+
+如果修改了.prettierrc的配置选项，会发现 eslint 和 prettier又冲突了，这是因为vscode插件缓存没有及时更新，重启下vscode即可。
+
+
+#### perttier和vue-official冲突
+
+有时候发现不是上面的`prettier`和`eslint`的冲突，而是`vue-official`和`pretter`的冲突
+
+表现在其他类型的文件是好的，但是`.vue`文件格式化之后，然后保存，又是一串的波浪线
+
+原因是：手动格式化可能使用的是`vue-official`（`这个也是默认的vue文件的格式化插件`），然后保存自动格式化使用的是`vue-official`，然后没通过`prettier`的校验
+
+解决方案：手动设置`.vue`文件的格式化工具为`prettier`

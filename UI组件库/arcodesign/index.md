@@ -355,3 +355,35 @@ const retArr = [
 `a-tree`组件上没有`disabled`属性，需要在数据`data`上加`disabled`
 
 如果是在表单组件中，也可以设置`a-form-item`的属性为`disabled`
+
+### 设置主题色
+
+在`main.ts`中加入以下代码
+
+```js
+// 设置primary主题色
+
+const primaryColorArr = [
+  '232,255,248',
+  '192,236,225',
+  '156,217,204',
+  '124,198,184',
+  '95,179,166',
+  '70,160,149',
+  '46,139,131',
+  '26,118,114',
+  '11,97,96',
+  '0,75,77',
+];
+
+Array.from({ length: 10 }).forEach((_, index) => {
+  document.body.style.setProperty(
+    `--primary-${index + 1}`,
+    primaryColorArr[index]
+  );
+});
+```
+
+`注意`：需要使用`rgb色值`，`16进制`不生效
+
+也可以研究官方文档：<https://arco.design/vue/docs/theme>，但是我尝试了没生效

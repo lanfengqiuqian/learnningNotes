@@ -396,6 +396,19 @@ background-color: #464646;
 
 可以参考这个[https://juejin.cn/post/6844904175856271374](https://juejin.cn/post/6844904175856271374)
 
+### 设置2个圆角
+
+```css
+selector {
+  border-radius: top-left-radius top-right-radius bottom-right-radius bottom-left-radius;
+}
+
+/* 设置上面2个角 */
+selector {
+  border-radius: 10px 20px 0 0;
+}
+```
+
 ### 有序列表和无序列表的序号不展示
 
 原因：`ol`标签`padding-left`属性，需要保留`20px`左右
@@ -624,11 +637,9 @@ vertical-align: middle;
 }
 ```
 
-
 ### 变形、过渡、动画
 
 1. 变形（transform）
-
 
 设置一个元素的`旋转（rotate）`、`缩放（scale）`、`倾斜（skew）`或`平移（translate）`
 
@@ -655,7 +666,7 @@ vertical-align: middle;
             3. 两个参数时: 第一个参数表示水平方向的移动距离, 第二个参数表示垂直方向的移动距离 。
 ​
 2. 基准点 transform-origin
-     1. 在使用 transform 方法进行文字或图像的变形时, 是以元素的中心点为基准点进行的 。 使用 transform-origin 属性, 可以改变变形的基准点 
+     1. 在使用 transform 方法进行文字或图像的变形时, 是以元素的中心点为基准点进行的 。 使用 transform-origin 属性, 可以改变变形的基准点
      2. 用法: transform-origin: 10px 10px;
      3. 表示相对左上角原点的距离, 单位 px, 第一个参数表示相对左上角原点水平方向的距离, 第二个参数表示相对左上角原点垂直方向的距离;
      4. 两个参数除了可以设置为具体的像素值, 其中第一个参数可以指定为 left、center、right, 第二个参数可以指定为 top、center、bottom。
@@ -667,7 +678,6 @@ vertical-align: middle;
 
 2. 过渡（transition）
 
-
 过渡可以为一个元素在`不同状态之间切换`的时候定义不同的过渡效果。比如在不同的伪元素之间切换，像是`:hover`，`:active` 或者通过 JavaScript 实现的状态变化。
 
 ```css
@@ -677,7 +687,7 @@ vertical-align: middle;
 }
 ```
 
-举例，元素hover的时候变宽
+举例，元素 hover 的时候变宽
 
 ```css
 .center {
@@ -703,7 +713,7 @@ vertical-align: middle;
      2. transition-duration: 规定完成过渡效果需要多少秒或毫秒 。
      3. transition-timing-function: 指定过渡函数, 规定速度效果的速度曲线 。
      4. transition-delay: 指定开始出现的延迟时间 。
-   
+
 3. 子属性详解:
      1. transition-property: none |all |property;
         1. 值为 none 时, 没有属性会获得过渡效果
@@ -733,7 +743,7 @@ vertical-align: middle;
                  4. ease-out: 慢速结束的过渡 (约等于)== cubic-bezier(0,0.,0.58,1) 。
                  5. ease-in-out: 慢速开始和结束的过渡 (约等于)== cubic-bezier(0.45,0.,0.58,1) 。
                  6. cubic-bezier(n,n,n,n): 在 cubic-bezier 函数中定义自己的值; 可能的值是0~1之间的数值 。
-            
+
         4. transition-delay
             1. 这个属性没什么说的了, 就是过渡效果开始前的延迟时间, 单位秒或者毫秒
 ```
@@ -809,7 +819,7 @@ vertical-align: middle;
 ​
      1. animation-play-state 规定动画是否正在运行或暂停 。 默认是 "running" 播放; paused 暂停播放 。
             1. 语法: animation-play-state: paused;
-                                                    
+
      2. animation-fill-mode   属性规定动画在播放之前或之后, 其动画效果是否可见; 规定对象动画时间之外的状态; none | forwards | backwards | both 。
             1. none:       不改变默认行为 (默认, 回到动画没开始时的状态) 。
             2. forwards:   当动画完成后，保持最后一个属性值（在最后一个关键帧中定义) (动画结束后动画停留在结束状态) 。
@@ -819,13 +829,13 @@ vertical-align: middle;
                1. 0% 是动画的开始, 100% 是动画的完成。
 ```
 
-### 简单对比background、background-image、background-color
+### 简单对比 background、background-image、background-color
 
 1. `background`是一个简写属性的集合，包括`image`和`color`，同时还包含其他的属性
 2. `background-image`用于设置背景图片或者是渐变色的背景
 3. `background-color`用于设置单一的背景颜色
 
-### transform对行元素不生效
+### transform 对行元素不生效
 
 需要改为`inline-block`或者`block`
 
@@ -844,8 +854,7 @@ vertical-align: middle;
         border-radius: 16px;
         background-clip: padding-box, border-box;
         background-origin: padding-box, border-box;
-        background-image: linear-gradient(to right, #fff, #fff),
-          linear-gradient(90deg, #8f41e9, #578aef);
+        background-image: linear-gradient(to right, #fff, #fff), linear-gradient(90deg, #8f41e9, #578aef);
       }
     </style>
   </head>
@@ -861,3 +870,59 @@ vertical-align: middle;
   </body>
 </html>
 ```
+
+### 缩放 scale 和 zoom
+
+|        | scale                                       | zoom                                                                                                    |
+| ------ | ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| 兼容性 | 兼容性更好                                  | 不算标准属性，兼容性更差，以前是 IE 的私有玩具，除了 firefox 其他的如 chrome 和移动浏览器已经很好支持了 |
+| 值     | 不支持百分比和 normal，只能是数值，支持负数 | 支持百分比和数值和 normal                                                                               |
+| 方向   | 能够单独控制 x 和 y 方向                    | 不支持单独控制方向                                                                                      |
+| 布局   | 原先的空间仍然存在，能够设置缩放源点        | 原先空间不存在，不需要设置源点                                                                          |
+| 性能   | 只重绘，不重排，性能好                      | 会重排，性能差                                                                                          |
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="one">这里是一段文字</div>
+    <div class="wrap">
+      <div class="two">这里是一段文字</div>
+      <div class="two-pro">这里是旁边的文字</div>
+    </div>
+    <div class="three">这里是一段文字</div>
+  </body>
+  <style>
+    div {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #333;
+      font-size: 50px;
+    }
+    .one {
+      transform: scale(0.5);
+    }
+    .wrap {
+      width: auto;
+      height: auto;
+    }
+    .two {
+      zoom: 0.5;
+    }
+    .wrap {
+      display: flex;
+    }
+    .wrap .two-pro {
+      width: 50px;
+      height: 50px;
+      font-size: 10px;
+    }
+  </style>
+</html>
+```
+

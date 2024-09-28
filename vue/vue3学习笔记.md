@@ -985,7 +985,7 @@ module.exports = defineConfig({
 });
 ```
 
-### 使用`unplugin-auto-import`实现模块自动导入
+### 使用`unplugin-auto-import`实现模块自动导入（`自动导入函数`）
 
 1. 安装
 
@@ -1044,6 +1044,47 @@ module.exports = defineConfig({
       ```
 
       如果提示还是爆红，重新启动一下 vscode，运行起来的项目正常可用即可
+
+### 使用`unplugin-vue-components`实现组件自动导入（`自动导入组件`）
+
+1. 安装
+
+  > npm i unplugin-vue-components -D
+
+
+2. 配置
+
+  1. vite.config.js
+
+  ```js
+  import Components from 'unplugin-vue-components/vite'  
+
+  export default defineConfig(mode => {
+  return {
+    plugins: [
+      Components({
+        <!-- 自动导入UI库 -->
+        resolvers: [ElementPlusResolver()]
+        <!-- 自动导入自定义组件 -->
+        dirs: ['src/components'],
+      })
+    ],
+  }
+  ```
+
+  2. tsconfig.json
+
+    ```json
+    {
+        "include": [
+            "components.d.ts"
+        ],
+    }
+    ```
+
+3. 注意
+
+  如果某一个组件已经删除不存在了，但是`compontnt.d.ts`中还有该文件的配置信息，可以重新打开项目，或者删除该文件，重新生成
 
 ### route 和 router 的区别
 
@@ -1256,21 +1297,33 @@ import {getAssetsFile} from '@/util/public-use'
 </li>
 
 <script>
-let itemRefs = []
-const setItemRef = (el, index) => {
-  if (el) {
-    itemRefs[index] = (el)
-  }
-}
+  let itemRefs = [];
+  const setItemRef = (el, index) => {
+    if (el) {
+      itemRefs[index] = el;
+    }
+  };
 </script>
 ```
 
-### mitt监听不到
+### mitt 监听不到
 
 `emit`和`on`需要使用同一个实例
 
 就是说`A文件`导出，然后`B文件`引入使用
 
+### mitt 取消监听无效
+
+需要传递第二个参数，就是注册的函数
+
+```js
+onMounted(() => {
+  mitter.on("mitt-name", callback);
+});
+onUnmounted(() => {
+  mitter.off("mitt-name", callback); // <--关键代码，第二个参数要传入订阅时的回调函数
+});
+```
 
 ### 报错 failed to fetch dynamically imported module
 
@@ -1283,14 +1336,11 @@ const setItemRef = (el, index) => {
 ### 同时传递多个属性
 
 ```html
-const post = {
-  id: 1,
-  title: 'hello'
-}
+const post = { id: 1, title: 'hello' }
 
 <MyComponent v-bind="post" />
 
 <!-- 等价于 -->
- <MyComponent v-bind:id="post.id" v-bind:title="post.title" />
- <MyComponent :id="post.id" :title="post.title" />
+<MyComponent v-bind:id="post.id" v-bind:title="post.title" />
+<MyComponent :id="post.id" :title="post.title" />
 ```

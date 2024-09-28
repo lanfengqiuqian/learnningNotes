@@ -1,3 +1,45 @@
+### 开源小程序
+
+1. 充电桩
+
+   <https://github.com/cheinlu/HarmonyOS-groundhog-charging-system>
+
+   一套包含鸿蒙、微信小程序、云平台充电设备管理系统。鸿蒙 App 使用 HarmonyOS 4.0 开发，小程序使用 uniapp 开发；功能涉及：登录、注册、查找充电站和充电站、在线充电、订单查询、个人中心等云平台使用。
+
+   ![充电桩](images/image1.png)
+
+2. 会员营销
+
+   <https://gitee.com/fuint/fuint-uniapp>
+
+   fuint 会员营销系统是一套开源的实体店铺会员管理和营销系统。前端基于 Uniapp，Element UI，支持小程序、h5。主要功能包含电子优惠券、储值卡、实体卡、计次卡、短信发送、储值卡、会员积分、会员等级权益体系，支付收款等会员日常营销工具。本系统适用于各类实体店铺，如零售超市、酒吧、酒店、汽车 4S 店、鲜花店、奶茶店、甜品店、餐饮店、农家乐等，是实体店铺会员营销必备的一款利器。
+
+   ![会员营销](images/image2.png)
+
+3. AI 办公
+
+   <https://gitee.com/rocy_wang/aioffice>
+
+   一个 AI 办公小程序，支持 AI 视频、AI 换脸、AI 机器人、AI 文生图、AI 话画、AI 私域、AI 图片识字、AI 抠图、AI 提示词工程、AI PPT、AI WORD、AI 招聘。
+
+   ![AI办公](images/image.png)
+
+4. ChatGPT-MP
+
+   <https://gitee.com/smalle/ChatGPT-MP>
+
+   基于 ChatGPT 实现的微信小程序，包含前后台，支持打字效果输出流式输出，支持 AI 聊天次数限制，支持分享增加次数等功能。
+
+   ![ChatGPT-MP](images/image-1.png)
+
+5. 生鲜商城
+
+   <https://gitee.com/zhengkaixing/kxmall>
+
+   kxmall 生鲜商城使用 uniapp 开发，可同时编译到微信小程序、H5、Android App、iOS App 等多个平台。
+
+   ![生鲜商城](images/image-2.png)
+
 ### hbuild 好用插件整理
 
 1. 命令面板
@@ -50,11 +92,11 @@
 
 1. 如果是自定义页面（`顶部`是自己实现的）
 
-  > height: calc(100vh - 188rpx - 40rpx - 其他区域高度)
+> height: calc(100vh - 188rpx - 40rpx - 其他区域高度)
 
 2. 如果是正常页面（`顶部`用的是原生的）
 
-  > height: calc(100vh - 40rpx - 其他区域高度)
+> height: calc(100vh - 40rpx - 其他区域高度)
 
 #### button 中使用图片，修改 button 样式，达到仅展示图片
 
@@ -111,8 +153,7 @@ onLoad(() => {
 
 PS：`如果没有触发，尝试重新打开微信开发者工具或者重新编译`（我已经踩过这个坑了）
 
-
-#### image的mode一般使用aspectFill
+#### image 的 mode 一般使用 aspectFill
 
 保持纵横比缩放图片，只保证图片的短边能完全显示出来
 
@@ -266,10 +307,9 @@ page {
 
 我找了好久才找到这个问题。。。
 
-#### uni-list-item组件使用插槽
+#### uni-list-item 组件使用插槽
 
-一旦使用插槽，那么3个插槽需要都使用，否则别的无效
-
+一旦使用插槽，那么 3 个插槽需要都使用，否则别的无效
 
 #### uni-list 组件设置圆角
 
@@ -364,247 +404,309 @@ const onKeyboardHeightChange = (event) => {
 
 <https://ext.dcloud.net.cn/plugin?id=7962>
 
-
 #### 类似淘宝的搜索页面
 
 ```html
 <template>
-	<view class="container">
-		<view class="search-wrap">
-			<uni-search-bar class="search-input" placeholder="请输入您想搜索的内容" radius="100" @confirm="search"
-				v-model="keyword" cancelButton="none">
-			</uni-search-bar>
-			<view class="btn" @click="searchHandle">
-				搜索
-			</view>
-		</view>
-		<view class="search-view" v-if="!showResult">
-			<view class="search-view mar-both">
-				<view class="search-view search-title">
-					<text class="search-text big-title hot">当前热搜</text>
-					<uni-icons type="eye" size="20" color="#b3b3b3" v-if="!hide" @click="hide=!hide"></uni-icons>
-					<uni-icons type="eye-slash" size="20" color="#b3b3b3" v-else @click="hide=!hide"></uni-icons>
-				</view>
-				<view class="search-view search-item-container" v-if="!hide">
-					<view class="search-view grey-btn-text" v-for="(find,index) in finds" :key="index">
-						<text class="search-text text-ellipsis item-text" @click="doFind(find)">{{find}}</text>
-					</view>
-				</view>
-				<div class="search-view hide-tip-container" v-else>
-					<span class="search-text hide-tip">当前搜索发现已隐藏</span>
-				</div>
-				<view class="search-view search-title" v-if="historys.length>0">
-					<text class="search-text big-title">搜索历史</text>
-					<uni-icons type="trash" size="20" color="#b3b3b3" @click="del"></uni-icons>
-				</view>
-				<view class="search-view search-item-container" v-if="historys.length>0">
-					<view class="search-view grey-btn-text" v-for="(his,index) in historys" :key="index">
-						<text class="search-text text-ellipsis item-text" @click="doFind(his)">{{his}}</text>
-					</view>
-				</view>
-				<div class="search-view area-buffer" v-if="historys.length>0"></div>
-			</view>
-		</view>
-		<view class="result-page" v-else>
-			<view class="tab">
-				<view class="tab-item" :class="{active: active == 1}" @click="active = 1">剧目</view>
-				<view class="tab-item" :class="{active: active == 2}" @click="active = 2">活动</view>
-				<view class="tab-item" :class="{active: active == 3}" @click="active = 3">资讯</view>
-				<view class="tab-item" :class="{active: active == 4}" @click="active = 4">商品</view>
-			</view>
-			<view class="list-wrap">
-
-			</view>
-		</view>
-	</view>
+  <view class="container">
+    <view class="search-wrap">
+      <uni-search-bar
+        class="search-input"
+        placeholder="请输入您想搜索的内容"
+        radius="100"
+        @confirm="search"
+        v-model="keyword"
+        cancelButton="none"
+      >
+      </uni-search-bar>
+      <view class="btn" @click="searchHandle"> 搜索 </view>
+    </view>
+    <view class="search-view" v-if="!showResult">
+      <view class="search-view mar-both">
+        <view class="search-view search-title">
+          <text class="search-text big-title hot">当前热搜</text>
+          <uni-icons
+            type="eye"
+            size="20"
+            color="#b3b3b3"
+            v-if="!hide"
+            @click="hide=!hide"
+          ></uni-icons>
+          <uni-icons
+            type="eye-slash"
+            size="20"
+            color="#b3b3b3"
+            v-else
+            @click="hide=!hide"
+          ></uni-icons>
+        </view>
+        <view class="search-view search-item-container" v-if="!hide">
+          <view
+            class="search-view grey-btn-text"
+            v-for="(find,index) in finds"
+            :key="index"
+          >
+            <text
+              class="search-text text-ellipsis item-text"
+              @click="doFind(find)"
+              >{{find}}</text
+            >
+          </view>
+        </view>
+        <div class="search-view hide-tip-container" v-else>
+          <span class="search-text hide-tip">当前搜索发现已隐藏</span>
+        </div>
+        <view class="search-view search-title" v-if="historys.length>0">
+          <text class="search-text big-title">搜索历史</text>
+          <uni-icons
+            type="trash"
+            size="20"
+            color="#b3b3b3"
+            @click="del"
+          ></uni-icons>
+        </view>
+        <view
+          class="search-view search-item-container"
+          v-if="historys.length>0"
+        >
+          <view
+            class="search-view grey-btn-text"
+            v-for="(his,index) in historys"
+            :key="index"
+          >
+            <text
+              class="search-text text-ellipsis item-text"
+              @click="doFind(his)"
+              >{{his}}</text
+            >
+          </view>
+        </view>
+        <div class="search-view area-buffer" v-if="historys.length>0"></div>
+      </view>
+    </view>
+    <view class="result-page" v-else>
+      <view class="tab">
+        <view
+          class="tab-item"
+          :class="{active: active == 1}"
+          @click="active = 1"
+          >剧目</view
+        >
+        <view
+          class="tab-item"
+          :class="{active: active == 2}"
+          @click="active = 2"
+          >活动</view
+        >
+        <view
+          class="tab-item"
+          :class="{active: active == 3}"
+          @click="active = 3"
+          >资讯</view
+        >
+        <view
+          class="tab-item"
+          :class="{active: active == 4}"
+          @click="active = 4"
+          >商品</view
+        >
+      </view>
+      <view class="list-wrap"> </view>
+    </view>
+  </view>
 </template>
 <script setup>
-	import {
-		ref
-	} from 'vue'
+  import { ref } from "vue";
 
-	const historys = ref(['三国演义', '水浒传']);
-	const finds = ref(['红楼梦', '梁山伯与祝英台', '金瓶梅', '天仙配', '西游记', '老人与海']);
-	const hide = ref(false)
-	const keyword = ref('')
-	const del = () => {
-		uni.showModal({
-			//title: '提示',
-			content: '确认删除全部历史记录?',
-			success: function(res) {
-				if (res.confirm) {
-					console.log('用户点击确定');
-					that.historys = []
-				} else if (res.cancel) {
-					console.log('用户点击取消');
-				}
-			}
-		});
-	}
-	const doFind = (key) => {
-		common(key);
-	}
-	const search = (e) => {
-		common(e.value);
-	}
-	const common = (key) => {
-		//省略查询api接口,只处理搜索组件本身的逻辑
-		//1、传值给search-bar进行查询
-		keyword.value = key
-		//2、本次搜索加入历史记录中(查询过先删除再加入)
-		const index = historys.value.indexOf(key);
-		// 如果已经存在，则先删除
-		if (index !== -1) {
-			historys.value.splice(index, 1);
-		}
-		historys.value.unshift(key)
-	}
+  const historys = ref(["三国演义", "水浒传"]);
+  const finds = ref([
+    "红楼梦",
+    "梁山伯与祝英台",
+    "金瓶梅",
+    "天仙配",
+    "西游记",
+    "老人与海",
+  ]);
+  const hide = ref(false);
+  const keyword = ref("");
+  const del = () => {
+    uni.showModal({
+      //title: '提示',
+      content: "确认删除全部历史记录?",
+      success: function (res) {
+        if (res.confirm) {
+          console.log("用户点击确定");
+          that.historys = [];
+        } else if (res.cancel) {
+          console.log("用户点击取消");
+        }
+      },
+    });
+  };
+  const doFind = (key) => {
+    common(key);
+  };
+  const search = (e) => {
+    common(e.value);
+  };
+  const common = (key) => {
+    //省略查询api接口,只处理搜索组件本身的逻辑
+    //1、传值给search-bar进行查询
+    keyword.value = key;
+    //2、本次搜索加入历史记录中(查询过先删除再加入)
+    const index = historys.value.indexOf(key);
+    // 如果已经存在，则先删除
+    if (index !== -1) {
+      historys.value.splice(index, 1);
+    }
+    historys.value.unshift(key);
+  };
 
-	const showResult = ref(true);
+  const showResult = ref(true);
 
-	const searchHandle = () => {
-		showResult.value = true;
-	}
+  const searchHandle = () => {
+    showResult.value = true;
+  };
 
-	const active = ref('1');
-	const list = ref([]);
+  const active = ref("1");
+  const list = ref([]);
 </script>
 
 <style scoped lang="less">
-	.container {
-		padding: 32rpx;
+  .container {
+    padding: 32rpx;
 
-		.search-wrap {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			margin-bottom: 32rpx;
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32rpx;
 
-			.search-input {
-				flex: 1;
+      .search-input {
+        flex: 1;
 
-				::v-deep .uni-searchbar {
-					padding: 0;
-				}
-			}
+        ::v-deep .uni-searchbar {
+          padding: 0;
+        }
+      }
 
-			.btn {
-				line-height: 44rpx;
-				font-size: 32rpx;
-				margin-left: 20rpx;
-				color: #333;
-			}
-		}
+      .btn {
+        line-height: 44rpx;
+        font-size: 32rpx;
+        margin-left: 20rpx;
+        color: #333;
+      }
+    }
 
-		.tab {
-			display: flex;
+    .tab {
+      display: flex;
 
-			&-item {
-				flex: 1;
-				line-height: 76rpx;
-				font-weight: 600;
-				text-align: center;
-				font-size: 14px;
-				color: #9BA5C4;
-			}
+      &-item {
+        flex: 1;
+        line-height: 76rpx;
+        font-weight: 600;
+        text-align: center;
+        font-size: 14px;
+        color: #9ba5c4;
+      }
 
-			.active {
-				color: @color;
+      .active {
+        color: @color;
 
-				&::after {
-					content: '';
-					display: block;
-					width: 44rpx;
-					height: 4rpx;
-					background-color: @color;
-					border-radius: 4rpx;
-					margin-left: calc(50% - 22rpx);
-					transform: translateY(-10rpx);
-				}
-			}
-		}
+        &::after {
+          content: "";
+          display: block;
+          width: 44rpx;
+          height: 4rpx;
+          background-color: @color;
+          border-radius: 4rpx;
+          margin-left: calc(50% - 22rpx);
+          transform: translateY(-10rpx);
+        }
+      }
+    }
 
-		.search-view {
-			align-content: flex-start;
-			border: 0 solid #000;
-			box-sizing: border-box;
-			display: flex;
-			flex-direction: column;
-			flex-shrink: 0;
-			margin: 0;
-			min-width: 0;
-			padding: 0;
-		}
+    .search-view {
+      align-content: flex-start;
+      border: 0 solid #000;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      margin: 0;
+      min-width: 0;
+      padding: 0;
+    }
 
-		.search-text {
-			box-sizing: border-box;
-			display: block;
-			font-size: 28rpx;
-			white-space: pre-wrap;
-		}
+    .search-text {
+      box-sizing: border-box;
+      display: block;
+      font-size: 28rpx;
+      white-space: pre-wrap;
+    }
 
-		.big-title {
-			margin-bottom: 20rpx;
-			margin-top: 40rpx;
-			font-weight: bold;
-		}
+    .big-title {
+      margin-bottom: 20rpx;
+      margin-top: 40rpx;
+      font-weight: bold;
+    }
 
-		.hot {
-			color: #FF3E00;
-			margin-top: 0rpx;
-		}
+    .hot {
+      color: #ff3e00;
+      margin-top: 0rpx;
+    }
 
-		.search-title {
-			align-items: center;
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			margin-top: 20rpx;
-		}
+    .search-title {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 20rpx;
+    }
 
-		.area-buffer {
-			height: 30rpx;
-		}
+    .area-buffer {
+      height: 30rpx;
+    }
 
-		.grey-btn-text {
-			background-color: #f8f8f8;
-			border-radius: 50rpx;
-			height: 60rpx;
-			line-height: 60rpx;
-			margin: 15rpx 15rpx 0 0;
-			padding: 0 24rpx;
-		}
+    .grey-btn-text {
+      background-color: #f8f8f8;
+      border-radius: 50rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      margin: 15rpx 15rpx 0 0;
+      padding: 0 24rpx;
+    }
 
-		.search-item-container {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap
-		}
+    .search-item-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
 
-		.item-text {
-			font-size: 24rpx;
-			color: rgb(102, 102, 102);
-		}
+    .item-text {
+      font-size: 24rpx;
+      color: rgb(102, 102, 102);
+    }
 
-		.text-ellipsis {
-			max-width: 650rpx;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap
-		}
+    .text-ellipsis {
+      max-width: 650rpx;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-		.hide-tip-container {
-			align-items: center;
-			display: flex;
-			justify-content: center;
-			margin-top: 30rpx;
-		}
+    .hide-tip-container {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      margin-top: 30rpx;
+    }
 
-		.hide-tip {
-			color: #b3b3b3;
-			font-size: 24rpx;
-		}
-	}
+    .hide-tip {
+      color: #b3b3b3;
+      font-size: 24rpx;
+    }
+  }
 </style>
 ```
 
@@ -712,11 +814,35 @@ PS：如果不设置的话无论使用组件跳转还是函数跳转都无效
 
 PS：跳转到`tabbar`页面的话无法传递参数，只能使用页面通信的方式，如`setStorage`
 
-#### rich-text 超出显示横向滚动条了
+#### 富文本`rich-text` 超出显示横向滚动条了
 
 ```css
-width: 100%;
-overflow-wrap: break-word;
+<view class="rich-text-wrap">
+	<rich-text :nodes="info.detail"></rich-text>
+</view>
+
+/* 文本的处理 */
+.rich-text-wrap {
+  width: 100%;
+  overflow-wrap: break-word;
+}
+```
+
+```js
+/* 图片的处理 */
+
+// 这个我实际没生效，查资料说微信小程序不支持设置img标签的style
+content.replace(/<img/g, "<img style='width:100%'");
+```
+
+```js
+// 最终解决方案是使用class
+content.replace(/<img/g, '<img class="rich-text-img-style" ');
+// 然后在App.vue中全局设置样式
+.rich-text-img-style {
+	height: 100% !important;
+	width: 100% !important;
+}
 ```
 
 #### type=tel 无效
@@ -797,27 +923,27 @@ typeChange(){
 
 ```html
 <template>
-	<page-meta :page-style="'overflow:'+(show?'hidden':'visible')"></page-meta>
-	<view class="container">
-		<!-- 普通弹窗 -->
-		<uni-popup ref="popup" background-color="#fff" @change="change">
-		<!-- ... -->
-		</uni-popup>
-	</view>
+  <page-meta :page-style="'overflow:'+(show?'hidden':'visible')"></page-meta>
+  <view class="container">
+    <!-- 普通弹窗 -->
+    <uni-popup ref="popup" background-color="#fff" @change="change">
+      <!-- ... -->
+    </uni-popup>
+  </view>
 </template>
 <script>
-	export default {
-		data() {
-			return {
-				show:false
-			}
-		},
-		methods: {
-			change(e) {
-				this.show = e.show
-			}
-		}
-	}
+  export default {
+    data() {
+      return {
+        show: false,
+      };
+    },
+    methods: {
+      change(e) {
+        this.show = e.show;
+      },
+    },
+  };
 </script>
 ```
 
@@ -833,7 +959,6 @@ typeChange(){
 
 官方 <https://uniapp.dcloud.net.cn/component/text.html#%E5%AD%90%E7%BB%84%E4%BB%B6> 说了，`text`组件只能嵌套`text`组件
 
-
 #### 有些元素点击事件不触发
 
 一般都是元素层级被遮挡了
@@ -848,8 +973,15 @@ typeChange(){
 
 <https://blog.csdn.net/qq285744011/article/details/125162871>
 
-
-#### 选择头像api报错
+#### 选择头像 api 报错
 
 需要在开发者后台开通权限
 <https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11691660367cfUvX&version=&lang=zh_CN&token=>
+
+#### `new Date(""YYYY-MM-DD hh:mm:ss")` 在部分 iOS 下无法正常使用
+
+在较新版本的安卓和 ios 上都正常，但是`iphone xr`上确实复现了
+
+```js
+new Date("YYYY-MM-DD hh:mm:ss".replace(/-/g, "/"));
+```

@@ -175,7 +175,7 @@ It is not the most correct option but it works.
 
     > 免费版只有 35%的功能，收费版，每月 10 美元
 
-    > 后来改为 Codeium 了，免费
+    > 我后来选择 Codeium 了，免费
 
 17. Vue VSCode Snippets
 
@@ -991,3 +991,18 @@ code runner 插件
 创建`/.vscode/settings.json`文件，里面就是当前工作区的设置
 
 或者是设置中修改配置的时候顶部 tab 有`用户`和`工作区`分栏，选择`工作区即可`
+
+### markdown直接粘贴图片
+
+<https://juejin.cn/post/7244809769794289721#heading-3>
+
+现在默认都支持了
+
+我唯一做的修改就是保存图片到当前目录的`images`下，而不是直接同级，看起来不舒服
+
+```json
+// settings.json中设置
+"markdown.copyFiles.destination": {
+    "**/*": "images/"
+}
+```
