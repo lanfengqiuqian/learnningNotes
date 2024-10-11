@@ -1765,24 +1765,68 @@ var newClassName = className.replace(removeClassName, ""); // 移除需要删除
 element.className = newClassName; // 更新类名
 ```
 
-64. 设置select的提示值
+64. 设置 select 的提示值
 
 ```js
-var selectElement = document.getElementById('mySelect');
+var selectElement = document.getElementById("mySelect");
 selectElement.selectedIndex = 0; // 设置初始选中提示值
 ```
 
 65. 逻辑假值
 
-  有`""`、`null`、`undefined`、`NaN`、`0`
+有`""`、`null`、`undefined`、`NaN`、`0`
 
-  进行`==`比较的时候，怎么记忆，记忆为`true`的，其他的都是`false`
+进行`==`比较的时候，怎么记忆，记忆为`true`的，其他的都是`false`
 
-  1. 
+1.
 
+2.  判断运算符
 
-66. 判断运算符
-    
     有`&&`、`||`、`?`、`?.`、`??`
 
     对于逻辑假值怎么判断
+
+3.  axios 几种传参
+
+4.  body 中放纯字符串
+
+```js
+axios.post(url, str, {
+  headers: {
+    "Content-Type": "text/plain",
+  },
+});
+```
+
+2. post 请求，使用 query 传参
+
+```js
+axios.post(url + "?id=1");
+```
+
+3. 下载文件
+
+```js
+// 发送请求
+export function exportHandle(data: any) {
+  return axios.post("/api/admin/xxx", data, {
+    responseType: "blob",
+  });
+}
+
+// 处理响应
+axios.interceptors.response.use((response: AxiosResponse<HttpResponse>) => {
+  const res = response.data;
+  if (res instanceof Blob) {
+    const url = URL.createObjectURL(res);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "下载.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    return "";
+  }
+});
+```

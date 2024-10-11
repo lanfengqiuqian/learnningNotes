@@ -344,3 +344,12 @@ oh my posh
 5. 第三方软件或驱动程序问题
 
    一些不兼容的软件或者驱动程序可能会导致系统异常重启。特别是安装了新驱动或者软件之后，会出现自动重启的情况
+
+
+### 任务栏卡死
+
+`ctrl + shift + esc`调出任务管理器，然后找到`windows资源管理器`，把他`重启`就好了
+
+或者是打开`powershell（管理员）`，输入下面命令
+
+> Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage-DisableDevelopmentMode -Register “$($_.InstallLocation)\AppXManifest.xml”}
