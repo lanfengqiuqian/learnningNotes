@@ -555,6 +555,52 @@ vertical-align: middle;
 
 详见<https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align>
 
+### vertical-align属性详解
+
+关于文字的`顶线`、`中线`、`基线`、`底线`
+
+![各种线](images/image.png)
+
+用来指定行内（`inline`）、行内区块（`inline-block`）、表格单元格(`table-cell`)盒子的垂直对齐方式
+
+`注意`：对块级元素不生效
+
+```css
+/* 关键字值 */
+/* 相对父元素的值 */
+
+/* 初始值，与父元素基线对齐 */
+vertical-align: baseline;
+/* 元素的基线与父元素下标基线对齐 */
+vertical-align: sub;
+/* 元素的基线与父元素上标基线对齐 */
+vertical-align: super;
+/* 元素的顶部与父元素的字体顶部对齐 */
+vertical-align: text-top;
+/* 元素的底部与父元素的字体底部对齐 */
+vertical-align: text-bottom;
+/* 元素的中部与父元素的基线加上父元素x-height的一半对齐 */
+vertical-align: middle;
+/* 元素及其后代的顶部与整行的顶部对齐 */
+vertical-align: top;
+/* 元素及其后代的底部与整行的底部对齐 */
+vertical-align: bottom;
+
+/* <length> 值 */
+vertical-align: 10em;
+vertical-align: 4px;
+
+/* <percentage> 值 */
+vertical-align: 20%;
+
+/* 全局值 */
+vertical-align: inherit;
+vertical-align: initial;
+vertical-align: revert;
+vertical-align: revert-layer;
+vertical-align: unset;
+```
+
 ### 导航栏布局内容区域滚动条影响到了整个页面
 
 原先的布局
@@ -926,3 +972,26 @@ vertical-align: middle;
 </html>
 ```
 
+
+### object-fit属性
+
+功能：指定`可替换元素`（如`<img>`或`<video>`）的内容应该如何适应到其使用的高度和宽度确定的框
+
+取值
+
+1. `contain`：保持宽高比缩放，不匹配的地方加上黑边
+2. `cover`：保持宽高比缩放，不匹配的地方被裁剪
+3. `fill`：进行拉伸和缩放
+4. `none`：保持原有尺寸
+5. `scale-down`：内容的尺寸与`none`或`contain`中的一个相同，取决于他们之间谁得到的对象尺寸会更小一点
+
+
+### html中的\n不会换行
+
+原因：html中直接使用`\n`渲染时无法换行的，因为`html`不识别`\n`，如果单纯的用`replace`把`\n`换成`<br>`，也无效
+
+解决方案
+
+1. 使用`js`处理，用`innerHTML = ...`或者`v-html`
+2. 使用`html`处理，在标签上套一个`<pre></pre>`
+3. 设置`css`为`white-space: pre-line`或者`white-space: pre`

@@ -62,7 +62,7 @@
 
 ### 使用技巧
 
-#### uni_module版本的mitt
+#### uni_module 版本的 mitt
 
 在项目没有使用`npm`的第三方包的时候，想要使用`mitt`的话
 
@@ -223,6 +223,37 @@ onShow(() => {
   let currentPage = pageArr[pageArr.length - 1]; //获取当前页面信息
   console.log("onshow----option:", currentPage.options); //获取页面传递的信息
 });
+```
+
+#### 使用 props 获取路由参数（Vue3 新增）
+
+官方文档：<https://uniapp.dcloud.net.cn/tutorial/migration-to-vue3.html#url-search-params>
+
+```js
+<script setup>
+  // 页面可以通过定义 props 来直接接收 url 传入的参数
+  // 如：uni.navigateTo({ url: '/pages/index/index?id=10' })
+  const props = defineProps({
+    id: String,
+  });
+  console.log("id=" + props.id); // id=10
+</script>
+
+<script>
+  // 页面可以通过定义 props 来直接接收 url 传入的参数
+  // 如：uni.navigateTo({ url: '/pages/index/index?id=10' })
+  export default {
+    props: {
+      id: {
+        type: String,
+      },
+    },
+    setup(props) {
+      console.log("id=" + props.id); // id=10
+    },
+  };
+</script>
+
 ```
 
 #### 使用其他字体
@@ -716,11 +747,123 @@ const onKeyboardHeightChange = (event) => {
 </style>
 ```
 
+#### 预览 pdf 和跳转公众号
+
+1. 创建一个放`webview`页面
+
+```html
+<template>
+  <web-view :src="url"></web-view>
+</template>
+
+<script setup>
+  import { ref } from "vue";
+  import { onLoad, onShow } from "@dcloudio/uni-app";
+
+  const url = ref("");
+
+  onLoad((options) => {
+    url.value = options.url;
+    console.log(url.value);
+  });
+</script>
+```
+
+2. 跳转并传参
+
+```js
+uni.navigateTo({
+  // 这里填写h5的链接或者是pdf的网络链接
+  url: `/pages/webview/webview?url=xxxx`,
+});
+```
+
+3. 注意
+
+实际使用中，如果校验合法域名的情况下会无法使用，提示：`无法打开该页面，不支持打开`
+
+原因是没有配置合法域名，这个需要再微信开发者后台配置，并且在该域名下还需要放置校验文件
+
+可以使用`pdfjs`来实现：<https://blog.csdn.net/qq_34025774/article/details/136009594>
+
+#### 小程序右上角分享功能
+
+默认情况下是没有的，需要调用`uni.showShareMenu`，同理`uni.hideShareMenu`也可以主动隐藏
+
+其他的分享方式: <https://developers.weixin.qq.com/community/develop/article/doc/000e26b685c950ff976ba374e51c13>
+
+#### 判断 h5 打开的浏览器环境
+
+```js
+function detectBrowserInfo() {
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  // 判断是否为微信浏览器
+  const isWechat = /micromessenger/i.test(userAgent);
+  // 判断是否为企业微信（即微信工作版）
+  const isWechatWork = /wxwork/i.test(userAgent);
+
+  // 判断是否为钉钉内置浏览器
+  const isDingTalk = /dingtalk/i.test(userAgent);
+
+  // 飞书内置浏览器可能包含 "lark" 关键字，但请核实最新版本 UA 以确保准确性
+  const isFeishu = /lark/i.test(userAgent);
+
+  return {
+    isWechat,
+    isWechatWork,
+    isDingTalk,
+    isFeishu,
+  };
+}
+
+const browserInfo = detectBrowserInfo();
+if (browserInfo.isWechat) {
+  console.log("当前环境是微信内置浏览器");
+} else if (browserInfo.isWechatWork) {
+  console.log("当前环境是企业微信内置浏览器");
+} else if (browserInfo.isDingTalk) {
+  console.log("当前环境是钉钉内置浏览器");
+} else if (browserInfo.isFeishu) {
+  console.log("当前环境可能是飞书内置浏览器");
+} else {
+  console.log("当前环境不是以上提及的内置浏览器");
+}
+```
+
+#### 如果在微信浏览器的话隐藏 uniapp 自带的导航栏
+
+如果不需要判断环境，直接都隐藏的话，直接设置`pages.json`文件中`globalStyle.navigationStyle = custom`即可
+
+如果需要判断环境的话，在`App.vue`文件中
+
+```js
+methods:{
+  navTitle(){
+    let navTitle = document.getElementsByTagName('uni-page-head');
+    navTitle[0].style.display = 'none'
+  },
+  is_weixin(){
+    return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
+  }
+}
+
+onShow(() => {
+  if(nar.is_weixin()) {
+    app.navTitle()
+  }
+})
+```
+
 ### 问题
 
 #### 微信小程序开发者工具 [error] Error: Fail to open IDE
 
-一般是
+一般是项目的 appid 对应的小程序，微信开发者工具的账号没有开发者权限
+
+1. 把项目的 appid 去掉
+2. 到开发者后台把此用户添加到开发者名单
+3. 当然最好也检查一下是否开启了服务端口
 
 #### onTabItemTap 钩子函数在真机上不触发，在微信开发者工具正常触发
 

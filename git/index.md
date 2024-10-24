@@ -310,6 +310,11 @@ git 中表现：`git add .`没有任何内容，`git status`也没有改变
 
        8. git stash drop stash@{0} 删除第一个队列
 
+    4. 注意
+
+        1. git stash apply 'stash@{$num}' 需要加引号
+        2. git stash 进行储存的时候只有进行了`git add`文件才会被stash
+
 45. git 报错：'origin' does not appear to be a git repository
 
     原因：是由于 git 找不到远端的仓库地址了，在 git 文件夹下，config 文件里配置上即可
