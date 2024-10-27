@@ -62,6 +62,12 @@
 
 ### 使用技巧
 
+#### uni_module版本的mitt
+
+在项目没有使用`npm`的第三方包的时候，想要使用`mitt`的话
+
+<https://ext.dcloud.net.cn/plugin?id=7323>
+
 #### 修改 input 的 placeholder 样式
 
 1. 使用`placeholder-style`直接写行内样式（`这个我没生效`）
