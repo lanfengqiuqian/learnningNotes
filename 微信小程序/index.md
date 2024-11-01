@@ -171,3 +171,8 @@ windows 可以直接用微软商店下载，挺快的
 <https://developers.weixin.qq.com/community/develop/doc/000484599b8580887fad6c09151400>
 
 现在`success`和`fail`回调已经不触发了，无法判断是否分享成功
+
+
+#### h5跳转微信小程序
+
+<https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html#%E6%98%8E%E6%96%87-URL-Scheme>

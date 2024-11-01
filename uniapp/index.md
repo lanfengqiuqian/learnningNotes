@@ -835,18 +835,24 @@ if (browserInfo.isWechat) {
 
 如果不需要判断环境，直接都隐藏的话，直接设置`pages.json`文件中`globalStyle.navigationStyle = custom`即可
 
+`PS`：这个属性也可以去作用于某个特定的页面
+
 如果需要判断环境的话，在`App.vue`文件中
 
+1. 在`onShow`生命周期中
+2. 判断当前是否是微信浏览器环境
+3. 如果是的话，通过`dom`操作把`uni-page-head`标签进行隐藏
+
 ```js
-methods:{
-  navTitle(){
-    let navTitle = document.getElementsByTagName('uni-page-head');
-    navTitle[0].style.display = 'none'
-  },
-  is_weixin(){
-    return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
-  }
+
+navTitle(){
+  let navTitle = document.getElementsByTagName('uni-page-head');
+  navTitle[0].style.display = 'none'
 }
+is_weixin(){
+  return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
+}
+
 
 onShow(() => {
   if(nar.is_weixin()) {
@@ -1122,10 +1128,20 @@ typeChange(){
 
 <https://blog.csdn.net/qq285744011/article/details/125162871>
 
-#### 选择头像 api 报错
+#### 选择头像、手机号 api 报错
+
+`getPhoneNumber:fail api scope is not declared in the privacy agreement,errno:112`
 
 需要在开发者后台开通权限
 <https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11691660367cfUvX&version=&lang=zh_CN&token=>
+
+PS：注意，这里填写了之后可能还是会报错，可能有这几个原因
+
+可以参见<https://developers.weixin.qq.com/community/develop/article/doc/0006e28bddcdd89ff7208d2e06bc13?page=3#comment-list>
+
+1. 审核时间问题（虽然后台通知说通过了，但是我各种尝试之后都不行，然后过了2个小时再尝试就可以了）
+2. 重启微信开发者工具
+3. 微信开发者工具切换版本库
 
 #### `new Date(""YYYY-MM-DD hh:mm:ss")` 在部分 iOS 下无法正常使用
 
@@ -1133,4 +1149,56 @@ typeChange(){
 
 ```js
 new Date("YYYY-MM-DD hh:mm:ss".replace(/-/g, "/"));
+```
+
+
+#### image图片存在边距
+
+2个方案都可
+
+1. 将`image`设置为`display: block`
+2. 设置父级元素`font-size: 0`
+
+#### 富文本中img宽度超出的问题
+
+富文本标签设置`font-size: 0`
+
+将富文本的`img`标签添加`class`
+
+```js
+data.replace(/\<img/gi, '<img class="rich_text_img" ')
+```
+
+设置样式
+
+```css
+.rich_text_img{
+    max-width: 100%;
+}
+```
+
+#### swiper组件高度无法撑开
+
+需要直接设置`swiper`组件的高度，里面子元素的高度无法撑开父元素
+
+
+#### 修改swper样式
+
+不同平台的方式不一样，参见<https://blog.csdn.net/zhangjiayu88/article/details/139739439>
+
+我这个是h5的
+
+```css
+:deep(.uni-swiper-dot) {
+  height: 3px;
+  width: 3px;
+  border-radius: 1px;
+  background: rgba(0, 0, 0, 0.2) !important;
+  margin-right: 5px !important;
+}
+
+:deep(.uni-swiper-dot-active) {
+  background: rgba(0, 0, 0, 0.35) !important;
+  width: 12px !important;
+}
 ```

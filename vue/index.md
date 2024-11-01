@@ -776,6 +776,7 @@ const objectOfAttrs = {
 ```js
 export default defineConfig({
   server: {
+    // 如果不想查看ip也可以直接使用0.0.0.0，会自动使用ip
     host: "192.168.1.10", // 本机内网host地址
     port: 3344, // 随便开放一个未占用端口
   },

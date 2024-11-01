@@ -995,3 +995,7 @@ vertical-align: unset;
 1. 使用`js`处理，用`innerHTML = ...`或者`v-html`
 2. 使用`html`处理，在标签上套一个`<pre></pre>`
 3. 设置`css`为`white-space: pre-line`或者`white-space: pre`
+
+
+### 关于white-space word-break word-wrap
+
