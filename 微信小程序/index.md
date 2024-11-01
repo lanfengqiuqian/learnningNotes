@@ -66,6 +66,10 @@ windows 可以直接用微软商店下载，挺快的
 
 ### 笔记
 
+#### 服务器域名配置
+
+<https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html#1.%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE>
+
 #### 如何引入三方库
 
 可参见[https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html)

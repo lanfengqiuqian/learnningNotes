@@ -344,6 +344,12 @@ page {
 
 我找了好久才找到这个问题。。。
 
+#### 查看别人小程序的 appid
+
+小程序`更多资料`中有
+
+<https://blog.csdn.net/qq_59747594/article/details/126639199>
+
 #### uni-list-item 组件使用插槽
 
 一旦使用插槽，那么 3 个插槽需要都使用，否则别的无效
@@ -925,6 +931,8 @@ slot 需要使用内容进行占位，要不然无法点击到组件的话无法
 2. 使用`base64`
 3. 使用`<image />`
 
+注意：如果要上正式版，或者是使用电脑打开小程序的话，需要使用`https://域名`的方式才行
+
 #### 控制台警告 `已经存在分包EM ad`
 
 不影响使用，如果要关掉的话`基础库调到3.4.7`即可
@@ -1139,7 +1147,7 @@ PS：注意，这里填写了之后可能还是会报错，可能有这几个原
 
 可以参见<https://developers.weixin.qq.com/community/develop/article/doc/0006e28bddcdd89ff7208d2e06bc13?page=3#comment-list>
 
-1. 审核时间问题（虽然后台通知说通过了，但是我各种尝试之后都不行，然后过了2个小时再尝试就可以了）
+1. 审核时间问题（虽然后台通知说通过了，但是我各种尝试之后都不行，然后过了 2 个小时再尝试就可以了）
 2. 重启微信开发者工具
 3. 微信开发者工具切换版本库
 
@@ -1151,42 +1159,40 @@ PS：注意，这里填写了之后可能还是会报错，可能有这几个原
 new Date("YYYY-MM-DD hh:mm:ss".replace(/-/g, "/"));
 ```
 
+#### image 图片存在边距
 
-#### image图片存在边距
-
-2个方案都可
+2 个方案都可
 
 1. 将`image`设置为`display: block`
 2. 设置父级元素`font-size: 0`
 
-#### 富文本中img宽度超出的问题
+#### 富文本中 img 宽度超出的问题
 
 富文本标签设置`font-size: 0`
 
 将富文本的`img`标签添加`class`
 
 ```js
-data.replace(/\<img/gi, '<img class="rich_text_img" ')
+data.replace(/\<img/gi, '<img class="rich_text_img" ');
 ```
 
 设置样式
 
 ```css
-.rich_text_img{
-    max-width: 100%;
+.rich_text_img {
+  max-width: 100%;
 }
 ```
 
-#### swiper组件高度无法撑开
+#### swiper 组件高度无法撑开
 
 需要直接设置`swiper`组件的高度，里面子元素的高度无法撑开父元素
 
-
-#### 修改swper样式
+#### 修改 swper 样式
 
 不同平台的方式不一样，参见<https://blog.csdn.net/zhangjiayu88/article/details/139739439>
 
-我这个是h5的
+我这个是 h5 的
 
 ```css
 :deep(.uni-swiper-dot) {
@@ -1202,3 +1208,9 @@ data.replace(/\<img/gi, '<img class="rich_text_img" ')
   width: 12px !important;
 }
 ```
+
+#### 下载编译工具失败，请重新运行
+
+如果是 windws 可能是文件夹没有权限，查看`帮助 => 运行日志`
+
+如果是 mac 的话尝试重新打开`hbuildx`软件

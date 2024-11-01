@@ -2691,3 +2691,54 @@ var mySqrt = function(x) {
     return left - 1;
 };
 ```
+
+### 回溯思想
+
+#### 17. 电话号码的自由组合
+
+```js
+/**
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function (digits) {
+  const map = {
+    0: "",
+    1: "",
+    2: "abc",
+    3: "def",
+    4: "ghi",
+    5: "jkl",
+    6: "mno",
+    7: "pqrs",
+    8: "tuv",
+    9: "wxyz",
+  };
+  const len = digits.length;
+  //   终止条件
+  if (len === 0) {
+    return [];
+  }
+  if (len === 1) {
+    return map[digits].split("");
+  }
+  const ret = [];
+  const path = [];
+  backtrack(digits, len, 0);
+  return ret;
+
+  function backtrack(digits, l, i) {
+    // 终止条件
+    if (path.length === l) {
+        ret.push(path.join(''));
+        return;
+    }
+    const str = map[digits[i]];
+    for (const v of str) {
+        path.push(v);
+        backtrack(digits, l, i + 1);
+        path.pop();
+    }
+  }
+};
+```
