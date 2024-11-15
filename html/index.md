@@ -253,3 +253,89 @@ document.addEventListener("unload", ready);
 ### emmet 快速编写代码
 
 <https://www.cnblogs.com/pomelos7ca/p/6944215.html>
+
+
+### Mixed Content: The page at '' was loaded over HTTPS, but requested an insecure image ''. This request has been blocked; the content must be served over HTTPS.
+
+原因：因为谷歌浏览器对于`https`链接会自动屏蔽不安全的`http`链接，就是所谓的`Mixed Content`。HTTPS页面里动态的引入HTTP资源时，比如引入一个js文件，会被直接block掉的.在HTTPS页面里通过AJAX的方式请求HTTP资源，也会被直接block掉的。
+
+解决方案
+
+1. 静态文件也使用`https`访问
+2. （前端解决），在`html`文件的`head`部分加上如下
+
+    ```html
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    ```
+
+    这段代码的意思是 自动将http的不安全请求升级为https
+
+3. （推荐）在部署前端服务的入口`nginx`配置修改如下，然后重启`nginx`
+
+    ```shell
+    server {
+            listen       443;
+            server_name  www.example.com;
+            #charset koi8-r;
+    
+            error_log  /logs/nginx/error.log;
+            root /var/www/www.example.com;
+            index  index.php index.html index.htm;
+            ssl on;
+            ssl_certificate   cert/test/test.pem;
+            ssl_certificate_key  cert/test/test.key;
+            ssl_session_timeout 5m;
+            ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+            ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+            ssl_prefer_server_ciphers on;
+            
+            # 
+            add_header  X-Frame-Options  deny;
+            add_header  X-Content-Type-Options  nosniff;
+            add_header  X-XSS-Protection "1; mode=block";
+            add_header Strict-Transport-Security max-age=86400;
+            #关键部分
+            add_header Content-Security-Policy "upgrade-insecure-requests;default-src *;script-src 'self' https://static.example.com http://static.example.com 'unsafe-inline' 'unsafe-eval';style-src https://static.example.com http://static.example.com 'self' 'unsafe-inline';frame-src 'self';connect-src 'self';img-src https://static.example.com http://static.example.com data: blob: 'self'";
+    
+            #最小配置
+            #add_header Content-Security-Policy "upgrade-insecure-requests;";
+    
+            location / {
+                    if (!-f $request_filename){
+                            rewrite ^/(.*)$ /index.php?s=$1 last;
+                            break;
+                    }
+                    limit_except GET POST DELETE PUT {
+                            deny all;
+                    }
+            }
+    
+    
+            error_page   500 502 503 504  /50x.html;
+            location = /50x.html {
+                            root   html;
+            }
+    
+            # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+            #
+            #location ~ \.php$ {
+            #    proxy_pass   http://127.0.0.1;
+            #}
+    
+            # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+            #
+            location ~ \.php$ {
+                            fastcgi_pass   127.0.0.1:9000;
+                            fastcgi_index  index.php;
+                            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+                            include        fastcgi_params;
+            }
+    
+            # deny access to .htaccess files, if Apache's document root
+            # concurs with nginx's one
+            #
+            location ~ /\.ht {
+                            deny  all;
+            }
+    }
+    ```

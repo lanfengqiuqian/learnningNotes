@@ -391,3 +391,55 @@ server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 ```
+
+
+### 解决`raw.githubusercontent.com`访问不到导致的报错
+
+在安装依赖的时候遇到报错
+
+```shell
+.../node_modules/pngquant-bin postinstall$ node lib/install.js
+│ getaddrinfo ENOENT raw.githubusercontent.com
+│ compiling from source
+│ pngquant pre-build test failed
+│ Error: pngquant failed to build, make sure that libpng-dev is installed
+│     at D:\code\zjkc-mp\node_modules\.pnpm\execa@0.7.0\node_modules\execa\index.js:231:11
+│     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+│     at async Promise.all (index 0)
+└─ Failed in 7.5s at D:\code\zjkc-mp\node_modules\.pnpm\pngquant-bin@6.0.1\node_modules\pngquant-bin
+```
+
+原因：
+
+主要问题在`getaddrinfo ENOENT raw.githubusercontent.com`
+
+`getaddrinfo ENOENT` 是一个错误消息，它通常在网络编程中出现。它表示在尝试解析主机名或服务时，找不到相应的条目。这可能是由于无法解析主机名、网络连接问题或服务不可用等原因引起的。
+
+解决方案：
+
+1. 如果开了代理的话尝试关闭代理重试
+2. 修改`hosts`文件（如`/etc/hosts`或`C:\Windows\System32\drivers\etc\hosts`）
+3. 重新安装依赖
+
+其他方案可参考<https://blog.csdn.net/Fantasywt/article/details/132673024>
+
+
+### pnpm报镜像源不一致
+
+```shell
+PS D:\code\zjkc-mp> pnpm i -g pnpm
+Nothing to stop. No server is running for the store at C:\Users\25776\.pnpm-store\v3
+ ERR_PNPM_REGISTRIES_MISMATCH  This modules directory was created using the following registries configuration: {"default":"https://registry.npmmirror.com/"}. The current configuration is {"default":"http://registry.npm.taobao.org/"}. To recreate the modules directory using the new settings, run "pnpm install".
+```
+
+意思是项目指定了镜像源为`https://registry.npmmirror.com/`，但是你的配置的镜像源为`http://registry.npm.taobao.org/`
+
+解决方案：使镜像源保持一致
+
+```shell
+# 切换为官方源
+pnpm config set registry https://registry.npmmirror.com/
+
+# 切换为淘宝源
+pnpm config set registry http://registry.npm.taobao.org/
+```

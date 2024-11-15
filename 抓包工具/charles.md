@@ -24,6 +24,8 @@
 
 <https://dev.weixin.qq.com/info-docs/gateway/snifferpacket.html>
 
+1. windows
+
 ### 手机小程序抓包教程
 
 <https://dev.weixin.qq.com/info-docs/gateway/snifferpacket.html>

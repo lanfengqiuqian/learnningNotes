@@ -62,7 +62,7 @@
 
 ### 使用技巧
 
-#### uni_module版本的mitt
+#### uni_module 版本的 mitt
 
 在项目没有使用`npm`的第三方包的时候，想要使用`mitt`的话
 
@@ -225,6 +225,37 @@ onShow(() => {
 });
 ```
 
+#### 使用 props 获取路由参数（Vue3 新增）
+
+官方文档：<https://uniapp.dcloud.net.cn/tutorial/migration-to-vue3.html#url-search-params>
+
+```js
+<script setup>
+  // 页面可以通过定义 props 来直接接收 url 传入的参数
+  // 如：uni.navigateTo({ url: '/pages/index/index?id=10' })
+  const props = defineProps({
+    id: String,
+  });
+  console.log("id=" + props.id); // id=10
+</script>
+
+<script>
+  // 页面可以通过定义 props 来直接接收 url 传入的参数
+  // 如：uni.navigateTo({ url: '/pages/index/index?id=10' })
+  export default {
+    props: {
+      id: {
+        type: String,
+      },
+    },
+    setup(props) {
+      console.log("id=" + props.id); // id=10
+    },
+  };
+</script>
+
+```
+
 #### 使用其他字体
 
 <https://blog.csdn.net/weixin_45803990/article/details/118754518>
@@ -313,7 +344,7 @@ page {
 
 我找了好久才找到这个问题。。。
 
-#### 查看别人小程序的appid
+#### 查看别人小程序的 appid
 
 小程序`更多资料`中有
 
@@ -722,11 +753,395 @@ const onKeyboardHeightChange = (event) => {
 </style>
 ```
 
+#### 预览 pdf 和跳转公众号
+
+1. 创建一个放`webview`页面
+
+```html
+<template>
+  <web-view :src="url"></web-view>
+</template>
+
+<script setup>
+  import { ref } from "vue";
+  import { onLoad, onShow } from "@dcloudio/uni-app";
+
+  const url = ref("");
+
+  onLoad((options) => {
+    url.value = options.url;
+    console.log(url.value);
+  });
+</script>
+```
+
+2. 跳转并传参
+
+```js
+uni.navigateTo({
+  // 这里填写h5的链接或者是pdf的网络链接
+  url: `/pages/webview/webview?url=xxxx`,
+});
+```
+
+3. 注意
+
+实际使用中，如果校验合法域名的情况下会无法使用，提示：`无法打开该页面，不支持打开`
+
+原因是没有配置合法域名，这个需要再微信开发者后台配置，并且在该域名下还需要放置校验文件
+
+可以使用`pdfjs`来实现：<https://blog.csdn.net/qq_34025774/article/details/136009594>
+
+#### 小程序右上角分享功能
+
+默认情况下是没有的，需要调用`uni.showShareMenu`，同理`uni.hideShareMenu`也可以主动隐藏
+
+其他的分享方式: <https://developers.weixin.qq.com/community/develop/article/doc/000e26b685c950ff976ba374e51c13>
+
+#### 判断 h5 打开的浏览器环境
+
+```js
+function detectBrowserInfo() {
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  // 判断是否为微信浏览器
+  const isWechat = /micromessenger/i.test(userAgent);
+  // 判断是否为企业微信（即微信工作版）
+  const isWechatWork = /wxwork/i.test(userAgent);
+
+  // 判断是否为钉钉内置浏览器
+  const isDingTalk = /dingtalk/i.test(userAgent);
+
+  // 飞书内置浏览器可能包含 "lark" 关键字，但请核实最新版本 UA 以确保准确性
+  const isFeishu = /lark/i.test(userAgent);
+
+  return {
+    isWechat,
+    isWechatWork,
+    isDingTalk,
+    isFeishu,
+  };
+}
+
+const browserInfo = detectBrowserInfo();
+if (browserInfo.isWechat) {
+  console.log("当前环境是微信内置浏览器");
+} else if (browserInfo.isWechatWork) {
+  console.log("当前环境是企业微信内置浏览器");
+} else if (browserInfo.isDingTalk) {
+  console.log("当前环境是钉钉内置浏览器");
+} else if (browserInfo.isFeishu) {
+  console.log("当前环境可能是飞书内置浏览器");
+} else {
+  console.log("当前环境不是以上提及的内置浏览器");
+}
+```
+
+#### 如果在微信浏览器的话隐藏 uniapp 自带的导航栏
+
+如果不需要判断环境，直接都隐藏的话，直接设置`pages.json`文件中`globalStyle.navigationStyle = custom`即可
+
+`PS`：这个属性也可以去作用于某个特定的页面
+
+如果需要判断环境的话，在`App.vue`文件中
+
+1. 在`onShow`生命周期中
+2. 判断当前是否是微信浏览器环境
+3. 如果是的话，通过`dom`操作把`uni-page-head`标签进行隐藏
+
+```js
+
+navTitle(){
+  let navTitle = document.getElementsByTagName('uni-page-head');
+  navTitle[0].style.display = 'none'
+}
+is_weixin(){
+  return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
+}
+
+
+onShow(() => {
+  if(nar.is_weixin()) {
+    app.navTitle()
+  }
+})
+```
+
+#### ocr 文件识别案例
+
+```html
+<template>
+  <view class="cameraBg">
+    <camera
+      device-position="back"
+      flash="auto"
+      style="width: 100%; height: 100vh"
+    >
+      <cover-view class="back-wrap">
+        <uni-icons type="left" color="#fff" size="25" @click="back"></uni-icons>
+      </cover-view>
+      <!-- <cover-image src="@/static/image/scan.png" class="scan-img"> </cover-image> -->
+      <!-- <cover-view class="scanBtn" v-if="scanShow"> -->
+      <cover-view class="scanBtn">
+        <cover-view class="beat" @click="scan">
+          <cover-image
+            class="beatImg"
+            src="@/static/image/album.png"
+          ></cover-image>
+          <cover-view> 相册 </cover-view>
+        </cover-view>
+        <cover-view class="album" @click="takePhoto">
+          <cover-image
+            class="albumImg"
+            src="@/static/image/beat.png"
+          ></cover-image>
+          <cover-view> 拍照 </cover-view>
+        </cover-view>
+      </cover-view>
+    </camera>
+  </view>
+</template>
+
+<script>
+  import { env } from "/config/env.js";
+  export default {
+    mounted() {
+      this.id = setInterval(this.takePhoto, 2000);
+    },
+    data() {
+      return {
+        scanShow: true,
+        id: "",
+        times: 0,
+      };
+    },
+    methods: {
+      back() {
+        uni.navigateBack();
+      },
+      // 相册
+      scan() {
+        // 选择图片
+        uni.chooseImage({
+          count: 1,
+          sizeType: ["original", "compressed"],
+          sourceType: ["album"],
+          success: (res) => {
+            this.compress(res.tempFilePaths[0]);
+          },
+        });
+      },
+      // 启动图片压缩
+      compress(tempFilePaths) {
+        const vm = this;
+        uni.showLoading({
+          title: "智能识别中...",
+        });
+        this.ocrApi(tempFilePaths);
+        // uni.compressImage({
+        // 	src: tempFilePaths,
+        // 	quality: 80,
+        // 	success: (imageRes) => {
+        // 		console.log('imageRes: ', imageRes);
+        // 		// 获取类型
+        // 		uni.getImageInfo({
+        // 			src: imageRes.tempFilePath,
+        // 			success(imageInfo) {
+        // 				console.log('imageInfo: ', imageInfo);
+        // 				// 转base64
+        // 				uni.getFileSystemManager().readFile({
+        // 					filePath: imageRes.tempFilePath,
+        // 					encoding: 'base64',
+        // 					success: (base) => {
+        // 						// 返回base64格式
+        // 						const base64Str = 'data:image/' + imageInfo.type +
+        // 							';base64,' + base.data
+        // 						vm.camera64(base64Str)
+        // 					},
+        // 					fail: (err) => {
+        // 						console.log(err)
+        // 					}
+        // 				})
+        // 			}
+        // 		})
+        // 	}
+        // })
+      },
+      ocrApi(filePath) {
+        uni.uploadFile({
+          url: env.base_host + "/member/ocr/ocrExplain",
+          filePath: filePath,
+          name: "file",
+          header: {
+            memberToken: (uni.getStorageSync("loginInfo") || {}).token || "",
+          },
+          success: (res) => {
+            const data = JSON.parse(res.data);
+            console.log("data", data);
+            if (data.code === "200") {
+              uni.showToast({
+                title: "识别成功",
+              });
+            } else {
+              uni.showToast({
+                icon: "error",
+                title: data.data || data.message,
+              });
+            }
+            // this.camera64(res.data)
+            uni.hideLoading();
+          },
+          fail: (err) => {
+            console.log("err: ", err);
+          },
+        });
+      },
+      // 拿到图片开始进行识别
+      camera64(base64Str) {
+        // 拿到base64,不需要base64  就把上层的转换去掉
+        this.scanShow = true;
+        uni.hideLoading();
+        uni.showToast({
+          title: "已识别到图片，看console",
+          duration: 2000,
+        });
+        console.log(base64Str, "base64Str图片");
+
+        // 此处为后端接口 传base64图片 进行ocr识别
+      },
+      // 拍照
+      takePhoto() {
+        this.scanShow = false;
+        const ctx = uni.createCameraContext();
+        ctx.takePhoto({
+          quality: "high",
+          success: (res) => {
+            this.scanShow = true;
+            this.compress(res.tempImagePath);
+          },
+        });
+        this.times++;
+        if (this.times === 5) {
+          clearInterval(this.id);
+        }
+      },
+      error(e) {
+        console.log(e.detail);
+      },
+    },
+  };
+</script>
+
+<style lang="scss" scoped>
+  .cameraBg {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+
+    .back-wrap {
+      position: absolute;
+      top: 80rpx;
+      left: 0rpx;
+      z-index: 99999;
+      width: 100rpx;
+      height: 100rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .scan-img {
+      width: 120rpx;
+      height: 120rpx;
+      z-index: 1;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .scanBtn {
+      width: 100%;
+      z-index: 99999;
+      position: fixed;
+      bottom: 100rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .beat {
+        position: absolute;
+        bottom: 0rpx;
+        left: 100rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #ffffff;
+
+        .beatImg {
+          width: 88rpx;
+          height: 88rpx;
+          margin-bottom: 30rpx;
+        }
+      }
+
+      .album {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #ffffff;
+
+        .albumImg {
+          width: 120rpx;
+          height: 120rpx;
+          margin-bottom: 30rpx;
+        }
+      }
+    }
+  }
+</style>
+```
+
+#### 动态设置 tabbar
+
+在`App.vue`中的`onShow`中设置（主要是我尝试 onLoad 的时候没有触发生命周期）
+
+```js
+uni.setTabBarItem({
+  index: 0,
+  text: "首页1",
+  iconPath: "http://xxxx.png",
+  selectedIconPath: "[static/image/mine-active.png](http://xxxx.png)",
+  success() {
+    console.log("首页图标设置成功");
+  },
+  fail(e) {
+    console.log("首页图标设置失败", e);
+  },
+});
+```
+
+#### 小程序、h5、App 相互跳转
+
+<https://juejin.cn/post/7415776780076040243>
+
 ### 问题
 
 #### 微信小程序开发者工具 [error] Error: Fail to open IDE
 
-一般是
+一般是项目的 appid 对应的小程序，微信开发者工具的账号没有开发者权限
+
+1. 把项目的 appid 去掉
+2. 到开发者后台把此用户添加到开发者名单
+3. 当然最好也检查一下是否开启了服务端口
 
 #### onTabItemTap 钩子函数在真机上不触发，在微信开发者工具正常触发
 
@@ -987,10 +1402,20 @@ typeChange(){
 
 <https://blog.csdn.net/qq285744011/article/details/125162871>
 
-#### 选择头像 api 报错
+#### 选择头像、手机号 api 报错
+
+`getPhoneNumber:fail api scope is not declared in the privacy agreement,errno:112`
 
 需要在开发者后台开通权限
 <https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11691660367cfUvX&version=&lang=zh_CN&token=>
+
+PS：注意，这里填写了之后可能还是会报错，可能有这几个原因
+
+可以参见<https://developers.weixin.qq.com/community/develop/article/doc/0006e28bddcdd89ff7208d2e06bc13?page=3#comment-list>
+
+1. 审核时间问题（虽然后台通知说通过了，但是我各种尝试之后都不行，然后过了 2 个小时再尝试就可以了）
+2. 重启微信开发者工具
+3. 微信开发者工具切换版本库
 
 #### `new Date(""YYYY-MM-DD hh:mm:ss")` 在部分 iOS 下无法正常使用
 
@@ -1000,15 +1425,73 @@ typeChange(){
 new Date("YYYY-MM-DD hh:mm:ss".replace(/-/g, "/"));
 ```
 
+#### image 图片存在边距
+
+2 个方案都可
+
+1. 将`image`设置为`display: block`
+2. 设置父级元素`font-size: 0`
+
+#### 富文本中 img 宽度超出的问题
+
+富文本标签设置`font-size: 0`
+
+将富文本的`img`标签添加`class`
+
+```js
+data.replace(/\<img/gi, '<img class="rich_text_img" ');
+```
+
+设置样式
+
+```css
+.rich_text_img {
+  max-width: 100%;
+}
+```
+
+#### swiper 组件高度无法撑开
+
+需要直接设置`swiper`组件的高度，里面子元素的高度无法撑开父元素
+
+#### 修改 swper 样式
+
+不同平台的方式不一样，参见<https://blog.csdn.net/zhangjiayu88/article/details/139739439>
+
+我这个是 h5 的
+
+```css
+:deep(.uni-swiper-dot) {
+  height: 3px;
+  width: 3px;
+  border-radius: 1px;
+  background: rgba(0, 0, 0, 0.2) !important;
+  margin-right: 5px !important;
+}
+
+:deep(.uni-swiper-dot-active) {
+  background: rgba(0, 0, 0, 0.35) !important;
+  width: 12px !important;
+}
+```
 
 #### 下载编译工具失败，请重新运行
 
-如果是windws可能是文件夹没有权限，查看`帮助 => 运行日志`
+如果是 windws 可能是文件夹没有权限，查看`帮助 => 运行日志`
 
-如果是mac的话尝试重新打开`hbuildx`软件
+如果是 mac 的话尝试重新打开`hbuildx`软件
 
 #### wx6885acbedba59c14 插件未授权使用
 
-更换了小程序appid之后，提示这个
+更换了小程序 appid 之后，提示这个
 
 之前的小程序用了一个插件，换了新小程序之后没有添加该插件
+如果是 mac 的话尝试重新打开`hbuildx`软件
+
+#### cover-view 和 cover-image 嵌套问题
+
+`cover-view`中只能使用`cover-view`和`cover-image`组件，如果使用其他的组件将会无效，比如`icon`
+
+#### 为什么有的小程序还能使用 getUserProfile 来获取信息
+
+参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用

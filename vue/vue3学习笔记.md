@@ -1344,3 +1344,147 @@ const post = { id: 1, title: 'hello' }
 <MyComponent v-bind:id="post.id" v-bind:title="post.title" />
 <MyComponent :id="post.id" :title="post.title" />
 ```
+
+
+### vue嵌套路由，子组件切换导致父组件刷新
+
+<https://juejin.cn/post/7024068717134741534>
+
+关键：需要给承载父组件的组件的`router-view`的`key`不产生变化
+
+
+### template中放了多个节点，切换路由空白
+
+虽然，`vue3`的`template`支持多个根节点，但是出现了在切换页面时出现空白的问题
+
+解决方案：保证只有一个根节点
+
+
+### 列表拖拽
+
+<https://juejin.cn/post/7231519213897875512>
+
+vue3原生方式
+
+```html
+<template>
+    <div>
+            <div
+                class="item"
+                v-for="(item, i) in drag.list"
+                :key="item.id"
+                draggable="true"
+                @dragstart="dragstart($event, i)"
+                @dragenter="dragenter($event, i)"
+                @dragend="dragend"
+                @dragover="dragover"
+               >
+                {{ item.name }}
+            </div>
+    </div>
+</template>
+<script setup>
+import { reactive } from 'vue'
+const drag = reactive({
+	list: [
+		{ name: 'a', id: 1 },
+		{ name: 'b', id: 2 },
+		{ name: 'c', id: 3 },
+		{ name: 'd', id: 4 },
+		{ name: 'e', id: 5 },
+	]
+})
+
+let dragIndex = 0
+
+function dragstart(e, index) {
+	e.stopPropagation()
+	dragIndex = index
+	setTimeout(() => {
+		e.target.classList.add('moveing')
+	},0)
+}
+function dragenter(e, index) {
+	e.preventDefault()
+	// 拖拽到原位置时不触发
+	if (dragIndex !== index) {
+		const source = drag.list[dragIndex];
+		drag.list.splice(dragIndex, 1);
+		drag.list.splice(index, 0, source);
+
+		// 更新节点位置
+		dragIndex = index
+	}
+}
+function dragover(e) {
+	e.preventDefault()
+	e.dataTransfer.dropEffect = 'move'
+}
+function dragend(e) {
+	e.target.classList.remove('moveing')
+}
+</script>
+
+<style lang="scss" scoped>
+.item {
+	width: 200px;
+	height: 40px;
+	line-height: 40px;
+	// background-color: #f5f6f8;
+	background-color: skyblue;
+	text-align: center;
+	margin: 10px;
+	color: #fff;
+	font-size: 18px;
+}
+
+.container {
+  position: relative;
+  padding: 0;
+}
+
+.moveing {
+	opacity: 0;
+}
+</style>
+```
+
+使用`vue-draggable-plus`插件
+
+<https://vue-draggable-plus.pages.dev/guide/>
+
+
+### vite报错`504 Gateway Timeout`
+
+安装依赖之后，提示找不到，一般是vite缓存问题
+
+可以按照如下顺序进行尝试
+
+1. 重新启动项目
+2. 浏览器禁用缓存重新刷新
+3. 删除`node_modules`重新安装（`这一步基本上都能解决`）
+
+
+### vite热更新无效
+
+项目启动的时候是正常的，然后修改了代码，但是页面无法刷新，控制台也没有新的输出
+
+各种重启项目重启电脑都尝试了，不行
+
+我也尝试了修改vite配置，也不行
+
+```
+// vite.config.js
+server: {
+  watch: {
+    usePolling: true
+  }
+}
+```
+
+最后的原因是因为文件名大小写的问题，文件名是大写，然后引入的时候变成小写了，导致监听不到
+
+
+### 报错 Dependency cycle via 
+
+这个是循环依赖了，根据提示的位置修改即可
