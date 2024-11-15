@@ -396,11 +396,12 @@ background-color: #464646;
 
 可以参考这个[https://juejin.cn/post/6844904175856271374](https://juejin.cn/post/6844904175856271374)
 
-### 设置2个圆角
+### 设置 2 个圆角
 
 ```css
 selector {
-  border-radius: top-left-radius top-right-radius bottom-right-radius bottom-left-radius;
+  border-radius: top-left-radius top-right-radius bottom-right-radius
+    bottom-left-radius;
 }
 
 /* 设置上面2个角 */
@@ -555,7 +556,7 @@ vertical-align: middle;
 
 详见<https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align>
 
-### vertical-align属性详解
+### vertical-align 属性详解
 
 关于文字的`顶线`、`中线`、`基线`、`底线`
 
@@ -972,8 +973,7 @@ vertical-align: unset;
 </html>
 ```
 
-
-### object-fit属性
+### object-fit 属性
 
 功能：指定`可替换元素`（如`<img>`或`<video>`）的内容应该如何适应到其使用的高度和宽度确定的框
 
@@ -985,10 +985,9 @@ vertical-align: unset;
 4. `none`：保持原有尺寸
 5. `scale-down`：内容的尺寸与`none`或`contain`中的一个相同，取决于他们之间谁得到的对象尺寸会更小一点
 
+### html 中的\n 不会换行
 
-### html中的\n不会换行
-
-原因：html中直接使用`\n`渲染时无法换行的，因为`html`不识别`\n`，如果单纯的用`replace`把`\n`换成`<br>`，也无效
+原因：html 中直接使用`\n`渲染时无法换行的，因为`html`不识别`\n`，如果单纯的用`replace`把`\n`换成`<br>`，也无效
 
 解决方案
 
@@ -996,6 +995,41 @@ vertical-align: unset;
 2. 使用`html`处理，在标签上套一个`<pre></pre>`
 3. 设置`css`为`white-space: pre-line`或者`white-space: pre`
 
+### 关于 white-space word-break word-wrap
 
-### 关于white-space word-break word-wrap
+默认情况
 
+1. `nbsp;`和`<br/>`能正常使用
+2. 代码中连续的空格会被缩减成一个
+3. 换行符也全都无效
+4. 句子超过一行之后会自动换行
+5. 长度超过一行的单词会超过边界
+
+
+   1. white-space: 控制空白字符显示，同时还能控制是否换行
+
+      1. normal
+      2. nowrap: 都不换行了
+      3. preserve: 保留所有空格和换行符，但是自动换行没了
+      4.  pre-wrap: 相当于 wrap + preserve 的结合，即有自动换行也保留所有空格和换行符
+      5.  pre-line: 空格被合并，但是换行符可以发挥作用，相当于 wrap + preserve + newline
+
+    | 是否有效 | 换行符 | 空格 | 自动换行 | `<br/>`、`nbsp;` |
+    | -------- | ------ | ---- | -------- | ---------------- |
+    | normal   | n      | n    | y        | y                |
+    | nowrap   | n      | n    | n        | y                |
+    | preserve | y      | y    | n        | y                |
+    | pre-wrap | y      | y    | y        | y                |
+    | pre-line | y      | n    | y        | y                |
+
+
+  2. word-break: 控制单词如何被拆分换行
+
+    1. normal
+    2. keep-all: 所有单词一律不拆分换行，相当于只有空格可以触发自动换行
+    3. break-all: 所有单词一律拆分换行
+
+  3. word-wrap: 控制单词如何拆分换行
+
+    1. normal
+    2. break-word: 只有当一个单词整行都显示不下的时候，才拆分该单词
