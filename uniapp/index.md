@@ -344,6 +344,10 @@ page {
 
 我找了好久才找到这个问题。。。
 
+#### 字体压缩
+
+<https://juejin.cn/post/7161359760023879693#heading-2>
+
 #### 查看别人小程序的 appid
 
 小程序`更多资料`中有
@@ -1269,6 +1273,17 @@ content.replace(/<img/g, '<img class="rich-text-img-style" ');
 }
 ```
 
+```js
+/* ul的左边距 */
+
+content.replace(/<ul/g, '<ul class="rich-text-ul-style" ')
+
+// app.vue
+.rich-text-ul-style {
+  padding-inline-start: 30rpx !important;
+}
+```
+
 #### type=tel 无效
 
 官方文档
@@ -1485,3 +1500,27 @@ data.replace(/\<img/gi, '<img class="rich_text_img" ');
 #### 为什么有的小程序还能使用getUserProfile来获取信息
 
 参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用
+
+
+#### 安卓设备无法访问字体
+
+在ios设备和开发者工具都正常，但是在安卓设备上无法正常显示字体
+
+1. 需要在开发者后台配置字体文件的服务器位置
+2. 需要配置nginx，字体需要设置cors
+3. 还需要对应的网站是https+域名的
+
+```shell
+location / {
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
+    
+    # 如果是字体文件目录，可以单独为字体文件设置CORS
+    location ~* \.(ttf|ttc|otf|eot|woff|woff2)$ {
+        add_header Access-Control-Allow-Origin "*";
+    }
+    
+    # 其他配置...
+} 
+```
