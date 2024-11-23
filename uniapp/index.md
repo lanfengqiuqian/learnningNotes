@@ -871,264 +871,269 @@ onShow(() => {
 })
 ```
 
-#### ocr文件识别案例
+#### ocr 文件识别案例
 
 ```html
 <template>
-	<view class="cameraBg">
-		<camera device-position="back" flash="auto" style="width: 100%; height: 100vh">
-			<cover-view class="back-wrap">
-				<uni-icons type="left" color="#fff" size="25" @click="back"></uni-icons>
-			</cover-view>
-			<!-- <cover-image src="@/static/image/scan.png" class="scan-img"> </cover-image> -->
-			<!-- <cover-view class="scanBtn" v-if="scanShow"> -->
-			<cover-view class="scanBtn">
-				<cover-view class="beat" @click="scan">
-					<cover-image class="beatImg" src="@/static/image/album.png"></cover-image>
-					<cover-view> 相册 </cover-view>
-				</cover-view>
-				<cover-view class="album" @click="takePhoto">
-					<cover-image class="albumImg" src="@/static/image/beat.png"></cover-image>
-					<cover-view> 拍照 </cover-view>
-				</cover-view>
-			</cover-view>
-		</camera>
-	</view>
+  <view class="cameraBg">
+    <camera
+      device-position="back"
+      flash="auto"
+      style="width: 100%; height: 100vh"
+    >
+      <cover-view class="back-wrap">
+        <uni-icons type="left" color="#fff" size="25" @click="back"></uni-icons>
+      </cover-view>
+      <!-- <cover-image src="@/static/image/scan.png" class="scan-img"> </cover-image> -->
+      <!-- <cover-view class="scanBtn" v-if="scanShow"> -->
+      <cover-view class="scanBtn">
+        <cover-view class="beat" @click="scan">
+          <cover-image
+            class="beatImg"
+            src="@/static/image/album.png"
+          ></cover-image>
+          <cover-view> 相册 </cover-view>
+        </cover-view>
+        <cover-view class="album" @click="takePhoto">
+          <cover-image
+            class="albumImg"
+            src="@/static/image/beat.png"
+          ></cover-image>
+          <cover-view> 拍照 </cover-view>
+        </cover-view>
+      </cover-view>
+    </camera>
+  </view>
 </template>
 
 <script>
-	import {
-		env
-	} from "/config/env.js";
-	export default {
-		mounted() {
-			this.id = setInterval(this.takePhoto, 2000)
-		},
-		data() {
-			return {
-				scanShow: true,
-				id: '',
-				times: 0,
-			}
-		},
-		methods: {
-			back() {
-				uni.navigateBack();
-			},
-			// 相册
-			scan() {
-				// 选择图片
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album'],
-					success: (res) => {
-						this.compress(res.tempFilePaths[0])
-					}
-				})
-			},
-			// 启动图片压缩
-			compress(tempFilePaths) {
-				const vm = this
-				uni.showLoading({
-					title: '智能识别中...'
-				})
-				this.ocrApi(tempFilePaths);
-				// uni.compressImage({
-				// 	src: tempFilePaths,
-				// 	quality: 80,
-				// 	success: (imageRes) => {
-				// 		console.log('imageRes: ', imageRes);
-				// 		// 获取类型
-				// 		uni.getImageInfo({
-				// 			src: imageRes.tempFilePath,
-				// 			success(imageInfo) {
-				// 				console.log('imageInfo: ', imageInfo);
-				// 				// 转base64
-				// 				uni.getFileSystemManager().readFile({
-				// 					filePath: imageRes.tempFilePath,
-				// 					encoding: 'base64',
-				// 					success: (base) => {
-				// 						// 返回base64格式
-				// 						const base64Str = 'data:image/' + imageInfo.type +
-				// 							';base64,' + base.data
-				// 						vm.camera64(base64Str)
-				// 					},
-				// 					fail: (err) => {
-				// 						console.log(err)
-				// 					}
-				// 				})
-				// 			}
-				// 		})
-				// 	}
-				// })
-			},
-			ocrApi(filePath) {
-				uni.uploadFile({
-					url: env.base_host + '/member/ocr/ocrExplain',
-					filePath: filePath,
-					name: 'file',
-					header: {
-						'memberToken': (uni.getStorageSync('loginInfo') || {}).token || '',
-					},
-					success: (res) => {
-						const data = JSON.parse(res.data);
-						console.log('data', data);
-						if (data.code === '200') {
-							uni.showToast({
-								title: '识别成功',
-							})
-						} else {
-							uni.showToast({
-								icon: 'error',
-								title: data.data || data.message,
-							})
-						}
-						// this.camera64(res.data)
-						uni.hideLoading()
-					},
-					fail: (err) => {
-						console.log('err: ', err);
-					}
-				})
-			},
-			// 拿到图片开始进行识别
-			camera64(base64Str) {
-				// 拿到base64,不需要base64  就把上层的转换去掉
-				this.scanShow = true
-				uni.hideLoading()
-				uni.showToast({
-					title: '已识别到图片，看console',
-					duration: 2000
-				});
-				console.log(base64Str, 'base64Str图片')
+  import { env } from "/config/env.js";
+  export default {
+    mounted() {
+      this.id = setInterval(this.takePhoto, 2000);
+    },
+    data() {
+      return {
+        scanShow: true,
+        id: "",
+        times: 0,
+      };
+    },
+    methods: {
+      back() {
+        uni.navigateBack();
+      },
+      // 相册
+      scan() {
+        // 选择图片
+        uni.chooseImage({
+          count: 1,
+          sizeType: ["original", "compressed"],
+          sourceType: ["album"],
+          success: (res) => {
+            this.compress(res.tempFilePaths[0]);
+          },
+        });
+      },
+      // 启动图片压缩
+      compress(tempFilePaths) {
+        const vm = this;
+        uni.showLoading({
+          title: "智能识别中...",
+        });
+        this.ocrApi(tempFilePaths);
+        // uni.compressImage({
+        // 	src: tempFilePaths,
+        // 	quality: 80,
+        // 	success: (imageRes) => {
+        // 		console.log('imageRes: ', imageRes);
+        // 		// 获取类型
+        // 		uni.getImageInfo({
+        // 			src: imageRes.tempFilePath,
+        // 			success(imageInfo) {
+        // 				console.log('imageInfo: ', imageInfo);
+        // 				// 转base64
+        // 				uni.getFileSystemManager().readFile({
+        // 					filePath: imageRes.tempFilePath,
+        // 					encoding: 'base64',
+        // 					success: (base) => {
+        // 						// 返回base64格式
+        // 						const base64Str = 'data:image/' + imageInfo.type +
+        // 							';base64,' + base.data
+        // 						vm.camera64(base64Str)
+        // 					},
+        // 					fail: (err) => {
+        // 						console.log(err)
+        // 					}
+        // 				})
+        // 			}
+        // 		})
+        // 	}
+        // })
+      },
+      ocrApi(filePath) {
+        uni.uploadFile({
+          url: env.base_host + "/member/ocr/ocrExplain",
+          filePath: filePath,
+          name: "file",
+          header: {
+            memberToken: (uni.getStorageSync("loginInfo") || {}).token || "",
+          },
+          success: (res) => {
+            const data = JSON.parse(res.data);
+            console.log("data", data);
+            if (data.code === "200") {
+              uni.showToast({
+                title: "识别成功",
+              });
+            } else {
+              uni.showToast({
+                icon: "error",
+                title: data.data || data.message,
+              });
+            }
+            // this.camera64(res.data)
+            uni.hideLoading();
+          },
+          fail: (err) => {
+            console.log("err: ", err);
+          },
+        });
+      },
+      // 拿到图片开始进行识别
+      camera64(base64Str) {
+        // 拿到base64,不需要base64  就把上层的转换去掉
+        this.scanShow = true;
+        uni.hideLoading();
+        uni.showToast({
+          title: "已识别到图片，看console",
+          duration: 2000,
+        });
+        console.log(base64Str, "base64Str图片");
 
-
-				// 此处为后端接口 传base64图片 进行ocr识别
-			},
-			// 拍照
-			takePhoto() {
-				this.scanShow = false;
-				const ctx = uni.createCameraContext()
-				ctx.takePhoto({
-					quality: 'high',
-					success: (res) => {
-						this.scanShow = true;
-						this.compress(res.tempImagePath)
-					}
-				})
-				this.times++;
-				if (this.times === 5) {
-					clearInterval(this.id);
-				}
-
-			},
-			error(e) {
-				console.log(e.detail)
-			}
-		}
-	}
+        // 此处为后端接口 传base64图片 进行ocr识别
+      },
+      // 拍照
+      takePhoto() {
+        this.scanShow = false;
+        const ctx = uni.createCameraContext();
+        ctx.takePhoto({
+          quality: "high",
+          success: (res) => {
+            this.scanShow = true;
+            this.compress(res.tempImagePath);
+          },
+        });
+        this.times++;
+        if (this.times === 5) {
+          clearInterval(this.id);
+        }
+      },
+      error(e) {
+        console.log(e.detail);
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-	.cameraBg {
-		width: 100%;
-		height: 100vh;
-		position: fixed;
+  .cameraBg {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
 
-		.back-wrap {
-			position: absolute;
-			top: 80rpx;
-			left: 0rpx;
-			z-index: 99999;
-			width: 100rpx;
-			height: 100rpx;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-		}
+    .back-wrap {
+      position: absolute;
+      top: 80rpx;
+      left: 0rpx;
+      z-index: 99999;
+      width: 100rpx;
+      height: 100rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-		.scan-img {
-			width: 120rpx;
-			height: 120rpx;
-			z-index: 1;
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
-		}
+    .scan-img {
+      width: 120rpx;
+      height: 120rpx;
+      z-index: 1;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-		.scanBtn {
-			width: 100%;
-			z-index: 99999;
-			position: fixed;
-			bottom: 100rpx;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
+    .scanBtn {
+      width: 100%;
+      z-index: 99999;
+      position: fixed;
+      bottom: 100rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
-			.beat {
-				position: absolute;
-				bottom: 0rpx;
-				left: 100rpx;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				font-size: 24rpx;
-				font-weight: 400;
-				color: #ffffff;
+      .beat {
+        position: absolute;
+        bottom: 0rpx;
+        left: 100rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #ffffff;
 
-				.beatImg {
-					width: 88rpx;
-					height: 88rpx;
-					margin-bottom: 30rpx;
-				}
-			}
+        .beatImg {
+          width: 88rpx;
+          height: 88rpx;
+          margin-bottom: 30rpx;
+        }
+      }
 
-			.album {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				font-size: 24rpx;
-				font-weight: 400;
-				color: #ffffff;
+      .album {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #ffffff;
 
-				.albumImg {
-					width: 120rpx;
-					height: 120rpx;
-					margin-bottom: 30rpx;
-				}
-			}
-		}
-	}
+        .albumImg {
+          width: 120rpx;
+          height: 120rpx;
+          margin-bottom: 30rpx;
+        }
+      }
+    }
+  }
 </style>
 ```
 
-#### 动态设置tabbar
+#### 动态设置 tabbar
 
-在`App.vue`中的`onShow`中设置（主要是我尝试onLoad的时候没有触发生命周期）
-
+在`App.vue`中的`onShow`中设置（主要是我尝试 onLoad 的时候没有触发生命周期）
 
 ```js
 uni.setTabBarItem({
   index: 0,
-  text: '首页1',
-  "iconPath": "http://xxxx.png",
-  "selectedIconPath": "[static/image/mine-active.png](http://xxxx.png)",
+  text: "首页1",
+  iconPath: "http://xxxx.png",
+  selectedIconPath: "[static/image/mine-active.png](http://xxxx.png)",
   success() {
-    console.log('首页图标设置成功')
+    console.log("首页图标设置成功");
   },
   fail(e) {
-    console.log('首页图标设置失败', e)
-  }
-})
+    console.log("首页图标设置失败", e);
+  },
+});
 ```
 
-#### 小程序、h5、App相互跳转
+#### 小程序、h5、App 相互跳转
 
 <https://juejin.cn/post/7415776780076040243>
 
@@ -1491,36 +1496,44 @@ data.replace(/\<img/gi, '<img class="rich_text_img" ');
 
 如果是 mac 的话尝试重新打开`hbuildx`软件
 
+#### wx6885acbedba59c14 插件未授权使用
 
-#### cover-view和cover-image嵌套问题
+更换了小程序 appid 之后，提示这个
+
+之前的小程序用了一个插件，换了新小程序之后没有添加该插件
+如果是 mac 的话尝试重新打开`hbuildx`软件
+
+#### cover-view 和 cover-image 嵌套问题
 
 `cover-view`中只能使用`cover-view`和`cover-image`组件，如果使用其他的组件将会无效，比如`icon`
 
+#### 为什么有的小程序还能使用 getUserProfile 来获取信息
 
-#### 为什么有的小程序还能使用getUserProfile来获取信息
+#### 为什么有的小程序还能使用 getUserProfile 来获取信息
 
 参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用
 
-
 #### 安卓设备无法访问字体
 
-在ios设备和开发者工具都正常，但是在安卓设备上无法正常显示字体
+在 ios 设备和开发者工具都正常，但是在安卓设备上无法正常显示字体
 
 1. 需要在开发者后台配置字体文件的服务器位置
-2. 需要配置nginx，字体需要设置cors
-3. 还需要对应的网站是https+域名的
+2. 需要配置 nginx，字体需要设置 cors
+3. 还需要对应的网站是 https+域名的
 
 ```shell
 location / {
     add_header 'Access-Control-Allow-Origin' '*';
     add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
     add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
-    
+
     # 如果是字体文件目录，可以单独为字体文件设置CORS
     location ~* \.(ttf|ttc|otf|eot|woff|woff2)$ {
         add_header Access-Control-Allow-Origin "*";
     }
-    
+
     # 其他配置...
-} 
+}
 ```
+
+参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用
