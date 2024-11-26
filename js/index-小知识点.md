@@ -1830,3 +1830,29 @@ axios.interceptors.response.use((response: AxiosResponse<HttpResponse>) => {
   }
 });
 ```
+
+66. writeText开发环境正常，生产报错
+
+这是由于 navigator.clipboard.writeText需要在安全域下才能够使用，比如：https 协议的地址、127.0.0.1、localhost。所以需要写一个兼容的写法，如下所示。
+
+```js
+// 复制到剪贴板
+copyToClipboard() {
+  // 兼容非安全域，非安全域下不可使用navigator.clipboard.writeText
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(this.hexValue).then(() => {
+      ElMessage({message: '已复制到剪贴板', type: 'success', duration: 1500})
+    }).catch((error) => {
+      console.error("复制失败：", error);
+    })
+  } else {
+    const input = this.$refs.inputRef;
+    input.select();
+    input.setSelectionRange(0, 99999); // 适用于不同浏览器的兼容性处理
+    document.execCommand("copy");
+    input.setSelectionRange(0, 0); // 清除选中状态
+    ElMessage({message: '已复制到剪贴板', type: 'success', duration: 1500})
+  }
+  
+}
+```
