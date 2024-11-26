@@ -1033,3 +1033,37 @@ vertical-align: unset;
 
     1. normal
     2. break-word: 只有当一个单词整行都显示不下的时候，才拆分该单词
+
+### 图片填充文字
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    .text-fill {
+      background-image: url("https://avatars.githubusercontent.com/u/438160?v="); 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      font-size: 3em;
+      font-weight: bold;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="text-fill">
+    <p>Hello, CSS Magic!</p>
+  </div>
+</body>
+</html>
+```
