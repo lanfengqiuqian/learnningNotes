@@ -604,40 +604,37 @@ vertical-align: revert-layer;
 vertical-align: unset;
 ```
 
-1. baseline基线对齐
+1. baseline 基线对齐
 
-  元素的基线与父元素文本的基线对齐
-  
-  如果目标元素没有基线，例如`图片、表单输入框或者其他元素`，那么目标元素的底端与父元素的基线对齐
+元素的基线与父元素文本的基线对齐
 
-  所以，在`span`和`img`并列的时候，图片底端和文本底端有距离
+如果目标元素没有基线，例如`图片、表单输入框或者其他元素`，那么目标元素的底端与父元素的基线对齐
+
+所以，在`span`和`img`并列的时候，图片底端和文本底端有距离
 
 2. 上标和下标（super sub）
 
-  通常用于`数学符号`、`物理符号`等场景的上标和下标
+通常用于`数学符号`、`物理符号`等场景的上标和下标
 
-  设置图片的`vertical-align: sub`，这样的话，图片底端将会与文本底端对齐，`super`同理
+设置图片的`vertical-align: sub`，这样的话，图片底端将会与文本底端对齐，`super`同理
 
-  注意：这里的`文本底端`和`整行的底端`不同，整行的底端是由`line-height`决定的，文本的底端是指`sub线`
+注意：这里的`文本底端`和`整行的底端`不同，整行的底端是由`line-height`决定的，文本的底端是指`sub线`
 
-  ![alt text](images/image-1.png)
+![alt text](images/image-1.png)
 
-3. top和bottom
+3. top 和 bottom
 
-  使元素与整行的顶端或者底端对齐
+使元素与整行的顶端或者底端对齐
 
-4. middle中线对齐
+4. middle 中线对齐
 
-  使元素的`中部`与`父元素的基线`向上偏移`0.5ex`处的线对齐（`1ex`等于父元素的`font-size`）
+使元素的`中部`与`父元素的基线`向上偏移`0.5ex`处的线对齐（`1ex`等于父元素的`font-size`）
 
-5. text-top和text-bottom
+5. text-top 和 text-bottom
 
-  使元素的顶部与`父元素`的`字体顶部`对齐，text-bottom同理
+使元素的顶部与`父元素`的`字体顶部`对齐，text-bottom 同理
 
-  注意：这个是与父元素的字体顶部对齐，即使给子元素设置了不同大小的font-size，也是按照父元素的字体来对齐
-
-
-
+注意：这个是与父元素的字体顶部对齐，即使给子元素设置了不同大小的 font-size，也是按照父元素的字体来对齐
 
 ### 导航栏布局内容区域滚动条影响到了整个页面
 
@@ -1042,36 +1039,34 @@ vertical-align: unset;
 4. 句子超过一行之后会自动换行
 5. 长度超过一行的单词会超过边界
 
-
    1. white-space: 控制空白字符显示，同时还能控制是否换行
 
       1. normal
       2. nowrap: 都不换行了
       3. preserve: 保留所有空格和换行符，但是自动换行没了
-      4.  pre-wrap: 相当于 wrap + preserve 的结合，即有自动换行也保留所有空格和换行符
-      5.  pre-line: 空格被合并，但是换行符可以发挥作用，相当于 wrap + preserve + newline
+      4. pre-wrap: 相当于 wrap + preserve 的结合，即有自动换行也保留所有空格和换行符
+      5. pre-line: 空格被合并，但是换行符可以发挥作用，相当于 wrap + preserve + newline
 
-    | 是否有效 | 换行符 | 空格 | 自动换行 | `<br/>`、`nbsp;` |
-    | -------- | ------ | ---- | -------- | ---------------- |
-    | normal   | n      | n    | y        | y                |
-    | nowrap   | n      | n    | n        | y                |
-    | preserve | y      | y    | n        | y                |
-    | pre-wrap | y      | y    | y        | y                |
-    | pre-line | y      | n    | y        | y                |
+   | 是否有效 | 换行符 | 空格 | 自动换行 | `<br/>`、`nbsp;` |
+   | -------- | ------ | ---- | -------- | ---------------- |
+   | normal   | n      | n    | y        | y                |
+   | nowrap   | n      | n    | n        | y                |
+   | preserve | y      | y    | n        | y                |
+   | pre-wrap | y      | y    | y        | y                |
+   | pre-line | y      | n    | y        | y                |
 
+6. word-break: 控制单词如何被拆分换行
 
-  2. word-break: 控制单词如何被拆分换行
+7. normal
+8. keep-all: 所有单词一律不拆分换行，相当于只有空格可以触发自动换行
+9. break-all: 所有单词一律拆分换行
 
-    1. normal
-    2. keep-all: 所有单词一律不拆分换行，相当于只有空格可以触发自动换行
-    3. break-all: 所有单词一律拆分换行
+10. word-wrap: 控制单词如何拆分换行
 
-  3. word-wrap: 控制单词如何拆分换行
+11. normal
+12. break-word: 只有当一个单词整行都显示不下的时候，才拆分该单词
 
-    1. normal
-    2. break-word: 只有当一个单词整行都显示不下的时候，才拆分该单词
-
-### css把图片变为灰白的
+### css 把图片变为灰白的
 
 适用场景：一些纪念日，或者有重要人物逝世
 
@@ -1090,7 +1085,7 @@ filter: grayscale(1);
   -moz-filter: grayscale(100%);
   -ms-filter: grayscale(100%);
   -o-filter: grayscale(100%);
-  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
   filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
   filter: grayscale(100%);
 }
@@ -1103,12 +1098,12 @@ filter: grayscale(1);
   var endTime = Date.parse("Apr 06 2077 00:00:01");
   var timestamp = Date.parse(new Date());
   if (timestamp <= endTime) {
-    document.querySelector('html').classList.add('gray');
+    document.querySelector("html").classList.add("gray");
   }
 })();
 ```
 
-### filter滤镜
+### filter 滤镜
 
 将模糊或者颜色偏移等图形效果应用于元素
 
@@ -1116,70 +1111,69 @@ filter: grayscale(1);
 
 1. 函数
 
-  当单个filter属性具有多个函数时，滤镜将按顺序一辞应用
+当单个 filter 属性具有多个函数时，滤镜将按顺序一辞应用
 
-  ```css
-  // 高斯模糊
-  filter: blur(5px);
-  
-  // 调整亮度，0%将为全黑，100%不变，大于100%将更明亮
-  filter: brightness(2);
+```css
+// 高斯模糊
+filter: blur(5px);
 
-  // 调整对比度，0%变灰，100%不变，大于100%将增强对比度
-  filter: contrast(200%);
+// 调整亮度，0%将为全黑，100%不变，大于100%将更明亮
+filter: brightness(2);
 
-  // 阴影效果
-  filter: drop-shadow(16px 16px 10px black);
+// 调整对比度，0%变灰，100%不变，大于100%将增强对比度
+filter: contrast(200%);
 
-  // 将图像转为灰度图，100%则完全转为灰度
-  filter: grayscale(1);
+// 阴影效果
+filter: drop-shadow(16px 16px 10px black);
 
-  // 色相旋转，0deg则图像无变化
-  filter: hue-rotate(90deg);
+// 将图像转为灰度图，100%则完全转为灰度
+filter: grayscale(1);
 
-  // 反转图像，100%则完全反转
-  filter: opacity(50%);
+// 色相旋转，0deg则图像无变化
+filter: hue-rotate(90deg);
 
-  // 调整饱和度，0%完全不饱和，100%无变化，大于100%增加饱和度
-  filter: saturate(200%);
+// 反转图像，100%则完全反转
+filter: opacity(50%);
 
-  // 转为深褐色，100%则完全深褐色
-  filter: sepia(100%);
-  ```
+// 调整饱和度，0%完全不饱和，100%无变化，大于100%增加饱和度
+filter: saturate(200%);
 
-2. backdrop-filter属性
+// 转为深褐色，100%则完全深褐色
+filter: sepia(100%);
+```
 
-  为一个元素后面区域添加图形效果
+2. backdrop-filter 属性
 
-  因为它适用于元素后面的所有元素，为了看到效果，必须使元素或其背景至少部分透明
+为一个元素后面区域添加图形效果
 
-  filter是作用域当前元素，backdrop-filter是作用域元素后面的区域
+因为它适用于元素后面的所有元素，为了看到效果，必须使元素或其背景至少部分透明
+
+filter 是作用域当前元素，backdrop-filter 是作用域元素后面的区域
 
 3. 应用场景
 
-  1. 电影效果，使用`brightness`，通过调整背景图的明暗度和文字透明度，来模拟电影谢幕效果
-  2. 毛玻璃：使用`backdrop-filter: blur(5px)`,边缘毛玻璃可以看<https://css-tricks.com/blurred-borders-in-css/>
-  3. 图片阴影：`filter: drop-shadow(1px 1px 6px rgba(0, 0, 0, 0.8));`注意这种需要是透明图片才有效果，否则阴影会加到边框上
-  4. 网页置灰：`filter: grayscale(1);`用于不幸的日子
-  5. 节省空间，提高网页加载速度。同一图片减少亮度和对比度以及色相饱和度之后的体积与原图相比，可以减少很大一部分体积空间，2M可以减少到1M左右，然后在网页中通过滤镜进行还原，可以参考<https://css-tricks.com/contrast-swap-technique-improved-image-performance-css-filters/>
+1. 电影效果，使用`brightness`，通过调整背景图的明暗度和文字透明度，来模拟电影谢幕效果
+1. 毛玻璃：使用`backdrop-filter: blur(5px)`,边缘毛玻璃可以看<https://css-tricks.com/blurred-borders-in-css/>
+1. 图片阴影：`filter: drop-shadow(1px 1px 6px rgba(0, 0, 0, 0.8));`注意这种需要是透明图片才有效果，否则阴影会加到边框上
+1. 网页置灰：`filter: grayscale(1);`用于不幸的日子
+1. 节省空间，提高网页加载速度。同一图片减少亮度和对比度以及色相饱和度之后的体积与原图相比，可以减少很大一部分体积空间，2M 可以减少到 1M 左右，然后在网页中通过滤镜进行还原，可以参考<https://css-tricks.com/contrast-swap-technique-improved-image-performance-css-filters/>
 
+### ::marker 伪元素
 
-### ::marker伪元素
-
-1. 是css中新出的一种为元素，用来匹配列表项中的`标记盒子`，可以设置`标记盒子`里面的内容与字符显示相关的UI
+1. 是 css 中新出的一种为元素，用来匹配列表项中的`标记盒子`，可以设置`标记盒子`里面的内容与字符显示相关的 UI
 2. 可以匹配任意设置了`display: list-item`的元素或伪元素，例如`li`元素就可以直接使用`::marker`改变项目符号颜色、字号字体、甚至内容
 
 ```html
 <ol>
-    <li>111</li>
-    <li>222</li>
-    <li>333</li>
+  <li>111</li>
+  <li>222</li>
+  <li>333</li>
 </ol>
 <style>
-::maker {
-  color: deepskyblue;
-  font-weight: bold;
-}
+  ::maker {
+    color: deepskyblue;
+    font-weight: bold;
+  }
 </style>
 ```
 
@@ -1191,16 +1185,15 @@ filter: grayscale(1);
 <div class="list-item">hell</div>
 
 <style>
-.list-item {
-  display: list-item;
-  /* margin-left: 1em; */
-  list-style-position: inside;
-}
+  .list-item {
+    display: list-item;
+    /* margin-left: 1em; */
+    list-style-position: inside;
+  }
 </style>
 ```
 
-
-> ::before/::after中使用::marker
+> ::before/::after 中使用::marker
 > 文档上说是支持的，但是实际使用没生效，没有匹配到元素
 
 ```html
@@ -1264,10 +1257,10 @@ filter: grayscale(1);
 
 1. 文字智能适配背景颜色
 
-  黑色背景显示白色文字，白色背景显示黑色文字，而且是自动的
+黑色背景显示白色文字，白色背景显示黑色文字，而且是自动的
 
-  ```html
-  <style>
+```html
+<style>
   .main {
     width: 600px;
     height: 200px;
@@ -1277,7 +1270,7 @@ filter: grayscale(1);
   }
 
   .main::before {
-    content: '白雾茫茫丶';
+    content: "白雾茫茫丶";
     position: absolute;
     font-size: 50px;
     width: 100%;
@@ -1298,36 +1291,112 @@ filter: grayscale(1);
       transform: translateX(-20%);
     }
   }
-  </style>
-  <div class="main"></div>
-  ```
+</style>
+<div class="main"></div>
+```
 
 2. 文字镂空效果
 
-  ```html
-  <style>
-    .parent {
-      background-image: url("./images/1.jpg");
-      width: 600px;
-      height: 400px;
-      position: relative;
-      margin: 100px auto;
-    }
+```html
+<style>
+  .parent {
+    background-image: url("./images/1.jpg");
+    width: 600px;
+    height: 400px;
+    position: relative;
+    margin: 100px auto;
+  }
 
-    .parent .child {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-weight: 900;
-      font-size: 50px;
-      color: #000;
-      background-color: #fff;
-      mix-blend-mode: screen;
-    }
-  </style>
-  <div class="parent">
-    <div class="child">白雾茫茫丶</div>
-  </div>
+  .parent .child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 900;
+    font-size: 50px;
+    color: #000;
+    background-color: #fff;
+    mix-blend-mode: screen;
+  }
+</style>
+<div class="parent">
+  <div class="child">白雾茫茫丶</div>
+</div>
+```
 
+### 实现固定宽高比
+
+1. 可替换元素实现宽高比
+
+  如`img`、`video`，他们本身就有宽度和高度的概念
+
+  指定宽度或者高度，另外一边自动计算就可以了
+
+  ```css
+  width: 100%;
+  // 不写auto也可以，防止被其他选择器覆盖掉可以主动写一下
+  height: auto;
   ```
+
+2. 普通元素实现宽高比
+
+  1. padding-bottom实现普通元素固定宽高比（黑科技不常用）
+
+    `垂直`方向上的内外`边距`使用`百分比`作为单位时，是基于包含块的宽度来计算的
+
+    ```html
+    <div class="wrapper">
+      <div class="intrinsic-aspect-ratio-container"></div>
+    </div>
+    <style>
+    .wrapper {
+      width: 40vw;
+    }
+    .intrinsic-aspect-ratio-container {
+      width: 100%;
+      height: 0;
+      padding: 0;
+      padding-bottom: 75%;
+      margin: 50px;
+      background-color: lightsalmon;
+    }
+    </style>
+    ```
+
+    但是这样只能实现宽高比，如果里面需要填充内容的话，还需要使用绝对定位来充满元素，而且只能高度随宽度变化，但是无法宽度随高度变化
+
+    ```css
+    .wrapper {
+      width: 400px;
+    }
+    .intrinsic-aspect-ratio {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding: 0;
+      padding-bottom: 75%;
+      margin: 50px;
+      background-color: lightsalmon;
+    }
+    .content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    ```
+
+  2. aspect-ratio
+
+    语法：`aspect-ratio: 4/3;`
+
+
+    ```css
+    /* 高度随动 */
+    .box1 {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+    ```

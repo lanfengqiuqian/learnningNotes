@@ -759,6 +759,8 @@ const onKeyboardHeightChange = (event) => {
 
 #### 预览 pdf 和跳转公众号
 
+<https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html>
+
 1. 创建一个放`webview`页面
 
 ```html
@@ -794,7 +796,9 @@ uni.navigateTo({
 
 原因是没有配置合法域名，这个需要再微信开发者后台配置，并且在该域名下还需要放置校验文件
 
-可以使用`pdfjs`来实现：<https://blog.csdn.net/qq_34025774/article/details/136009594>
+另外一个解决方案是`公众号关联小程序`：需前往小程序后台，在`设置`->`关注公众号`中设置要展示的公众号。注：`设置的公众号需与小程序为同主体或关联主体`。
+
+如果是预览pdf的话：可以使用`pdfjs`来实现：<https://blog.csdn.net/qq_34025774/article/details/136009594>
 
 #### 小程序右上角分享功能
 
@@ -1132,6 +1136,14 @@ uni.setTabBarItem({
   },
 });
 ```
+
+#### 长按图片功能
+
+`image`标签设置`show-menu-by-longpress`为`true`
+
+只有微信自己的码能自动识别，其他的图片只能保存、转发等
+
+<https://developers.weixin.qq.com/miniprogram/dev/component/image.html#%E6%94%AF%E6%8C%81%E9%95%BF%E6%8C%89%E8%AF%86%E5%88%AB%E7%9A%84%E7%A0%81>
 
 #### 小程序、h5、App 相互跳转
 
