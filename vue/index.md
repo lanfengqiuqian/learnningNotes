@@ -785,6 +785,22 @@ export default defineConfig({
 
 3. 手机和电脑在同一个局域网（连接同一个 wifi 即可），然后电脑启动项目，手机端输入`host:port`即可浏览
 
+### html项目如何局域网查看
+
+vscode插件：live server
+
+修改插件设置：搜索`use local ip`，勾选
+
+然后启动的是ip，而不是localhost就可以了
+
+然后其他设备访问这个地址
+
+`注意`：其他设备无法访问的情况
+
+1. 电脑防火墙需要关闭，如果无法关闭是否电脑有其他软件接管了防火墙功能
+2. 防火墙有3道：局域网、专用网络、公用网络
+3. 尝试使用其他wifi（有可能这个wifi限制了），最好直接用手机热点
+
 ### 报错：vue3 terser not found. Since Vite v3, terser has become an optional dependency. You need to install
 
 安装指定依赖`npm install terser -D`
