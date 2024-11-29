@@ -1066,6 +1066,40 @@ vertical-align: unset;
 11. normal
 12. break-word: 只有当一个单词整行都显示不下的时候，才拆分该单词
 
+### 图片填充文字
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .text-fill {
+        background-image: url("https://avatars.githubusercontent.com/u/438160?v=");
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        font-size: 3em;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="text-fill">
+      <p>Hello, CSS Magic!</p>
+    </div>
+  </body>
+</html>
+```
+
 ### css 把图片变为灰白的
 
 适用场景：一些纪念日，或者有重要人物逝世
@@ -1197,8 +1231,7 @@ filter 是作用域当前元素，backdrop-filter 是作用域元素后面的区
 > 文档上说是支持的，但是实际使用没生效，没有匹配到元素
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1328,19 +1361,20 @@ filter 是作用域当前元素，backdrop-filter 是作用域元素后面的区
 
 1. 可替换元素实现宽高比
 
-  如`img`、`video`，他们本身就有宽度和高度的概念
+如`img`、`video`，他们本身就有宽度和高度的概念
 
-  指定宽度或者高度，另外一边自动计算就可以了
+指定宽度或者高度，另外一边自动计算就可以了
 
-  ```css
-  width: 100%;
-  // 不写auto也可以，防止被其他选择器覆盖掉可以主动写一下
-  height: auto;
-  ```
+```css
+width: 100%;
+// 不写auto也可以，防止被其他选择器覆盖掉可以主动写一下
+height: auto;
+```
 
 2. 普通元素实现宽高比
 
-  1. padding-bottom实现普通元素固定宽高比（黑科技不常用）
+1. padding-bottom 实现普通元素固定宽高比（黑科技不常用）
+
 
     `垂直`方向上的内外`边距`使用`百分比`作为单位时，是基于包含块的宽度来计算的
 
@@ -1387,7 +1421,8 @@ filter 是作用域当前元素，backdrop-filter 是作用域元素后面的区
     }
     ```
 
-  2. aspect-ratio
+2. aspect-ratio
+
 
     语法：`aspect-ratio: 4/3;`
 
