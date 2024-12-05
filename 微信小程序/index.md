@@ -112,6 +112,10 @@ windows 可以直接用微软商店下载，挺快的
 
 比如宝塔文件`分享`功能的链接浏览器点开是`下载`，而不是查看，需要放到部署的站点上，通过站点+路径访问的图片才是查看的
 
+#### 小程序订阅
+
+<https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/subscribe-message.html#%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF%E8%AF%AD%E9%9F%B3%E6%8F%90%E9%86%92>
+
 ### 遇到的一些问题
 
 #### `构建npm`时：`NPM package not found. Please confirm npm packages which need to build are belong to minigrogramRoot directory. Or you may edit project.config.json's packNpmManually and packNpmRelationList`
@@ -180,3 +184,7 @@ windows 可以直接用微软商店下载，挺快的
 #### h5跳转微信小程序
 
 <https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html#%E6%98%8E%E6%96%87-URL-Scheme>
+
+#### backdrop-filter属性在微信小程序进行分享时失效
+
+<https://developers.weixin.qq.com/community/develop/doc/000c2a70824dd0e2de883067051400>

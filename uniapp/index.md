@@ -1537,3 +1537,85 @@ location / {
 ```
 
 参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用
+
+
+#### web-view中的click不生效
+
+当时我的代码大概如下（样式的代码去掉了）
+
+判断当前链接是否支持直接打开h5，如果不支持，那么显示引导页面，点击按钮复制链接
+
+```html
+<template>
+	<!-- 根据canOpenH5判断显示web-view还是引导页面 -->
+	<web-view v-if="canOpenH5" :src="url"></web-view>
+	<view v-else class="guide-container">
+		<button class="copy-btn" @click="copyUrl">点击复制链接</button>
+		<text class="guide-text">请复制链接后在手机浏览器中打开查看</text>
+		<image class="guide-image" src="/static/image/scan-active.png" mode="widthFix"></image>
+	</view>
+</template>
+
+<script setup>
+	import {
+		ref
+	} from "vue";
+	import {
+		onLoad,
+		onShow
+	} from "@dcloudio/uni-app";
+
+	const url = ref("");
+	const canOpenH5 = ref(true);
+
+	onLoad((options) => {
+		url.value = options.url;
+		// 获取是否可以打开H5的参数，默认为true
+		canOpenH5.value = options.canOpenH5 !== 'false';
+		console.log(url.value);
+	});
+
+	// 复制链接方法
+	const copyUrl = () => {
+		uni.setClipboardData({
+			data: url.value,
+			success: () => {
+				uni.showToast({
+					title: '链接已复制',
+					icon: 'success'
+				});
+			}
+		});
+	};
+</script>
+```
+
+最后发现是web-view的问题，因为即使没有显示web-view组件，但是也是不生效的，虽然显示没问题
+
+所以我把整个挪到另外一个pages中了就可以正常使用了
+
+#### uni.navigate传递参数本身带有url的参数，则会丢失
+
+如下方示例中，正常获取只能获取到`https://weixin.polyt.cn/thh5/#/home`，后面的`?theaterId=2709`则会丢失
+
+使用`encodeURIComponent(JSON.stringify(url))`
+
+```js
+const url = 'https://weixin.polyt.cn/thh5/#/home?theaterId=2709';
+
+uni.navigateTo({
+  url: `/pages/order/confirm?data=` + encodeURIComponent(JSON.stringify(url))
+})
+
+// 使用
+url.value = JSON.parse(decodeURIComponent(options.url));
+```
+
+
+#### video组件在微信开发者工具无法播放，真机调试正常
+
+我尝试了下面好几种方案都没生效
+
+1. 修改微信开发者工具基础库版本，调高或者调低都不行（尝试了清除缓存、重启项目）
+2. 更新开发者工具到最新的稳定版本
+3. 有的也说是视频链接太长包含太多中文和符号

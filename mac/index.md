@@ -268,3 +268,32 @@
 
     > sudo mdutil -a -i off // 禁止  
     > sudo mdutil -a -i on  // 开启  
+
+
+25. 聚焦无法搜索应用程序了
+
+方式一（但是我第2步报错了）
+
+```shell
+# 关闭聚焦（spotlight）
+sudo mdutil -a -i off
+
+# 不加载控制聚焦参数的文件
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+# 重新加载控制聚焦参数的文件
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist
+# 打开聚焦
+sudo mdutil -a -i on
+# 等一下，你的spotlight就应该能够正常搜索到软件、文件以及网页信息了！
+```
+
+方式二（最后用这种可以了）
+
+```shell
+# 关闭索引
+sudo mdutil -a -i off
+# 清除索引
+sudo mdutil -E /
+# 重新开启索引
+sudo mdutil -a -i on
+```
