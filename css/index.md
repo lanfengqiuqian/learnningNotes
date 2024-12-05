@@ -1356,3 +1356,82 @@ filter 是作用域当前元素，backdrop-filter 是作用域元素后面的区
   <div class="child">白雾茫茫丶</div>
 </div>
 ```
+
+### 实现固定宽高比
+
+1. 可替换元素实现宽高比
+
+如`img`、`video`，他们本身就有宽度和高度的概念
+
+指定宽度或者高度，另外一边自动计算就可以了
+
+```css
+width: 100%;
+// 不写auto也可以，防止被其他选择器覆盖掉可以主动写一下
+height: auto;
+```
+
+2. 普通元素实现宽高比
+
+1. padding-bottom 实现普通元素固定宽高比（黑科技不常用）
+
+
+    `垂直`方向上的内外`边距`使用`百分比`作为单位时，是基于包含块的宽度来计算的
+
+    ```html
+    <div class="wrapper">
+      <div class="intrinsic-aspect-ratio-container"></div>
+    </div>
+    <style>
+    .wrapper {
+      width: 40vw;
+    }
+    .intrinsic-aspect-ratio-container {
+      width: 100%;
+      height: 0;
+      padding: 0;
+      padding-bottom: 75%;
+      margin: 50px;
+      background-color: lightsalmon;
+    }
+    </style>
+    ```
+
+    但是这样只能实现宽高比，如果里面需要填充内容的话，还需要使用绝对定位来充满元素，而且只能高度随宽度变化，但是无法宽度随高度变化
+
+    ```css
+    .wrapper {
+      width: 400px;
+    }
+    .intrinsic-aspect-ratio {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding: 0;
+      padding-bottom: 75%;
+      margin: 50px;
+      background-color: lightsalmon;
+    }
+    .content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    ```
+
+2. aspect-ratio
+
+
+    语法：`aspect-ratio: 4/3;`
+
+
+    ```css
+    /* 高度随动 */
+    .box1 {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+    ```

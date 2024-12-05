@@ -94,8 +94,10 @@
    1. 临时修改
 
       ```shell
-      set http_proxy=socks5://127.0.0.1:10808
-      set https_proxy=socks5://127.0.0.1:10808
+      set http_proxy=socks5://127.0.0.1:7890
+      set https_proxy=socks5://127.0.0.1:7890
+      set http_proxy=http://127.0.0.1:7890
+      set https_proxy=https://127.0.0.1:7890
       ```
 
    2. 或者尝试这种
