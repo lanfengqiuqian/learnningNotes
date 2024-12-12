@@ -2035,3 +2035,7 @@ instance.interceptors.response.use(function (response) {
  
 export default instance;
 ```
+
+### blob、file、base64区别、判断和相互转化
+
+<https://juejin.cn/post/7065856653429571615>

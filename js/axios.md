@@ -196,3 +196,39 @@
     function getShoporderList() { ... }
     export const shoporderApi = {	getShoporderDetail,	getShoporderList}
     ```
+
+## 知识点
+
+### 监听上传和下载
+
+```js
+axios('https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg', {
+  responseType: 'blob',
+  onDownloadProgress(e) {
+    if (e.lengthComputable) {
+      result.textContent = Math.round((e.loaded * 100) / e.total) + '%';
+      if (e.loaded === e.total) {
+        result.textContent += `，用时：${e.timeStamp.toFixed(0)}ms`;
+      }
+    }
+  },
+})
+
+
+const data = new FormData();
+data.append('file', input.files[0]);
+data.append('username', 'foo');
+// 或者已存在表单元素
+// const data = new FormData(form:HTMLFormElement));
+axios.post('upload', data, {
+  headers: {'Content-Type': 'multipart/form-data;charset=utf-8'},
+  onUploadProgress(e) {
+    if (e.lengthComputable) {
+      result.textContent = Math.round((e.loaded * 100) / e.total) + '%';
+      if (e.loaded === e.total) {
+        result.textContent += `，用时：${e.timeStamp.toFixed(0)}ms`;
+      }
+    }
+  },
+})
+```

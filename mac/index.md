@@ -268,3 +268,7 @@
 
     > sudo mdutil -a -i off // 禁止  
     > sudo mdutil -a -i on  // 开启  
+
+25. iphone模拟慢网速
+
+    <https://blog.csdn.net/Zhai19931004/article/details/52127685>

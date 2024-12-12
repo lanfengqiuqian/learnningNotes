@@ -1149,6 +1149,10 @@ uni.setTabBarItem({
 
 <https://juejin.cn/post/7415776780076040243>
 
+#### 打开地图选点及获取省市区
+
+可参见<https://juejin.cn/post/7108897905712300040>
+
 ### 问题
 
 #### 微信小程序开发者工具 [error] Error: Fail to open IDE
@@ -1428,6 +1432,18 @@ typeChange(){
 改用`天地图`
 
 <https://blog.csdn.net/qq285744011/article/details/125162871>
+
+#### 微信小程序调定位失败或提示
+
+`chooseLocation:fail the api need to be declared in the requiredPrivateInfos field in app.json/ext.json`
+
+1. manifest.json的mp-weixin节点
+
+  > "requiredPrivateInfos": ["getLocation", "chooseLocation"],
+
+2. 搜索`微信公众平台`进入之后点击开发下面的`开发管理`点击`接口设置`开通你所用到的api，如`wx.chooseLocation`
+
+3. 然后就可以使用了，有时候可能会有些延迟导致定位还是不能使用。耐心等待即可
 
 #### 选择头像、手机号 api 报错
 
