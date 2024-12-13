@@ -66,6 +66,20 @@ windows 可以直接用微软商店下载，挺快的
 
 ### 笔记
 
+#### 小程序审核发布经验
+
+<https://github.com/lingziyao115/miniprogram>
+
+#### 个人小程序可以申请的服务类目
+
+<https://developers.weixin.qq.com/miniprogram/product/material/#%E4%B8%AA%E4%BA%BA%E4%B8%BB%E4%BD%93%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E6%94%BE%E7%9A%84%E6%9C%8D%E5%8A%A1%E7%B1%BB%E7%9B%AE>
+
+#### 个人小程序提审怎么绕过审核
+
+正常来说：如果是个人开发微信小程序，在涉及音乐，视频，新闻等，都是不允许的。需要注册企业主体
+
+<https://blog.csdn.net/weixin_48622654/article/details/130516129>
+
 #### 服务器域名配置
 
 <https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html#1.%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE>
@@ -232,3 +246,5 @@ windows 可以直接用微软商店下载，挺快的
 折中方案：写一个自己的页面，加一个按钮复制到剪切板，引导用户自己去默认浏览器打开
 
 或者是：跳转到客服聊天界面，通过开发的方式，自动发送一个卡片链接，这里能打开微信浏览器，微信浏览器能够支持右上角默认浏览器打开
+
+

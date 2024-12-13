@@ -62,6 +62,22 @@
 
 ### 使用技巧
 
+#### 区分环境
+
+如果只需要判断是否是生产环境：`process.env.NODE_ENV === 'development'`
+
+<https://uniapp.dcloud.net.cn/worktile/running-env.html#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%92%8C%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83>
+
+如果需要区分开发、体验、生产、灰度：
+
+> 小程序 当前环境版本：develop开发版、trial体验版、release正式版、gray灰度版（仅支付宝小程序支持）
+
+<https://uniapp.dcloud.net.cn/api/other/getAccountInfoSync.html#getaccountinfosync>
+
+```js
+const envConfig = uni.getAccountInfoSync().miniProgram.envVersion;
+```
+
 #### uni_module 版本的 mitt
 
 在项目没有使用`npm`的第三方包的时候，想要使用`mitt`的话
