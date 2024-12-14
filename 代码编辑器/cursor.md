@@ -222,6 +222,12 @@
 
 ## 小技巧
 
+### 破解
+
+mac: <https://github.com/fly8888/cursor_machine_id>
+
+win: <https://github.com/bestK/cursor-fake-machine>
+
 ### 设置中文
 
 `cmd + shift + x`打开插件：搜索`Chinese (Simplified) (简体中文) Language`

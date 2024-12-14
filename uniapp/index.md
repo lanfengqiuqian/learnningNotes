@@ -62,6 +62,22 @@
 
 ### 使用技巧
 
+#### 区分环境
+
+如果只需要判断是否是生产环境：`process.env.NODE_ENV === 'development'`
+
+<https://uniapp.dcloud.net.cn/worktile/running-env.html#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%92%8C%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83>
+
+如果需要区分开发、体验、生产、灰度：
+
+> 小程序 当前环境版本：develop开发版、trial体验版、release正式版、gray灰度版（仅支付宝小程序支持）
+
+<https://uniapp.dcloud.net.cn/api/other/getAccountInfoSync.html#getaccountinfosync>
+
+```js
+const envConfig = uni.getAccountInfoSync().miniProgram.envVersion;
+```
+
 #### uni_module 版本的 mitt
 
 在项目没有使用`npm`的第三方包的时候，想要使用`mitt`的话
@@ -1149,6 +1165,10 @@ uni.setTabBarItem({
 
 <https://juejin.cn/post/7415776780076040243>
 
+#### 打开地图选点及获取省市区
+
+可参见<https://juejin.cn/post/7108897905712300040>
+
 ### 问题
 
 #### 微信小程序开发者工具 [error] Error: Fail to open IDE
@@ -1428,6 +1448,18 @@ typeChange(){
 改用`天地图`
 
 <https://blog.csdn.net/qq285744011/article/details/125162871>
+
+#### 微信小程序调定位失败或提示
+
+`chooseLocation:fail the api need to be declared in the requiredPrivateInfos field in app.json/ext.json`
+
+1. manifest.json的mp-weixin节点
+
+  > "requiredPrivateInfos": ["getLocation", "chooseLocation"],
+
+2. 搜索`微信公众平台`进入之后点击开发下面的`开发管理`点击`接口设置`开通你所用到的api，如`wx.chooseLocation`
+
+3. 然后就可以使用了，有时候可能会有些延迟导致定位还是不能使用。耐心等待即可
 
 #### 选择头像、手机号 api 报错
 

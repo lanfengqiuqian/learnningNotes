@@ -1856,3 +1856,12 @@ copyToClipboard() {
   
 }
 ```
+
+67. 发送带有cookie（凭据）的请求
+
+为了让浏览器发送包含cookie的请求，需要设置该属性
+
+1. `same-origin`: 默认值，如果是同源则发送，不同源则不发送
+2. `include`: 都发送
+    如果设置了这个的话，`Access-Control-Allow-Origin`通配符`*`将会失效，必须要设置为具体的地址
+3. `omit`: 都不发送

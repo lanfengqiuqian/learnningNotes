@@ -452,3 +452,9 @@ https://www.bt.cn/new/wechat_customer
     问题：宝塔创建`aaa.com`站点使用了 `https`，其它站点(例如`bbb.com`)使用的是 `http`，而未配置或开启 `https` 协议，但是你使用`https://bbb.com`访问网站的时候，神奇的事情就发生了，网站内容显示的是`https://aaa.com`的内容。明明`bbb.com`没有开启 `https` 却可以访问，而且内容还是`aaa.com`网站的内容
 
     <https://blog.csdn.net/changshaoke/article/details/120965947>
+
+### cwd和pwd的区别
+
+`PWD`是进程启动时的`当前工作目录`，他是一个常量，无法在windows使用
+
+`process.cwd()`是向底层系统询问进程的当前目录，该目录可以用`processs.chdir()`进行更改
