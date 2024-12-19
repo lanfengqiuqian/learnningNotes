@@ -26,3 +26,10 @@
 ### table 右侧有一部分空白
 
 不要所有列都定死`width`，留一列进行自适应
+
+
+### 官方文档不稳定，经常打不开
+
+官方网站 <https://element-plus.org/>
+
+使用中国镜像加速站点 <https://cn.element-plus.org/zh-CN/component/overview.html>

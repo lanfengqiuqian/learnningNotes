@@ -800,6 +800,7 @@ vscode插件：live server
 1. 电脑防火墙需要关闭，如果无法关闭是否电脑有其他软件接管了防火墙功能
 2. 防火墙有3道：局域网、专用网络、公用网络
 3. 尝试使用其他wifi（有可能这个wifi限制了），最好直接用手机热点
+4. 考虑是否因为vpn导致的问题
 
 ### 报错：vue3 terser not found. Since Vite v3, terser has become an optional dependency. You need to install
 

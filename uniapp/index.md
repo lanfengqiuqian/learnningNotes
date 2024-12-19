@@ -212,6 +212,100 @@ PS：`如果没有触发，尝试重新打开微信开发者工具或者重新�
 </style>
 ```
 
+#### h5发版之后避免因为微信缓存导致没有更新
+
+```js
+import { getToken } from '@/utils/auth';
+
+// 登录页面
+const loginPage = '/pages/login/login';
+// 页面白名单
+const whiteList = ['/', '/pages/login/login', '/pages/home/home', '/pages/worksheet/worksheet', 'pages/my/my'];
+
+// 需要登录的页面名单
+const checkList = ['/pages/order/order', '/pages/order/add', '/pages/home/consultation/consultation', '/pages/my/my', '/pages/my/records', '/pages/my/contact'];
+
+// 检查地址白名单
+function checkWhite(url: string) {
+  const path = url.split('?')[0];
+  return whiteList.includes(path);
+}
+
+// 检查地址白名单
+function checkLogin(url: string) {
+  const path = url.split('?')[0];
+  return checkList.includes(path);
+}
+
+const join_t = (to) => {
+  // location.origin+location.pathname+location.hash
+  console.log('to :>> ', to, window.location);
+  // 获取当前时间戳
+  const now = Date.now();
+  // 解析URL中的参数
+  const urlParams = new URLSearchParams(location.search);
+  // 获取原有的时间戳参数
+  const timestampParam = urlParams.get('_t');
+
+  // 检查时间戳是否存在且在1小时之内（1小时=3600000毫秒）
+  const twoHoursAgo = now - 3600000;
+
+  if (timestampParam && Number.parseInt(timestampParam) > twoHoursAgo) {
+    // 时间戳在1小时之内，不进行操作
+    console.log('不进行操作');
+    return true;
+  }
+  else {
+    console.log('要进行操作');
+    // 时间戳不在1小时之内或不存在，重新拼接时间戳和原参数
+    if (to.url.includes('./')) {
+      if (location.hash === '#/') {
+        location.href = `${location.origin}${location.pathname}?_t=${now}/#/pages/home${to.url.replaceAll('.', '')}`;
+      }
+      else {
+        location.href = `${location.origin}${location.pathname}?_t=${now}/${location.hash}${to.url.replaceAll('.', '')}`;
+      }
+    }
+    else {
+      location.href = `${location.origin}${location.pathname}?_t=${now}/#${to.url}`;
+    }
+    return true;
+  }
+};
+
+// 页面跳转验证拦截器
+const list = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'];
+list.forEach((item) => {
+  uni.addInterceptor(item, {
+    // 判断时间戳是否在1小时之内，如果在的话不请求，否则重新请求页面
+    invoke(to) {
+      if (getToken()) {
+        if (to.url === loginPage)
+          uni.reLaunch({ url: '/' });
+
+        join_t(to);
+        return true;
+      }
+      else {
+        // if (checkWhite(to.url))
+        //   return true;
+        // 检查需要登录的页面
+        if (checkLogin(to.url)) {
+          // uni.reLaunch({ url: loginPage });
+          uni.navigateTo({ url: loginPage });
+          return false;
+        }
+        join_t(to);
+        return true;
+      }
+    },
+    fail(err) {
+      console.log(err);
+    },
+  });
+});
+```
+
 #### 如何配置 vite 或者 webpack
 
 官网 <https://zh.uniapp.dcloud.io/collocation/vite-config.html>

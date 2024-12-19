@@ -1006,3 +1006,19 @@ code runner 插件
     "**/*": "images/"
 }
 ```
+
+### 调试代码
+
+用vue项目举例
+
+1. 启动项目
+2. `ctrl + shift + D`打开调试插件
+3. 如果没有配置`launch.json`，那么按照他的提示点击创建，渲染`web chrome`
+4. 默认是`8080`端口，如果端口不对，改为你需要的即可
+5. 然后点击插件上面的绿色小三角
+6. 这个时候会自动给你启动一个chrome浏览器
+7. 然后在项目里面代码行数的左侧单击增加断点
+
+其他配置可以参考
+
+<https://code.visualstudio.com/docs/editor/debugging#_launch-configurations>

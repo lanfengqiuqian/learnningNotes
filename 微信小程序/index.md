@@ -84,6 +84,11 @@ windows 可以直接用微软商店下载，挺快的
 
 <https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html#1.%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE>
 
+
+#### 微信小程序webview清除缓存、微信公众号h5清除缓存、页面白屏、空白、不刷新问题
+
+<https://blog.csdn.net/qq_35430000/article/details/121096540>
+
 #### 如何引入三方库
 
 可参见[https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html)
