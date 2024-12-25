@@ -31,6 +31,17 @@
     2. 数据库没有启动
     3. 账号密码错误之类的
 
+## 配置
+
+### 导入测试数据
+
+下载：<https://github.com/WordPress/theme-test-data?tab=readme-ov-file>
+
+这个也可以（更全）：<https://github.com/manovotny/wptest/archive/master.zip>
+
+### 重置wordpress数据
+
+<https://cloud.tencent.com/developer/article/2071782>
 
 ## 通过 rest api 获取数据
 

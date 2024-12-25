@@ -2038,4 +2038,6 @@ export default instance;
 
 ### blob、file、base64区别、判断和相互转化
 
-<https://juejin.cn/post/7065856653429571615>
+简单比对转换 <https://juejin.cn/post/7065856653429571615>
+
+详解 <https://juejin.cn/post/7424414729857400870>
