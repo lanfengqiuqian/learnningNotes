@@ -235,9 +235,18 @@ windows 可以直接用微软商店下载，挺快的
 
 <https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html#%E6%98%8E%E6%96%87-URL-Scheme>
 
+#### 公众号菜单跳转小程序和公众号文章跳转小程序
+
+<https://sxl.zendesk.com/hc/zh-cn/articles/360000474841--%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7-%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E5%9C%A8%E5%85%AC%E4%BC%97%E5%8F%B7%E8%8F%9C%E5%8D%95-%E6%96%87%E7%AB%A0%E5%B5%8C%E5%85%A5%E5%B0%8F%E7%A8%8B%E5%BA%8F>
+
+1. 菜单跳转：需要公众号与小程序关联，然后配置的时候选择就可以了
+2. 公众号文章跳转：这个不需要关联，图文编辑器中能够选择要跳转的小程序
+
 #### backdrop-filter 属性在微信小程序进行分享时失效
 
 <https://developers.weixin.qq.com/community/develop/doc/000c2a70824dd0e2de883067051400>
+
+直到2024.12月份用的时候还没修复
 
 #### 关于微信小程序打开 h5 的限制
 
@@ -251,5 +260,23 @@ windows 可以直接用微软商店下载，挺快的
 折中方案：写一个自己的页面，加一个按钮复制到剪切板，引导用户自己去默认浏览器打开
 
 或者是：跳转到客服聊天界面，通过开发的方式，自动发送一个卡片链接，这里能打开微信浏览器，微信浏览器能够支持右上角默认浏览器打开
+
+
+#### 微信小程序正式环境出现vconsole
+
+先进入体验版小程序，把`开发调试`关掉，然后再进入正式版小程序就可以了
+
+#### 如何解决“Error: xxx.js 已被代码依赖分析忽略，无法被其他模块引用”报错？
+
+<https://developers.weixin.qq.com/community/develop/article/doc/00020631afc6c8c6f62e7b91855c13?idescene=6>
+
+1. 修改引用的代码
+
+   这个如果代码没问题的话可能是微信开发者工具的缓存，清除缓存重新试一下，或者是重新打开一下微信开发者工具
+
+2. 关闭过滤无依赖文件：`project.config.json` 中 `settings` 选项添加 `ignoreDevUnusedFiles: false` , `ignoreUploadUnusedFiles: false`
+
+   这个等同于：`设置->项目设置->过滤无依赖文件` 勾选去掉
+
 
 

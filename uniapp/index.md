@@ -916,6 +916,8 @@ uni.navigateTo({
 
 其他的分享方式: <https://developers.weixin.qq.com/community/develop/article/doc/000e26b685c950ff976ba374e51c13>
 
+全局分享的实现：<https://juejin.cn/post/7439016399462596660>
+
 #### 判断 h5 打开的浏览器环境
 
 ```js
@@ -983,6 +985,18 @@ onShow(() => {
     app.navTitle()
   }
 })
+```
+
+#### 页面的【转发给朋友】和【复制链接】是默认禁用的
+
+页面需要实现`onShareAppMessage`方法，方法体可以是空的
+
+```js
+	import { onShareAppMessage } from '@dcloudio/uni-app'
+
+  onShareAppMessage((res) => {
+	  // something
+  })
 ```
 
 #### ocr 文件识别案例

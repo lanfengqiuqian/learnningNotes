@@ -1435,3 +1435,22 @@ height: auto;
       aspect-ratio: 16/9;
     }
     ```
+
+### 好看的虚线
+
+原理可以看<https://juejin.cn/post/7147983368587018271#heading-7>
+
+```css
+.divider {
+    height: 1px;
+    background: linear-gradient(
+        to left,
+        transparent 0%,
+        transparent 50%,
+        #ccc 50%,
+        #ccc 100%
+    );
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+}
+```
