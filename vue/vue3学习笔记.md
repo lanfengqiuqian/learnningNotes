@@ -1488,3 +1488,65 @@ server: {
 ### 报错 Dependency cycle via 
 
 这个是循环依赖了，根据提示的位置修改即可
+
+### 生产环境控制台输出打包时间，以判断版本
+
+<https://juejin.cn/post/7140516996428333070>
+
+```js
+// vite.config.js
+import dayjs from 'dayjs';
+const __APP_INFO__ = {
+  buildTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+};
+const env = process.env;
+// https://vitejs.dev/config/
+export default ({ command, mode }: ConfigEnv): UserConfig => {
+return {
+    ...
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
+      __GLOBAL_ENV__: env // 环境变量
+    }
+}
+```
+
+```js
+// App.vue
+// 在开发环境不打印
+if (import.meta.env.VITE_APP_ENV !== 'dev') {
+    // 1. 将css样式内容放入数
+    const styles = [
+        'color: white',
+        'background: green',
+        'font-size: 19px',
+        'border: 1px solid #fff',
+        'text-shadow: 2px 2px black',
+        'padding: 5px',
+    ].join(';');
+
+    // // eslint-disable-next-line no-undef
+    console.log(
+        `%c打包时间: ${__APP_INFO__.buildTime}`,
+        styles,
+    );
+
+    // console.log(`%c构建Node.js版本: ${__GLOBAL_ENV__.CI_RUNTIME_VERSION || '-'}`, styles);
+
+    // console.log(`%c流水线执行人: ${__GLOBAL_ENV__.EXECUTOR_NAME || '-'}`, styles);
+
+    // console.log(`%c分支: ${__GLOBAL_ENV__.CI_COMMIT_REF_NAME || '-'}`, styles);
+
+    // console.log(
+    //     `%cCOMMIT信息: ${__GLOBAL_ENV__.CI_COMMIT_TITLE || '-'} ${
+    //         __GLOBAL_ENV__.CI_COMMIT_ID || '-'
+    //     }`,
+    //     styles,
+    // );
+}
+```
+
+注意
+
+1. `env`中的`CI`信息不是一定会有的，像我的项目就没有
+2. 直接使用`全局变量`在开发环境会报错`not defined`，我尝试在`env.d.ts`中增加`ts`类型声明也不行，还是使用的`// eslint-disable-next-line no-undef`解决
