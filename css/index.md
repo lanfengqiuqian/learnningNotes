@@ -1454,3 +1454,9 @@ height: auto;
     background-repeat: repeat-x;
 }
 ```
+
+### fit-content属性
+
+<https://www.zhangxinxu.com/wordpress/2016/05/css3-width-max-contnet-min-content-fit-content/>
+
+让元素尺寸适应内容
