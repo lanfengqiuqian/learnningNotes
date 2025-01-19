@@ -1837,25 +1837,33 @@ axios.interceptors.response.use((response: AxiosResponse<HttpResponse>) => {
 
 ```js
 // 复制到剪贴板
-copyToClipboard() {
-  // 兼容非安全域，非安全域下不可使用navigator.clipboard.writeText
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(this.hexValue).then(() => {
-      ElMessage({message: '已复制到剪贴板', type: 'success', duration: 1500})
-    }).catch((error) => {
-      console.error("复制失败：", error);
-    })
-  } else {
-    const input = this.$refs.inputRef;
-    input.select();
-    input.setSelectionRange(0, 99999); // 适用于不同浏览器的兼容性处理
-    document.execCommand("copy");
-    input.setSelectionRange(0, 0); // 清除选中状态
-    ElMessage({message: '已复制到剪贴板', type: 'success', duration: 1500})
-  }
-  
+function copyToClipboard(textToCopy) {
+    // navigator clipboard 需要https等安全上下文
+    if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard 向剪贴板写文本
+        return navigator.clipboard.writeText(textToCopy);
+    } else {
+        // 创建text area
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // 使text area不在viewport，同时设置不可见
+        textArea.style.position = "absolute";
+        textArea.style.opacity = 0;
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        return new Promise((res, rej) => {
+            // 执行复制命令并移除文本框
+            document.execCommand('copy') ? res() : rej();
+            textArea.remove();
+        });
+    }
 }
 ```
+
+但是也会提示`document.execCommand即将被弃用`，所以还是推荐在`https环境中`使用`clipboard api`
 
 67. 发送带有cookie（凭据）的请求
 

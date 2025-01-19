@@ -60,7 +60,72 @@
 
    类似 vscode 的 codeium
 
+### vscode 开发 uniapp 项目
+
+官方文档：<https://uniapp.dcloud.net.cn/worktile/CLI.html>
+
+对于如果没有用`uni cli`的项目，需要安装`vscode`插件`uniapp run`
+
+<https://marketplace.visualstudio.com/items?itemName=hb0730.uniapp-run>
+
+1. `uniapp run`配置开发者工具目录
+
+```
+HBuildx和微信开发者工具的都需要
+
+注意是exe的上层目录，而不是exe的文件目录
+
+如
+
+C:\Program Files\HBuilderX
+C:/Program Files (x86)/Tencent/微信web开发者工具
+```
+
+2. 在`运行与调试`中配置启动脚本，选择`uni run`就会生成默认的，但是需要做修改
+
+```json
+{
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "uniapp-run",
+      "request": "launch",
+      "name": "Uniapp Run",
+      "platform": "mp-weixin",
+      // 这个是我手动加的，否则会报错
+      "vueVersion": "v3",
+      // 这个也是手动加的，要不然不会打开微信开发者工具
+      "openDevTool": true
+    }
+  ]
+}
+```
+
+3. 安装`uni helper`扩展和`uniapp小程序扩展`，这个是针对`uniapp`的增强提示、语法高亮等
+
+4. 然后`F5`就可以启动了，可以注意控制台有没有报错
+
+5. json 文件的注释
+
+> 因为 uniapp 的 json 是可以增加注释的，但是 vscode 的默认是不行  
+> json 文件是可以有注释的，在设置-用户-文件中设置 pages.json 和 manifest.json 两项的属性值为 jsonc
+
+其他插件
+
+1. `px to rpx`：把`px`转为`rpx`
+
+修改设置的设计稿宽度，改为`375`，精度为`2`
+
+然后重新启动`vscode`，如果还不行的话`禁用 启用`扩展切换一下
+
 ### 使用技巧
+
+#### 版本更新检测
+
+<https://developers.weixin.qq.com/community/develop/article/doc/0000e0ef4348f0529142ba4bc6b813>
 
 #### 区分环境
 
@@ -70,7 +135,7 @@
 
 如果需要区分开发、体验、生产、灰度：
 
-> 小程序 当前环境版本：develop开发版、trial体验版、release正式版、gray灰度版（仅支付宝小程序支持）
+> 小程序 当前环境版本：develop 开发版、trial 体验版、release 正式版、gray 灰度版（仅支付宝小程序支持）
 
 <https://uniapp.dcloud.net.cn/api/other/getAccountInfoSync.html#getaccountinfosync>
 
@@ -102,9 +167,23 @@ const envConfig = uni.getAccountInfoSync().miniProgram.envVersion;
 
 解决方案：根据[官方文档](https://uniapp.dcloud.net.cn/api/system/info.html#getsysteminfo)中的 api 获取各个地方的高度，然后进行调整
 
-`一定要注意的是`：这里需要用`px`作为单位，因为 api 返沪的是`px`，如果用`rpx`去计算的话会有问题
+`一定要注意的是`：这里需要用`px`作为单位，因为 api 返回的是`px`，如果用`rpx`去计算的话会有问题
 
-#### 简单写死顶部区域和底部区域
+```js
+导航栏高度 = 胶囊按钮高度 + 状态栏到胶囊按钮间距 * 2
+Android导航栏高度 = 32px + 8px * 2 = 48px
+iOS导航栏高度 = 32px + 6px * 2 = 44px
+```
+
+```
+计算逻辑
+
+statusBarHeight = 状态栏高度 = uni.getSystemInfoSync().statusBarHeight
+menuButtonBoundingClientRect = uni.getMenuButtonBoundingClientRect();
+height = 胶囊高度 + 状态栏到胶囊按钮间距 * 2 = 胶囊高度 + （胶囊按钮top - 状态栏高度） * 2 = statusBarHeight + (statusBarHeight - menuButtonBoundingClientRect.top) * 2
+```
+
+#### 简单写死顶部区域和底部区域（要求不细致大概计算可以用这个）
 
 1. 顶部（`188rpx`）：状态栏 + 胶囊
 
@@ -151,6 +230,36 @@ onLoad(() => {
   console.log(11);
 });
 ```
+
+#### 页面下拉刷新和上拉加载
+
+<https://juejin.cn/post/7089996496623370253>
+
+1. `pages.json`中声明
+
+```json
+"style": {
+    // 上拉触底的距离
+    "onReachBottomDistance": 150,
+    // 启用下拉刷新
+    "enablePullDownRefresh": true,
+}
+```
+
+2. 页面中导入并使用
+
+```js
+import { onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app";
+
+onPullDownRefresh(() => {
+  console.log("触发了onPullDownRefresh");
+});
+onReachBottom(() => {
+  console.log("触发了onReachBottom");
+});
+```
+
+PS：`scroll-view`使用`@scrolltolower`也能做上拉加载，区别是`scroll-view`定高，`onReachBottom`不定高
 
 #### 微信小程序和 uniapp 接入快递 100 查询
 
@@ -212,61 +321,75 @@ PS：`如果没有触发，尝试重新打开微信开发者工具或者重新�
 </style>
 ```
 
-#### h5发版之后避免因为微信缓存导致没有更新
+#### h5 发版之后避免因为微信缓存导致没有更新
 
 ```js
-import { getToken } from '@/utils/auth';
+import { getToken } from "@/utils/auth";
 
 // 登录页面
-const loginPage = '/pages/login/login';
+const loginPage = "/pages/login/login";
 // 页面白名单
-const whiteList = ['/', '/pages/login/login', '/pages/home/home', '/pages/worksheet/worksheet', 'pages/my/my'];
+const whiteList = [
+  "/",
+  "/pages/login/login",
+  "/pages/home/home",
+  "/pages/worksheet/worksheet",
+  "pages/my/my",
+];
 
 // 需要登录的页面名单
-const checkList = ['/pages/order/order', '/pages/order/add', '/pages/home/consultation/consultation', '/pages/my/my', '/pages/my/records', '/pages/my/contact'];
+const checkList = [
+  "/pages/order/order",
+  "/pages/order/add",
+  "/pages/home/consultation/consultation",
+  "/pages/my/my",
+  "/pages/my/records",
+  "/pages/my/contact",
+];
 
 // 检查地址白名单
 function checkWhite(url: string) {
-  const path = url.split('?')[0];
+  const path = url.split("?")[0];
   return whiteList.includes(path);
 }
 
 // 检查地址白名单
 function checkLogin(url: string) {
-  const path = url.split('?')[0];
+  const path = url.split("?")[0];
   return checkList.includes(path);
 }
 
 const join_t = (to) => {
   // location.origin+location.pathname+location.hash
-  console.log('to :>> ', to, window.location);
+  console.log("to :>> ", to, window.location);
   // 获取当前时间戳
   const now = Date.now();
   // 解析URL中的参数
   const urlParams = new URLSearchParams(location.search);
   // 获取原有的时间戳参数
-  const timestampParam = urlParams.get('_t');
+  const timestampParam = urlParams.get("_t");
 
   // 检查时间戳是否存在且在1小时之内（1小时=3600000毫秒）
   const twoHoursAgo = now - 3600000;
 
   if (timestampParam && Number.parseInt(timestampParam) > twoHoursAgo) {
     // 时间戳在1小时之内，不进行操作
-    console.log('不进行操作');
+    console.log("不进行操作");
     return true;
-  }
-  else {
-    console.log('要进行操作');
+  } else {
+    console.log("要进行操作");
     // 时间戳不在1小时之内或不存在，重新拼接时间戳和原参数
-    if (to.url.includes('./')) {
-      if (location.hash === '#/') {
-        location.href = `${location.origin}${location.pathname}?_t=${now}/#/pages/home${to.url.replaceAll('.', '')}`;
+    if (to.url.includes("./")) {
+      if (location.hash === "#/") {
+        location.href = `${location.origin}${
+          location.pathname
+        }?_t=${now}/#/pages/home${to.url.replaceAll(".", "")}`;
+      } else {
+        location.href = `${location.origin}${location.pathname}?_t=${now}/${
+          location.hash
+        }${to.url.replaceAll(".", "")}`;
       }
-      else {
-        location.href = `${location.origin}${location.pathname}?_t=${now}/${location.hash}${to.url.replaceAll('.', '')}`;
-      }
-    }
-    else {
+    } else {
       location.href = `${location.origin}${location.pathname}?_t=${now}/#${to.url}`;
     }
     return true;
@@ -274,19 +397,17 @@ const join_t = (to) => {
 };
 
 // 页面跳转验证拦截器
-const list = ['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'];
+const list = ["navigateTo", "redirectTo", "reLaunch", "switchTab"];
 list.forEach((item) => {
   uni.addInterceptor(item, {
     // 判断时间戳是否在1小时之内，如果在的话不请求，否则重新请求页面
     invoke(to) {
       if (getToken()) {
-        if (to.url === loginPage)
-          uni.reLaunch({ url: '/' });
+        if (to.url === loginPage) uni.reLaunch({ url: "/" });
 
         join_t(to);
         return true;
-      }
-      else {
+      } else {
         // if (checkWhite(to.url))
         //   return true;
         // 检查需要登录的页面
@@ -908,7 +1029,7 @@ uni.navigateTo({
 
 另外一个解决方案是`公众号关联小程序`：需前往小程序后台，在`设置`->`关注公众号`中设置要展示的公众号。注：`设置的公众号需与小程序为同主体或关联主体`。
 
-如果是预览pdf的话：可以使用`pdfjs`来实现：<https://blog.csdn.net/qq_34025774/article/details/136009594>
+如果是预览 pdf 的话：可以使用`pdfjs`来实现：<https://blog.csdn.net/qq_34025774/article/details/136009594>
 
 #### 小程序右上角分享功能
 
@@ -992,11 +1113,11 @@ onShow(() => {
 页面需要实现`onShareAppMessage`方法，方法体可以是空的
 
 ```js
-	import { onShareAppMessage } from '@dcloudio/uni-app'
+import { onShareAppMessage } from "@dcloudio/uni-app";
 
-  onShareAppMessage((res) => {
-	  // something
-  })
+onShareAppMessage((res) => {
+  // something
+});
 ```
 
 #### ocr 文件识别案例
@@ -1418,6 +1539,8 @@ content.replace(/<img/g, '<img class="rich-text-img-style" ');
 }
 ```
 
+这个也要注意一下，富文本的元素的`style`是不是也写了`height和width !important`，否则还是不生效的，因为他的权重更高
+
 ```js
 /* ul的左边距 */
 
@@ -1561,11 +1684,11 @@ typeChange(){
 
 `chooseLocation:fail the api need to be declared in the requiredPrivateInfos field in app.json/ext.json`
 
-1. manifest.json的mp-weixin节点
+1. manifest.json 的 mp-weixin 节点
 
-  > "requiredPrivateInfos": ["getLocation", "chooseLocation"],
+> "requiredPrivateInfos": ["getLocation", "chooseLocation"],
 
-2. 搜索`微信公众平台`进入之后点击开发下面的`开发管理`点击`接口设置`开通你所用到的api，如`wx.chooseLocation`
+2. 搜索`微信公众平台`进入之后点击开发下面的`开发管理`点击`接口设置`开通你所用到的 api，如`wx.chooseLocation`
 
 3. 然后就可以使用了，有时候可能会有些延迟导致定位还是不能使用。耐心等待即可
 
@@ -1690,81 +1813,78 @@ location / {
 
 参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用
 
-
-#### web-view中的click不生效
+#### web-view 中的 click 不生效
 
 当时我的代码大概如下（样式的代码去掉了）
 
-判断当前链接是否支持直接打开h5，如果不支持，那么显示引导页面，点击按钮复制链接
+判断当前链接是否支持直接打开 h5，如果不支持，那么显示引导页面，点击按钮复制链接
 
 ```html
 <template>
-	<!-- 根据canOpenH5判断显示web-view还是引导页面 -->
-	<web-view v-if="canOpenH5" :src="url"></web-view>
-	<view v-else class="guide-container">
-		<button class="copy-btn" @click="copyUrl">点击复制链接</button>
-		<text class="guide-text">请复制链接后在手机浏览器中打开查看</text>
-		<image class="guide-image" src="/static/image/scan-active.png" mode="widthFix"></image>
-	</view>
+  <!-- 根据canOpenH5判断显示web-view还是引导页面 -->
+  <web-view v-if="canOpenH5" :src="url"></web-view>
+  <view v-else class="guide-container">
+    <button class="copy-btn" @click="copyUrl">点击复制链接</button>
+    <text class="guide-text">请复制链接后在手机浏览器中打开查看</text>
+    <image
+      class="guide-image"
+      src="/static/image/scan-active.png"
+      mode="widthFix"
+    ></image>
+  </view>
 </template>
 
 <script setup>
-	import {
-		ref
-	} from "vue";
-	import {
-		onLoad,
-		onShow
-	} from "@dcloudio/uni-app";
+  import { ref } from "vue";
+  import { onLoad, onShow } from "@dcloudio/uni-app";
 
-	const url = ref("");
-	const canOpenH5 = ref(true);
+  const url = ref("");
+  const canOpenH5 = ref(true);
 
-	onLoad((options) => {
-		url.value = options.url;
-		// 获取是否可以打开H5的参数，默认为true
-		canOpenH5.value = options.canOpenH5 !== 'false';
-		console.log(url.value);
-	});
+  onLoad((options) => {
+    url.value = options.url;
+    // 获取是否可以打开H5的参数，默认为true
+    canOpenH5.value = options.canOpenH5 !== "false";
+    console.log(url.value);
+  });
 
-	// 复制链接方法
-	const copyUrl = () => {
-		uni.setClipboardData({
-			data: url.value,
-			success: () => {
-				uni.showToast({
-					title: '链接已复制',
-					icon: 'success'
-				});
-			}
-		});
-	};
+  // 复制链接方法
+  const copyUrl = () => {
+    uni.setClipboardData({
+      data: url.value,
+      success: () => {
+        uni.showToast({
+          title: "链接已复制",
+          icon: "success",
+        });
+      },
+    });
+  };
 </script>
 ```
 
-最后发现是web-view的问题，因为即使没有显示web-view组件，但是也是不生效的，虽然显示没问题
+最后发现是 web-view 的问题，因为即使没有显示 web-view 组件，但是也是不生效的，虽然显示没问题
 
-所以我把整个挪到另外一个pages中了就可以正常使用了
+所以我把整个挪到另外一个 pages 中了就可以正常使用了
 
-#### uni.navigate传递参数本身带有url的参数，则会丢失
+#### uni.navigate 传递参数本身带有 url 的参数，则会丢失
 
 如下方示例中，正常获取只能获取到`https://weixin.polyt.cn/thh5/#/home`，后面的`?theaterId=2709`则会丢失
 
 使用`encodeURIComponent(JSON.stringify(url))`
 
 ```js
-const url = 'https://weixin.polyt.cn/thh5/#/home?theaterId=2709';
+const url = "https://weixin.polyt.cn/thh5/#/home?theaterId=2709";
 
 uni.navigateTo({
-  url: `/pages/order/confirm?data=` + encodeURIComponent(JSON.stringify(url))
-})
+  url: `/pages/order/confirm?data=` + encodeURIComponent(JSON.stringify(url)),
+});
 
 // 使用
 url.value = JSON.parse(decodeURIComponent(options.url));
 ```
 
-
-#### video组件在微信开发者工具无法播放，真机调试正常
+#### video 组件在微信开发者工具无法播放，真机调试正常
 
 我尝试了下面好几种方案都没生效
 
@@ -1772,9 +1892,100 @@ url.value = JSON.parse(decodeURIComponent(options.url));
 2. 更新开发者工具到最新的稳定版本
 3. 有的也说是视频链接太长包含太多中文和符号
 
-
 #### message：真机调试 Error: 非法的文件，错误信息：invalid file: common.js
 
-本地项目运行正常，但是真机调试的时候报错，和es6的新语法有关
+本地项目运行正常，但是真机调试的时候报错，和 es6 的新语法有关
 
 需要在微信开发者工具`本地设置`把`将JS编译成ES5`勾选上
+
+#### navigateTo:fail webview count limit exceed
+
+<https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html>
+
+问题主要所在就是 `wx.navigateTo` 限制跳转次数小于 10，但是点击太多了，所以导致在多次跳转以后报错，
+
+使用 `wx.redirectTo` 实现相同的效果。
+
+但是 redirec 会有一个很明显的问题就是点击上面的返回箭头的时候，指向的不是刚刚打开的页面，也就是，redirect 直接将当前页面替换成了要跳转的页面，不存在返回一言
+
+我这边倒不是层级真有这么深，就是一个页面返回的时候我使用成了`navigateTo`，改为`navigateBack`就可以了
+
+如果层级真有那么深的话再考虑用`redirectTo`
+
+#### 小程序授权拒绝之后如何重新拉取授权（这里通过摄像机举例）
+
+1. 相机组件通过`v-if`控制重新渲染
+2. `mounted`中请求`uni.authorize`权限，在成功回调中修改`cameraEnabled`状态，失败的情况下引导用户去设置中开启摄像头权限，成功回调中也修改状态
+3. `crema`组件的`errorHandle`回调也引导用户去修改摄像头权限，成功回调修改状态
+
+```vue
+<template>
+  <camera
+    v-if="cameraEnabled"
+    device-position="back"
+    flash="auto"
+    style="width: 100%; height: 100vh"
+    @error="errorHandle"
+  >
+</template>
+
+<script>
+import { env } from "/config/env.js";
+export default {
+  mounted() {
+		this.requestCameraPermission();
+  },
+  data() {
+    return {
+			cameraEnabled: false,
+    };
+  },
+  methods: {
+    requestCameraPermission() {
+      uni.authorize({
+        scope: "scope.camera",
+        success: () => {
+          this.cameraEnabled = true; // 授权成功，启用摄像头
+        },
+        fail: () => {
+          console.log("摄像头权限申请失败");
+          uni.showModal({
+            title: "授权失败",
+            content: "请前往设置页面开启摄像头权限",
+            showCancel: false,
+            success: () => {
+              uni.openSetting({
+                success: (settingdata) => {
+                  if (settingdata.authSetting['scope.camera']) {
+                    this.cameraEnabled = true; // 用户在设置中开启了摄像头权限，重新启用摄像头
+                  }
+                }
+              });
+            },
+          });
+        },
+      });
+    },
+    errorHandle(error) {
+      console.log('error :>> ', error);
+      if (error.errCode === 20001) { // 摄像头权限被拒绝
+        uni.showModal({
+          title: '授权失败',
+          content: '请前往设置页面开启摄像头权限',
+          showCancel: false,
+          success: () => {
+            uni.openSetting({
+              success: (settingdata) => {
+                if (settingdata.authSetting['scope.camera']) {
+                  this.cameraEnabled = true; // 用户在设置中开启了摄像头权限，重新启用摄像头
+                }
+              }
+            });
+          }
+        });
+      }
+    },
+  }
+}
+</script>
+```
