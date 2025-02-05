@@ -18,18 +18,6 @@
 5. 然后配置数据库和登录wp的用户名密码
 6. 根据给的链接连接wp（http://xxxxx/wp-admin/edit.php）
 
-### 遇到的问题
-
-1. 站点打不开
-   1. 需要开放对应的端口（如果不是80的话）
-
-2. 输入站点，是直接下载一个index.php，而不是出现页面
-   1. 没有解析php文件，需要配置站点的php解析器
-
-3. 配置数据库部分失败
-    1. 这里不是创建数据库，而是链接数据库创建表，所以需要你本身有数据库
-    2. 数据库没有启动
-    3. 账号密码错误之类的
 
 ## 配置
 
@@ -100,3 +88,52 @@ fetch('http://yourdomain.com:82/wp-json/wp/v2/posts', {
 3. OAuth：需要额外的插件支持。
 
 ### 提示：如果你的需求只是需要获取展示数据的话，那么不需要考虑授权，直接`GET`一把梭就好了
+
+### 小技巧
+
+#### 查找wordpress安装位置
+
+如果是手动安装的，直接在【网站】中找安装目录即可
+
+如果是通过软件商店或者是docker安装的，使用命令
+
+```shell
+find / -name wp-config.php
+
+# /www/dk_project/dk_app/dk_wordpress/html/wp-config.php
+```
+
+### 遇到的问题
+
+#### 站点打不开
+   1. 需要开放对应的端口（如果不是80的话）
+
+#### 输入站点，是直接下载一个index.php，而不是出现页面
+   1. 没有解析php文件，需要配置站点的php解析器
+
+#### 配置数据库部分失败
+    1. 这里不是创建数据库，而是链接数据库创建表，所以需要你本身有数据库
+    2. 数据库没有启动
+    3. 账号密码错误之类的
+
+#### 上传主题报错 The uploaded file exceeds the upload_max_filesize directive in php.ini.
+
+超过文件大小限制
+
+在`.htaccess`文件中设置，保存重新上传即可
+
+文件在`/www/dk_project/dk_app/dk_wordpress/html`中，如果是用的宝塔的`软件商店安装的话`
+
+```shell
+php_value upload_max_filesize 64M
+php_value post_max_size 64M
+php_value memory_limit 128M
+```
+
+或者是修改同级的`wp-config.php` 文件也可以
+
+```shell
+@ini_set( 'upload_max_filesize' , '64M' );
+@ini_set( 'post_max_size', '64M');
+@ini_set( 'memory_limit', '128M' );
+```

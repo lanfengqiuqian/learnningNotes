@@ -125,7 +125,9 @@ C:/Program Files (x86)/Tencent/微信web开发者工具
 
 #### 版本更新检测
 
-<https://developers.weixin.qq.com/community/develop/article/doc/0000e0ef4348f0529142ba4bc6b813>
+使用 <https://developers.weixin.qq.com/community/develop/article/doc/0000e0ef4348f0529142ba4bc6b813>
+
+更新机制说明 <https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/update-mechanism.html>
 
 #### 区分环境
 

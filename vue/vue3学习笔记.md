@@ -1550,3 +1550,7 @@ if (import.meta.env.VITE_APP_ENV !== 'dev') {
 
 1. `env`中的`CI`信息不是一定会有的，像我的项目就没有
 2. 直接使用`全局变量`在开发环境会报错`not defined`，我尝试在`env.d.ts`中增加`ts`类型声明也不行，还是使用的`// eslint-disable-next-line no-undef`解决
+
+### `.stop`修饰符不生效
+
+给元素外层加`div`然后给这个div写`.stop`即可
