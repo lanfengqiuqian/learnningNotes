@@ -145,6 +145,75 @@ C:/Program Files (x86)/Tencent/微信web开发者工具
 const envConfig = uni.getAccountInfoSync().miniProgram.envVersion;
 ```
 
+#### 小程序拉起确认收货组件
+
+<https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/business-capabilities/order-shipping/order-shipping-half.html>
+
+说明：
+
+1. 文档中参数有3个，不是全都需要用，我这里用的商户号+订单号，这里保证业务的订单号和微信的订单号需要是一致的
+![alt text](images/image.png)
+
+2. 并不是在`success`中就代表收货成功了，需要根据回调的参数`status`进行判断
+
+```js
+const confirm = (data) => {
+  //拉起确认收货组件
+  if (wx.openBusinessView) {
+    wx.openBusinessView({
+      businessType: "weappOrderConfirm",
+      extraData: {
+        merchant_id: env.busNo,
+        merchant_trade_no: orderCode.value,
+      },
+      success: (e) => {
+        console.log("e1", e);
+        if (e.extraData.status === "success") {
+          // 用户确认收货成功，再执行自己的代码
+          get(`/api/client/userOrder/complete/${orderCode.value}`, {}, (res) => {
+            uni.showToast({
+              title: "确认收货成功",
+              icon: "none",
+            });
+            getOrderData(active.value);
+          });
+        } else if (e.extraData.status === "fail") {
+          // 用户确认收货失败
+          uni.showToast({
+            title: "确认收货失败!",
+            icon: "none",
+          });
+        } else if (e.extraData.status === "cancel") {
+          // 用户取消
+          uni.showToast({
+            title: "取消确认收货!",
+            icon: "none",
+          });
+        }
+      },
+      fail(err) {
+        console.log("err :>> ", err);
+        uni.showToast({
+          title: err.errMsg || "确认收货失败",
+          icon: "none",
+        });
+        //dosomething
+      },
+      complete(res) {
+        console.log("res :>> ", res);
+        //dosomething
+      },
+    });
+  } else {
+    //引导用户升级微信版本
+    uni.showToast({
+      title: "请升级微信版本",
+      icon: "none",
+    });
+  }
+};
+```
+
 #### uni_module 版本的 mitt
 
 在项目没有使用`npm`的第三方包的时候，想要使用`mitt`的话
