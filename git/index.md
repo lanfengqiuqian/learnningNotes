@@ -575,3 +575,13 @@ D:\code\tuyeqiu\src\utils\tools.js
 
     git commit -m 'update .gitignore'
     ```
+
+60. cherry-pcik操作
+
+    使用场景：需要将一个分支的某几次提交合并到另外一个分支
+
+    `注意`：如果是整个分支合并直接用`merge`即可，这里指的是其中几次提交合并过去
+
+    多次的话，需要按照commit的从早到晚的顺序
+
+    > $ git cherry-pick commitHash

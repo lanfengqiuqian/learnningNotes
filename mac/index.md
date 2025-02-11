@@ -302,3 +302,15 @@ sudo mdutil -E /
 # 重新开启索引
 sudo mdutil -a -i on
 ```
+
+26. 安装软件常见问题汇总
+
+    <https://www.macat.vip/496.html>
+
+27. 电脑打开任何来源
+
+    `【系统偏好设置】` -> `【安全性与隐私】` -> `【安全性】或者【通用】`
+
+    如果没有`任何来源`的选项
+
+    终端执行`sudo spctl --master-disable`
