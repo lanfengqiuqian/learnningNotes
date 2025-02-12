@@ -387,3 +387,22 @@ Array.from({ length: 10 }).forEach((_, index) => {
 `注意`：需要使用`rgb色值`，`16进制`不生效
 
 也可以研究官方文档：<https://arco.design/vue/docs/theme>，但是我尝试了没生效
+
+### notfound页面
+
+定义：路由输入错误，就会进入这个页面
+
+如果是路由正确，但是页面没有的话是会报错的，通过设置`src\components\menu\index.vue`的`goto`函数，改一下最后一行
+
+```js
+try {
+  router.push({
+    name: item.name,
+  });
+} catch (e) {
+  console.log('e', e);
+  router.push({
+    name: 'notFound',
+  });
+}
+```
