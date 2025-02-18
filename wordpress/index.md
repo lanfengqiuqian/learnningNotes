@@ -137,3 +137,55 @@ php_value memory_limit 128M
 @ini_set( 'post_max_size', '64M');
 @ini_set( 'memory_limit', '128M' );
 ```
+
+#### 站点url修改错了导致无法访问了
+
+* 方案一
+
+`wordpress`安装目录下`wp-config.php`文件
+
+如果没有这个配置说明配置在数据库中
+
+```php
+define('WP_HOME', 'http://your_server_ip');
+define('WP_SITEURL', 'http://your_server_ip');
+```
+
+
+* 方案二
+
+1. 使用数据库管理工具（如phpMyAdmin）登录你的WordPress数据库。
+2. 找到wp_options表（表名可能因前缀不同而有所变化）。
+3. 在wp_options表中，找到siteurl和home两个选项，将它们的值分别修改为http://your_server_ip。
+
+关于方案二补充
+
+我的wp是直接用docker创建的，所以数据库也是在docker中的一个服务
+
+这里面描述了数据库的配置，我的如下
+
+```shell
+MYSQL_DATABASE	wordpress_db
+MYSQL_USER	wordpress
+MYSQL_PASSWORD	wordpress
+```
+
+然后使用ssh的方式连接上服务器使用命令行登录（因为我尝试用客户端登陆不上）
+
+```shell
+# 运行以下命令，进入数据库容器
+docker exec -it dk_wordpress-db-1 bash
+
+# 运行以下命令登录到MySQL
+mysql -u wordpress -p
+# 输入密码
+wordpress
+
+# 选择数据库：
+USE wordpress_db;
+# 查看当前站点URL配置：
+SELECT * FROM wp_options WHERE option_name IN ('siteurl', 'home');
+# 修改站点URL配置：
+UPDATE wp_options SET option_value = 'http://your_server_ip' WHERE option_name = 'siteurl';
+UPDATE wp_options SET option_value = 'http://your_server_ip' WHERE option_name = 'home';
+```
