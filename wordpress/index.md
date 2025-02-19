@@ -189,3 +189,7 @@ SELECT * FROM wp_options WHERE option_name IN ('siteurl', 'home');
 UPDATE wp_options SET option_value = 'http://your_server_ip' WHERE option_name = 'siteurl';
 UPDATE wp_options SET option_value = 'http://your_server_ip' WHERE option_name = 'home';
 ```
+
+#### 排查wordpess后台加载慢的问题
+
+<https://blog.2dm.top/archives/1087>
