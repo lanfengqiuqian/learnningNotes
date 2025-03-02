@@ -138,6 +138,21 @@ php_value memory_limit 128M
 @ini_set( 'memory_limit', '128M' );
 ```
 
+#### 导入子主题报错
+
+![alt text](images/image.png)
+
+原因参考: <https://creativethemes.com/blocksy/docs/troubleshooting/starter-site-import-stuck-at-xx/>
+
+大概率是php的配置限制没修改
+
+文件在`/www/dk_project/dk_app/dk_wordpress/html`中，如果是用的宝塔的`软件商店安装的话`
+
+```shell
+@ini_set('max_execution_time', '300');
+@ini_set('max_input_time', '300');
+```
+
 #### 站点url修改错了导致无法访问了
 
 * 方案一

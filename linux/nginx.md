@@ -351,3 +351,51 @@
 ### 项目部署问题：nginx 刷新显示 404、xftp 无法连接服务器、Nginx403 Forbidden 解决、nginx 反向代理解决前端跨域问题
 
 > https://www.cnblogs.com/goloving/p/8995603.html
+
+### 怎么把域名解析到 IP:端口上
+
+域名不可以解析到端口，只能解析到 ip
+
+一般都不会用域名+端口来访问网站，通常使用`nginx`来监听`80`端口，然后配置域名唯一监听，在配置中映射到包含端口站点，配置好后域名即可不含端口打开
+
+```php
+server {
+    listen 80;
+    server_name www.samjz.com;
+	location ~ / {
+            proxy_pass http://127.0.0.1:1234;
+    }
+}
+```
+
+怎么把多个不同的服务（即不同端口）分配到不同的域名上
+
+使用`nginx`反向代理服务器来实现
+
+```shell
+server {
+    listen 80;  # 监听 HTTP 端口
+    server_name domain1.com;  # 域名1，
+
+    location / {
+        proxy_pass http://localhost:3000;  # 代理到本地的 3000 端口
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;  # 监听 HTTP 端口
+    server_name domain2.com;  # 域名2
+
+    location / {
+        proxy_pass http://localhost:3001;  # 代理到本地的 3001 端口
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
