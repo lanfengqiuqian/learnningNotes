@@ -483,3 +483,15 @@ LAMP 堆栈是开发人员用来构建网站和 Web 应用程序的四种不同�
 
 
 LNMP的区别就是用的Nginx而不是Apache
+
+### 宝塔自动续签Let's Encrypt证书
+
+在宝塔申请Let's Encrypt证书之后，默认会自动在计划任务中添加一条自动续签的脚本
+
+如果没有添加，可以自己手动添加
+
+> /www/server/panel/pyenv/bin/python3 -u /www/server/panel/class/acme_v2.py --renew=1
+
+或者是尝试升级宝塔面板的版本，然后重新去申请证书
+
+> curl -sSO http://download.bt.cn/install/update_panel.sh && bash update_panel.sh
