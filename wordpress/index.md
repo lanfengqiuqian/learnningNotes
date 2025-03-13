@@ -31,6 +31,8 @@
 
 <https://cloud.tencent.com/developer/article/2071782>
 
+安装插件：WP Reset
+
 ## 通过 rest api 获取数据
 
 参考[https://www.195440.com/1423](https://www.195440.com/1423)
@@ -89,9 +91,9 @@ fetch('http://yourdomain.com:82/wp-json/wp/v2/posts', {
 
 ### 提示：如果你的需求只是需要获取展示数据的话，那么不需要考虑授权，直接`GET`一把梭就好了
 
-### 小技巧
+## 小技巧
 
-#### 查找wordpress安装位置
+### 查找wordpress安装位置
 
 如果是手动安装的，直接在【网站】中找安装目录即可
 
@@ -103,20 +105,24 @@ find / -name wp-config.php
 # /www/dk_project/dk_app/dk_wordpress/html/wp-config.php
 ```
 
-### 遇到的问题
+### 手动安装wordpress
 
-#### 站点打不开
+<https://www.xiaolikt.cn/4%E7%A7%8D%E6%96%B9%E6%B3%95%E4%B8%BAwordpress%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6/>
+
+## 遇到的问题
+
+### 站点打不开
    1. 需要开放对应的端口（如果不是80的话）
 
-#### 输入站点，是直接下载一个index.php，而不是出现页面
+### 输入站点，是直接下载一个index.php，而不是出现页面
    1. 没有解析php文件，需要配置站点的php解析器
 
-#### 配置数据库部分失败
+### 配置数据库部分失败
     1. 这里不是创建数据库，而是链接数据库创建表，所以需要你本身有数据库
     2. 数据库没有启动
     3. 账号密码错误之类的
 
-#### 上传主题报错 The uploaded file exceeds the upload_max_filesize directive in php.ini.
+### 上传主题报错 The uploaded file exceeds the upload_max_filesize directive in php.ini.
 
 超过文件大小限制
 
@@ -138,7 +144,7 @@ php_value memory_limit 128M
 @ini_set( 'memory_limit', '128M' );
 ```
 
-#### 导入子主题报错
+### 导入子主题报错
 
 ![alt text](images/image.png)
 
@@ -153,7 +159,20 @@ php_value memory_limit 128M
 @ini_set('max_input_time', '300');
 ```
 
-#### 站点url修改错了导致无法访问了
+
+### 如何检查配置的php环境变量生效了
+
+在根目录下`/www/dk_project/dk_app/dk_wordpress/html`创建一个`phpinfo.php`文件，然后去访问他，里面找对应的变量
+
+文件内容
+
+```php
+<?php phpinfo();
+```
+
+如访问`域名/phpinfo.php`
+
+### 站点url修改错了导致无法访问了
 
 * 方案一
 
@@ -208,3 +227,21 @@ UPDATE wp_options SET option_value = 'http://your_server_ip' WHERE option_name =
 #### 排查wordpess后台加载慢的问题
 
 <https://blog.2dm.top/archives/1087>
+
+#### 忘记管理员密码了
+
+<https://blog.csdn.net/cljdsc/article/details/132768542>
+
+进入到主题所在目录下的`function.php`文件
+
+在`<?php`之后添加`wp_set_password( 'password', 1 );`
+
+说明：`password`就是新密码，`1`是指第一个用户，一般就是管理员
+
+登录上去之后，到个人信息里面重新设置新密码，然后把修改的代码删掉
+
+
+#### 添加站点的时候提示数据库添加失败
+
+1. 查看数据库是否有同名的数据库了
+2. 查看站点和反向代理是否重名了
