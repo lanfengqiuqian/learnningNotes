@@ -72,13 +72,22 @@ stripe注册入口：https://dashboard.stripe.com/register
 
 > yum install -y wget && wget -O install.sh https://download.bt.cn/install/install_6.0.sh && sh install.sh 12f2c1d72
 
-## docker创建wp
+## docker创建wp（验证这个方式不好修改php配置）===建议不用
 
 1. 登录宝塔需要绑定宝塔账号
 2. 然后极速安装环境：选择`docker + nginx`
 3. 软件商店中搜索wordpress，然后安装
 4. 软件商店已安装应用找到wordpress，然后点击`安装应用`（这里如果域名已经解析好了可以配置域名）
 5. 安装完成会弹出登录地址，也可以回到这个地方看端口根据ip+端口访问
+
+## 手动安装
+
+1. 软件商店安装php（推荐8.0）
+2. 软件商店安装mysql（土建8.0）
+3. 网站=>添加站点=>一键部署=>wordpress
+4. 配置域名，部署好了之后配置ssl证书
+
+<https://www.bt.cn/bbs/thread-134067-1-1.html>
 
 ## 配置wp
 
@@ -145,8 +154,20 @@ TiDio插件
 
 需要再设置 => 固定链接 中修改【产品固定链接】的形式，建议第三个【添加商店和分类目录地址】
 
+教程：<https://redpanday.com/tidio-%E8%B6%85%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B-wordpress/>
+
+与WhatApp集成：<https://help.tidio.com/hc/en-us/articles/9392748807580-Integration-with-WhatsApp>
+
 其他的聊天机器人推荐
 
 <https://www.miaoroom.com/course/wordpress-skill/9-best-wordpress-live-chat-customer-service-plugins-for-2023.html>
 
+### 返回顶部按钮
+
+插件：wpfront-scroll-top
+
+调整样式：启用、偏移x27，偏移y1120、修改图片
+
 ## 调整整体布局
+
+###
