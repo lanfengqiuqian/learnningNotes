@@ -1007,7 +1007,9 @@ vertical-align: unset;
 </html>
 ```
 
-### object-fit 属性
+### object-fit 属性（一般用于调整图片填充方式）
+
+<https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit>
 
 功能：指定`可替换元素`（如`<img>`或`<video>`）的内容应该如何适应到其使用的高度和宽度确定的框
 
@@ -1018,6 +1020,43 @@ vertical-align: unset;
 3. `fill`：进行拉伸和缩放
 4. `none`：保持原有尺寸
 5. `scale-down`：内容的尺寸与`none`或`contain`中的一个相同，取决于他们之间谁得到的对象尺寸会更小一点
+
+### object-position 属性（一般用于调整图片位置）
+
+<https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-position>
+
+功能：指定`可替换元素`（如`<img>`或`<video>`）的内容应在容器中的位置
+
+取值
+
+```css
+/* 关键字值 */
+object-position: top;
+object-position: bottom;
+object-position: left;
+object-position: right;
+object-position: center;
+
+/* <percentage> 值 */
+object-position: 25% 75%;
+
+/* <length> 值 */
+object-position: 0 0;
+object-position: 1cm 2cm;
+object-position: 10ch 8em;
+
+/* 边缘偏移值 */
+object-position: bottom 10px right 20px;
+object-position: right 3em bottom 10px;
+object-position: top 0 right 10px;
+
+/* 全局关键字 */
+object-position: inherit;
+object-position: initial;
+object-position: revert;
+object-position: revert-layer;
+object-position: unset;
+```
 
 ### html 中的\n 不会换行
 

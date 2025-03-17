@@ -216,3 +216,13 @@ clsss="!h-[330px]"
 ```css
 css="truncate"
 ```
+
+### 设置rgba
+
+需要注意的是：括号里面不要带空格
+
+```html
+<div class="bg-[rgba(185,221,253,0.15)] p-4">
+这是一个带有 rgba 背景色的元素
+</div>
+```

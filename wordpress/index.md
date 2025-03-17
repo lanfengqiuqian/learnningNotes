@@ -208,3 +208,14 @@ UPDATE wp_options SET option_value = 'http://your_server_ip' WHERE option_name =
 #### 排查wordpess后台加载慢的问题
 
 <https://blog.2dm.top/archives/1087>
+
+
+#### 网站后台无法打开了，提示
+
+`GET https://lanfengqiuqian.site/wp-login.php?redirect_to=https%3A%2F%2Flanfengqiuqian.site%2Fwp-admin%2Fcustomize.php%3Ftheme%3Dindustroz-child%26return%3Dhttps%253A%252F%252Flanfengqiuqian.site%252Fwp-admin%252Fthemes.php&reauth=1 404 (Not Found)`
+
+这个原因是`wp-login.php`文件不存在了，检查一下
+
+我的在`/www/dk_project/dk_app/dk_wordpress/html`目录下，可能是被我不小心删除了
+
+重新去官网或者另外一个wp里面下载这个文件，然后保存上去即可

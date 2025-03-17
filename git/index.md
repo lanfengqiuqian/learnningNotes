@@ -585,3 +585,11 @@ D:\code\tuyeqiu\src\utils\tools.js
     多次的话，需要按照commit的从早到晚的顺序
 
     > $ git cherry-pick commitHash
+
+61. windows安装TORTOISESVN之后无法使用命令行
+
+    安装的时候需要勾选安装命令行工具
+
+    <https://blog.51cto.com/u_15932540/5994370>
+
+    vscode集成svn：<https://blog.csdn.net/guihui666666/article/details/126280980>
