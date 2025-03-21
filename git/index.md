@@ -593,3 +593,7 @@ D:\code\tuyeqiu\src\utils\tools.js
     <https://blog.51cto.com/u_15932540/5994370>
 
     vscode集成svn：<https://blog.csdn.net/guihui666666/article/details/126280980>
+
+62. TORTOISESVN没有显示绿色小图标
+
+    <https://blog.csdn.net/missingzlp/article/details/132782312?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-132782312-blog-79608751.235^v43^control&spm=1001.2101.3001.4242.1&utm_relevant_index=3>

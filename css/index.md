@@ -141,6 +141,22 @@ input::placeholder {
 }
 ```
 
+### 修改浏览器自动填充密码的背景色和字体
+
+```css
+input:-webkit-autofill {
+  -webkit-text-fill-color: #ededed !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  background-color: transparent;
+  background-image: none;
+  transition: background-color 50000s ease-in-out 0s;
+}
+input {
+  background-color: transparent;
+  caret-color: #fff; // 光标颜色
+}
+```
+
 ### 文本超出显示`...`省略号
 
 ```css
@@ -1414,66 +1430,63 @@ height: auto;
 
 1. padding-bottom 实现普通元素固定宽高比（黑科技不常用）
 
+   `垂直`方向上的内外`边距`使用`百分比`作为单位时，是基于包含块的宽度来计算的
 
-    `垂直`方向上的内外`边距`使用`百分比`作为单位时，是基于包含块的宽度来计算的
+   ```html
+   <div class="wrapper">
+     <div class="intrinsic-aspect-ratio-container"></div>
+   </div>
+   <style>
+     .wrapper {
+       width: 40vw;
+     }
+     .intrinsic-aspect-ratio-container {
+       width: 100%;
+       height: 0;
+       padding: 0;
+       padding-bottom: 75%;
+       margin: 50px;
+       background-color: lightsalmon;
+     }
+   </style>
+   ```
 
-    ```html
-    <div class="wrapper">
-      <div class="intrinsic-aspect-ratio-container"></div>
-    </div>
-    <style>
-    .wrapper {
-      width: 40vw;
-    }
-    .intrinsic-aspect-ratio-container {
-      width: 100%;
-      height: 0;
-      padding: 0;
-      padding-bottom: 75%;
-      margin: 50px;
-      background-color: lightsalmon;
-    }
-    </style>
-    ```
+   但是这样只能实现宽高比，如果里面需要填充内容的话，还需要使用绝对定位来充满元素，而且只能高度随宽度变化，但是无法宽度随高度变化
 
-    但是这样只能实现宽高比，如果里面需要填充内容的话，还需要使用绝对定位来充满元素，而且只能高度随宽度变化，但是无法宽度随高度变化
+   ```css
+   .wrapper {
+     width: 400px;
+   }
+   .intrinsic-aspect-ratio {
+     position: relative;
+     width: 100%;
+     height: 0;
+     padding: 0;
+     padding-bottom: 75%;
+     margin: 50px;
+     background-color: lightsalmon;
+   }
+   .content {
+     position: absolute;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     left: 0;
+   }
+   ```
 
-    ```css
-    .wrapper {
-      width: 400px;
-    }
-    .intrinsic-aspect-ratio {
-      position: relative;
-      width: 100%;
-      height: 0;
-      padding: 0;
-      padding-bottom: 75%;
-      margin: 50px;
-      background-color: lightsalmon;
-    }
-    .content {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
-    ```
+1. aspect-ratio
 
-2. aspect-ratio
+   语法：`aspect-ratio: 4/3;`
 
-
-    语法：`aspect-ratio: 4/3;`
-
-
-    ```css
-    /* 高度随动 */
-    .box1 {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16/9;
-    }
-    ```
+   ```css
+   /* 高度随动 */
+   .box1 {
+     width: 100%;
+     height: auto;
+     aspect-ratio: 16/9;
+   }
+   ```
 
 ### 好看的虚线
 
@@ -1481,20 +1494,20 @@ height: auto;
 
 ```css
 .divider {
-    height: 1px;
-    background: linear-gradient(
-        to left,
-        transparent 0%,
-        transparent 50%,
-        #ccc 50%,
-        #ccc 100%
-    );
-    background-size: 10px 1px;
-    background-repeat: repeat-x;
+  height: 1px;
+  background: linear-gradient(
+    to left,
+    transparent 0%,
+    transparent 50%,
+    #ccc 50%,
+    #ccc 100%
+  );
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
 }
 ```
 
-### fit-content属性
+### fit-content 属性
 
 <https://www.zhangxinxu.com/wordpress/2016/05/css3-width-max-contnet-min-content-fit-content/>
 
