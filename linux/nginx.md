@@ -399,3 +399,37 @@ server {
     }
 }
 ```
+
+### 部署html项目，配置子目录入口
+
+假设项目结构为
+
+```
+pages
+    index.html
+js
+css
+static
+```
+
+不能直接设置根目录在pages，会导致外层的js等文件访问不到
+
+配置如下nginx
+
+```shell
+# index index.php index.html index.htm default.php default.htm default.html;
+# root /www/wwwroot/demo_project/;
+
+# location ~ .*\.(js|css)?$
+# {
+#     expires      12h;
+#     error_log /dev/null;
+#     access_log /dev/null;
+# }
+location / {
+    alias /www/wwwroot/demo_project/;
+    index pages/index.html;
+}
+```
+
+注释的2处内容需要注释掉，然后加上没注释的部分

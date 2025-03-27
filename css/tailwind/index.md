@@ -1,6 +1,8 @@
 [官方文档](https://tailwindcss.com/)
 [中文文档](https://www.tailwindcss.cn/docs/guides/vite)
 
+## 起步
+
 ### 安装和使用
 
 以 vite 项目为例（其他框架或者方式参考文档）
@@ -46,6 +48,8 @@
   </body>
 </html>
 ```
+
+## 技巧
 
 ### 编辑器插件推荐
 
@@ -226,3 +230,96 @@ css="truncate"
 这是一个带有 rgba 背景色的元素
 </div>
 ```
+
+## 问题
+
+### Tailwind CSS IntelliSense 没有提示
+
+1. 使用 cdn 引入的 html 文件中
+
+先创建`tailwind.config.js`配置文件，配置项可以为空
+
+```js
+export default {
+  theme: {
+    extend: {
+      //
+    },
+  },
+};
+```
+
+然后引入到 html 文件中
+
+```js
+<script type="module">
+  import cfg from "./tailwind.config.js"; tailwind.config = cfg;
+</script>
+```
+
+2. 工程项目中不生效
+
+在`vscode`的`user setting json`中增加即可
+
+```js
+"editor.quickSuggestions": { "strings": true },
+```
+
+### 安装之后报错 `npm error could not determine executable to run`
+
+执行`npx tailwindcss init`命令报错
+
+```shell
+PS D:\code\ai> npx tailwindcss init
+npm error could not determine executable to run
+npm error A complete log of this run can be found in: C:\Users\25776\AppData\Roaming\nvm\node_cache\_logs\2025-03-25T06_28_57_957Z-debug-0.log
+```
+
+1. ​错误原因
+此错误通常由 ​Tailwind CSS 版本不兼容 导致。具体表现为：
+
+​版本冲突：您可能安装了 ​Tailwind CSS v4.x，而 npx tailwindcss init -p 命令在 v4 中已被移除。
+​配置方法差异：v4 的配置方式与 v3 不同，若仍使用旧版命令会触发此错误
+
+2. 解决方案
+
+  1. 方案一：卸载重装v3
+
+    ```shell
+    # ​卸载当前版本：
+    npm uninstall tailwindcss
+
+    # ​安装 v3 版本及依赖
+    npm install -D tailwindcss@3 postcss autoprefixer
+
+    # 重新初始化配置文件：
+    npx tailwindcss init -p
+    ```
+
+  
+  2. 方案二：升级成v4
+
+    ```shell
+    # 安装 v4 及适配插件：
+    npm install tailwindcss @tailwindcss/vite2
+
+    # ​创建配置文件：
+    npx tailwindcss init
+
+    # 修改 CSS 文件：新建或修改 src/assets/tailwind.css，添加：
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+    # 在入口文件中引入​（如 main.ts 或 main.js）：
+    import './assets/tailwind.css';
+
+    # 配置构建工具​（如 Vite）：
+    // vite.config.ts
+    import { defineConfig } from 'vite'
+    import tailwindcss from '@tailwindcss/vite'
+
+    export default defineConfig({
+      plugins: [tailwindcss()],
+    })
+    ```
