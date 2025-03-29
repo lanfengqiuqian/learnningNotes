@@ -287,3 +287,12 @@ windows 可以直接用微软商店下载，挺快的
 微信开发者工具打开`编辑器`，然后根目录有`project.private.config.json`文件，里面有一个`list`，删除即可
 
 或者直接简单粗暴删除整个文件
+
+#### 样式穿透
+
+在`view`下面有`表单输入元素`的时候会有穿透问题，即使上层有元素的click也不会触发
+
+1. 先尝试调整`view`元素层级`z-index`（我用这个解决了）
+2. 不行的话看看这个帖子试试
+
+<https://developers.weixin.qq.com/community/develop/doc/000686b18ec7e87fa71dc41d851400>

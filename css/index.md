@@ -141,6 +141,22 @@ input::placeholder {
 }
 ```
 
+### 修改浏览器自动填充密码的背景色和字体
+
+```css
+input:-webkit-autofill {
+  -webkit-text-fill-color: #ededed !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  background-color: transparent;
+  background-image: none;
+  transition: background-color 50000s ease-in-out 0s;
+}
+input {
+  background-color: transparent;
+  caret-color: #fff; // 光标颜色
+}
+```
+
 ### 文本超出显示`...`省略号
 
 ```css
@@ -1007,7 +1023,9 @@ vertical-align: unset;
 </html>
 ```
 
-### object-fit 属性
+### object-fit 属性（一般用于调整图片填充方式）
+
+<https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit>
 
 功能：指定`可替换元素`（如`<img>`或`<video>`）的内容应该如何适应到其使用的高度和宽度确定的框
 
@@ -1018,6 +1036,43 @@ vertical-align: unset;
 3. `fill`：进行拉伸和缩放
 4. `none`：保持原有尺寸
 5. `scale-down`：内容的尺寸与`none`或`contain`中的一个相同，取决于他们之间谁得到的对象尺寸会更小一点
+
+### object-position 属性（一般用于调整图片位置）
+
+<https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-position>
+
+功能：指定`可替换元素`（如`<img>`或`<video>`）的内容应在容器中的位置
+
+取值
+
+```css
+/* 关键字值 */
+object-position: top;
+object-position: bottom;
+object-position: left;
+object-position: right;
+object-position: center;
+
+/* <percentage> 值 */
+object-position: 25% 75%;
+
+/* <length> 值 */
+object-position: 0 0;
+object-position: 1cm 2cm;
+object-position: 10ch 8em;
+
+/* 边缘偏移值 */
+object-position: bottom 10px right 20px;
+object-position: right 3em bottom 10px;
+object-position: top 0 right 10px;
+
+/* 全局关键字 */
+object-position: inherit;
+object-position: initial;
+object-position: revert;
+object-position: revert-layer;
+object-position: unset;
+```
 
 ### html 中的\n 不会换行
 
@@ -1375,66 +1430,63 @@ height: auto;
 
 1. padding-bottom 实现普通元素固定宽高比（黑科技不常用）
 
+   `垂直`方向上的内外`边距`使用`百分比`作为单位时，是基于包含块的宽度来计算的
 
-    `垂直`方向上的内外`边距`使用`百分比`作为单位时，是基于包含块的宽度来计算的
+   ```html
+   <div class="wrapper">
+     <div class="intrinsic-aspect-ratio-container"></div>
+   </div>
+   <style>
+     .wrapper {
+       width: 40vw;
+     }
+     .intrinsic-aspect-ratio-container {
+       width: 100%;
+       height: 0;
+       padding: 0;
+       padding-bottom: 75%;
+       margin: 50px;
+       background-color: lightsalmon;
+     }
+   </style>
+   ```
 
-    ```html
-    <div class="wrapper">
-      <div class="intrinsic-aspect-ratio-container"></div>
-    </div>
-    <style>
-    .wrapper {
-      width: 40vw;
-    }
-    .intrinsic-aspect-ratio-container {
-      width: 100%;
-      height: 0;
-      padding: 0;
-      padding-bottom: 75%;
-      margin: 50px;
-      background-color: lightsalmon;
-    }
-    </style>
-    ```
+   但是这样只能实现宽高比，如果里面需要填充内容的话，还需要使用绝对定位来充满元素，而且只能高度随宽度变化，但是无法宽度随高度变化
 
-    但是这样只能实现宽高比，如果里面需要填充内容的话，还需要使用绝对定位来充满元素，而且只能高度随宽度变化，但是无法宽度随高度变化
+   ```css
+   .wrapper {
+     width: 400px;
+   }
+   .intrinsic-aspect-ratio {
+     position: relative;
+     width: 100%;
+     height: 0;
+     padding: 0;
+     padding-bottom: 75%;
+     margin: 50px;
+     background-color: lightsalmon;
+   }
+   .content {
+     position: absolute;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     left: 0;
+   }
+   ```
 
-    ```css
-    .wrapper {
-      width: 400px;
-    }
-    .intrinsic-aspect-ratio {
-      position: relative;
-      width: 100%;
-      height: 0;
-      padding: 0;
-      padding-bottom: 75%;
-      margin: 50px;
-      background-color: lightsalmon;
-    }
-    .content {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
-    ```
+1. aspect-ratio
 
-2. aspect-ratio
+   语法：`aspect-ratio: 4/3;`
 
-
-    语法：`aspect-ratio: 4/3;`
-
-
-    ```css
-    /* 高度随动 */
-    .box1 {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16/9;
-    }
-    ```
+   ```css
+   /* 高度随动 */
+   .box1 {
+     width: 100%;
+     height: auto;
+     aspect-ratio: 16/9;
+   }
+   ```
 
 ### 好看的虚线
 
@@ -1442,20 +1494,20 @@ height: auto;
 
 ```css
 .divider {
-    height: 1px;
-    background: linear-gradient(
-        to left,
-        transparent 0%,
-        transparent 50%,
-        #ccc 50%,
-        #ccc 100%
-    );
-    background-size: 10px 1px;
-    background-repeat: repeat-x;
+  height: 1px;
+  background: linear-gradient(
+    to left,
+    transparent 0%,
+    transparent 50%,
+    #ccc 50%,
+    #ccc 100%
+  );
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
 }
 ```
 
-### fit-content属性
+### fit-content 属性
 
 <https://www.zhangxinxu.com/wordpress/2016/05/css3-width-max-contnet-min-content-fit-content/>
 

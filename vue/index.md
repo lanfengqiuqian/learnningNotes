@@ -777,10 +777,17 @@ const objectOfAttrs = {
 export default defineConfig({
   server: {
     // 如果不想查看ip也可以直接使用0.0.0.0，会自动使用ip
+    // host: "0.0.0.0"
     host: "192.168.1.10", // 本机内网host地址
     port: 3344, // 随便开放一个未占用端口
   },
 });
+```
+
+或者是修改启动命令
+
+```js
+"dev": "vite --host 0.0.0.0",
 ```
 
 3. 手机和电脑在同一个局域网（连接同一个 wifi 即可），然后电脑启动项目，手机端输入`host:port`即可浏览
@@ -1085,5 +1092,26 @@ vue 框架默认加了跟随系统主题（深色和浅色）
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
   }
+}
+```
+
+### 添加字体
+
+在`@/assets/fonts`下放入字体文件
+
+然后在`App.vue`的`style`中定义
+
+```css
+@font-face {
+  font-family: 'pmzd';
+  src: url('@/assets/fonts/PangMenZhengDaoBiaoTiTiMianFeiBan.ttf');
+}
+```
+
+之后就可以在页面中使用了
+
+```css
+.title {
+  font-family: 'pmzd';
 }
 ```
