@@ -245,3 +245,39 @@ UPDATE wp_options SET option_value = 'http://your_server_ip' WHERE option_name =
 
 1. 查看数据库是否有同名的数据库了
 2. 查看站点和反向代理是否重名了
+
+#### 更新失败。 此响应不是合法的 JSON 响应。
+
+我在上传视频然后网站保存的时候提示这个
+![alt text](images/image-1.png)
+
+<https://jhchen.top/wordpress/the-response-is-not-a-valid-json-response/>
+
+给网站设置`伪静态`，需要现在下拉框中选择`wordpress`
+
+```shell
+location /
+{
+	 try_files $uri $uri/ /index.php?$args;
+}
+
+rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+```
+
+#### 站点部署ssl之后，排版错乱图片无法加载
+
+1. 先用http+域名或者是ip的方式进入后台，修改`常规 => WordPress 地址（URL）`，修改为`https + 域名`
+  
+    现在这个时候排版是正确的了，但是图片还是无法加载的，但是我过会儿自己就好了（可能还要一点生效时间）
+
+2. 如果第一步排版还没生效的话
+
+  在网站根目录的`wp-config.php`文件开头添加以下代码：
+
+  ```php
+  define('FORCE_SSL_ADMIN', true);
+  if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+      $_SERVER['HTTPS']='on';
+  ```
+
+3. 如果图片还没有加载的话，使用`Better Search Replace`这个插件去替换数据库
