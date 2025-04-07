@@ -72,7 +72,7 @@ stripe注册入口：https://dashboard.stripe.com/register
 
 > yum install -y wget && wget -O install.sh https://download.bt.cn/install/install_6.0.sh && sh install.sh 12f2c1d72
 
-## docker创建wp（验证这个方式不好修改php配置）===建议不用
+### docker创建wp（验证这个方式不好修改php配置）===建议不用
 
 1. 登录宝塔需要绑定宝塔账号
 2. 然后极速安装环境：选择`docker + nginx`
@@ -80,14 +80,45 @@ stripe注册入口：https://dashboard.stripe.com/register
 4. 软件商店已安装应用找到wordpress，然后点击`安装应用`（这里如果域名已经解析好了可以配置域名）
 5. 安装完成会弹出登录地址，也可以回到这个地方看端口根据ip+端口访问
 
-## 手动安装
+### 手动安装
 
 1. 软件商店安装php（推荐8.0）
-2. 软件商店安装mysql（土建8.0）
+2. 软件商店安装mysql（推荐8.0）
 3. 网站=>添加站点=>一键部署=>wordpress
 4. 配置域名，部署好了之后配置ssl证书
 
 <https://www.bt.cn/bbs/thread-134067-1-1.html>
+
+### 修改php配置
+
+之后安装和上传下载啥东西默认配置可能会限制
+
+在宝塔软件商店，php设置中修改
+
+1. 最大脚本运行时间：1200
+2. 最大输入时间：1200
+3. post数据最大尺寸：128M
+4. 允许上传文件的最大尺寸：512M
+5. 超时限制：1200秒
+
+然后重新启动php
+
+### 设置伪静态
+
+在站点设置-伪静态-选择wordpress
+
+或者自己手动填写
+
+给网站设置`伪静态`，需要现在下拉框中选择`wordpress`
+
+```shell
+location /
+{
+	 try_files $uri $uri/ /index.php?$args;
+}
+
+rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+```
 
 ## 配置wp
 

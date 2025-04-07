@@ -314,3 +314,9 @@ sudo mdutil -a -i on
     如果没有`任何来源`的选项
 
     终端执行`sudo spctl --master-disable`
+
+28. 电脑睡眠快捷键
+
+    锁屏：`cmd + ctrl + q`
+
+    睡眠：没有快捷键，只能设置`触发角`
