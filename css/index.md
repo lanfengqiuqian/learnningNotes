@@ -1412,7 +1412,7 @@ filter 是作用域当前元素，backdrop-filter 是作用域元素后面的区
 </div>
 ```
 
-### 实现固定宽高比
+### 实现固定宽高比例
 
 1. 可替换元素实现宽高比
 
@@ -1512,3 +1512,28 @@ height: auto;
 <https://www.zhangxinxu.com/wordpress/2016/05/css3-width-max-contnet-min-content-fit-content/>
 
 让元素尺寸适应内容
+
+
+### 下划线不紧贴文字
+
+更具体的位置不能调了，如有需要可以使用`border-bottom`
+
+```css
+text-decoration: underline;
+text-underline-position: under;
+```
+
+### 调整文字间距
+
+```css
+letter-spacing: 4px;
+```
+
+### 文字竖向排列
+
+`writing-mode`属性
+
+horizontal-tb：水平方向自上而下的书写方式。
+vertical-rl：垂直方向自右而左的书写方式。
+vertical-lr：垂直方向内内容从上到下，水平方向从左到右。
+sideways-rl：内容垂直方向从上到下排列。
