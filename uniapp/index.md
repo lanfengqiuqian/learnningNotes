@@ -558,10 +558,6 @@ onShow(() => {
 
 ```
 
-#### 使用其他字体
-
-<https://blog.csdn.net/weixin_45803990/article/details/118754518>
-
 #### 修改日历组件样式
 
 默认的`uni-calendar`组件的样式不好看，也没有属性支持修改样式
@@ -645,10 +641,6 @@ page {
 注意不要把`@color`写成了`$color`，否则会报错`[plugin:vite:css] Recursive property reference for $color`
 
 我找了好久才找到这个问题。。。
-
-#### 字体压缩
-
-<https://juejin.cn/post/7161359760023879693#heading-2>
 
 #### 查看别人小程序的 appid
 
@@ -1469,6 +1461,128 @@ uni.setTabBarItem({
 
 可参见<https://juejin.cn/post/7108897905712300040>
 
+#### image标签实现
+
+需求：使用的是`image`标签的`aspectFill`(保持比例缩放并裁剪)
+
+但是默认的是裁剪中间，也没法设置上下或者左右
+
+解决方案：外层嵌套一个区域，定好宽高，设置`overflow: hidden`，然后里面的图片使用`transform: translateY`来调整
+
+如果是上下调整，mode就设置`widthFix`，如果是左右调整就设置`heightFix`
+
+#### swiper轮播图中间大两边小效果
+
+思路：利用`change`事件确定激活的`index`，然后给这个增加类名，设置`transition`和`transform: scale(1.2)`即可
+
+```html
+<view class="">
+			<swiper :autoplay="false" :current="currentIndex" :circular="true" previous-margin="80rpx" next-margin="80rpx"
+			 :interval="3000" :duration="500" @change="swierChange">
+				<swiper-item v-for="(item,i) in 5" :key="i">
+					<image src="../../static/logo.png" class="slide-image" :class="currentIndex === i?'active':''"></image>
+				</swiper-item>
+			</swiper>
+</view>
+<script>
+	export default {
+		name: "",
+		data() {
+			return {
+				currentIndex: 0
+			}
+		},
+		methods: {
+			swierChange(e){
+				this.currentIndex = e.detail.current
+			},
+		},
+	}
+</script>
+<style>
+		.slide-image {
+	  position: absolute;
+	  height: 200rpx;
+	  width:75vw;
+	  z-index: 5;
+	  opacity: 0.8;
+	  top: 18%;
+	  margin: 0 20rpx;
+	}
+	
+	swiper {
+	  height: 60vw;
+	}
+	
+	.active {
+	  opacity: 1;
+	  z-index: 10;
+	  height: 320rpx;
+	  width: 75vw;
+	  top: 7%;
+	  transition: all 0.2s ease-in 0s;
+	}
+	
+</style>
+```
+
+#### 使用其他字体
+
+1. `app.vue`的`onLaunch`中添加
+
+  ```js
+  uni.loadFontFace({
+      global: true,
+      family: 'songti',
+      source: 'url("https://xxx/xxx.ttf")',
+      success() {
+          console.log('加载字体成功', 'songti')
+      }
+  })
+  ```
+
+2. 页面直接使用就好
+   
+  如果没生效的话，重新编译一下
+
+  ```css
+  .test {
+    font-family: 'songti';
+  }
+  ```
+
+这里还有其他的方式，但是我看微信官方文档说只能支持`https`的网络链接，所以有兴趣可以尝试一下
+
+<https://blog.csdn.net/weixin_45803990/article/details/118754518>
+
+
+#### 字体压缩
+
+<https://juejin.cn/post/7161359760023879693#heading-2>
+
+#### 安卓设备无法访问字体
+
+在 ios 设备和开发者工具都正常，但是在安卓设备上无法正常显示字体
+
+1. 需要在开发者后台配置字体文件的服务器位置
+2. 需要配置 nginx，字体需要设置 cors
+3. 还需要对应的网站是 https+域名的
+
+```shell
+location / {
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
+
+    # 如果是字体文件目录，可以单独为字体文件设置CORS
+    location ~* \.(ttf|ttc|otf|eot|woff|woff2)$ {
+        add_header Access-Control-Allow-Origin "*";
+    }
+
+    # 其他配置...
+}
+```
+
 ### 问题
 
 #### 微信小程序开发者工具 [error] Error: Fail to open IDE
@@ -1859,31 +1973,6 @@ data.replace(/\<img/gi, '<img class="rich_text_img" ');
 
 参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用
 
-#### 安卓设备无法访问字体
-
-在 ios 设备和开发者工具都正常，但是在安卓设备上无法正常显示字体
-
-1. 需要在开发者后台配置字体文件的服务器位置
-2. 需要配置 nginx，字体需要设置 cors
-3. 还需要对应的网站是 https+域名的
-
-```shell
-location / {
-    add_header 'Access-Control-Allow-Origin' '*';
-    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-    add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
-
-    # 如果是字体文件目录，可以单独为字体文件设置CORS
-    location ~* \.(ttf|ttc|otf|eot|woff|woff2)$ {
-        add_header Access-Control-Allow-Origin "*";
-    }
-
-    # 其他配置...
-}
-```
-
-参考<https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01>官方文档中说明了，在生效期之前发布的不受影响，能正常使用
-
 #### web-view 中的 click 不生效
 
 当时我的代码大概如下（样式的代码去掉了）
@@ -2059,4 +2148,14 @@ export default {
   }
 }
 </script>
+```
+
+#### image标签下面有10rpx白边
+
+```css
+::v-deep {
+  image {
+    vertical-align: bootom;
+  }
+}
 ```
