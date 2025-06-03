@@ -1,3 +1,9 @@
+## 资源
+
+### mac破解版
+
+<https://mp.weixin.qq.com/s/izDwJ0mro6Cgh6CYPLfDnw>
+
 ## 笔记
 
 ### RGB和CMYK
@@ -7,6 +13,14 @@
 `cmyk`：一般用于印刷油墨的颜色，偏暗
 
 ## 快捷键
+
+### shift
+
+按住操作的时候一般是增加区域
+
+### option
+
+按住操作的时候一般是减少区域
 
 ## 工具介绍
 
@@ -49,3 +63,22 @@ option + delete: 填充前景色
 ### 警告：任何像素都不大于50%选择，选区将不可见 
 
 这个是羽化值设置太大的缘故导致的
+
+### this unlicensed adobe app is not genuine and will be disabled soon
+
+提示用的不是正版，很快被禁用，而且你做不了任何操作
+
+解决方案
+
+mac：
+
+1. 打开ps
+2. 打开【活动监视器】
+3. 强制退出`www.adobe.com`这个进程即可
+
+注意是每次打开ps都要这么操作
+
+
+win（待验证）
+
+<https://blog.csdn.net/donglxd/article/details/140464641>

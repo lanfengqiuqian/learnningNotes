@@ -433,3 +433,11 @@ location / {
 ```
 
 注释的2处内容需要注释掉，然后加上没注释的部分
+
+
+### 阿里云oss的文件链接默认是下载的而不是预览
+
+1. 先尝试修改请求头，设置`Content-Disposition: inline`
+2. 如果没有生效的话，需要去oss配置域名，官方文档说了20年之后的bucket只能通过自定义域名来进行预览
+
+<https://blog.csdn.net/LJFPHP/article/details/107144581>

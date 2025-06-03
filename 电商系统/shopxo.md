@@ -59,6 +59,27 @@ request_url和static_url
 
 在后台`手机`=>`DIY装修`=>`底部菜单`=>`内容`
 
+### 配置oss
+
+解决的问题：如果文件资源走服务器带宽的话，非常的浪费，而且会很卡
+
+插件购买和教程：
+
+1. 这个是主功能
+   <https://store.shopxo.net/goods-42.html>
+2. 这个是增强功能
+  <https://store.shopxo.net/goods-292.html>
+
+  我主要是之前的文件需要同步过来所以开了
+
+`注意`：他的同步插件只支持oss，所以一定要都买oss的，我开始买了一个腾讯云的。。。
+
+然后记得需要修改`站点` `站点设置` `基础配置` `站点域名地址` `附件cdn域名`
+
+下面的`css/js`静态文件先不用改，我改了就页面都报错了，最后是修改数据库才恢复正常
+
+数据库位置：`sxo_config`的`common_cdn_attachment_host`和`common_cdn_public_host`字段
+
 ## 遇到的问题
 
 ### APP不存在，AK有误请检查再重试
@@ -142,3 +163,14 @@ api安全密钥设置错误，使用v2
 规格多导致参数多了，没法接收就丢失了
 
 到php配置文件中修改`max_input_vars`字段，默认值是`1000`，改大一点，我改的是5000
+
+### oss配置完报错
+
+```
+上传失败，请检查腾讯云配置GuzzleHttp\Exception\RequestException: cURL error 3
+```
+
+我这个问题是所属地域填错了，只需要填写`ap-shanghai`即可，我填写了`上海 （中国）（ap-shanghai）`
+
+
+### 修改
