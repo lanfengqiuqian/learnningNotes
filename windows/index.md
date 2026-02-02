@@ -355,3 +355,9 @@ oh my posh
 或者是打开`powershell（管理员）`，输入下面命令
 
 > Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage-DisableDevelopmentMode -Register “$($_.InstallLocation)\AppXManifest.xml”}
+
+### windows下载文件提示【检测到病毒】
+
+不是浏览器的安全策略，是windows自己的
+
+以我的win10为例，【病毒和威胁防护】-【管理设置】-【实时保护】关闭掉就好了

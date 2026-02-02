@@ -88,4 +88,15 @@ NSFW,EasyNegative,badhandv4,ng_deepnegative_v1_75t,16-token-negative-deliberate-
 
 # 报错笔记
 
-## 
+## 网络连接失败
+
+### https://huggingface.co
+
+```shell
+OSError: We couldn't connect to 'https://huggingface.co' to load this model, couldn't find it in the cached files and it looks like E:\ComfyUI-aki\ComfyUI-aki-v1.7\ComfyUI\models\CatVTON\stable-diffusion-inpainting is not the path to a directory containing a scheduler_config.json file.
+Checkout your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/diffusers/installation#offline-mode'.
+```
+
+博客教程：<https://www.cnblogs.com/xshan/p/18842770>
+
+视频教程：<https://www.bilibili.com/video/BV1Nae3enEKJ/?vd_source=2d7fdb618d5543f2c754782cef4e48f3>
