@@ -504,12 +504,6 @@ var threeSum = function (nums) {
     let left = i + 1;
     let right = nums.length - 1;
     while (left < right) {
-      if (i === left) {
-        left++;
-      }
-      if (i === right) {
-        right--;
-      }
       const sum = current + nums[left] + nums[right];
       if (sum === 0) {
         ret.push([current, nums[left], nums[right]]);
@@ -723,6 +717,33 @@ var findContentChildren = function (g, s) {
 };
 ```
 
+```js
+/**
+ * @param {number[]} g
+ * @param {number[]} s
+ * @return {number}
+ */
+var findContentChildren = function (g, s) {
+  s.sort((a, b) => a - b);
+  g.sort((a, b) => a - b);
+
+  // 饼干指针
+  let i = 0;
+  // 孩子指针
+  let j = 0;
+  while (i < s.length && j < g.length) {
+    // 如果饼干满足小孩，小孩数量加1，并且到下一个胃口大的小孩
+    if (g[j] <= s[i]) {
+      j++;
+    }
+    // 换下一块饼干
+    i++;
+  }
+
+  return j;
+};
+```
+
 ### 动态规划
 
 取极值
@@ -730,6 +751,98 @@ var findContentChildren = function (g, s) {
 每一步的状态是前一步推导而来
 
 走每一步都保存一个不同状态的最优解
+
+#### 爬楼梯（70）
+
+```js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function(n) {
+    const dp = [1, 2];
+    for (let i = 2; i < n; i++) {
+        dp[i] = dp[i-1] + dp[i-2];
+    }
+    return dp[n-1];
+};
+```
+
+#### 使用最小花费爬楼梯
+
+```js
+/**
+ * @param {number[]} cost
+ * @return {number}
+ */
+var minCostClimbingStairs = function(cost) {
+    const dp = [cost[0], cost[1]];
+    for (let i = 2; i < cost.length; i++) {
+        dp[i] = Math.min(dp[i-1], dp[i-2]) + cost[i];
+    }
+
+    return Math.min(dp[cost.length-1], dp[cost.length-2]);
+};
+```
+
+#### 不同路径（62）
+
+```js
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function (m, n) {
+  const dp = new Array(m).fill(0).map(() => new Array(n).fill(0));
+  // 需要把第一行和第一列设置为1
+  dp[0].fill(1);
+  dp.forEach(item => item[0] = 1);
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      dp[i][j] = dp[i][j-1] + dp[i-1][j];
+    }
+  }
+  return dp[m-1][n-1];
+};
+```
+
+#### 不同路径II（63）
+
+```js
+/**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function (obstacleGrid) {
+  const m = obstacleGrid.length;
+  const n = obstacleGrid[0].length;
+  const dp = new Array(m).fill().map(() => new Array(n).fill(0));
+
+  // 处理起点
+  dp[0][0] = obstacleGrid[0][0] === 1 ? 0 : 1;
+
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (obstacleGrid[i][j] === 1) {
+        dp[i][j] = 0;
+        continue;
+      }
+
+      // 从上方来
+      if (i > 0 && obstacleGrid[i - 1][j] === 0) {
+        dp[i][j] += dp[i - 1][j];
+      }
+      // 从左方来
+      if (j > 0 && obstacleGrid[i][j-1] === 0) {
+        dp[i][j] += dp[i][j-1];
+      }
+    }
+  }
+
+  return dp[m - 1][n - 1];
+};
+```
 
 #### 硬币找零（322）
 
@@ -900,11 +1013,11 @@ function backtrack(数据， 路径缓存) {
 ```
 
 4. 动态规划
-   你要清楚，结果是怎么推导出来的
-1. 暴力解
-1. 画图
-1. 研究优化，加备忘录
-1. 得出递推公式
+    你要清楚，结果是怎么推导出来的
+  1. 暴力解
+  2. 画图
+  3. 研究优化，加备忘录
+  4. 得出递推公式
 
 ```js
 找零问题：11块钱，从1,2,5这3种零钱找出最小的张数
@@ -933,6 +1046,11 @@ dp[11] = Min(dp[11-1], dp[11-2], dp[11-5])几个的最优解 + 1
 ## 开始刷题
 
 ### 数组
+
+1. 暴力破解
+2. 双指针（常数级空间复杂度）
+   1. 快慢指针
+   2. 头尾指针
 
 #### 26. 删除有序数组的重复项
 
@@ -1671,6 +1789,42 @@ function isSameTree(p, q) {
 }
 ```
 
+
+#### 110. 平衡二叉树
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function (root) {
+  function dfs(root) {
+    if (!root) return 0;
+    
+    let left = dfs(root.left);
+    if (left === -1) return -1;
+    let right = dfs(root.right);
+    if (right === -1) return -1;
+
+    if (Math.abs(left - right) > 1) {
+      return -1;
+    }
+
+    return Math.max(left, right) + 1;
+  }
+
+  return dfs(root) !== -1;
+};
+```
+
 #### 257. 二叉树所有路径
 
 ```js
@@ -1752,6 +1906,7 @@ var levelOrder = function (root) {
 
   while (queue.length) {
     const curQueue = [];
+    // 一层的数据量
     let len = queue.length;
 
     while (len) {
