@@ -768,7 +768,7 @@ var climbStairs = function(n) {
 };
 ```
 
-#### 使用最小花费爬楼梯
+#### 746. 使用最小花费爬楼梯
 
 ```js
 /**
@@ -2252,7 +2252,7 @@ var recoverTree = function (root) {
 
   let first;
   let second;
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length - 1; i++) {
     if (arr[i].val > arr[i + 1].val) {
       if (!first) {
         first = arr[i];
@@ -2408,6 +2408,7 @@ var sortedListToBST = function (head) {
 
 #### 230. 二叉搜索树中第 K 小的元素
 
+中序遍历数组取值
 ```js
 /**
  * Definition for a binary tree node.
@@ -2434,6 +2435,7 @@ var kthSmallest = function (root, k) {
 };
 ```
 
+栈写法
 ```js
 /**
  * Definition for a binary tree node.
@@ -2464,6 +2466,41 @@ var kthSmallest = function (root, k) {
     }
     root = root.right;
   }
+};
+```
+
+中序遍历写法
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function (root, k) {
+  let count = 0;
+  let ret = null;
+  dfs(root);
+
+  function dfs(root) {
+    if (!root) return;
+    dfs(root.left);
+    count++;
+    if (count === k) {
+      ret = root.val;
+      return;
+    }
+    dfs(root.right);
+  }
+
+  return ret;
 };
 ```
 
@@ -2849,6 +2886,25 @@ var mySqrt = function(x) {
 
 ### 回溯思想
 
+公式
+
+```js
+function main() {
+  // 终止条件
+  // 遍历
+  for() {
+    backtrack();
+  }
+
+  function backtrack() {
+    // 终止条件
+    // 标记
+    backtrack();
+    // 撤回标记
+  }
+}
+```
+
 #### 17. 电话号码的自由组合
 
 ```js
@@ -2897,3 +2953,414 @@ var letterCombinations = function (digits) {
   }
 };
 ```
+
+
+#### 39. 组合总和
+
+```js
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function (candidates, target) {
+  candidates.sort();
+
+  const ret = [];
+  const path = [];
+  let sum = 0;
+
+  backtrack(0, sum);
+  return ret;
+
+  function backtrack(index, sum) {
+    if (sum === target) {
+      ret.push([...path]);
+      return;
+    } else if (sum > target) {
+      return;
+    } else {
+      for (let i = index; i < candidates.length; i++) {
+        const num = candidates[i];
+        if (num + sum > target) {
+          continue;
+        }
+        path.push(num);
+        sum += num;
+        backtrack(i, sum);
+        path.pop();
+        sum -= num;
+      }
+    }
+  }
+};
+```
+
+#### 37. 解数独
+
+```js
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solveSudoku = function (board) {
+  // 双重for循环填值
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (board[i][j] !== '.') {
+        // 如果已经填了数字进行下一轮
+        continue;
+      }
+
+      // 开始放数字，尝试1-9
+      for (let k = 1; k <= 9; k++) {
+        k = k.toString();
+        // 判断是否可放
+        if (isValid(board, i, j, k)) {
+          // 放数字
+          board[i][j] = k;
+          // 递归
+          if (solveSudoku(board)) {
+            return true;
+          }
+          // 回撤
+          board[i][j] = '.';
+        }
+      }
+
+      // 都放不了，回溯
+      return false;
+    }
+  }
+
+  // 循环完了，找到解
+  return true;
+
+  // 辅助函数，判断当前位置放的数字是否合理
+  function isValid(board, row, col, k) {
+    // 判断行列
+    for (let i = 0; i < 9; i++) {
+      if (board[row][i] === k || board[i][col] === k) {
+        return false;
+      }
+    }
+
+    // 判断小宫格
+    const x = Math.floor(row / 3) * 3;
+    const y = Math.floor(col / 3) * 3;
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[x+i][y+j] === k) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+};
+```
+
+#### 77. 组合
+
+```js
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
+var combine = function (n, k) {
+  const ret = [];
+  const path = [];
+
+  backtrack(1);
+  return ret;
+
+  function backtrack(i) {
+    const len = path.length;
+
+    if (len === k) {
+      ret.push([...path]);
+      return;
+    }
+
+    for (let j = i; j <= n - k + len + 1; j++) {
+      path.push(j);
+      backtrack(j + 1);
+      path.pop();
+    }
+  }
+};
+```
+
+#### 78. 子集
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function(nums) {
+    const ret = [];
+    const path = [];
+
+    backtrack(0);
+    return ret;
+
+    function backtrack(index) {
+        ret.push([...path]);
+        for (let i = index; i < nums.length; i++) {
+            const num = nums[i];
+            path.push(num);
+            backtrack(i+1);
+            path.pop();
+        }
+    }
+};
+```
+
+#### 125. 验证回文串
+
+```js
+var isPalindrome = function(s) {
+    // 移除非字母数字字符并转小写
+    const cleaned = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    
+    // 判断是否是回文
+    let left = 0, right = cleaned.length - 1;
+    while (left < right) {
+        if (cleaned[left] !== cleaned[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+};
+```
+
+#### 131. 分割回文串
+
+```js
+/**
+ * @param {string} s
+ * @return {string[][]}
+ */
+var partition = function (s) {
+  const ret = [];
+  const path = [];
+
+  backtrack(0);
+  return ret;
+
+  function backtrack(index) {
+    if (index >= s.length) {
+      ret.push([...path]);
+      return;
+    }
+
+    for (let j = index; j < s.length; j++) {
+      // 判断子串是否是回文
+      if (!isPalindrome(index, j)) {
+        continue;
+      }
+
+      path.push(s.substr(index, j - index + 1));
+      backtrack(j + 1);
+      path.pop();
+    }
+  }
+
+  function isPalindrome(i, j) {
+    while (i < j) {
+      if (s[i] !== s[j]) {
+        return false;
+      }
+
+      i++;
+      j--;
+    }
+
+    return true;
+  }
+};
+```
+
+#### 47. 全排列II
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permuteUnique = function (nums) {
+  nums.sort();
+  const ret = [];
+  const path = [];
+  const used = [];
+
+  backtrack();
+  return ret;
+
+  function backtrack() {
+    if (path.length === nums.length) {
+      ret.push([...path]);
+      return;
+    }
+
+    for (let i = 0; i < nums.length; i++) {
+      const num = nums[i];
+
+      if (nums[i] === nums[i-1] && !used[i-1]) {
+        continue;
+      }
+
+      if (!used[i]) {
+        // 如果这个数字没有用过
+        used[i] = true;
+        path.push(num);
+        backtrack();
+        path.pop();
+        used[i] = false;
+      }
+    }
+  }
+};
+```
+
+### 贪心算法刷题
+
+#### 45. 跳跃游戏II
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var jump = function (nums) {
+  let curIndex = 0;
+  let nextIndex = 0;
+  let step = 0;
+
+  for (let i = 0; i < nums.length - 1; i++) {
+    nextIndex = Math.max(nextIndex, nums[i] + i);
+
+    if (i === curIndex) {
+      // 说明跳了
+      curIndex = nextIndex;
+      step++;
+    }
+  }
+
+  return step;
+};
+```
+
+#### 452. 用最少数量的箭引爆气球
+
+```js
+/**
+ * @param {number[][]} points
+ * @return {number}
+ */
+var findMinArrowShots = function (points) {
+  // 先根据左边界排序
+  points.sort((a, b) => a[0] - b[0]);
+
+  // 至少需要一支箭
+  let sum = 1;
+
+  // 从第二个气球开始遍历
+  for (let i = 1; i < points.length; i++) {
+    if (points[i][0] <= points[i-1][1]) {
+      // 如果当前气球左边界和上一个气球右边界有交叉
+      // 把当前气球右边界设置为和上一个气球右边界中更小的那一个
+      points[i][1] = Math.min(points[i-1][1], points[i][1]);
+    } else {
+      // 没有交叉的话需要多一支箭
+      sum++;
+    }
+  }
+
+  return sum;
+};
+```
+
+#### 435. 无重叠区间
+
+```js
+/**
+ * @param {number[][]} intervals
+ * @return {number}
+ */
+var eraseOverlapIntervals = function (intervals) {
+  if (intervals.length === 0) return 0;
+  // 按照区间右边界排序
+  intervals.sort((a, b) => a[1] - b[1])
+  let sum = 0;
+  // 定义整个右边界位置
+  let end = intervals[0][1]
+
+  for (let i = 1; i < intervals.length; i++) {
+    if (intervals[i][0] < end) {
+      // 如果当前区间左边界大于整个右边界，则没有重叠
+      // 更新右边界
+      end = intervals[i][1];
+    } else {
+      sum++;
+    }
+  }
+  return sum;
+};
+```
+
+#### 649. DOTA2参议院
+
+```js
+/**
+ * @param {string} senate
+ * @return {string}
+ */
+var predictPartyVictory = function (senate) {
+  const r = [];
+  const d = [];
+  const n = senate.length;
+
+  for (let i = 0; i < n; i++) {
+    if (senate[i] === 'R') {
+      r.push(i);
+    } else {
+      d.push(i);
+    }
+  }
+
+  while (r.length > 0 && d.length > 0) {
+    const rIndex = r.shift();
+    const dIndex = d.shift();
+
+    if (rIndex < dIndex) {
+      r.push(rIndex + n);
+    } else {
+      d.push(dIndex + n);
+    }
+  }
+
+  return r.length > 0 ? "Radiant" : "Dire";
+};
+```
+
+### 动态规划
+
+#### 509. 斐波那契数列
+
+```js
+```
+
+
+
+
+
+
+
+
