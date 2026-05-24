@@ -3352,10 +3352,151 @@ var predictPartyVictory = function (senate) {
 
 ### 动态规划
 
-#### 509. 斐波那契数列
+#### 198. 打家劫舍
 
 ```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var rob = function(nums) {
+  const dp = [nums[0], Math.max(nums[0], nums[1])];
+
+  for (let i = 2; i < nums.length; i++) {
+    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+  }
+
+  return dp[nums.length - 1];
+};
 ```
+
+#### 213. 打家劫舍II
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var rob = function (nums) {
+  const len = nums.length;
+
+  if (len === 1) {
+    return nums[0];
+  }
+
+  if (len === 2) {
+    return Math.max(nums[0], nums[1]);
+  }
+
+  const ret1 = robRange(nums, 0, len - 2);
+  const ret2 = robRange(nums, 1, len - 1);
+
+  return Math.max(ret1, ret2);
+};
+
+function robRange(nums, start, end) {
+  if (start === end) {
+    return nums[start];
+  }
+
+  const dp = [nums[start], Math.max(nums[start], nums[start + 1])];
+
+  for (let i = 2; i < end - start + 1; i++) {
+    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[start + i]);
+  }
+
+  return dp[dp.length - 1];
+}
+```
+
+#### 337. 打家劫舍III
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var rob = function (root) {
+  const ret = dfs(root);
+  return Math.max(...ret);
+
+  function dfs(root) {
+    if (!root) return [0, 0];
+    const left = dfs(root.left);
+    const right = dfs(root.right);
+
+    // 分为偷当前节点和不偷当前节点
+    const useCurNode = root.val + left[0] + right[0];
+    const notUseCurNode = Math.max(...left) + Math.max(...right);
+
+    // 返回值是一个数组，代表不使用当前节点和使用当前节点
+    return [notUseCurNode, useCurNode];
+  }
+};
+```
+
+#### 121. 买卖股票的最佳时机
+
+贪心解法
+
+```js
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  // 买的最低价格
+  let low = Infinity;
+  // 利润
+  let ret = 0;
+
+  for (let i = 0; i < prices.length; i++) {
+    low = Math.min(low, prices[i]);
+    ret = Math.max(ret, prices[i] - low);
+  }
+
+  return ret;
+};
+```
+
+动态规划解法
+
+```js
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  // dp数组，[持有股票所得的最多的现金，不持有股票最多的现金]
+  const dp = [];
+  // 第一天，买股票就是负的股票的钱，不买股票就是0
+  dp[0] = [-prices[0], 0];
+
+  for (let i = 1; i < prices.length; i++) {
+    dp[i] = [
+      // 持有股票
+      // 今天买的，之前买的
+      Math.max(-prices[i], dp[i - 1][0]),
+      // 卖出股票
+      // 按今天价格卖出去，之前卖出去的
+      Math.max(prices[i] + dp[i - 1][0], dp[i - 1][1])
+    ]
+  }
+
+  // 利润肯定是股票已经卖出去的
+  return dp[prices.length - 1][1];
+};
+```
+
+
 
 
 

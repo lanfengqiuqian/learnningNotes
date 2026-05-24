@@ -670,6 +670,24 @@ function fn(n) {
       window.onscroll = debounce(showTop, 1000);
       ```
 
+      保存this指向的版本
+
+      ```js
+      function debounce(fn, delay) {
+        let timer = null;
+        return function(...args) {
+          const context = this;
+          if (timer) {
+            clearTimeout(timer);
+          }
+
+          timer = setTimeout(() => {
+            fn.apply(context, args);
+          }, delay);
+        }
+      }
+      ```
+
 3. 节流：throttle
 
    1. 介绍：不定周期内，只执行一次动作，如果在周期内有新事件触发，不执行（`这里不会重新设定周期`）。周期结束后，如果又有事件触发，又开始新的周期。
